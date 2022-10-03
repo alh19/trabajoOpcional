@@ -13,7 +13,5 @@ namespace Design
             public virtual string Apellido { get; set; }
             [Required]
             public virtual string Direccion { get; set; }
-        }
     }
-}
 }
