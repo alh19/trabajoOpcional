@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Design
 {
-    internal class Alergeno
+    public class Alergeno
     {
         [Key]
         public virtual int id { get; set; }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
 
-namespace Sandwich2Go.models
+namespace Sandwich2Go.Models
 {
     public class Alergeno
     {

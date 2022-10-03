@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace Design
 {
@@ -14,6 +16,6 @@ namespace Design
         public virtual double precio { get; set; }
         [Required,StringLength(100, ErrorMessage = "La descripción no puede ser mayor a 100 caracteres.")]
         public virtual string desc { get; set; }
-
+        public virtual IList<SandwichPedido> SandwichPedido { get; set; }
     }
 }
