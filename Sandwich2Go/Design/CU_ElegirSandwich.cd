@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Design.Pedido">
+    <Position X="1" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAQQAQAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Pedido.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="sandwichesPedidos" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Design.Sandwich">
+    <Position X="6.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAAAAAAAAAAAAAAAEEABAAAAAAAAAAgA=</HashCode>
+      <FileName>Sandwich.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="sandwichPedido" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Design.SandwichPedido">
+    <Position X="4" Y="2.25" Width="1.5" />
+    <AssociationLine Name="Sandwich" Type="Design.Sandwich" ManuallyRouted="true" FixedFromPoint="true">
+      <Path>
+        <Point X="5.5" Y="2.938" />
+        <Point X="6.75" Y="2.938" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="Pedido" Type="Design.Pedido" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="4" Y="2.938" />
+        <Point X="2.995" Y="2.938" />
+        <Point X="2.995" Y="2.938" />
+        <Point X="2.5" Y="2.938" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAEAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SandwichPedido.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Sandwich" />
+      <Property Name="Pedido" />
+    </ShowAsAssociation>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
