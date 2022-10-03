@@ -3,7 +3,7 @@
   <Class Name="Sandwich2Go.Models.Cliente">
     <Position X="1.75" Y="0.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AACCAAAAACAABAAEACAAwAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAABAAEACAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Cliente.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -12,37 +12,37 @@
   </Class>
   <Class Name="Sandwich2Go.Models.MesaReserva">
     <Position X="5" Y="1" Width="1.5" />
-    <AssociationLine Name="Cliente" Type="Sandwich2Go.Models.Cliente" FixedToPoint="true">
-      <Path>
-        <Point X="5" Y="1.5" />
-        <Point X="3.25" Y="1.5" />
-      </Path>
-    </AssociationLine>
     <AssociationLine Name="Mesa" Type="Sandwich2Go.Models.Mesa" FixedFromPoint="true">
       <Path>
-        <Point X="6.5" Y="1.726" />
-        <Point X="7.75" Y="1.726" />
+        <Point X="6.5" Y="1.577" />
+        <Point X="7.75" Y="1.577" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="Cliente" Type="Sandwich2Go.Models.Cliente" FixedToPoint="true">
+      <Path>
+        <Point X="5" Y="1.258" />
+        <Point X="3.25" Y="1.258" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAADAAAAAAAAAAAEAACAAAAAQAAAAIAAAAAAAAAAQAA=</HashCode>
+      <HashCode>AAADAAAAAAAAAAAAAACAAAAAAAAAAIAAAAAAAAAAQAA=</HashCode>
       <FileName>MesaReserva.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Cliente" />
       <Property Name="Mesa" />
+      <Property Name="Cliente" />
     </ShowAsAssociation>
   </Class>
   <Class Name="Sandwich2Go.Models.Mesa">
     <Position X="7.75" Y="1.25" Width="1.5" />
     <AssociationLine Name="ReservaMesa" Type="Sandwich2Go.Models.MesaReserva" FixedToPoint="true">
       <Path>
-        <Point X="7.75" Y="2.312" />
-        <Point X="6.5" Y="2.312" />
+        <Point X="7.75" Y="2.043" />
+        <Point X="6.5" Y="2.043" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAQAAAAAAAAAAAAAAAAIg=</HashCode>
+      <HashCode>AAACAAAAAAAABAAAAAAAAAAAQAAAAAAAAAAAAAAAAIg=</HashCode>
       <FileName>Mesa.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
