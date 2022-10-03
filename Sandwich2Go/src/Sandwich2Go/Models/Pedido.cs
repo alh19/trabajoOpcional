@@ -16,6 +16,7 @@ namespace Sandwich2Go.Models
         public int preciototal { get; set; }
 
         [Required]
+        
         public string direccion { get; set; }
     }
 }
