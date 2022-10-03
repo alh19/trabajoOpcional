@@ -7,6 +7,10 @@ namespace Sandwich2Go.Models
         
         [Key]
         public int Id { get; set; }
+
+        [Required]
+        public int IdIngrediente { get; set; }
+
         [Required]
         public string nombre { get; set; }
 
