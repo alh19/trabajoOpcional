@@ -5,21 +5,25 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using Sandwich2Go.Models;
 
 namespace Sandwich2Go.Models
 {
     public class SandwichPedido
     {
-        [Key]
-        public virtual int Id { get; set; }
-        [ForeignKey("idPedido")]
-        public virtual Pedido Pedido { get; set; }
-        public virtual int idPedido { get; set; }
-        [ForeignKey("idSandwich")]
-        public virtual Sandwich Sandwich { get; set; }
+        public Sandwich Sandwich
+        {
+            get => default;
+            set
+            {
+            }
+        }
 
-        public virtual int idSandwich { get; set; }
-
+        public Pedido Pedido
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 }
