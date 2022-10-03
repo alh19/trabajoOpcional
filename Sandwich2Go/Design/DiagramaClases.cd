@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Design.Cliente">
+    <Position X="2" Y="1" Width="1.5" />
+    <AssociationLine Name="ReservaMesa" Type="Design.MesaReserva" FixedFromPoint="true">
+      <Path>
+        <Point X="3.5" Y="2.312" />
+        <Point X="5" Y="2.312" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAEADAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cliente.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="ReservaMesa" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Design.MesaReserva">
+    <Position X="5" Y="1" Width="1.5" />
+    <AssociationLine Name="Cliente" Type="Design.Cliente" FixedToPoint="true">
+      <Path>
+        <Point X="5" Y="1.5" />
+        <Point X="3.25" Y="1.5" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="Mesa" Type="Sandwich2Go.Models.Mesa" FixedFromPoint="true">
+      <Path>
+        <Point X="6.5" Y="1.726" />
+        <Point X="7.75" Y="1.726" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAADAAAAAAAAAAAAABCAAAAAQAAAAIAAAAAAAAAAQAA=</HashCode>
+      <FileName>MesaReserva.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Mesa" />
+      <Property Name="Cliente" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Design.Mesa">
+    <Position X="7.75" Y="1" Width="1.5" />
+    <AssociationLine Name="ReservaMesa" Type="Design.MesaReserva" FixedToPoint="true">
+      <Path>
+        <Point X="7.75" Y="2.312" />
+        <Point X="6.5" Y="2.312" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAABAAAAAAAAAAAQAAAAAAAAAAAAAAAAIg=</HashCode>
+      <FileName>Mesa.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="ReservaMesa" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

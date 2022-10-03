@@ -4,20 +4,23 @@ namespace Design
 {
     public class Ingrediente
     {
+        
         [Key]
-        public int Id { get; set; }
+        public virtual int Id { get; set; }
 
-        [Required]
-        public int IdIngrediente { get; set; }
+        
+        [Required, StringLength(20, ErrorMessage = "First name cannot be longer than 20 characters.")]
+        public virtual string nombre { get; set; }
 
-        [Required]
-        public string nombre { get; set; }
+        
+        [Required, Display(Name = "cantidad")]
+        [Range(1, int.MaxValue, ErrorMessage = "Minimum quantity for renting is 1")]
+        public virtual int cantidad { get; set; }
 
-        [Required]
-        public int cantidad { get; set; }
-
-        [Required]
-        public int stock { get; set; }
+        
+        [Required, Display(Name = "stock")]
+        [Range(1, int.MaxValue, ErrorMessage = "Minimum quantity for renting is 1")]
+        public virtual int stock { get; set; }
 
     }
 }
