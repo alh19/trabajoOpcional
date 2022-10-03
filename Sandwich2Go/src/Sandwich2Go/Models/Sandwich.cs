@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Design
+namespace Sandwich2Go.models
 {
     public class Sandwich
     {

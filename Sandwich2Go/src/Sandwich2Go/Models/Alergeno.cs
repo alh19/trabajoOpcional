@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
 
-namespace Design
+namespace Sandwich2Go.models
 {
-    internal class Alergeno
+    public class Alergeno
     {
         [Key]
         public virtual int id { get; set; }
