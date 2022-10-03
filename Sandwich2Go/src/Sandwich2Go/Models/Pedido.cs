@@ -20,7 +20,7 @@ namespace Sandwich2Go.Models
         [Range(1, int.MaxValue, ErrorMessage = "Minimum quantity for renting is 1")]
         public virtual int preciototal { get; set; }
 
-        [Required]
+        
         [Required, StringLength(30, ErrorMessage = "First name cannot be longer than 30 characters.")]
         public virtual string direccion { get; set; }
     }
