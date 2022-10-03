@@ -14,11 +14,11 @@ namespace Design
         public virtual DateTime FechaReserva { get; set; }
         [Required]
         public virtual int NumPersonas { get; set; }
-        [ForeignKey("MesaId")]
+        [ForeignKey("Mesa")]
+        public virtual string MesaId { get; set; }
         public virtual Mesa Mesa { get; set; }
-        public virtual int MesaId { get; set; }
-        [ForeignKey("ClienteId")]
-        public virtual Cliente Cliente { get; set; }
+        [ForeignKey("Cliente")]
         public virtual string ClienteId { get; set; }
+        public virtual Cliente Cliente { get; set; }
     }
 }

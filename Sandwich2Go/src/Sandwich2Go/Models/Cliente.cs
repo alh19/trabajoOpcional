@@ -8,8 +8,6 @@ namespace Sandwich2Go.Models
     public class Cliente : IdentityUser
     {
         [Required]
-        public virtual int ClienteId { get; set; }
-        [Required]
         public virtual string Nombre { get; set; }
         [Required]
         public virtual string Apellido { get; set; }
