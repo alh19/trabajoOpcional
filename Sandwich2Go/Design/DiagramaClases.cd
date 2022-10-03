@@ -1,31 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Sandwich2Go.Models.Cliente">
-    <Position X="1.75" Y="0.75" Width="1.5" />
+  <Class Name="Design.Cliente">
+    <Position X="2" Y="1" Width="1.5" />
+    <AssociationLine Name="ReservaMesa" Type="Design.MesaReserva" FixedFromPoint="true">
+      <Path>
+        <Point X="3.5" Y="2.312" />
+        <Point X="5" Y="2.312" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AACCAAAAACAABAAEACAAwAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAABAAEADAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Cliente.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
       <Property Name="ReservaMesa" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="Sandwich2Go.Models.MesaReserva">
+  <Class Name="Design.MesaReserva">
     <Position X="5" Y="1" Width="1.5" />
-    <AssociationLine Name="Cliente" Type="Sandwich2Go.Models.Cliente" FixedToPoint="true">
+    <AssociationLine Name="Cliente" Type="Design.Cliente" FixedToPoint="true">
       <Path>
-        <Point X="5" Y="1.5" />
-        <Point X="3.25" Y="1.5" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="Mesa" Type="Sandwich2Go.Models.Mesa" FixedFromPoint="true">
-      <Path>
-        <Point X="6.5" Y="1.726" />
-        <Point X="7.75" Y="1.726" />
+        <Point X="5" Y="1.75" />
+        <Point X="3.5" Y="1.75" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAADAAAAAAAAAAAEAACAAAAAQAAAAIAAAAAAAAAAQAA=</HashCode>
+      <HashCode>AAADAAAAAAAAAAAAABCAAAAAQAAAAIAAAAAAAAAAQAA=</HashCode>
       <FileName>MesaReserva.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -33,16 +33,16 @@
       <Property Name="Mesa" />
     </ShowAsAssociation>
   </Class>
-  <Class Name="Sandwich2Go.Models.Mesa">
-    <Position X="7.75" Y="1.25" Width="1.5" />
-    <AssociationLine Name="ReservaMesa" Type="Sandwich2Go.Models.MesaReserva" FixedToPoint="true">
+  <Class Name="Design.Mesa">
+    <Position X="7.75" Y="1" Width="1.5" />
+    <AssociationLine Name="ReservaMesa" Type="Design.MesaReserva" FixedToPoint="true">
       <Path>
         <Point X="7.75" Y="2.312" />
         <Point X="6.5" Y="2.312" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAQAAAAAAAAAAAAAAAAIg=</HashCode>
+      <HashCode>AAACAAAAAAAABAAAAAAAAAAAQAAAAAAAAAAAAAAAAIg=</HashCode>
       <FileName>Mesa.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
