@@ -13,6 +13,7 @@ namespace Design
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm:ss}", ApplyFormatInEditMode = true)]
         public virtual DateTime FechaReserva { get; set; }
         [Required]
+        [Range(1, 16, ErrorMessage = "El número mínimo de personas por reserva es 1 y como máximo es 16")]
         public virtual int NumPersonas { get; set; }
         [ForeignKey("Mesa")]
         public virtual string MesaId { get; set; }
