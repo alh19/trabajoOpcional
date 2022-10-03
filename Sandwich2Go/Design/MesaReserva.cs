@@ -8,7 +8,7 @@ namespace Design
     public class MesaReserva
     {
         [Key]
-        public virtual int ReservaId { get; set; }
+        public virtual int Id { get; set; }
         [Required, DataType(DataType.Date), Display(Name = "Fecha de reserva")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm:ss}", ApplyFormatInEditMode = true)]
         public virtual DateTime FechaReserva { get; set; }
@@ -17,8 +17,8 @@ namespace Design
         [ForeignKey("MesaId")]
         public virtual Mesa Mesa { get; set; }
         public virtual int MesaId { get; set; }
-        [ForeignKey("Id")]
+        [ForeignKey("ClienteId")]
         public virtual Cliente Cliente { get; set; }
-        public virtual string Id { get; set; }
+        public virtual string ClienteId { get; set; }
     }
 }
