@@ -8,6 +8,8 @@ namespace Sandwich2Go.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
+        public DbSet<Sandwich> Sandwich { get; set }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
