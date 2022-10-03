@@ -1,20 +1,27 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Sandwich2Go.Models
 {
-    public class Cliente
+    public class Cliente : IdentityUser
     {
         [Key]
-        public virtual int ClienteId { get; set; }
+        public override string Id { get; set; }
         [Required]
         public virtual string Nombre { get; set; }
         [Required]
-        public virtual string Correo { get; set; }
+        public virtual string Apellido { get; set; }
         [Required]
-        public virtual string Password { get; set; }
+        [RegularExpression("^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$")]
+        public override string Email { get; set; }
         [Required]
-        public virtual int Telefono { get; set; }
+        public override string PasswordHash { get; set; }
+        [Required]
+        public override string PhoneNumber { get; set; }
         [Required]
         public virtual string Direccion { get; set; }
+        public virtual IList<MesaReserva> ReservaMesa { get; set; }
     }
 }

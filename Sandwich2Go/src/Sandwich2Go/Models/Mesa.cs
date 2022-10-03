@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Sandwich2Go.Models
 {
@@ -10,5 +11,6 @@ namespace Sandwich2Go.Models
         public virtual int Capacidad { get; set; }
         [Required]
         public virtual string Estado { get; set; }
+        public virtual IList<MesaReserva> ReservaMesa { get; set; }
     }
 }
