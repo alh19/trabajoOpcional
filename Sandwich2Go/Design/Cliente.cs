@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Sandwich2Go.Models
+namespace Design
 {
     public class Cliente : IdentityUser
     {
         [Required]
-        public virtual string ClienteId { get; set; }
+        public virtual int ClienteId { get; set; }
         [Required]
         public virtual string Nombre { get; set; }
         [Required]

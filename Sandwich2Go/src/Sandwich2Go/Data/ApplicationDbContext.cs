@@ -22,7 +22,7 @@ namespace Sandwich2Go.Data
         {
             base.OnModelCreating(builder);
             builder.Entity<MesaReserva>()
-            .HasAlternateKey(pi => new { pi.Id, pi.MesaId });
+            .HasAlternateKey(pi => new { pi.ClienteId, pi.MesaId });
             builder.Entity<Ingrediente>()
             .HasAlternateKey(i => new { i.nombre });
         }

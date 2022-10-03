@@ -14,10 +14,10 @@ namespace Sandwich2Go.Models
         public virtual DateTime FechaReserva { get; set; }
         [Required]
         public virtual int NumPersonas { get; set; }
-        [ForeignKey("Id")]
+        [ForeignKey("MesaId")]
         public virtual Mesa Mesa { get; set; }
         public virtual int MesaId { get; set; }
-        [ForeignKey("Id")]
+        [ForeignKey("ClienteId")]
         public virtual Cliente Cliente { get; set; }
         public virtual string ClienteId { get; set; }
     }
