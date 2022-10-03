@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Sandwich2Go.models;
 using Sandwich2Go.Models;
@@ -9,7 +8,7 @@ using System.Text;
 
 namespace Sandwich2Go.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+    public class ApplicationDbContext : IdentityDbContext
     {
         public DbSet <Sandwich> Sandwich { set; get; }
         public DbSet<Alergeno> Alergeno { set; get; }
@@ -23,7 +22,7 @@ namespace Sandwich2Go.Data
         {
             base.OnModelCreating(builder);
             builder.Entity<MesaReserva>()
-            .HasAlternateKey(pi => new { pi.Id, pi.MesaId });
+            .HasAlternateKey(pi => new { pi.ClienteId, pi.MesaId });
             builder.Entity<Ingrediente>()
             .HasAlternateKey(i => new { i.nombre });
         }
