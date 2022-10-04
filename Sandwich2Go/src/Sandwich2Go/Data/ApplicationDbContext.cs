@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Sandwich2Go.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+    public class ApplicationDbContext : IdentityDbContext<Usuario>
     {
         public DbSet <Sandwich> Sandwich { set; get; }
         public DbSet<Alergeno> Alergeno { set; get; }
@@ -17,7 +17,9 @@ namespace Sandwich2Go.Data
         public DbSet<Pedido> Pedido { get; set; }
         public DbSet<Ingrediente> Ingrediente { get; set; }
         public DbSet<Proveedor> Proveedor { get; set; }
-        //public DbSet<Gerente> Gerente { get; set; }
+        public DbSet<Gerente> Gerente { get; set; }
+        public DbSet<Oferta> Oferta { get; set; }
+        public DbSet<OfertaGerente> OfertaGerente { get; set; }
         //public DbSet<PedidoProv> PedidoProv { get; set; }
         //public DbSet<ArticulosPed> ArticulosPed { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options){ }
