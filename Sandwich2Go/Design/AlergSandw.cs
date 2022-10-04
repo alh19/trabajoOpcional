@@ -2,7 +2,7 @@
 using Sandwich2Go.models;
 using System.ComponentModel.DataAnnotations;
 
-namespace Design
+namespace Sandwich2Go.Models
 {
     public class AlergSandw
     {
