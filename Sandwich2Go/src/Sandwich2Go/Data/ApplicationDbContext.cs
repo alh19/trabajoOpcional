@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Sandwich2Go.Models;
 using System;
@@ -7,7 +8,7 @@ using System.Text;
 
 namespace Sandwich2Go.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
         public DbSet <Sandwich> Sandwich { set; get; }
         public DbSet<Alergeno> Alergeno { set; get; }

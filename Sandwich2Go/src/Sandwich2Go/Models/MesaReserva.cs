@@ -13,12 +13,13 @@ namespace Sandwich2Go.Models
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm:ss}", ApplyFormatInEditMode = true)]
         public virtual DateTime FechaReserva { get; set; }
         [Required]
+        [Range(1, 16, ErrorMessage = "El número mínimo de personas por reserva es 1 y como máximo es 16")]
         public virtual int NumPersonas { get; set; }
-        [ForeignKey("MesaId")]
+        [ForeignKey("Mesa")]
+        public virtual string MesaId { get; set; }
         public virtual Mesa Mesa { get; set; }
-        public virtual int MesaId { get; set; }
-        [ForeignKey("ClienteId")]
-        public virtual Cliente Cliente { get; set; }
+        [ForeignKey("Cliente")]
         public virtual string ClienteId { get; set; }
+        public virtual Cliente Cliente { get; set; }
     }
 }
