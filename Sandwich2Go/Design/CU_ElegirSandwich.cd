@@ -3,9 +3,12 @@
   <Class Name="Design.Pedido">
     <Position X="1" Y="2.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAQQAQAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAACAAQQAQAAIAAAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Pedido.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Cliente" />
+    </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="sandwichesPedidos" />
     </ShowAsCollectionAssociation>
@@ -68,6 +71,13 @@
       <Property Name="Ingrediente" />
       <Property Name="Sandwich" />
     </ShowAsAssociation>
+  </Class>
+  <Class Name="Design.Cliente">
+    <Position X="1" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAEACAAgAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Cliente.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
