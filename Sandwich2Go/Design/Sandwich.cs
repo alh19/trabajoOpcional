@@ -24,5 +24,13 @@ namespace Design
             
             
         }
+
+        public IList<IngredienteSandwich> IngredienteSandwich
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 }

@@ -30,5 +30,11 @@ namespace Design
             get;
             set;
         }
+
+        public Cliente Cliente
+        {
+            get;
+            set;
+        }
     }
 }
