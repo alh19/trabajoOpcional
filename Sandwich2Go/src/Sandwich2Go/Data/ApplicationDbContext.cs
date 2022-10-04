@@ -15,7 +15,6 @@ namespace Sandwich2Go.Data
         public DbSet<SandwichPedido> SandwichPedido { set; get; }
         public DbSet<Cliente> Cliente { get; set; }
         public DbSet<IngredienteSandwich> IngredienteSandwich { get; set; }
-        public DbSet<MesaReserva> MesaReserva { get; set; }
         public DbSet<Pedido> Pedido { get; set; }
         public DbSet<Ingrediente> Ingrediente { get; set; }
         public DbSet<Proveedor> Proveedor { get; set; }
