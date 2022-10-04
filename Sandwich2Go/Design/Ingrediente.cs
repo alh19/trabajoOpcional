@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace Design
 {
@@ -22,5 +23,10 @@ namespace Design
         [Range(1, int.MaxValue, ErrorMessage = "Minimum quantity for renting is 1")]
         public virtual int stock { get; set; }
 
+        public IList<IngredienteSandwich> IngredienteSandwich
+        {
+            get;
+            set;
+        }
     }
 }

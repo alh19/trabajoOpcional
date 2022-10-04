@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualBasic;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace Design
 {
@@ -23,5 +24,17 @@ namespace Design
         
         [Required, StringLength(30, ErrorMessage = "First name cannot be longer than 30 characters.")]
         public virtual string direccion { get; set; }
+
+        public IList<SandwichPedido> sandwichesPedidos
+        {
+            get;
+            set;
+        }
+
+        public Cliente Cliente
+        {
+            get;
+            set;
+        }
     }
 }
