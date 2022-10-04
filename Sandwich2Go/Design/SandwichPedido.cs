@@ -10,20 +10,21 @@ namespace Design
 {
     public class SandwichPedido
     {
+        [Key]
+        public int Id { get; set; }
         public Sandwich Sandwich
         {
-            get => default;
-            set
-            {
-            }
+            get;
+            set;
         }
 
         public Pedido Pedido
         {
-            get => default;
-            set
-            {
-            }
+            get;
+            set;
         }
+        [Required, Display(Name = "Maximo sándwiches")]
+        [Range(1, 10, ErrorMessage = "El máximo de un mismo sándwich por pedido es 10")]
+        public int cantidad { get; set; }
     }
 }

@@ -13,36 +13,60 @@
   <Class Name="Design.Sandwich">
     <Position X="6.75" Y="2.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAEAAAAAAAAAAAAAAAAAAAAEEABAAAAAAAAAAgA=</HashCode>
+      <HashCode>AAAAAAEAAAAABAAAAAAAAAAAAAAEEABAAAAAAAAAAgA=</HashCode>
       <FileName>Sandwich.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
       <Property Name="sandwichPedido" />
+      <Property Name="IngredienteSandwich" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Design.SandwichPedido">
     <Position X="4" Y="2.25" Width="1.5" />
     <AssociationLine Name="Sandwich" Type="Design.Sandwich" ManuallyRouted="true" FixedFromPoint="true">
       <Path>
-        <Point X="5.5" Y="2.938" />
+        <Point X="5.5" Y="3.277" />
+        <Point X="6.125" Y="3.277" />
+        <Point X="6.125" Y="2.938" />
         <Point X="6.75" Y="2.938" />
       </Path>
     </AssociationLine>
     <AssociationLine Name="Pedido" Type="Design.Pedido" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="4" Y="2.938" />
-        <Point X="2.995" Y="2.938" />
+        <Point X="4" Y="3.277" />
+        <Point X="2.995" Y="3.277" />
         <Point X="2.995" Y="2.938" />
         <Point X="2.5" Y="2.938" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAEAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AQACAAAAAAAAAAEAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>SandwichPedido.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Sandwich" />
       <Property Name="Pedido" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Design.Ingrediente">
+    <Position X="13.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQACAAAAAAAABACAAAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Ingrediente.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="IngredienteSandwich" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Design.IngredienteSandwich">
+    <Position X="10.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQACAAAAAAAAAAAAAAAAAQACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IngredienteSandwich.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Ingrediente" />
+      <Property Name="Sandwich" />
     </ShowAsAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
