@@ -25,10 +25,8 @@ namespace Sandwich2Go.Models
 
         public IList<IngredienteSandwich> IngredienteSandwich
         {
-            get => default;
-            set
-            {
-            }
+            get;
+            set;
         }
     }
 }
