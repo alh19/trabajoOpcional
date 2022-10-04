@@ -15,6 +15,5 @@ namespace Sandwich2Go.Models
         public virtual string Direccion { get; set; }
         [CreditCard]
         public virtual string TarjetaCredito { get; set; }
-        public virtual IList<MesaReserva> ReservaMesa { get; set; }
     }
 }
