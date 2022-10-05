@@ -8,14 +8,9 @@ namespace Design
         [Key]
         public virtual int Id { get; set; }
 
-        [ForeignKey("IdIngrediente")]
-        public virtual Ingrediente Ingrediente { get; set; }
-        public virtual string IdIngredientes { get; set; }
+        public Ingrediente Ingrediente { get; set; }
 
-        [ForeignKey("IdPedidoProv")]
-        public virtual PedidoProv PedidoProv { get; set; }
-        public virtual int idPedidoProv { get; set; }
-
+        public PedidoProv PedidoProv { get; set; }
 
     }
 }

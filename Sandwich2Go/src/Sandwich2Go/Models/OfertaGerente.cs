@@ -6,19 +6,7 @@ namespace Sandwich2Go.Models
     {
         [Key]
         public int Id { get; set; }
-        public Oferta Oferta
-        {
-            get => default;
-            set
-            {
-            }
-        }
-        public Gerente Gerente
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public Oferta Oferta { get;  set; }
+        public Gerente Gerente { get; set; }
     }
 }
