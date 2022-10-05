@@ -4,8 +4,8 @@
     <Position X="6.25" Y="2" Width="1.5" />
     <AssociationLine Name="OfertaGerente" Type="Sandwich2Go.Models.OfertaGerente" FixedFromPoint="true">
       <Path>
-        <Point X="7.75" Y="3" />
-        <Point X="9" Y="3" />
+        <Point X="7.75" Y="2.907" />
+        <Point X="9" Y="2.907" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
@@ -14,6 +14,7 @@
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
       <Property Name="OfertaGerente" />
+      <Property Name="OfertaSanwich" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Sandwich2Go.Models.OfertaGerente">
@@ -54,6 +55,27 @@
     <TypeIdentifier>
       <HashCode>AAAAAAEAAAAABAAAAAAAAIAAAAAEEABAAAAAAAAAAgA=</HashCode>
       <FileName>Sandwich.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="OfertaSandwich" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Sandwich2Go.Models.OfertaSandwich">
+    <Position X="3.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAQAAAAAACAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OfertaSandwich.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Sandwich" />
+      <Property Name="Oferta" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Sandwich2Go.Models.Usuario">
+    <Position X="14.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEACAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Usuario.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
