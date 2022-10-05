@@ -21,14 +21,16 @@ namespace Sandwich2Go.Data
         public DbSet<Gerente> Gerente { get; set; }
         public DbSet<Oferta> Oferta { get; set; }
         public DbSet<OfertaGerente> OfertaGerente { get; set; }
-        //public DbSet<PedidoProv> PedidoProv { get; set; }
-        //public DbSet<ArticulosPed> ArticulosPed { get; set; }
+        public DbSet<PedidoProv> PedidoProv { get; set; }
+        public DbSet<ArticulosPed> ArticulosPed { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options){ }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             builder.Entity<Ingrediente>()
             .HasAlternateKey(i => new { i.nombre });
+            builder.Entity<Proveedor>()
+            .HasAlternateKey(i => new { i.Cif });
         }
 
 
