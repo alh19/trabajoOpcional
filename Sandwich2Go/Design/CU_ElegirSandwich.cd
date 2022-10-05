@@ -20,21 +20,10 @@
   </Class>
   <Class Name="Design.SandwichPedido">
     <Position X="4" Y="2.25" Width="1.5" />
-    <AssociationLine Name="Sandwich" Type="Design.Sandwich" ManuallyRouted="true" FixedFromPoint="true">
-      <Path>
-        <Point X="5.5" Y="3.429" />
-        <Point X="6.125" Y="3.429" />
-        <Point X="6.125" Y="2.938" />
-        <Point X="6.75" Y="2.938" />
-      </Path>
-    </AssociationLine>
     <TypeIdentifier>
       <HashCode>AQACAAAAAAAAAAEAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>SandwichPedido.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="Sandwich" />
-    </ShowAsAssociation>
   </Class>
   <Class Name="Sandwich2Go.Models.Ingrediente">
     <Position X="13.5" Y="2.25" Width="1.5" />
