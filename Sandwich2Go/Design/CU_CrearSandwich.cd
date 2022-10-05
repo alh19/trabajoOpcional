@@ -1,38 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Sandwich2Go.Models.SandwCreado">
-    <Position X="7.75" Y="1" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>SandwCreado.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="Design.Alergeno">
-    <Position X="7.25" Y="2.25" Width="1.5" />
+    <Position X="8.25" Y="2.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAAEAAAAAAAAAAAAAgA=</HashCode>
       <FileName>Alergeno.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Sandwich2Go.Models.Pedido">
-    <Position X="5.25" Y="0.75" Width="1.5" />
+  <Class Name="Sandwich2Go.Models.SandwCreado">
+    <Position X="8.5" Y="0.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAQQAQAAIAAAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Pedido.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SandwCreado.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="Cliente" />
-    </ShowAsAssociation>
   </Class>
-  <Class Name="Sandwich2Go.Models.Cliente">
-    <Position X="3" Y="1" Width="1.5" />
+  <Class Name="Design.SandwichPedido">
+    <Position X="6.75" Y="0.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIACAAAAAABAAA=</HashCode>
-      <FileName>Cliente.cs</FileName>
+      <HashCode>AQACAAAAAAAAAAEAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SandwichPedido.cs</FileName>
     </TypeIdentifier>
-    <ShowAsCollectionAssociation>
-      <Property Name="Pedidos" />
-    </ShowAsCollectionAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
