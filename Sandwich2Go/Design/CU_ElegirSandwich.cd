@@ -6,6 +6,9 @@
       <HashCode>AAACAAQQAQAAIAAAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Pedido.cs</FileName>
     </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="sandwichesPedidos" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Design.Sandwich">
     <Position X="6.75" Y="2.25" Width="1.5" />
@@ -43,7 +46,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="Design.Usuario">
-    <Position X="5.25" Y="5" Width="1.5" />
+    <Position X="3.75" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEACAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Usuario.cs</FileName>

@@ -2,11 +2,11 @@
 
 namespace Sandwich2Go.Models
 {
-    public class OfertaGerente
+    public class OfertaSandwich
     {
         [Key]
-        public virtual int Id { get; set; }
+        public virtual string Id { get; set; }
         public Oferta Oferta { get; set; }
-        public Gerente Gerente { get; set; }
+        public Sandwich Sandwich { get; set; }
     }
 }

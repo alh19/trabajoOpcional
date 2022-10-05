@@ -32,5 +32,6 @@ namespace Sandwich2Go.Models
             {
             }
         }
+        public IList<OfertaSandwich> OfertaSandwich { get; set; }
     }
 }

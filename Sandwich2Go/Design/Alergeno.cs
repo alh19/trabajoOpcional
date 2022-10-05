@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
 
-namespace Design
+namespace Sandwich2Go.Models
 {
     public class Alergeno
     {
@@ -15,6 +15,6 @@ namespace Design
         [Required, StringLength(20, ErrorMessage = "El nombre no puede ser mayor a 20 caracteres.")]
         public virtual string name { get; set; }
 
-        public virtual IList<AlergSandw> AlergSandws { get; set; }
+        public IList<AlergSandw> AlergSandws { get; set; }
     }
 }

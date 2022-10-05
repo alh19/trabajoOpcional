@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Design
+namespace Sandwich2Go.Models
 {
     public class PedidoProv
     {

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 
-namespace Design
+namespace Sandwich2Go.Models
 {
     public class IngredienteSandwich
     {
