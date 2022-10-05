@@ -6,6 +6,9 @@
       <HashCode>AAACAAQQAQAAIAAAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Pedido.cs</FileName>
     </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="sandwichesPedidos" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Design.Sandwich">
     <Position X="6.75" Y="2.25" Width="1.5" />
@@ -20,21 +23,10 @@
   </Class>
   <Class Name="Design.SandwichPedido">
     <Position X="4" Y="2.25" Width="1.5" />
-    <AssociationLine Name="Sandwich" Type="Design.Sandwich" ManuallyRouted="true" FixedFromPoint="true">
-      <Path>
-        <Point X="5.5" Y="3.429" />
-        <Point X="6.125" Y="3.429" />
-        <Point X="6.125" Y="2.938" />
-        <Point X="6.75" Y="2.938" />
-      </Path>
-    </AssociationLine>
     <TypeIdentifier>
       <HashCode>AQACAAAAAAAAAAEAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>SandwichPedido.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="Sandwich" />
-    </ShowAsAssociation>
   </Class>
   <Class Name="Sandwich2Go.Models.Ingrediente">
     <Position X="13.5" Y="2.25" Width="1.5" />
@@ -54,7 +46,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="Design.Usuario">
-    <Position X="5.25" Y="5" Width="1.5" />
+    <Position X="3.75" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEACAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Usuario.cs</FileName>
@@ -66,6 +58,37 @@
       <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAABAAA=</HashCode>
       <FileName>Cliente.cs</FileName>
     </TypeIdentifier>
+  </Class>
+  <Class Name="Design.ArticulosPed">
+    <Position X="13.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAACAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>ArticulosPed.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Ingrediente" />
+      <Property Name="PedidoProv" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Design.PedidoProv">
+    <Position X="13.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>PedidoProv.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Proveedor" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Design.Proveedor">
+    <Position X="17" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAgAAABCAAgAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Proveedor.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="PedidoProv" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

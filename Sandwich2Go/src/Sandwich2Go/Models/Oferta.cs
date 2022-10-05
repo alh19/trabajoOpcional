@@ -21,5 +21,6 @@ namespace Sandwich2Go.Models
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public virtual DateTime FechaFin { get; set; }
         public IList<OfertaGerente> OfertaGerente { get; set; }
+        public IList<OfertaSandwich> OfertaSandwich { get; set; }
     }
 }

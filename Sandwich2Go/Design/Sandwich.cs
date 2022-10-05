@@ -2,6 +2,7 @@
 using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
+using Sandwich2Go.Models;
 
 namespace Sandwich2Go.Models
 {
@@ -32,5 +33,6 @@ namespace Sandwich2Go.Models
             {
             }
         }
+        public IList<OfertaSandwich> OfertaSandwich { get; set; }
     }
 }
