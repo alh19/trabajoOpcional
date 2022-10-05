@@ -1,18 +1,19 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Sandwich2Go.Models
 {
-    public class Cliente : IdentityUser
+    public class Cliente : Usuario
     {
-        [Required, StringLength(20, ErrorMessage = "El nombre no puede contener más de 20 caracteres")]
-        public virtual string Nombre { get; set; }
-        [Required, StringLength(20, ErrorMessage = "El apellido no puede contener más de 20 caracteres")]
-        public virtual string Apellido { get; set; }
-        [Required, StringLength(80, ErrorMessage = "La dirección no puede contener más de 80 caracteres")]
-        public virtual string Direccion { get; set; }
+        [Required]
         [CreditCard]
         public virtual string TarjetaCredito { get; set; }
+        [DataType(DataType.Date), Display(Name = "Fecha de la última compra")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public virtual DateTime FechaUltimaCompra { get; set; }
+        [DataType(DataType.Date), Display(Name = "Fecha de nacimiento")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public virtual DateTime FechaNacimiento { get; set; }
     }
-}
