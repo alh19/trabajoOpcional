@@ -18,7 +18,7 @@ namespace Sandwich2Go.Models
             set;
         }
 
-        public Pedido Pedido
+        public virtual Pedido Pedido
         {
             get;
             set;

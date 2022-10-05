@@ -31,10 +31,11 @@ namespace Sandwich2Go.Models
             set;
         }
         [Required]
-        public Cliente Cliente
+        public virtual Cliente Cliente
         {
             get;
             set;
         }
+        
     }
 }
