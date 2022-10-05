@@ -17,5 +17,6 @@ namespace Sandwich2Go.Models
         [DataType(DataType.Date), Display(Name = "Fecha de nacimiento")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public virtual DateTime FechaNacimiento { get; set; }
+        public virtual Pedido Pedido { get; set; }
     }
 }
