@@ -6,7 +6,7 @@ namespace Sandwich2Go.Models
     {
         [Key]
         public virtual int Id { get; set; }
-        public Oferta Oferta { get; set; }
-        public Gerente Gerente { get; set; }
+        public virtual Oferta Oferta { get; set; }
+        public virtual Gerente Gerente { get; set; }
     }
 }

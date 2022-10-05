@@ -9,7 +9,7 @@ namespace Sandwich2Go.Models
         [Key]
         public virtual int Id { get; set; }
         [Required, StringLength(20, ErrorMessage = "El nombre no puede contener más de 20 caracteres")]
-        public virtual string Name { get; set; }
+        public virtual string Nombre { get; set; }
         [Required, DataType(DataType.Currency)]
         public virtual double PrecioTotal { get; set; }
         [Required]
@@ -20,7 +20,7 @@ namespace Sandwich2Go.Models
         [DataType(DataType.Date), Display(Name = "Fecha de finalización")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public virtual DateTime FechaFin { get; set; }
-        public IList<OfertaGerente> OfertaGerente { get; set; }
-        public IList<OfertaSandwich> OfertaSandwich { get; set; }
+        public virtual IList<OfertaGerente> OfertaGerente { get; set; }
+        public virtual IList<OfertaSandwich> OfertaSandwich { get; set; }
     }
 }
