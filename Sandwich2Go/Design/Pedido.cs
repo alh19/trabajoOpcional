@@ -30,8 +30,7 @@ namespace Design
             get;
             set;
         }
-
-
+        [Required]
         public Cliente Cliente
         {
             get;
