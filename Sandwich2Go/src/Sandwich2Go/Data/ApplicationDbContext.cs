@@ -29,6 +29,11 @@ namespace Sandwich2Go.Data
             .HasAlternateKey(i => new { i.nombre });
             builder.Entity<AlergSandw>()
                 .HasKey(ing => new { ing.IngredienteId, ing.AlergenoId });
+            builder.Entity <Sandwich>()
+                .HasDiscriminator<string>("Discriminator")
+                .HasValue<Sandwich>("Sandwich")
+                .HasValue<SandwCreado>("SandwCreado");
+                
         }
 
 
