@@ -18,6 +18,6 @@ namespace Sandwich2Go.Models
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public virtual DateTime FechaNacimiento { get; set; }
 
-        public virtual Ilist<Pedido> Pedidos { get; set; }
+        public virtual IList<Pedido> Pedidos { get; set; }
     }
 }

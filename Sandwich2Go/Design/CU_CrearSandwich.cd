@@ -14,19 +14,25 @@
       <FileName>Alergeno.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="Sandwich2Go.Models.Pedido">
+    <Position X="5.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAQQAQAAIAAAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Pedido.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Cliente" />
+    </ShowAsAssociation>
+  </Class>
   <Class Name="Sandwich2Go.Models.Cliente">
-    <Position X="1.5" Y="1" Width="1.5" />
+    <Position X="3" Y="1" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIACAAAAAABAAA=</HashCode>
       <FileName>Cliente.cs</FileName>
     </TypeIdentifier>
-  </Class>
-  <Class Name="Sandwich2Go.Models.Pedido">
-    <Position X="4.5" Y="1" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAACAAQQAQAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Pedido.cs</FileName>
-    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Pedidos" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
