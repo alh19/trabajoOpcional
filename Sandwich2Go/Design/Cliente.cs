@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Sandwich2Go.Models
+namespace Design
 {
     public class Cliente : Usuario
     {
@@ -17,3 +17,4 @@ namespace Sandwich2Go.Models
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public virtual DateTime FechaNacimiento { get; set; }
     }
+}
