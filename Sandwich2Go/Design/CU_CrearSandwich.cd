@@ -1,14 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Design.Cliente">
-    <Position X="0.5" Y="1.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAABAAA=</HashCode>
-      <FileName>Cliente.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="Sandwich2Go.Models.SandwCreado">
-    <Position X="7.25" Y="1.25" Width="1.5" />
+    <Position X="7.75" Y="1" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>SandwCreado.cs</FileName>
@@ -21,10 +14,17 @@
       <FileName>Alergeno.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="Sandwich2Go.Models.Cliente">
+    <Position X="1.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIACAAAAAABAAA=</HashCode>
+      <FileName>Cliente.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Class Name="Sandwich2Go.Models.Pedido">
     <Position X="4.5" Y="1" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAQQAQAAIAAAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAACAAQQAQAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Pedido.cs</FileName>
     </TypeIdentifier>
   </Class>

@@ -31,7 +31,7 @@ namespace Sandwich2Go.Models
             set;
         }
         [Required]
-        public virtual IList<Cliente>Clientes
+        public virtual Cliente Cliente
         {
             get;
             set;
