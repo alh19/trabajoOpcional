@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 
 namespace Sandwich2Go.Models
@@ -22,6 +23,7 @@ namespace Sandwich2Go.Models
         [Required, Display(Name = "stock")]
         [Range(1, int.MaxValue, ErrorMessage = "Minimum quantity for renting is 1")]
         public virtual int stock { get; set; }
+        public virtual IList<AlergSandw> AlergSandws { get; set; }
 
         public IList<IngredienteSandwich> IngredienteSandwich
         {
