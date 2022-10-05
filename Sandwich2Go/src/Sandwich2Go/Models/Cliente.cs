@@ -1,27 +1,21 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Sandwich2Go.Models
 {
-    public class Cliente : IdentityUser
+    public class Cliente : Usuario
     {
-        [Key]
-        public override string Id { get; set; }
         [Required]
-        public virtual string Nombre { get; set; }
-        [Required]
-        public virtual string Apellido { get; set; }
-        [Required]
-        [RegularExpression("^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$")]
-        public override string Email { get; set; }
-        [Required]
-        public override string PasswordHash { get; set; }
-        [Required]
-        public override string PhoneNumber { get; set; }
-        [Required]
-        public virtual string Direccion { get; set; }
-        public virtual IList<MesaReserva> ReservaMesa { get; set; }
+        [CreditCard]
+        public virtual string TarjetaCredito { get; set; }
+        [DataType(DataType.Date), Display(Name = "Fecha de la última compra")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public virtual DateTime FechaUltimaCompra { get; set; }
+        [DataType(DataType.Date), Display(Name = "Fecha de nacimiento")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public virtual DateTime FechaNacimiento { get; set; }
     }
 }

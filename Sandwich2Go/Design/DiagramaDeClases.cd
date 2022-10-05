@@ -12,16 +12,16 @@
   </Class>
   <Class Name="Sandwich2Go.Models.MesaReserva">
     <Position X="5" Y="1" Width="1.5" />
-    <AssociationLine Name="Cliente" Type="Sandwich2Go.Models.Cliente" FixedToPoint="true">
-      <Path>
-        <Point X="5" Y="1.5" />
-        <Point X="3.25" Y="1.5" />
-      </Path>
-    </AssociationLine>
     <AssociationLine Name="Mesa" Type="Sandwich2Go.Models.Mesa" FixedFromPoint="true">
       <Path>
         <Point X="6.5" Y="1.726" />
         <Point X="7.75" Y="1.726" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="Cliente" Type="Sandwich2Go.Models.Cliente" FixedToPoint="true">
+      <Path>
+        <Point X="5" Y="1.5" />
+        <Point X="3.25" Y="1.5" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
@@ -29,8 +29,8 @@
       <FileName>MesaReserva.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Cliente" />
       <Property Name="Mesa" />
+      <Property Name="Cliente" />
     </ShowAsAssociation>
   </Class>
   <Class Name="Sandwich2Go.Models.Mesa">
