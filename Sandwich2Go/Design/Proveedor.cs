@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Sandwich2Go.Models
+namespace Design
 {
     public class Proveedor
     {
@@ -21,6 +21,6 @@ namespace Sandwich2Go.Models
 
         public virtual string Direccion { get; set; }
 
-        //public virtual IList<PedidoProv> PedidoProv { get; set; }
+        public virtual IList<PedidoProv> PedidoProv { get; set; }
     }
 }

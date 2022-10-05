@@ -35,8 +35,8 @@
       <Path>
         <Point X="4" Y="3.277" />
         <Point X="2.995" Y="3.277" />
-        <Point X="2.995" Y="2.938" />
-        <Point X="2.5" Y="2.938" />
+        <Point X="2.995" Y="2.867" />
+        <Point X="2.5" Y="2.867" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
@@ -69,10 +69,17 @@
       <Property Name="Sandwich" />
     </ShowAsAssociation>
   </Class>
-  <Class Name="Design.Cliente">
-    <Position X="1" Y="5" Width="1.5" />
+  <Class Name="Design.Usuario">
+    <Position X="5.25" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAABAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAEACAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Usuario.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Design.Cliente">
+    <Position X="1.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
       <FileName>Cliente.cs</FileName>
     </TypeIdentifier>
   </Class>
