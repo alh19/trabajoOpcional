@@ -62,7 +62,7 @@
   <Class Name="Sandwich2Go.Models.OfertaSandwich">
     <Position X="3.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAEAAAAAAAAAAAAAAQAAAAAACAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAQAAAAAACAAAAAAAAAAAAAA=</HashCode>
       <FileName>OfertaSandwich.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
