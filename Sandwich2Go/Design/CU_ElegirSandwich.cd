@@ -6,9 +6,6 @@
       <HashCode>AAACAAQQAQAAIAAAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Pedido.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="Cliente" />
-    </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="sandwichesPedidos" />
     </ShowAsCollectionAssociation>
@@ -72,10 +69,17 @@
       <Property Name="Sandwich" />
     </ShowAsAssociation>
   </Class>
-  <Class Name="Design.Cliente">
-    <Position X="1" Y="5" Width="1.5" />
+  <Class Name="Design.Usuario">
+    <Position X="5.25" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAABAAEACAAgAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAEACAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Usuario.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Design.Cliente">
+    <Position X="1.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
       <FileName>Cliente.cs</FileName>
     </TypeIdentifier>
   </Class>

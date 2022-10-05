@@ -30,5 +30,19 @@ namespace Sandwich2Go.Models
             get;
             set;
         }
+
+        public Cliente Cliente
+        {
+            get;
+            set;
+        }
+
+        public Sandwich2Go.Models.Cliente Cliente1
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 }
