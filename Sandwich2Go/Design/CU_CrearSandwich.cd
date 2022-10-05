@@ -1,25 +1,99 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Design.Alergeno">
-    <Position X="8.25" Y="2.25" Width="1.5" />
+  <Class Name="Sandwich2Go.Models.Alergeno">
+    <Position X="20.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAAEAAAAAAAAAAAAAgA=</HashCode>
       <FileName>Alergeno.cs</FileName>
     </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="AlergSandws" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Sandwich2Go.Models.SandwCreado">
-    <Position X="8.5" Y="0.75" Width="1.5" />
+    <Position X="9" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>SandwCreado.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Design.SandwichPedido">
-    <Position X="6.75" Y="0.75" Width="1.5" />
+  <Class Name="Sandwich2Go.Models.SandwichPedido">
+    <Position X="6.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AQACAAAAAAAAAAEAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>SandwichPedido.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Pedido" />
+      <Property Name="Sandwich" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Sandwich2Go.Models.Cliente">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIACAAAAAABAAA=</HashCode>
+      <FileName>Cliente.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Pedidos" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Sandwich2Go.Models.Pedido">
+    <Position X="3" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAQQAQAAIAAAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Pedido.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Cliente" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="sandwichesPedidos" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Sandwich2Go.Models.Ingrediente">
+    <Position X="13.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQACAAAAAAAABACAAgAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Ingrediente.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="AlergSandws" />
+      <Property Name="IngredienteSandwich" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Sandwich2Go.Models.AlergSandw">
+    <Position X="17" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAACAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>AlergSandw.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Alergeno" />
+      <Property Name="Ingrediente" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Sandwich2Go.Models.Sandwich">
+    <Position X="9" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAABAAAAAAAAAAAAAAEEABAAAAAAAAAAgA=</HashCode>
+      <FileName>Sandwich.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="sandwichPedido" />
+      <Property Name="IngredienteSandwich" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Sandwich2Go.Models.IngredienteSandwich">
+    <Position X="11.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQACAAAAAAAAAAAAAAAAAQACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IngredienteSandwich.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Ingrediente" />
+      <Property Name="Sandwich" />
+    </ShowAsAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

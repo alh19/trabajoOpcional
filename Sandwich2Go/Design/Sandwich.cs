@@ -3,7 +3,7 @@ using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 
-namespace Design
+namespace Sandwich2Go.Models
 {
     public class Sandwich
     {

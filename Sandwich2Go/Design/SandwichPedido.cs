@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace Design
+namespace Sandwich2Go.Models
 {
     public class SandwichPedido
     {
@@ -18,7 +18,7 @@ namespace Design
             set;
         }
 
-        public Pedido Pedido
+        public virtual Pedido Pedido
         {
             get;
             set;
