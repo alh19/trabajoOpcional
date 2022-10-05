@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Sandwich2Go.Models
@@ -19,5 +20,6 @@ namespace Sandwich2Go.Models
         [DataType(DataType.Date), Display(Name = "Fecha de finalización")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public virtual DateTime FechaFin { get; set; }
+        public IList<OfertaGerente> OfertaGerente { get; set; }
     }
 }
