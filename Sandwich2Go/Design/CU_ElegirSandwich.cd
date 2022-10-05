@@ -70,7 +70,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="Design.Usuario">
-    <Position X="5.25" Y="5" Width="1.5" />
+    <Position X="3.75" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEACAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Usuario.cs</FileName>
@@ -79,7 +79,7 @@
   <Class Name="Design.Cliente">
     <Position X="1.25" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAABAAA=</HashCode>
       <FileName>Cliente.cs</FileName>
     </TypeIdentifier>
   </Class>
