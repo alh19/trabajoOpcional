@@ -3,7 +3,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 
-namespace Design
+namespace Sandwich2Go.Models
 {
     public class Pedido
     {

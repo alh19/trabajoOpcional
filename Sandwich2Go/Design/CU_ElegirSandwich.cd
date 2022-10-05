@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Design.Pedido">
+  <Class Name="Sandwich2Go.Models.Pedido">
     <Position X="1" Y="2.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAQQAQAAIAAAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
@@ -25,18 +25,10 @@
     <Position X="4" Y="2.25" Width="1.5" />
     <AssociationLine Name="Sandwich" Type="Design.Sandwich" ManuallyRouted="true" FixedFromPoint="true">
       <Path>
-        <Point X="5.5" Y="3.277" />
-        <Point X="6.125" Y="3.277" />
+        <Point X="5.5" Y="3.429" />
+        <Point X="6.125" Y="3.429" />
         <Point X="6.125" Y="2.938" />
         <Point X="6.75" Y="2.938" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="Pedido" Type="Design.Pedido" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="4" Y="3.277" />
-        <Point X="2.995" Y="3.277" />
-        <Point X="2.995" Y="2.867" />
-        <Point X="2.5" Y="2.867" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
@@ -45,18 +37,14 @@
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Sandwich" />
-      <Property Name="Pedido" />
     </ShowAsAssociation>
   </Class>
-  <Class Name="Design.Ingrediente">
+  <Class Name="Sandwich2Go.Models.Ingrediente">
     <Position X="13.5" Y="2.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AQACAAAAAAAABACAAAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AQACAAAAAAAABACAAgAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
       <FileName>Ingrediente.cs</FileName>
     </TypeIdentifier>
-    <ShowAsCollectionAssociation>
-      <Property Name="IngredienteSandwich" />
-    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Design.IngredienteSandwich">
     <Position X="10.25" Y="2.25" Width="1.5" />
@@ -65,7 +53,6 @@
       <FileName>IngredienteSandwich.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Ingrediente" />
       <Property Name="Sandwich" />
     </ShowAsAssociation>
   </Class>
