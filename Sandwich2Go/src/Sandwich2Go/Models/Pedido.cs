@@ -37,7 +37,7 @@ namespace Sandwich2Go.Models
             set;
         }
         [Required]
-        public virtual MetodoDePago MetodoDePago
+        public MetodoDePago MetodoDePago
         {
             get;
             set;

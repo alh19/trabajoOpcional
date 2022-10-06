@@ -7,7 +7,7 @@ namespace Design
 {
     public class Efectivo : MetodoDePago
     {
-        public virtual bool NecesitasCambio
+        public bool NecesitasCambio
         {
             get;
             set;
