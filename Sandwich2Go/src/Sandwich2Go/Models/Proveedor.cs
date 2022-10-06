@@ -21,6 +21,6 @@ namespace Sandwich2Go.Models
 
         public virtual string Direccion { get; set; }
 
-        //public virtual IList<PedidoProv> PedidoProv { get; set; }
+        public virtual IList<PedidoProv> PedidoProv { get; set; }
     }
 }

@@ -9,9 +9,9 @@ namespace Sandwich2Go.Models
 
         [Key]
         public virtual int Id { get; set; }
-
-        public Proveedor Proveedor { get; set; }
-
+        [Required]
+        public virtual Proveedor Proveedor { get; set; }
+        
         public virtual IList<ArticulosPed> ArticulosPed { get; set; }
     }
 }
