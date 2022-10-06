@@ -1,25 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Design.Ingrediente">
-    <Position X="13.5" Y="2.25" Width="1.5" />
+    <Position X="13.25" Y="1.75" Width="2" />
     <TypeIdentifier>
-      <HashCode>AQACAAAAAAAABACAAAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAACAAEAAAAABAAAAgAAgAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Ingrediente.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Design.ArticulosPed">
-    <Position X="13.5" Y="5" Width="1.5" />
+    <Position X="13.5" Y="4.75" Width="1.5" />
+    <AssociationLine Name="PedidoProv" Type="Design.PedidoProv">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-1.546" Y="0.404" />
+      </MemberNameLabel>
+    </AssociationLine>
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAAAAAAAAAACAAAAAAAAAAEAAAAAAAA=</HashCode>
       <FileName>ArticulosPed.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Ingrediente" />
       <Property Name="PedidoProv" />
+      <Property Name="Ingrediente" />
     </ShowAsAssociation>
   </Class>
   <Class Name="Design.PedidoProv">
     <Position X="13.5" Y="6.75" Width="1.5" />
+    <AssociationLine Name="ArticulosPed" Type="Design.ArticulosPed">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.62" Y="0.154" />
+      </MemberNameLabel>
+    </AssociationLine>
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAIAAAAA=</HashCode>
       <FileName>PedidoProv.cs</FileName>
@@ -27,6 +37,9 @@
     <ShowAsAssociation>
       <Property Name="Proveedor" />
     </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="ArticulosPed" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Design.Proveedor">
     <Position X="17" Y="6.5" Width="1.5" />
@@ -39,14 +52,14 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Design.Gerente">
-    <Position X="13.25" Y="9" Width="1.75" />
+    <Position X="9.75" Y="6.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAEgAAAAAAA=</HashCode>
       <FileName>Gerente.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
+    <ShowAsCollectionAssociation>
       <Property Name="PedidoProv" />
-    </ShowAsAssociation>
+    </ShowAsCollectionAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
