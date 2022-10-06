@@ -37,7 +37,7 @@ namespace Design
             set;
         }
         [Required]
-        public MetodoDePago MetodoDePago
+        public virtual MetodoDePago MetodoDePago
         {
             get;
             set;
