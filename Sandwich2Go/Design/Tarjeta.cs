@@ -9,31 +9,31 @@ namespace Design
     public class Tarjeta : MetodoDePago
     {
         [Required]
-        public int Numero
+        public virtual int Numero
         {
             get;
             set;
         }
         [Required]
-        public String Titular
+        public virtual String Titular
         {
             get;
             set;
         }
         [Required]
-        public int CCV
+        public virtual int CCV
         {
             get;
             set;
         }
         [Required]
-        public int MesCaducidad
+        public virtual int MesCaducidad
         {
             get;
             set;
         }
         [Required]
-        public int AnoCaducidad
+        public virtual int AnoCaducidad
         {
             get;
             set;
