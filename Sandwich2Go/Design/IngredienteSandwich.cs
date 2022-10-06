@@ -4,25 +4,26 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 
-namespace Sandwich2Go.Models
+namespace Design
 {
     public class IngredienteSandwich
     {
         [Key]
-        public int Id { get; set; }
-        public Ingrediente Ingrediente
+        public virtual int Id { get; set; }
+        [Required]
+        public virtual Ingrediente Ingrediente
         {
             get;
             set;
         }
-
-        public Sandwich Sandwich
+        [Required]
+        public virtual Sandwich Sandwich
         {
             get;
             set;
         }
         [Required, Display(Name = "Cantidad ingredientes")]
         [Range(0, 4, ErrorMessage = "La cantidad máxima de un mismo ingrediente es 4")]
-        public int cantidad { get; set; }
+        public virtual int Cantidad { get; set; }
     }
 }
