@@ -7,10 +7,10 @@ namespace Sandwich2Go.Models
     {
         [Key]
         public virtual int Id { get; set; }
-
-        public Ingrediente Ingrediente { get; set; }
-
-        public PedidoProv PedidoProv { get; set; }
+        [Required]
+        public virtual Ingrediente Ingrediente { get; set; }
+        [Required]
+        public virtual PedidoProv PedidoProv { get; set; }
 
     }
 }
