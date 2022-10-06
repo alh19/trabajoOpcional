@@ -27,7 +27,7 @@
     <Position X="13.5" Y="6.75" Width="1.5" />
     <AssociationLine Name="ArticulosPed" Type="Design.ArticulosPed">
       <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.62" Y="0.154" />
+        <Position X="0.641" Y="0.321" />
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
@@ -44,7 +44,7 @@
   <Class Name="Design.Proveedor">
     <Position X="17" Y="6.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAgAAABCAAgAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <HashCode>AAACAAAAAAAAAAAABCAAgAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
       <FileName>Proveedor.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
