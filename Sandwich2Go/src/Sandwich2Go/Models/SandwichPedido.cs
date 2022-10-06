@@ -11,20 +11,21 @@ namespace Sandwich2Go.Models
     public class SandwichPedido
     {
         [Key]
-        public int Id { get; set; }
-        public Sandwich Sandwich
+        public virtual int Id { get; set; }
+        [Required]
+        public virtual Sandwich Sandwich
         {
             get;
             set;
         }
 
-        public Pedido Pedido
+        public virtual Pedido Pedido
         {
             get;
             set;
         }
         [Required, Display(Name = "Maximo sándwiches")]
         [Range(1, 10, ErrorMessage = "El máximo de un mismo sándwich por pedido es 10")]
-        public int cantidad { get; set; }
+        public virtual int Cantidad { get; set; }
     }
 }

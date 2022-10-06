@@ -1,4 +1,4 @@
-﻿namespace Sandwich2Go.Models
+﻿namespace Design
 {
     public class SandwCreado:Sandwich
     {

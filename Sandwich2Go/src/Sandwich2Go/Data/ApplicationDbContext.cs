@@ -24,21 +24,30 @@ namespace Sandwich2Go.Data
         public DbSet<PedidoProv> PedidoProv { get; set; }
         public DbSet<ArticulosPed> ArticulosPed { get; set; }
         public DbSet<AlergSandw> AlergSandws { get; set; }
+        public DbSet<OfertaSandwich> OfertaSandwich { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options){ }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             builder.Entity<Ingrediente>()
-            .HasAlternateKey(i => new { i.nombre });
+            .HasAlternateKey(i => new { i.Nombre });
+            builder.Entity<Sandwich>()
+            .HasAlternateKey(i => new { i.SandwichName });
+            base.OnModelCreating(builder);
             builder.Entity<Proveedor>()
             .HasAlternateKey(i => new { i.Cif });
             builder.Entity<AlergSandw>()
-                .HasKey(ing => new { ing.IngredienteId, ing.AlergenoId });
+                .HasKey(ing => new { ing.Ingrediente, ing.Alergeno });
             builder.Entity <Sandwich>()
                 .HasDiscriminator<string>("Discriminator")
                 .HasValue<Sandwich>("Sandwich")
                 .HasValue<SandwCreado>("SandwCreado");
-                
+            builder.Entity<MetodoDePago>()
+                .HasDiscriminator<string>("Discriminator")
+                .HasValue<MetodoDePago>("MetodoDePago")
+                .HasValue<Tarjeta>("Tarjeta")
+                .HasValue<Efectivo>("Efectivo");
+
         }
 
 
