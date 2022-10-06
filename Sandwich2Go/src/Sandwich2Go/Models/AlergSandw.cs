@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using Sandwich2Go.models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
