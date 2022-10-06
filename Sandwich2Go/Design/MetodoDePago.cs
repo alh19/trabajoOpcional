@@ -10,7 +10,7 @@ namespace Design
     public abstract class MetodoDePago
     {
         [Required]
-        public virtual int Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public virtual IList<Pedido> Pedidos { get; set; }
