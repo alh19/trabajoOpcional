@@ -8,7 +8,7 @@ namespace Sandwich2Go.Models
     public class Sandwich
     {
         [Key]
-        public virtual string Id { get; set; }
+        public virtual int Id { get; set; }
         [Required, StringLength(20, ErrorMessage = "El nombre no puede ser mayor a 20 caracteres.")]
         [RegularExpression(@"^[A-Z]+[a-zA-Z''-'\s]*$")]
         public virtual string SandwichName { get; set;}
