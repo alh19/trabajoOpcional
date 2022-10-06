@@ -1,21 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Design.Ingrediente">
-    <Position X="13.25" Y="1.75" Width="2" />
+    <Position X="13.25" Y="1.5" Width="2" />
+    <AssociationLine Name="ArticulosPeds" Type="Design.ArticulosPed">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-1.161" Y="0.425" />
+      </MemberNameLabel>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAACAAEAAAAABAAAAgAAgAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAACAAEBAAAABAAAAgAAgAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Ingrediente.cs</FileName>
     </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="ArticulosPeds" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Design.ArticulosPed">
-    <Position X="13.5" Y="4.75" Width="1.5" />
+    <Position X="13.5" Y="4.5" Width="1.5" />
     <AssociationLine Name="PedidoProv" Type="Design.PedidoProv">
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="-1.546" Y="0.404" />
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAAAAAAAAAACAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <HashCode>AAACAAAACAAAAAAAAAAAAAAKAAAAAAAAAAEAAAAAAAA=</HashCode>
       <FileName>ArticulosPed.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -31,11 +39,12 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAIAAAAA=</HashCode>
+      <HashCode>AAACAQAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAIAAAAA=</HashCode>
       <FileName>PedidoProv.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Proveedor" />
+      <Property Name="Gerente" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="ArticulosPed" />
@@ -52,7 +61,15 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Design.Gerente">
-    <Position X="9.75" Y="6.5" Width="1.75" />
+    <Position X="9.5" Y="6.5" Width="1.75" />
+    <InheritanceLine Type="Design.Usuario" ManuallyRouted="true">
+      <Path>
+        <Point X="10.5" Y="9" />
+        <Point X="10.5" Y="8.409" />
+        <Point X="10.375" Y="8.409" />
+        <Point X="10.375" Y="8.117" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAEgAAAAAAA=</HashCode>
       <FileName>Gerente.cs</FileName>
@@ -60,6 +77,13 @@
     <ShowAsCollectionAssociation>
       <Property Name="PedidoProv" />
     </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Design.Usuario">
+    <Position X="9.75" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEACAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Usuario.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

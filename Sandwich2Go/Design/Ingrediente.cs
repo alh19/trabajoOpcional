@@ -29,5 +29,7 @@ namespace Design
             get;
             set;
         }
+
+        public virtual IList<ArticulosPed> ArticulosPeds { get; set; }
     }
 }
