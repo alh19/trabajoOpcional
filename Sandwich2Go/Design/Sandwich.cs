@@ -2,9 +2,8 @@
 using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
-using Sandwich2Go.Models;
 
-namespace Sandwich2Go.Models
+namespace Design
 {
     public class Sandwich
     {
@@ -18,7 +17,7 @@ namespace Sandwich2Go.Models
         [Required,StringLength(100, ErrorMessage = "La descripción no puede ser mayor a 100 caracteres.")]
         public virtual string desc { get; set; }
 
-        public IList<SandwichPedido> sandwichPedido
+        public virtual IList<SandwichPedido> sandwichPedido
         {
             get;
             set;
@@ -26,13 +25,11 @@ namespace Sandwich2Go.Models
             
         }
 
-        public IList<IngredienteSandwich> IngredienteSandwich
+        public virtual IList<IngredienteSandwich> IngredienteSandwich
         {
-            get => default;
-            set
-            {
-            }
+            get;
+            set;
         }
-        public IList<OfertaSandwich> OfertaSandwich { get; set; }
+        public virtual IList<OfertaSandwich> OfertaSandwich { get; set; }
     }
 }

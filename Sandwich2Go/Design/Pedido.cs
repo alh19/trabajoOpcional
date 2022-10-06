@@ -3,7 +3,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 
-namespace Sandwich2Go.Models
+namespace Design
 {
     public class Pedido
     {
@@ -25,7 +25,7 @@ namespace Sandwich2Go.Models
         [Required, StringLength(30, ErrorMessage = "First name cannot be longer than 30 characters.")]
         public virtual string direccion { get; set; }
 
-        public IList<SandwichPedido> sandwichesPedidos
+        public virtual IList<SandwichPedido> sandwichesPedidos
         {
             get;
             set;

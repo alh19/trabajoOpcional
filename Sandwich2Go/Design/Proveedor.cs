@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Sandwich2Go.Models
+namespace Design
 {
     public class Proveedor
     {

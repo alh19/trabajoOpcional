@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Sandwich2Go.Models
+namespace Design
 {
     public class Gerente : Usuario
     {
@@ -11,7 +11,7 @@ namespace Sandwich2Go.Models
         public virtual string FechaContratacion { get; set; }
         [Required, DataType(DataType.Currency)]
         public virtual double Salario { get; set; }
-        public virtual PedidoProv PedidoProv { get; set; }
+        public virtual IList<PedidoProv> PedidoProv { get; set; }
         public virtual IList<OfertaGerente> OfertaGerente { get; set; }
     }
 }
