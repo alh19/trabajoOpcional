@@ -11,5 +11,8 @@ namespace Design
     {
         [Required]
         public int Id { get; set; }
+
+        [Required]
+        public virtual IList<Pedido> Pedidos { get; set; }
     }
 }
