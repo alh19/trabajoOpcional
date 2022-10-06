@@ -12,18 +12,22 @@ namespace Design
     {
         [Key]
         public virtual int Id { get; set; }
-        [Required]
+        [ForeignKey("SandwichId")]
         public virtual Sandwich Sandwich
         {
             get;
             set;
         }
 
+        public virtual int SandwichId { get; set; }
+
+        [ForeignKey("PedidoId")]
         public virtual Pedido Pedido
         {
             get;
             set;
         }
+        public virtual int PedidoId { get; set; }
         [Required, Display(Name = "Maximo sándwiches")]
         [Range(1, 10, ErrorMessage = "El máximo de un mismo sándwich por pedido es 10")]
         public virtual int Cantidad { get; set; }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Design
 {
@@ -8,10 +9,11 @@ namespace Design
         [Key]  
         public virtual int Id { get; set; }
 
-        [Required]
+        [ForeignKey("AlergenoId")]
         public virtual Alergeno Alergeno { get; set; }
+        public virtual int AlergenoId { get; set; }
 
-        [Required]
+        [ForeignKey("IngredienteId")]
         public virtual Ingrediente Ingrediente { get; set; }
 
     }

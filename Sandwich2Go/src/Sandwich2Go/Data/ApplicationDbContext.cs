@@ -29,19 +29,36 @@ namespace Sandwich2Go.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
             builder.Entity<Ingrediente>()
             .HasAlternateKey(i => new { i.Nombre });
+
             builder.Entity<Sandwich>()
             .HasAlternateKey(i => new { i.SandwichName });
-            base.OnModelCreating(builder);
+
             builder.Entity<Proveedor>()
             .HasAlternateKey(i => new { i.Cif });
+
             builder.Entity<AlergSandw>()
-                .HasKey(ing => new { ing.Ingrediente, ing.Alergeno });
+                .HasKey(a => new { a.IngredienteId, a.AlergenoId });
+
+            builder.Entity<IngredienteSandwich>()
+                .HasKey(i => new { i.IngredienteId, i.SandwichId });
+
+            builder.Entity<OfertaSandwich>()
+                .HasKey(o => new { o.OfertaId, o.SandwichId });
+
+            builder.Entity<ArticulosPed>()
+                .HasKey(a => new { a.IngredienteId, a.PedidoId });
+
+            builder.Entity<SandwichPedido>()
+                .HasKey(p => new { p.SandwichId, p.PedidoId });
+
             builder.Entity <Sandwich>()
                 .HasDiscriminator<string>("Discriminator")
                 .HasValue<Sandwich>("Sandwich")
                 .HasValue<SandwCreado>("SandwCreado");
+
             builder.Entity<MetodoDePago>()
                 .HasDiscriminator<string>("Discriminator")
                 .HasValue<MetodoDePago>("MetodoDePago")
