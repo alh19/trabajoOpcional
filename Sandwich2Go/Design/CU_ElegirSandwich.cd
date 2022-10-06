@@ -31,6 +31,10 @@
       <HashCode>AAACAAEAAAAAAAEAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>SandwichPedido.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Sandwich" />
+      <Property Name="Pedido" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="Design.Ingrediente">
     <Position X="16" Y="5.25" Width="1.5" />
@@ -39,8 +43,8 @@
       <FileName>Ingrediente.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
-      <Property Name="IngredienteSandwich" />
       <Property Name="AlergSandws" />
+      <Property Name="IngredienteSandwich" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Design.IngredienteSandwich">
@@ -50,8 +54,8 @@
       <FileName>IngredienteSandwich.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Sandwich" />
       <Property Name="Ingrediente" />
+      <Property Name="Sandwich" />
     </ShowAsAssociation>
   </Class>
   <Class Name="Design.Usuario">
@@ -71,7 +75,7 @@
   <Class Name="Design.MetodoDePago">
     <Position X="3.5" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>MetodoDePago.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -103,7 +107,7 @@
   <Class Name="Design.Alergeno">
     <Position X="16" Y="10.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAAEAAAAAAAAAAAAAgA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAQAAAAAAAAAAAAAAAAAAgA=</HashCode>
       <FileName>Alergeno.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
