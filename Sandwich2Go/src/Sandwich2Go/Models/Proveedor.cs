@@ -9,9 +9,6 @@ namespace Sandwich2Go.Models
         [Key]
         public virtual string Id { get; set; }
 
-        [Required]
-        public virtual string IdProveedor { get; set; }
-
         [Required, Display(Name = "CIF o DNI")]
         [StringLength(8, ErrorMessage = "El CIF no puede ser inferior a 8 dígitos")]
         public virtual string Cif { get; set; }

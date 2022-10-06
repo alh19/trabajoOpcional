@@ -19,8 +19,8 @@
       <FileName>ArticulosPed.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="PedidoProv" />
       <Property Name="Ingrediente" />
+      <Property Name="PedidoProv" />
     </ShowAsAssociation>
   </Class>
   <Class Name="Design.PedidoProv">
