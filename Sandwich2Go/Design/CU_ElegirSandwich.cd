@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram MajorVersion="1" MinorVersion="1">
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
   <Class Name="Design.Pedido">
     <Position X="3.5" Y="5.25" Width="1.5" />
     <TypeIdentifier>
@@ -15,7 +15,7 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Design.Sandwich">
-    <Position X="9.25" Y="5.25" Width="1.5" />
+    <Position X="8.75" Y="5.25" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAABBAAAAAAAAIAQAAAAAAAABAAAQAAAAAA=</HashCode>
       <FileName>Sandwich.cs</FileName>
@@ -66,7 +66,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Design.Cliente">
-    <Position X="3.75" Y="8" Width="1.5" />
+    <Position X="2.5" Y="8" Width="2.75" />
     <TypeIdentifier>
       <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIACAAAAAABAAA=</HashCode>
       <FileName>Cliente.cs</FileName>
@@ -80,14 +80,14 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Design.Tarjeta">
-    <Position X="1.5" Y="1" Width="1.5" />
+    <Position X="1.5" Y="1" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAQAQAABgAA=</HashCode>
       <FileName>Tarjeta.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Design.Efectivo">
-    <Position X="5.5" Y="2" Width="1.5" />
+    <Position X="5.5" Y="2" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Efectivo.cs</FileName>
