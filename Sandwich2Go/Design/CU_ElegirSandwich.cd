@@ -71,13 +71,19 @@
       <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIACAAAAAABAAA=</HashCode>
       <FileName>Cliente.cs</FileName>
     </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Pedidos" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Design.MetodoDePago">
-    <Position X="3.5" Y="3.75" Width="1.5" />
+    <Position X="3.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
       <FileName>MetodoDePago.cs</FileName>
     </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Pedidos" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Design.Tarjeta">
     <Position X="1.5" Y="1" Width="2" />
@@ -87,7 +93,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Design.Efectivo">
-    <Position X="5.5" Y="2" Width="2" />
+    <Position X="6" Y="1.75" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Efectivo.cs</FileName>
