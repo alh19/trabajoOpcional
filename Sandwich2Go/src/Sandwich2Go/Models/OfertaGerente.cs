@@ -9,7 +9,7 @@ namespace Sandwich2Go.Models
         public virtual int Id { get; set; }
         [ForeignKey("GerenteId")]
         public virtual Gerente Gerente { get; set; }
-        public virtual int GerenteId { get; set; }
+        public virtual string GerenteId { get; set; }
 
         [ForeignKey("OfertaId")]
         public virtual Oferta Oferta { get; set; }
