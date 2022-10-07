@@ -299,18 +299,23 @@ namespace Sandwich2Go.Migrations
 
             modelBuilder.Entity("Sandwich2Go.Models.OfertaGerente", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("GerenteId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("OfertaId")
                         .HasColumnType("int");
 
-                    b.Property<string>("GerenteId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.HasKey("OfertaId", "GerenteId");
+                    b.HasKey("Id");
 
                     b.HasIndex("GerenteId");
+
+                    b.HasIndex("OfertaId");
 
                     b.ToTable("OfertaGerente");
                 });
@@ -378,7 +383,6 @@ namespace Sandwich2Go.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("GerenteId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProveedorId")
@@ -702,7 +706,7 @@ namespace Sandwich2Go.Migrations
             modelBuilder.Entity("Sandwich2Go.Models.ArticulosPed", b =>
                 {
                     b.HasOne("Sandwich2Go.Models.Ingrediente", "Ingrediente")
-                        .WithMany("ArticulosPeds")
+                        .WithMany()
                         .HasForeignKey("IngredienteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -796,19 +800,15 @@ namespace Sandwich2Go.Migrations
 
             modelBuilder.Entity("Sandwich2Go.Models.PedidoProv", b =>
                 {
-                    b.HasOne("Sandwich2Go.Models.Gerente", "Gerente")
+                    b.HasOne("Sandwich2Go.Models.Gerente", null)
                         .WithMany("PedidoProv")
-                        .HasForeignKey("GerenteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("GerenteId");
 
                     b.HasOne("Sandwich2Go.Models.Proveedor", "Proveedor")
                         .WithMany("PedidoProv")
                         .HasForeignKey("ProveedorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Gerente");
 
                     b.Navigation("Proveedor");
                 });
@@ -840,8 +840,6 @@ namespace Sandwich2Go.Migrations
             modelBuilder.Entity("Sandwich2Go.Models.Ingrediente", b =>
                 {
                     b.Navigation("AlergSandws");
-
-                    b.Navigation("ArticulosPeds");
 
                     b.Navigation("IngredienteSandwich");
                 });
