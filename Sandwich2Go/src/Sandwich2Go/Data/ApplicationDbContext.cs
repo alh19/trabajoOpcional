@@ -54,6 +54,9 @@ namespace Sandwich2Go.Data
             builder.Entity<SandwichPedido>()
                 .HasKey(p => new { p.SandwichId, p.PedidoId });
 
+            builder.Entity<OfertaGerente>()
+                .HasKey(p => new { p.OfertaId, p.GerenteId });
+
             builder.Entity <Sandwich>()
                 .HasDiscriminator<string>("Discriminator")
                 .HasValue<Sandwich>("Sandwich")
