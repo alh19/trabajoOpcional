@@ -20,7 +20,6 @@ namespace Sandwich2Go.Data
         public DbSet<Proveedor> Proveedor { get; set; } 
         public DbSet<Gerente> Gerente { get; set; }
         public DbSet<Oferta> Oferta { get; set; }
-        public DbSet<OfertaGerente> OfertaGerente { get; set; }
         public DbSet<PedidoProv> PedidoProv { get; set; }
         public DbSet<ArticulosPed> ArticulosPed { get; set; }
         public DbSet<AlergSandw> AlergSandws { get; set; }
@@ -53,9 +52,6 @@ namespace Sandwich2Go.Data
 
             builder.Entity<SandwichPedido>()
                 .HasKey(p => new { p.SandwichId, p.PedidoId });
-
-            builder.Entity<OfertaGerente>()
-                .HasKey(d => new { d.OfertaId, d.GerenteId });
 
             builder.Entity <Sandwich>()
                 .HasDiscriminator<string>("Discriminator")
