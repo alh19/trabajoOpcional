@@ -20,7 +20,8 @@ namespace Sandwich2Go.Models
         [DataType(DataType.Date), Display(Name = "Fecha de finalización")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public virtual DateTime FechaFin { get; set; }
-        public virtual IList<OfertaGerente> OfertaGerente { get; set; }
         public virtual IList<OfertaSandwich> OfertaSandwich { get; set; }
+        [Required]
+        public virtual Gerente Gerente { get; set; }
     }
 }

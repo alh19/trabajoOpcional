@@ -12,6 +12,6 @@ namespace Sandwich2Go.Models
         [Required, DataType(DataType.Currency)]
         public virtual double Salario { get; set; }
         public virtual IList<PedidoProv> PedidoProv { get; set; }
-        public virtual IList<OfertaGerente> OfertaGerente { get; set; }
+        public virtual IList<Oferta> Oferta { get; set; }
     }
 }
