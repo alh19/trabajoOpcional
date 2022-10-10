@@ -1,10 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Design
 {
-    public class ArticulosPed
+    internal class IngrProv
     {
+
         [Key]
         public virtual int Id { get; set; }
 
@@ -14,11 +21,9 @@ namespace Design
 
         [ForeignKey("IngredienteId")]
         public virtual Ingrediente Ingrediente { get; set; }
-        public virtual int IngredienteId { get; set; }
 
-        [ForeignKey("PedidoId")]
-        public virtual PedidoProv PedidoProv { get; set; }
-        public virtual int PedidoId { get; set; }
+        [Required]
+        public virtual Proveedor Proveedor { get; set; }
 
     }
 }

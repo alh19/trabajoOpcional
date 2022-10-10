@@ -4,7 +4,7 @@
     <Position X="13.25" Y="1.5" Width="2" />
     <AssociationLine Name="ArticulosPeds" Type="Design.ArticulosPed">
       <MemberNameLabel ManuallyPlaced="true">
-        <Position X="-1.161" Y="0.425" />
+        <Position X="-1.726" Y="0.315" />
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
@@ -17,13 +17,18 @@
   </Class>
   <Class Name="Design.ArticulosPed">
     <Position X="13.5" Y="4.5" Width="1.5" />
-    <AssociationLine Name="PedidoProv" Type="Design.PedidoProv">
+    <AssociationLine Name="Ingrediente" Type="Design.Ingrediente">
       <MemberNameLabel ManuallyPlaced="true">
-        <Position X="-1.546" Y="0.404" />
+        <Position X="0.716" Y="0.473" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="PedidoProv" Type="Design.PedidoProv">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-2.262" Y="0.239" Height="0.182" Width="1.265" />
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAACAAAACAAAAAAAAAAAAAAKAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <HashCode>AAACAAEACAAAAAAAAAAAAAAKAAAAAAAAAAEAAAAAAAA=</HashCode>
       <FileName>ArticulosPed.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -34,12 +39,12 @@
   <Class Name="Design.PedidoProv">
     <Position X="13.5" Y="6.75" Width="1.5" />
     <AssociationLine Name="ArticulosPed" Type="Design.ArticulosPed">
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.641" Y="0.321" />
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.682" Y="0.128" Height="0.182" Width="1.15" />
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAACAQAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAIAAAAA=</HashCode>
+      <HashCode>AAACAQAAAAAAAAAAAAAAgAABAAAQAAAAAAAAAIAAAAA=</HashCode>
       <FileName>PedidoProv.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -71,7 +76,7 @@
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAEgAAAAAAA=</HashCode>
+      <HashCode>AAAAAMAAAAAAAAAAAAAAAAAAAAAACAAAAAEAAAAAAAA=</HashCode>
       <FileName>Gerente.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -84,6 +89,25 @@
       <HashCode>AAAAAAAAAAAAAAAEACAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Usuario.cs</FileName>
     </TypeIdentifier>
+  </Class>
+  <Class Name="Design.IngrProv">
+    <Position X="17.25" Y="2.75" Width="1.5" />
+    <AssociationLine Name="Ingrediente" Type="Design.Ingrediente" ManuallyRouted="true">
+      <Path>
+        <Point X="17.25" Y="3.282" />
+        <Point X="16.175" Y="3.282" />
+        <Point X="16.175" Y="3.565" />
+        <Point X="15.156" Y="3.565" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAACAAEAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IngrProv.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Ingrediente" />
+      <Property Name="Proveedor" />
+    </ShowAsAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
