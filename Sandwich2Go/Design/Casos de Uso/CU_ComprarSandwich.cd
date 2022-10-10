@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
   <Class Name="Design.Pedido">
-    <Position X="3.5" Y="5.25" Width="1.5" />
+    <Position X="2.5" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAQAAAAAEAEAACCAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <HashCode>AAACAAQAAAAAEAEAACCAgAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
       <FileName>Pedido.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -15,7 +15,7 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Design.Sandwich">
-    <Position X="8.75" Y="5.25" Width="2.5" />
+    <Position X="7.75" Y="4.75" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAABBAAAAAAAAIAQAAAAAAAABAAAQAAAAAA=</HashCode>
       <FileName>Sandwich.cs</FileName>
@@ -23,12 +23,13 @@
     <ShowAsCollectionAssociation>
       <Property Name="SandwichPedido" />
       <Property Name="IngredienteSandwich" />
+      <Property Name="OfertaSandwich" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Design.SandwichPedido">
-    <Position X="6.5" Y="5.25" Width="1.5" />
+    <Position X="5.5" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAEAAAAAAAEAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>EAACAAEAAAAAAAEAAAAAAQAIAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>SandwichPedido.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -37,9 +38,9 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="Design.Ingrediente">
-    <Position X="16" Y="5.25" Width="1.5" />
+    <Position X="15" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAEAAAAABAAAAgAAgAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAACAAEBAAAABAAAAgAAgAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Ingrediente.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -48,9 +49,9 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Design.IngredienteSandwich">
-    <Position X="12.75" Y="5.25" Width="1.5" />
+    <Position X="11.75" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAEAAAAAAAAAAAAAAQACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>EAACAAEACAAAAAAAAAAAAQACAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>IngredienteSandwich.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -59,14 +60,14 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="Design.Usuario">
-    <Position X="6.25" Y="8" Width="1.5" />
+    <Position X="5.25" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEACAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Usuario.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Design.Cliente">
-    <Position X="2.5" Y="8" Width="2.75" />
+    <Position X="1.5" Y="7.5" Width="2.75" />
     <TypeIdentifier>
       <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIACAAAAAABAAA=</HashCode>
       <FileName>Cliente.cs</FileName>
@@ -76,7 +77,7 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Design.MetodoDePago">
-    <Position X="3.5" Y="3.5" Width="1.5" />
+    <Position X="2.5" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
       <FileName>MetodoDePago.cs</FileName>
@@ -86,23 +87,23 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Design.Tarjeta">
-    <Position X="1.5" Y="1" Width="2" />
+    <Position X="0.5" Y="0.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAQAQAABgAA=</HashCode>
       <FileName>Tarjeta.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Design.Efectivo">
-    <Position X="6" Y="1.75" Width="2" />
+    <Position X="5" Y="1.25" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Efectivo.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Design.AlergSandw">
-    <Position X="16" Y="8" Width="1.5" />
+    <Position X="15" Y="7.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAAAAAAAAAACAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <HashCode>AAACgAAAAAAAAAAAAAAAAAACAAAAAAAgAAAAAAAAAAA=</HashCode>
       <FileName>AlergSandw.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -111,13 +112,34 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="Design.Alergeno">
-    <Position X="16" Y="10.5" Width="1.5" />
+    <Position X="15" Y="10" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAgAAAAQAAAAAAAAAAAAAAAAAAgA=</HashCode>
       <FileName>Alergeno.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
       <Property Name="AlergSandws" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Design.OfertaSandwich">
+    <Position X="8" Y="7.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>EAACAAEAAQAAAAAAAAAAAQAAAAAACAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OfertaSandwich.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Oferta" />
+      <Property Name="Sandwich" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Design.Oferta">
+    <Position X="7.75" Y="11.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAACAQAAAAAAAAAAABAAgIAAAgAAAAAAAAAAAAAgAAA=</HashCode>
+      <FileName>Oferta.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="OfertaSandwich" />
     </ShowAsCollectionAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />

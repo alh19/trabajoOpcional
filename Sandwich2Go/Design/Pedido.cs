@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
+using Design;
 
 namespace Design
 {
@@ -9,6 +10,9 @@ namespace Design
     {
         [Key]
         public virtual int Id { get; set; }
+
+        [Required]
+        public virtual string Nombre { get; set; }
 
 
         [Required]
@@ -21,7 +25,7 @@ namespace Design
         [Range(1, int.MaxValue, ErrorMessage = "Minimum quantity for renting is 1")]
         public virtual int Preciototal { get; set; }
 
-        
+
         [Required, StringLength(30, ErrorMessage = "First name cannot be longer than 30 characters.")]
         public virtual string Direccion { get; set; }
 

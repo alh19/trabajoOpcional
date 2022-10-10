@@ -11,4 +11,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.17" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.17" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Guías Casos de Uso\" />
+  </ItemGroup>
 </Project>
