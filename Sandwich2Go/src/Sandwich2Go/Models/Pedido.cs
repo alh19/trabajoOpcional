@@ -52,5 +52,12 @@ namespace Sandwich2Go.Models
             get;
             set;
         }
+
+        [Required]
+        public SandwCreado SandwCreado
+        {
+            get;
+            set;
+        }
     }
 }

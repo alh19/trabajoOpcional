@@ -52,5 +52,12 @@ namespace Design
             get;
             set;
         }
+
+        [Required]
+        public SandwCreado SandwCreado
+        {
+            get;
+            set;
+        }
     }
 }
