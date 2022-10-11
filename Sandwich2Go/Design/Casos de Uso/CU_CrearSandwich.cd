@@ -53,8 +53,8 @@
       <Property Name="IngredienteSandwich" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="Sandwich2Go.Models.Pedido">
-    <Position X="7.75" Y="4" Width="1.5" />
+  <Class Name="Design.Pedido">
+    <Position X="7.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAUAAAAAEAEAACCAgAABAAAAAAAAAQAAAAAAAAA=</HashCode>
       <FileName>Pedido.cs</FileName>
@@ -73,6 +73,9 @@
       <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
       <FileName>MetodoDePago.cs</FileName>
     </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Pedidos" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Design.Tarjeta" Collapsed="true">
     <Position X="6.75" Y="8.5" Width="1.5" />
@@ -86,6 +89,13 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Efectivo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Design.SandwCreado" Collapsed="true">
+    <Position X="11.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SandwCreado.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
