@@ -61,14 +61,19 @@
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="SandwCreado" />
+      <Property Name="MetodoDePago" />
+      <Property Name="Cliente" />
     </ShowAsAssociation>
   </Class>
   <Class Name="Design.Cliente">
-    <Position X="11.5" Y="4.5" Width="1.5" />
+    <Position X="11.25" Y="4.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIACAAAAAABAAA=</HashCode>
       <FileName>Cliente.cs</FileName>
     </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Pedidos" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Design.MetodoDePago">
     <Position X="7.75" Y="6.75" Width="1.5" />
@@ -80,14 +85,14 @@
       <Property Name="Pedidos" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="Design.Tarjeta" Collapsed="true">
+  <Class Name="Design.Tarjeta">
     <Position X="6.75" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAQAQAABgAA=</HashCode>
       <FileName>Tarjeta.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Design.Efectivo" Collapsed="true">
+  <Class Name="Design.Efectivo">
     <Position X="9" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
