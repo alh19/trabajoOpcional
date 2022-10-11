@@ -13,7 +13,7 @@
   <Class Name="Design.AlergSandw">
     <Position X="20.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAAAAAAAAAACAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <HashCode>AAACgAAAAAAAAAAAAAAAAAACAAAAAAAgAAAAAAAAAAA=</HashCode>
       <FileName>AlergSandw.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -24,7 +24,7 @@
   <Class Name="Design.Ingrediente">
     <Position X="18" Y="1.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAEAAAAABAAAAgAAgAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAACAAEBAAAABAAAAgAAgAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Ingrediente.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -35,7 +35,7 @@
   <Class Name="Design.IngredienteSandwich">
     <Position X="14.75" Y="1.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAEAAAAAAAAAAAAAAQACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>EAACAAEACAAAAAAAAAAAAQACAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>IngredienteSandwich.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -51,39 +51,13 @@
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
       <Property Name="IngredienteSandwich" />
-      <Property Name="SandwichPedido" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="Design.SandwichPedido">
-    <Position X="7.75" Y="1.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAACAAEAAAAAAAEAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>SandwichPedido.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="Sandwich" />
-      <Property Name="Pedido" />
-    </ShowAsAssociation>
-  </Class>
-  <Class Name="Design.Pedido">
+  <Class Name="Sandwich2Go.Models.Pedido">
     <Position X="7.75" Y="4" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAQAAAAAEAEAACCAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <HashCode>AAACAAUAAAAAEAEAACCAgAABAAAAAAAAAQAAAAAAAAA=</HashCode>
       <FileName>Pedido.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="Cliente" />
-      <Property Name="MetodoDePago" />
-    </ShowAsAssociation>
-    <ShowAsCollectionAssociation>
-      <Property Name="sandwichesPedidos" />
-    </ShowAsCollectionAssociation>
-  </Class>
-  <Class Name="Design.SandwCreado" Collapsed="true">
-    <Position X="11.75" Y="3.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>SandwCreado.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Design.Cliente">
@@ -92,9 +66,6 @@
       <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIACAAAAAABAAA=</HashCode>
       <FileName>Cliente.cs</FileName>
     </TypeIdentifier>
-    <ShowAsCollectionAssociation>
-      <Property Name="Pedidos" />
-    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Design.MetodoDePago">
     <Position X="7.75" Y="6.75" Width="1.5" />
@@ -102,9 +73,6 @@
       <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
       <FileName>MetodoDePago.cs</FileName>
     </TypeIdentifier>
-    <ShowAsCollectionAssociation>
-      <Property Name="Pedidos" />
-    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Design.Tarjeta" Collapsed="true">
     <Position X="6.75" Y="8.5" Width="1.5" />

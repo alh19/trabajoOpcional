@@ -25,6 +25,16 @@ namespace Sandwich2Go.Models
         [Required, StringLength(30, ErrorMessage = "First name cannot be longer than 30 characters.")]
         public virtual string Direccion { get; set; }
 
+        [Required]
+        public virtual string Nombre { get; set; }
+
+        [Required]
+        public virtual string Descripcion{ get; set; }
+
+
+        [Required]
+        public virtual int Cantidad { get; set; }
+
         public virtual IList<SandwichPedido> sandwichesPedidos
         {
             get;
