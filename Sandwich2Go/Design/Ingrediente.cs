@@ -13,11 +13,6 @@ namespace Design
         [Required, StringLength(20, ErrorMessage = "First name cannot be longer than 20 characters.")]
         public virtual string Nombre { get; set; }
 
-
-        [Required, Display(Name = "cantidad")]
-        [Range(1, int.MaxValue, ErrorMessage = "Minimum quantity for renting is 1")]
-        public virtual int Cantidad { get; set; }
-
         [Required]
         [DataType(DataType.Currency)]
         [Display(Name = "Precio unitario")]

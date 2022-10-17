@@ -14,5 +14,8 @@ namespace Design
 
         [Required]
         public virtual IList<Pedido> Pedidos { get; set; }
+
+        [Required]
+        public virtual IList<PedidoProv> PedidoProvs { get; set; }
     }
 }
