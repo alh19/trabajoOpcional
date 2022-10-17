@@ -10,10 +10,21 @@ namespace Sandwich2Go.Models
         [Key]
         public virtual int Id { get; set; }
 
-        public virtual string Nombre { get; set; }
+        public virtual double PrecioTotal
+        {
+            get;
+            set;
+        }
 
-        [Required]
-        public virtual string Descripcion { get; set; }
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Dirección de envío")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Por favor, introduce dirección de envío")]
+
+        public virtual String DireccionEnvio
+        {
+            get;
+            set;
+        }
 
         [Required]
         [DataType(DataType.Date), Display(Name = "Fecha pedido")]
