@@ -37,5 +37,11 @@ namespace Sandwich2Go.Models
         [Required]
         public virtual Gerente Gerente { get; set; }
         public virtual IList<ArticulosPed> ArticulosPed { get; set; }
+
+        public MetodoDePago MetodoDePago
+        {
+            get;
+            set;
+        }
     }
 }
