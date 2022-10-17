@@ -5,8 +5,6 @@ namespace Sandwich2Go.Models
 {
     public class OfertaSandwich
     {
-        [Key]
-        public virtual int Id { get; set; }
         [ForeignKey("OfertaId")]
         public virtual Oferta Oferta { get; set; }
         public virtual int OfertaId { get; set; }

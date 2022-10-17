@@ -3,7 +3,7 @@
   <Class Name="Design.Oferta">
     <Position X="6.25" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAQAAAAAAAAAAABAAgIAAAgAAAAAAAAAAAAAgAAA=</HashCode>
+      <HashCode>AAACAQAAAAAAAAAAAAAAgIABAgAAAAAAAAAAAAAgAAA=</HashCode>
       <FileName>Oferta.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -14,7 +14,7 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Design.Gerente">
-    <Position X="9.25" Y="2.25" Width="1.5" />
+    <Position X="9.25" Y="2.25" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAMAAAAAAAAAAAAAAAAAAAAAACAAAAAEAAAAAAAA=</HashCode>
       <FileName>Gerente.cs</FileName>
@@ -33,7 +33,7 @@
   <Class Name="Design.OfertaSandwich">
     <Position X="3.25" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>EAACAAEAAQAAAAAAAAAAAQAAAAAACAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>EAAAAAAAAQAAAAAAAAAAAQAgAAAACAAAAAAAAAAAAAA=</HashCode>
       <FileName>OfertaSandwich.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -43,6 +43,15 @@
   </Class>
   <Class Name="Design.Sandwich">
     <Position X="0.5" Y="1.75" Width="1.5" />
+    <AssociationLine Name="OfertaSandwich" Type="Design.OfertaSandwich" FixedFromPoint="true">
+      <Path>
+        <Point X="2" Y="2.312" />
+        <Point X="3.25" Y="2.312" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.002" Y="0.068" />
+      </MemberNameLabel>
+    </AssociationLine>
     <TypeIdentifier>
       <HashCode>AAACAAAAAAABBAAAAAAAAIAQAAAAAAAABAAAQAAAAAA=</HashCode>
       <FileName>Sandwich.cs</FileName>
