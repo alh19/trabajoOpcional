@@ -24,7 +24,7 @@ namespace Sandwich2Go.Controllers
         {
             if (!String.IsNullOrEmpty(SearchString))
             {
-                var ingredientes = _context.Ingrediente.Where(s => s.Nombre.Contains(SearchString)).OrderBy(i => i.Nombre);
+                var ingredientes = _context.Ingrediente.Where(s => s.Nombre.Contains(SearchString)).OrderBy(i => i.AlergSandws);
                 return View(await ingredientes.ToListAsync());
             }
             else
