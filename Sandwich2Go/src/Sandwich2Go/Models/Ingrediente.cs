@@ -18,6 +18,14 @@ namespace Sandwich2Go.Models
         [Range(1, int.MaxValue, ErrorMessage = "Minimum quantity for renting is 1")]
         public virtual int Cantidad { get; set; }
 
+        [Required]
+        [DataType(DataType.Currency)]
+        [Display(Name = "Precio unitario")]
+        public virtual int PrecioUnitario
+        {
+            get;
+            set;
+        }
 
         [Required, Display(Name = "stock")]
         [Range(1, int.MaxValue, ErrorMessage = "Minimum quantity for renting is 1")]
@@ -30,6 +38,6 @@ namespace Sandwich2Go.Models
             set;
         }
 
-        public virtual IList<ArticulosPed> ArticulosPeds { get; set; }
+        public virtual IList<IngrProv> IngrProv { get; set; }
     }
 }

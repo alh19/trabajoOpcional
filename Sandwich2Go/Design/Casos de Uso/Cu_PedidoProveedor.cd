@@ -1,33 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Design.Ingrediente">
-    <Position X="13.25" Y="1.5" Width="2" />
-    <AssociationLine Name="ArticulosPeds" Type="Design.ArticulosPed">
+    <Position X="16.75" Y="1.5" Width="2" />
+    <AssociationLine Name="IngrProv" Type="Design.IngrProv">
       <MemberNameLabel ManuallyPlaced="true">
-        <Position X="-1.161" Y="0.425" />
+        <Position X="-0.921" Y="0.279" />
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAACAAEBAAAABAAAAgAAgAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAASAAEAAAAABAAAAgAAgAAAgAAAAAAAAAAAAAAABAA=</HashCode>
       <FileName>Ingrediente.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
-      <Property Name="ArticulosPeds" />
+      <Property Name="IngrProv" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Design.ArticulosPed">
-    <Position X="13.5" Y="4.5" Width="1.5" />
+    <Position X="13.5" Y="4" Width="1.5" />
     <AssociationLine Name="PedidoProv" Type="Design.PedidoProv">
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="-1.546" Y="0.404" />
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.235" Y="0.646" Height="0.182" Width="1.265" />
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAACAAAACAAAAAAAAAAAAAAKAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <HashCode>AAACAAEACAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
       <FileName>ArticulosPed.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Ingrediente" />
       <Property Name="PedidoProv" />
     </ShowAsAssociation>
   </Class>
@@ -35,11 +34,11 @@
     <Position X="13.5" Y="6.75" Width="1.5" />
     <AssociationLine Name="ArticulosPed" Type="Design.ArticulosPed">
       <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.641" Y="0.321" />
+        <Position X="-1.171" Y="0.258" />
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAACAQAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAIAAAAA=</HashCode>
+      <HashCode>AAACAQAAAAAAAAAAABAAAEABAAAQAAAAAAAAAIAAAAA=</HashCode>
       <FileName>PedidoProv.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -52,26 +51,32 @@
   </Class>
   <Class Name="Design.Proveedor">
     <Position X="17" Y="6.5" Width="1.5" />
+    <AssociationLine Name="IngrProv" Type="Design.IngrProv">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.911" Y="0.227" />
+      </MemberNameLabel>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAAABCAAgAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <HashCode>AAACAAAAAAAAAAAABCAAgAAAAAAAAAAAAAEAAAAABAA=</HashCode>
       <FileName>Proveedor.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
       <Property Name="PedidoProv" />
+      <Property Name="IngrProv" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Design.Gerente">
     <Position X="9.5" Y="6.5" Width="1.75" />
-    <InheritanceLine Type="Design.Usuario" ManuallyRouted="true">
+    <InheritanceLine Type="Design.Usuario" ManuallyRouted="true" FixedFromPoint="true">
       <Path>
-        <Point X="10.5" Y="9" />
-        <Point X="10.5" Y="8.409" />
-        <Point X="10.375" Y="8.409" />
+        <Point X="10.375" Y="9" />
+        <Point X="10.375" Y="8.805" />
+        <Point X="10.375" Y="8.805" />
         <Point X="10.375" Y="8.117" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAEgAAAAAAA=</HashCode>
+      <HashCode>AAAAAMAAAAAAAAAAAAAAAAAAAAAACAAAAAEAAAAAAAA=</HashCode>
       <FileName>Gerente.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -84,6 +89,27 @@
       <HashCode>AAAAAAAAAAAAAAAEACAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Usuario.cs</FileName>
     </TypeIdentifier>
+  </Class>
+  <Class Name="Design.IngrProv">
+    <Position X="17" Y="4.5" Width="1.5" />
+    <AssociationLine Name="Ingrediente" Type="Design.Ingrediente">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.133" Y="0.276" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Proveedor" Type="Design.Proveedor">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.11" Y="0.414" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IngrProv.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Ingrediente" />
+      <Property Name="Proveedor" />
+    </ShowAsAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
