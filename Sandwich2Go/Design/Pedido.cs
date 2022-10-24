@@ -29,6 +29,16 @@ namespace Design
         [Required, StringLength(30, ErrorMessage = "First name cannot be longer than 30 characters.")]
         public virtual string Direccion { get; set; }
 
+        [Required]
+        public virtual string Nombre { get; set; }
+
+        [Required]
+        public virtual string Descripcion{ get; set; }
+
+
+        [Required]
+        public virtual int Cantidad { get; set; }
+
         public virtual IList<SandwichPedido> sandwichesPedidos
         {
             get;
@@ -42,6 +52,13 @@ namespace Design
         }
         [Required]
         public MetodoDePago MetodoDePago
+        {
+            get;
+            set;
+        }
+
+        [Required]
+        public SandwCreado SandwCreado
         {
             get;
             set;
