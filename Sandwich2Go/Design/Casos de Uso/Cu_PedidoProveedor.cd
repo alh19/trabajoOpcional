@@ -15,7 +15,7 @@
       <Property Name="IngrProv" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="Design.ArticulosPed">
+  <Class Name="Design.IngrPedProv">
     <Position X="4.5" Y="3" Width="1.5" />
     <AssociationLine Name="PedidoProv" Type="Design.PedidoProv">
       <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
@@ -23,16 +23,17 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAACAAEACAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
-      <FileName>ArticulosPed.cs</FileName>
+      <HashCode>AAACAAEACAAAAAAAAAAAAAAIAAAAAAAAAAEAAAAABAA=</HashCode>
+      <FileName>IngrPedProv.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="PedidoProv" />
+      <Property Name="IngrProv" />
     </ShowAsAssociation>
   </Class>
   <Class Name="Design.PedidoProv">
     <Position X="4.5" Y="5.75" Width="1.5" />
-    <AssociationLine Name="ArticulosPed" Type="Design.ArticulosPed">
+    <AssociationLine Name="ArticulosPed" Type="Design.IngrPedProv">
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="-1.171" Y="0.258" />
       </MemberNameLabel>
@@ -63,11 +64,10 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAAABCAAgAAAAAAAAAAAAAEAAAAABAA=</HashCode>
+      <HashCode>AAACAAAAAAAAAAAABCAAgAAAAAAAAAAAAAAAAAAABAA=</HashCode>
       <FileName>Proveedor.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
-      <Property Name="PedidoProv" />
       <Property Name="IngrProv" />
     </ShowAsCollectionAssociation>
   </Class>
@@ -107,13 +107,16 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAACAAAAAAAAAAAAAAAABAADAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>IngrProv.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Ingrediente" />
       <Property Name="Proveedor" />
     </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="IngrPedProv" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Design.MetodoDePago">
     <Position X="4.5" Y="8.25" Width="1.5" />
