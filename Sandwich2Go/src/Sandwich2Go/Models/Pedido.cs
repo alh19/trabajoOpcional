@@ -10,6 +10,9 @@ namespace Sandwich2Go.Models
         [Key]
         public virtual int Id { get; set; }
 
+        [Required]
+        public virtual string Nombre { get; set; }
+
 
         [Required]
         [DataType(DataType.Date), Display(Name = "DateTime")]
