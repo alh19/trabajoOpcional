@@ -23,7 +23,7 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAACAAEACAAAAAAAAAAAAAAIAAAAAAAAAAEAAAAABAA=</HashCode>
+      <HashCode>AAAAAAEAAAAAAAAAAAAAAAAIAAAAAAAAAAEAAAAABAA=</HashCode>
       <FileName>IngrPedProv.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -44,11 +44,10 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAACAQAAAAAAAAAAABAAAEABAAAQAAAAAQAAAIAAAAA=</HashCode>
+      <HashCode>AAAAAQAAAAAAAAAAABAAAEAAAAAQAAAAAQAAAIAAAAA=</HashCode>
       <FileName>PedidoProv.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Proveedor" />
       <Property Name="Gerente" />
       <Property Name="MetodoDePago" />
     </ShowAsAssociation>

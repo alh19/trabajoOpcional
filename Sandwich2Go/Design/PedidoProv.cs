@@ -30,9 +30,6 @@ namespace Design
         public virtual DateTime FechaPedido { get; set; }
 
         [Required]
-        public virtual Proveedor Proveedor { get; set; }
-
-        [Required]
         public virtual Gerente Gerente { get; set; }
         public virtual IList<IngrPedProv> ArticulosPed { get; set; }
 
