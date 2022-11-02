@@ -22,15 +22,13 @@ namespace Design
 
 
         [Required, Display(Name = "preciototal")]
-        [Range(1, int.MaxValue, ErrorMessage = "Minimum quantity for renting is 1")]
+        [Range(1, int.MaxValue, ErrorMessage = "El precio mínimo es de 1")]
         public virtual int Preciototal { get; set; }
 
 
         [Required, StringLength(30, ErrorMessage = "First name cannot be longer than 30 characters.")]
         public virtual string Direccion { get; set; }
 
-        [Required]
-        public virtual string Nombre { get; set; }
 
         [Required]
         public virtual string Descripcion{ get; set; }
