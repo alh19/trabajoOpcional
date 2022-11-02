@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Sandwich2Go.Migrations
 {
-    public partial class Sandwich2GoDb : Migration
+    public partial class Sandwich2Go : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -75,7 +75,7 @@ namespace Sandwich2Go.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    Cantidad = table.Column<int>(type: "int", nullable: false),
+                    PrecioUnitario = table.Column<int>(type: "int", nullable: false),
                     Stock = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -104,22 +104,6 @@ namespace Sandwich2Go.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Oferta",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Nombre = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    PrecioTotal = table.Column<double>(type: "float", nullable: false),
-                    FechaInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    FechaFin = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Oferta", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Proveedor",
                 columns: table => new
                 {
@@ -143,7 +127,8 @@ namespace Sandwich2Go.Migrations
                     SandwichName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Precio = table.Column<double>(type: "float", nullable: false),
                     Desc = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Cantidad = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -258,6 +243,29 @@ namespace Sandwich2Go.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Oferta",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    FechaInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FechaFin = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    GerenteId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Oferta", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Oferta_AspNetUsers_GerenteId",
+                        column: x => x.GerenteId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AlergSandws",
                 columns: table => new
                 {
@@ -283,68 +291,16 @@ namespace Sandwich2Go.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Pedido",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Fecha = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Preciototal = table.Column<int>(type: "int", nullable: false),
-                    Direccion = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    ClienteId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    MetodoDePagoId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Pedido", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Pedido_AspNetUsers_ClienteId",
-                        column: x => x.ClienteId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Pedido_MetodoDePago_MetodoDePagoId",
-                        column: x => x.MetodoDePagoId,
-                        principalTable: "MetodoDePago",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "OfertaGerente",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OfertaId = table.Column<int>(type: "int", nullable: false),
-                    GerenteId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OfertaGerente", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_OfertaGerente_AspNetUsers_GerenteId",
-                        column: x => x.GerenteId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_OfertaGerente_Oferta_OfertaId",
-                        column: x => x.OfertaId,
-                        principalTable: "Oferta",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "PedidoProv",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ProveedorId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    GerenteId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    PrecioTotal = table.Column<double>(type: "float", nullable: false),
+                    DireccionEnvio = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FechaPedido = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    GerenteId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    MetodoDePagoId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -354,9 +310,35 @@ namespace Sandwich2Go.Migrations
                         column: x => x.GerenteId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PedidoProv_Proveedor_ProveedorId",
+                        name: "FK_PedidoProv_MetodoDePago_MetodoDePagoId",
+                        column: x => x.MetodoDePagoId,
+                        principalTable: "MetodoDePago",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "IngrProv",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IngredienteId = table.Column<int>(type: "int", nullable: false),
+                    ProveedorId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_IngrProv", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_IngrProv_Ingrediente_IngredienteId",
+                        column: x => x.IngredienteId,
+                        principalTable: "Ingrediente",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_IngrProv_Proveedor_ProveedorId",
                         column: x => x.ProveedorId,
                         principalTable: "Proveedor",
                         principalColumn: "Id",
@@ -390,13 +372,51 @@ namespace Sandwich2Go.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Pedido",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Fecha = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Preciototal = table.Column<int>(type: "int", nullable: false),
+                    Direccion = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Cantidad = table.Column<int>(type: "int", nullable: false),
+                    ClienteId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    MetodoDePagoId = table.Column<int>(type: "int", nullable: false),
+                    SandwCreadoId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pedido", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Pedido_AspNetUsers_ClienteId",
+                        column: x => x.ClienteId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Pedido_MetodoDePago_MetodoDePagoId",
+                        column: x => x.MetodoDePagoId,
+                        principalTable: "MetodoDePago",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Pedido_Sandwich_SandwCreadoId",
+                        column: x => x.SandwCreadoId,
+                        principalTable: "Sandwich",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "OfertaSandwich",
                 columns: table => new
                 {
                     OfertaId = table.Column<int>(type: "int", nullable: false),
                     SandwichId = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    Cantidad = table.Column<int>(type: "int", nullable: false)
+                    Porcentaje = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -411,6 +431,33 @@ namespace Sandwich2Go.Migrations
                         name: "FK_OfertaSandwich_Sandwich_SandwichId",
                         column: x => x.SandwichId,
                         principalTable: "Sandwich",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "IngrPedProv",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Cantidad = table.Column<int>(type: "int", nullable: false),
+                    PedidoId = table.Column<int>(type: "int", nullable: false),
+                    IngrProvId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_IngrPedProv", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_IngrPedProv_IngrProv_IngrProvId",
+                        column: x => x.IngrProvId,
+                        principalTable: "IngrProv",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_IngrPedProv_PedidoProv_PedidoId",
+                        column: x => x.PedidoId,
+                        principalTable: "PedidoProv",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -441,40 +488,10 @@ namespace Sandwich2Go.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "ArticulosPed",
-                columns: table => new
-                {
-                    IngredienteId = table.Column<int>(type: "int", nullable: false),
-                    PedidoId = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ArticulosPed", x => new { x.IngredienteId, x.PedidoId });
-                    table.ForeignKey(
-                        name: "FK_ArticulosPed_Ingrediente_IngredienteId",
-                        column: x => x.IngredienteId,
-                        principalTable: "Ingrediente",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ArticulosPed_PedidoProv_PedidoId",
-                        column: x => x.PedidoId,
-                        principalTable: "PedidoProv",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_AlergSandws_AlergenoId",
                 table: "AlergSandws",
                 column: "AlergenoId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ArticulosPed_PedidoId",
-                table: "ArticulosPed",
-                column: "PedidoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -521,14 +538,29 @@ namespace Sandwich2Go.Migrations
                 column: "SandwichId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OfertaGerente_GerenteId",
-                table: "OfertaGerente",
-                column: "GerenteId");
+                name: "IX_IngrPedProv_IngrProvId",
+                table: "IngrPedProv",
+                column: "IngrProvId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OfertaGerente_OfertaId",
-                table: "OfertaGerente",
-                column: "OfertaId");
+                name: "IX_IngrPedProv_PedidoId",
+                table: "IngrPedProv",
+                column: "PedidoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_IngrProv_IngredienteId",
+                table: "IngrProv",
+                column: "IngredienteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_IngrProv_ProveedorId",
+                table: "IngrProv",
+                column: "ProveedorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Oferta_GerenteId",
+                table: "Oferta",
+                column: "GerenteId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OfertaSandwich_SandwichId",
@@ -546,14 +578,19 @@ namespace Sandwich2Go.Migrations
                 column: "MetodoDePagoId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Pedido_SandwCreadoId",
+                table: "Pedido",
+                column: "SandwCreadoId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PedidoProv_GerenteId",
                 table: "PedidoProv",
                 column: "GerenteId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PedidoProv_ProveedorId",
+                name: "IX_PedidoProv_MetodoDePagoId",
                 table: "PedidoProv",
-                column: "ProveedorId");
+                column: "MetodoDePagoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SandwichPedido_PedidoId",
@@ -565,9 +602,6 @@ namespace Sandwich2Go.Migrations
         {
             migrationBuilder.DropTable(
                 name: "AlergSandws");
-
-            migrationBuilder.DropTable(
-                name: "ArticulosPed");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -588,7 +622,7 @@ namespace Sandwich2Go.Migrations
                 name: "IngredienteSandwich");
 
             migrationBuilder.DropTable(
-                name: "OfertaGerente");
+                name: "IngrPedProv");
 
             migrationBuilder.DropTable(
                 name: "OfertaSandwich");
@@ -600,13 +634,13 @@ namespace Sandwich2Go.Migrations
                 name: "Alergeno");
 
             migrationBuilder.DropTable(
-                name: "PedidoProv");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Ingrediente");
+                name: "IngrProv");
+
+            migrationBuilder.DropTable(
+                name: "PedidoProv");
 
             migrationBuilder.DropTable(
                 name: "Oferta");
@@ -615,7 +649,7 @@ namespace Sandwich2Go.Migrations
                 name: "Pedido");
 
             migrationBuilder.DropTable(
-                name: "Sandwich");
+                name: "Ingrediente");
 
             migrationBuilder.DropTable(
                 name: "Proveedor");
@@ -625,6 +659,9 @@ namespace Sandwich2Go.Migrations
 
             migrationBuilder.DropTable(
                 name: "MetodoDePago");
+
+            migrationBuilder.DropTable(
+                name: "Sandwich");
         }
     }
 }
