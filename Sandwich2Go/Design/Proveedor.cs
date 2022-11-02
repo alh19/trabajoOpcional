@@ -18,7 +18,6 @@ namespace Design
 
         public virtual string Direccion { get; set; }
 
-        public virtual IList<PedidoProv> PedidoProv { get; set; }
 
         public virtual IList<IngrProv> IngrProv { get; set; }
     }

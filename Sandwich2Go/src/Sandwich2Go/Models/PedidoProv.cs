@@ -7,8 +7,6 @@ namespace Sandwich2Go.Models
 {
     public class PedidoProv
     {
-        [Key]
-        public virtual int Id { get; set; }
 
         public virtual double PrecioTotal
         {
@@ -32,10 +30,13 @@ namespace Sandwich2Go.Models
         public virtual DateTime FechaPedido { get; set; }
 
         [Required]
-        public virtual Proveedor Proveedor { get; set; }
-
-        [Required]
         public virtual Gerente Gerente { get; set; }
-        public virtual IList<ArticulosPed> ArticulosPed { get; set; }
+        public virtual IList<IngrPedProv> ArticulosPed { get; set; }
+
+        public MetodoDePago MetodoDePago
+        {
+            get;
+            set;
+        }
     }
 }
