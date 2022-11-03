@@ -1,0 +1,71 @@
+﻿@model Sandwich2Go.Models.SandwichViewModels.SelectSandwichesViewModel
+
+@{
+    ViewData["Title"] = "Select Sandwiches";
+}
+
+<h2>Purchase Sandwiches</h2>
+@* Form to fill in the filters to be used *@
+<form asp-controller="Sandwiches" class="form-horizontal">
+    <p>
+        <div>
+            <label asp-for="sandwichPrecio"></label>
+            <input asp-for="sandwichPrecio" />
+            <span asp-validation-for="sandwichPrecio" class="text-danger"></span>
+
+            <label asp-for="sandwichAlergenosSelected"></label>
+            <select asp-for="sandwichAlergenosSelected" asp-items="Model.Alergenos">
+                <option value="">All</option>
+            </select>
+            <input id="filterbyTitleGenre" asp-action="SelectSandwichesForPurchase" type="submit" value="Filter" formmethod="get" />
+        </div>
+    </p>
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Nombre
+                </th>
+                <th>
+                    Precio
+                </th>
+                <th>
+                    Select Sandwich
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Sandwiches)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SandwichName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Precio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Desc)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <form asp-action="SelectSandwichesForPurchase" method="post">
+
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a asp-action="Index" class="btn btn-default">Cancel</a>
+    </form>
+</form>

@@ -26,23 +26,40 @@ namespace Sandwich2Go.Controllers
             return View(await _context.Sandwich.ToListAsync());
         }
 
+        [HttpGet]
         public IActionResult SelectSandwichForPurchase(float sandwichPrecio, string alergenoSelected)
         {
             SelectSandwichesViewModel selectSandwiches = new SelectSandwichesViewModel();
-            selectSandwiches.Alergenos = new SelectList(_context.Alergeno.Where(a => a.Name.Equals(alergenoSelected)).ToList());
-            selectSandwiches.Ingredientes = new SelectList(_context.Ingrediente
-                .Include(i => i.AlergSandws)
-                .ThenInclude(a => a.Alergeno));
+            selectSandwiches.Alergenos = new SelectList(_context.Alergeno.Select(a => a.Name).ToList());
 
             selectSandwiches.Sandwiches = _context.Sandwich.
                 Include(s => s.IngredienteSandwich)
                 .ThenInclude(s => s.Ingrediente)
-                .Where(s => s.Precio < sandwichPrecio || sandwichPrecio==null);
+                .Where(s => s.Precio <= sandwichPrecio || sandwichPrecio==0);
+
+            selectSandwiches.Sandwiches = selectSandwiches.Sandwiches.ToList();
 
             return View(selectSandwiches);
         }
-            // GET: Sandwiches/Details/5
-            public async Task<IActionResult> Details(int? id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult SelectSandwichForPurchase(SelectedSandwichesForPurchaseViewModel selectedSandwich)
+        {
+            if (selectedSandwich.IdsToAdd != null)
+            {
+
+                return RedirectToAction("Create", "Purchases", selectedSandwich);
+            }
+            //a message error will be shown to the customer in case no movies are selected
+            ModelState.AddModelError(string.Empty, "You must select at least one movie");
+
+            //the View SelectMoviesForPurchase will be shown again
+            return SelectSandwichForPurchase(float.Parse(selectedSandwich.sandwichPrecio), selectedSandwich.sandwichAlergenoSelected);
+
+        }
+
+        // GET: Sandwiches/Details/5
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
