@@ -55,10 +55,10 @@ namespace Sandwich2Go.Controllers
             if (selectedSandwich.IdsToAdd != null)
             {
 
-                return RedirectToAction("Create", "Purchases", selectedSandwich);
+                return RedirectToAction("Create", "Pedido", selectedSandwich);
             }
             //a message error will be shown to the customer in case no movies are selected
-            ModelState.AddModelError(string.Empty, "You must select at least one movie");
+            ModelState.AddModelError(string.Empty, "Debes seleccionar al menos un Sándwich");
 
             //the View SelectMoviesForPurchase will be shown again
             return SelectSandwichForPurchase(double.Parse(selectedSandwich.sandwichPrecio), selectedSandwich.sandwichAlergenoSelected);
