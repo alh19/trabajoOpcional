@@ -32,8 +32,8 @@ namespace Sandwich2Go.Controllers
             SelectSandwichesViewModel selectSandwiches = new SelectSandwichesViewModel();
             selectSandwiches.Alergenos = new SelectList(_context.Alergeno.Select(a => a.Name).ToList());
 
-            selectSandwiches.Sandwiches = _context.Sandwich.
-                Include(s => s.IngredienteSandwich)
+            selectSandwiches.Sandwiches = _context.Sandwich
+                .Include(s => s.IngredienteSandwich)
                 .ThenInclude(s => s.Ingrediente)
                 .Where(s => s.Precio <= sandwichPrecio || sandwichPrecio==0);
 
