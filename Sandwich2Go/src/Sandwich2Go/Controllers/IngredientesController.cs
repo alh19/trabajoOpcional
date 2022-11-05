@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Sandwich2Go.Data;
 using Sandwich2Go.Models;
+using Sandwich2Go.Models.IngredienteViewModels;
+
 
 namespace Sandwich2Go.Controllers
 {
@@ -17,6 +19,28 @@ namespace Sandwich2Go.Controllers
         public IngredientesController(ApplicationDbContext context)
         {
             _context = context;
+        }
+        public IActionResult SelectIngredientesForPurchase(string ingredienteAlergeno,
+string ingredienteNombre)
+        {
+            SelectIngredientesForPurchaseViewModel selectIngredientes =
+            new SelectIngredientesForPurchaseViewModel();
+
+            selectIngredientes.Alergenos= new SelectList(_context.Alergeno.Select(g => g.Name).ToList());
+
+
+
+
+            selectIngredientes.Ingredientes = _context.Ingrediente.Include(m => m.AlergSandws)
+                .ThenInclude(i => i.Alergeno)
+                .Where(r => (ingredienteNombre == null || r.Nombre.Contains(ingredienteNombre)) &&    //filtro nombre
+                (ingredienteAlergeno == null || r.AlergSandws.Where(i => i.Alergeno.Name == ingredienteAlergeno).Any()) );
+            
+
+
+
+            selectIngredientes.Ingredientes = selectIngredientes.Ingredientes.ToList();
+            return View(selectIngredientes);
         }
 
         // GET: Ingredientes
