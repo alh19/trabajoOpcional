@@ -22,8 +22,8 @@
             <input id="filterbyAlergeno" asp-action="SelectAlergenoForPurchase" type="submit" value="Filter" formmethod="get" />
         </div>
     </p>
-    <div asp-validation-summary="All" class="text-danger"></div>
-    <div id="ModelErrors" asp-validation-summary="All" class="text-danger">@TempData["Error"]</div>
+     <div id="ModelErrors" asp-validation-summary="All" class="text-danger">@TempData["Error"]</div>
+  
 
 
     <table class="table">
@@ -37,7 +37,7 @@
                 </th>
                 
                 <th align="center" width="10%">
-                    Seleccionar Alérgeno
+                    Seleccionar Ingrediente
                 </th>
             </tr>
         </thead>
@@ -59,7 +59,7 @@
                         </td>
                        
                         <td align="center" width="10%">
-                            <input type="checkbox" name="IdsToAdd" id="Ingrediente_@item.Id" value="@item.Id" class="form-control">
+                            <input type="checkbox" name="IdsToAdd" value="@item.Id">
                         </td>
                     </tr>
                 }

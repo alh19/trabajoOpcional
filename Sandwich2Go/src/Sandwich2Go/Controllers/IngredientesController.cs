@@ -20,6 +20,8 @@ namespace Sandwich2Go.Controllers
         {
             _context = context;
         }
+
+        [HttpGet]
         public IActionResult SelectIngredientesForPurchase(string ingredienteAlergeno,
 string ingredienteNombre)
         {
