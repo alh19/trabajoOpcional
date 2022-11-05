@@ -48,6 +48,15 @@ namespace Sandwich2Go.Controllers
       
             return View(selectSandwiches);
         }
+        [HttpGet]
+        public IActionResult SelectSandwichForOffer(string sandwichNombre, double sandwichPrecio)
+        {
+            SelectSandwichesForOfferViewModel selectSandwiches = new SelectSandwichesForOfferViewModel();
+            selectSandwiches.Sandwiches = _context.Sandwich
+                .Where(s => s.SandwichName.Contains(sandwichNombre) || sandwichNombre == null && s.Precio <= sandwichPrecio || sandwichPrecio == 0);
+
+            return View(selectSandwiches);
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult SelectSandwichForPurchase(SelectedSandwichesForPurchaseViewModel selectedSandwich)
@@ -64,7 +73,22 @@ namespace Sandwich2Go.Controllers
             return SelectSandwichForPurchase(double.Parse(selectedSandwich.sandwichPrecio), selectedSandwich.sandwichAlergenoSelected);
 
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult SelectSandwichForOffer(SelectedSandwichesForOfferViewModel selectedSandwich)
+        {
+            if (selectedSandwich.IdsToAdd != null)
+            {
 
+                return RedirectToAction("Create", "Ofertas", selectedSandwich);
+            }
+            //a message error will be shown to the customer in case no movies are selected
+            ModelState.AddModelError(string.Empty, "Debes seleccionar al menos un Sándwich");
+
+            //the View SelectMoviesForPurchase will be shown again
+            return SelectSandwichForOffer(selectedSandwich.sandwichNombre, double.Parse(selectedSandwich.sandwichPrecio));
+
+        }
         // GET: Sandwiches/Details/5
         public async Task<IActionResult> Details(int? id)
         {
