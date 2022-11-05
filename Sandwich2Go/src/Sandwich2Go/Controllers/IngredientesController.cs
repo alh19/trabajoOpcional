@@ -20,17 +20,9 @@ namespace Sandwich2Go.Controllers
         }
 
         // GET: Ingredientes
-        public async Task<IActionResult> Index(string SearchString)
+        public async Task<IActionResult> Index()
         {
-            if (!String.IsNullOrEmpty(SearchString))
-            {
-                var ingredientes = _context.Ingrediente.Where(s => s.Nombre.Contains(SearchString)).OrderBy(i => i.AlergSandws);
-                return View(await ingredientes.ToListAsync());
-            }
-            else
-            {
-                return View(await _context.Ingrediente.ToListAsync());
-            }
+            return View(await _context.Ingrediente.ToListAsync());
         }
 
         // GET: Ingredientes/Details/5
@@ -42,7 +34,7 @@ namespace Sandwich2Go.Controllers
             }
 
             var ingrediente = await _context.Ingrediente
-                .Include(m => m.AlergSandws).SingleOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (ingrediente == null)
             {
                 return NotFound();
@@ -62,7 +54,7 @@ namespace Sandwich2Go.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Cantidad,Stock")] Ingrediente ingrediente)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,PrecioUnitario,Stock")] Ingrediente ingrediente)
         {
             if (ModelState.IsValid)
             {
@@ -94,7 +86,7 @@ namespace Sandwich2Go.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Cantidad,Stock")] Ingrediente ingrediente)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,PrecioUnitario,Stock")] Ingrediente ingrediente)
         {
             if (id != ingrediente.Id)
             {
