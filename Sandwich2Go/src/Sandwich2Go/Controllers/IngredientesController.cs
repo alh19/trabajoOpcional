@@ -43,8 +43,25 @@ string ingredienteNombre)
             return View(selectIngredientes);
         }
 
-        // GET: Ingredientes
-        public async Task<IActionResult> Index()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult SelectMoviesForPurchase(SelectIngredientesForPurchaseViewModel
+        selectedIngredientes)
+        {
+
+            if (selectedIngredientes.IdsToAdd != null)
+            {
+                return RedirectToAction("Create", "Purchases", selectedIngredientes);
+            }
+
+            ModelState.AddModelError(string.Empty, "You must select at least one ingrediente");
+
+            return SelectIngredientesForPurchase(selectedIngredientes.ingredienteNombre,
+            selectedIngredientes.ingredienteAlergenoSelected);
+        }
+
+            // GET: Ingredientes
+            public async Task<IActionResult> Index()
         {
             return View(await _context.Ingrediente.ToListAsync());
         }
