@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Sandwich2Go.Migrations
 {
-    public partial class Sandwich2Go : Migration
+    public partial class Controladores : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
