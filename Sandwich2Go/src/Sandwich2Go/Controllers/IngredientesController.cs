@@ -23,8 +23,8 @@ namespace Sandwich2Go.Controllers
         public IActionResult SelectIngredientesForPurchase(string ingredienteAlergeno,
 string ingredienteNombre)
         {
-            SelectIngredientesForPurchaseViewModel selectIngredientes =
-            new SelectIngredientesForPurchaseViewModel();
+            SelectIngredientesViewModel selectIngredientes =
+            new SelectIngredientesViewModel();
 
             selectIngredientes.Alergenos= new SelectList(_context.Alergeno.Select(g => g.Name).ToList());
 

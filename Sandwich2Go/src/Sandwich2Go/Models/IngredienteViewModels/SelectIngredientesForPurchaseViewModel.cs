@@ -8,9 +8,8 @@ namespace Sandwich2Go.Models.IngredienteViewModels
     public class SelectIngredientesForPurchaseViewModel
     {
 
+
         public string[] IdsToAdd { get; set; }
-        public IEnumerable<Ingrediente> Ingredientes { get; set; }
-        public SelectList Alergenos;
         [Display(Name = "Alergeno")]
         public string ingredienteAlergenoSelected { get; set; }
        

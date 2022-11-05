@@ -1,0 +1,76 @@
+﻿@model Sandwich2Go.Models.IngredienteViewModels.SelectIngredientesForPurchaseViewModel>
+
+
+@{
+    ViewData["Title"] = "Select Ingredientes";
+}
+
+<h2>Purchase Ingredientes<h2>
+@* Form to fill in the filters to be used *@
+<form asp-controller="Ingredientes" class="form-horizontal"  
+
+            asp-action="SelectIngredientesForPurchase" method="get">
+    <p>
+        <div>
+            
+            <label asp-for="ingredienteNombre"></label>
+            <input asp-for="ingredienteNombre" size="50" />
+            <span asp-validation-for="ingredienteNombre" class="text-danger"></span>
+
+                    <label asp-for="ingredienteAlergenoSelected"></label>
+            <select asp-for="movieGenreSelected" asp-items="Model.Genres">
+                <option value="">All</option>
+            </select>
+            <input id="filterbyTitleGenre" asp-action="SelectMoviesForPurchase" type="submit" value="Filter" formmethod="get"/>
+        </div>
+    </p>
+
+<div id="ModelErrors" asp-validation-summary="All" class="text-danger">@TempData["Error"]</div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th width="50%">
+                    Title
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Genre
+                </th>
+                <th align="center" width="10%">
+                    Select Movie
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Movies.Count() == 0)
+            {
+                <tr><td id="NoMovies" colspan="3">There are no movies available</td></tr>
+            }
+            else
+            {
+                @foreach (var item in Model.Movies)
+                {
+                    <tr id="Movie_Title_@item.Title">
+                        <td width="50%">
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PriceForPurchase)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Genre.Name)
+                        </td>
+                        <td align="center" width="10%">
+                            <input type="checkbox" name="IdsToAdd" id="Movie_@item.MovieID" value="@item.MovieID" class="form-control">
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <button id="nextButton" asp-action="SelectMoviesForPurchase" type="submit" class="btn btn-primary" formmethod="post">Next</button>
+    <a asp-action="Index" class="btn btn-default">Cancel</a>
+</form>
