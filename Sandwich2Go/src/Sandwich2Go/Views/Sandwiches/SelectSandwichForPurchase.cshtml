@@ -1,0 +1,76 @@
+﻿@* model storing which data will be rendered by the View *@
+@model Sandwich2Go.Models.SandwichViewModels.SelectSandwichesViewModel
+
+@{
+    ViewData["Title"] = "Select Sandwiches";
+}
+
+<h2>Purchase Sandwiches</h2>
+@* Form to fill in the filters to be used *@
+<form asp-controller="Sandwiches" class="form-horizontal">
+    <p>
+        <div>
+            <label asp-for="sandwichPrecio"></label>
+            <input asp-for="sandwichPrecio" size="50" />
+            <span asp-validation-for="sandwichPrecio" class="text-danger"></span>
+
+            <label asp-for="sandwichAlergenoSelected"></label>
+            <select asp-for="sandwichAlergenoSelected" asp-items="Model.Alergenos">
+                <option value="">All</option>
+            </select>
+            <input id="filterbyAlergeno" asp-action="SelectSandwichForPurchase" type="submit" value="Filter" formmethod="get" />
+        </div>
+    </p>
+
+    <div id="ModelErrors" asp-validation-summary="All" class="text-danger">@TempData["Error"]</div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th width="50%">
+                    Nombre
+                </th>
+                <th>
+                    Precio
+                </th>
+                <th>
+                    Alergeno
+                </th>
+                <th align="center" width="10%">
+                    Seleccionar Alérgeno
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Sandwiches.Count() == 0)
+            {
+                <tr><td id="NoSandwiches" colspan="3">There are no sandwiches available</td></tr>
+            }
+            else
+            {
+                @foreach (var item in Model.Sandwiches)
+                {
+                    <tr id="Sandwich_Name_@item.SandwichName">
+                        <td width="50%">
+                            @Html.DisplayFor(modelItem => item.SandwichName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Precio)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Desc)
+                        </td>
+                        <td align="center" width="10%">
+                            <input type="checkbox" name="IdsToAdd" id="Sandwich_@item.Id" value="@item.Id" class="form-control">
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <form asp-action="SelectSandwichesForPurchase" method="post">
+
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a asp-action="Index" class="btn btn-default">Cancel</a>
+    </form>
+    </form>

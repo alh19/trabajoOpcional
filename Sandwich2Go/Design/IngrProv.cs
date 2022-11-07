@@ -20,5 +20,7 @@ namespace Design
 
         [Required]
         public virtual Proveedor Proveedor { get; set; }
+
+        public virtual IList<IngrPedProv> IngrPedProv { get; set; }
     }
 }

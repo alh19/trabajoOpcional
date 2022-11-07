@@ -10,6 +10,9 @@ namespace Sandwich2Go.Models
         [Key]
         public virtual int Id { get; set; }
 
+        [Required]
+        public virtual string Nombre { get; set; }
+
 
         [Required]
         [DataType(DataType.Date), Display(Name = "DateTime")]
@@ -25,6 +28,14 @@ namespace Sandwich2Go.Models
         [Required, StringLength(30, ErrorMessage = "First name cannot be longer than 30 characters.")]
         public virtual string Direccion { get; set; }
 
+
+        [Required]
+        public virtual string Descripcion{ get; set; }
+
+
+        [Required]
+        public virtual int Cantidad { get; set; }
+
         public virtual IList<SandwichPedido> sandwichesPedidos
         {
             get;
@@ -38,6 +49,13 @@ namespace Sandwich2Go.Models
         }
         [Required]
         public MetodoDePago MetodoDePago
+        {
+            get;
+            set;
+        }
+
+        
+        public virtual SandwCreado SandwCreado
         {
             get;
             set;
