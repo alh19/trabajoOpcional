@@ -36,13 +36,11 @@ namespace Sandwich2Go.Controllers
 
             selectSandwiches.Sandwiches = _context.Sandwich
                 .Include(s => s.IngredienteSandwich).ThenInclude(isa => isa.Ingrediente).ThenInclude(i => i.AlergSandws).ThenInclude(asa => asa.Alergeno)
-                .Where(s => s.IngredienteSandwich
+                .Where(s => (s.IngredienteSandwich
                     .Where(isa => isa.Ingrediente.AlergSandws
                         .Where(als => als.Alergeno.Name.Equals(sandwichAlergenoSelected))
                     .Any())
-                .Count()==0 || sandwichAlergenoSelected== null);
-
-            selectSandwiches.Sandwiches = selectSandwiches.Sandwiches.Where(s => s.Precio <= sandwichPrecio || sandwichPrecio == 0);
+                .Count()==0 || sandwichAlergenoSelected== null) && (s.Precio <= sandwichPrecio || sandwichPrecio == 0));
 
             return View(selectSandwiches);
         }
