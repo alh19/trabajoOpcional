@@ -27,7 +27,7 @@ namespace Sandwich2Go.Controllers
         {
             return View(await _context.Sandwich.ToListAsync());
         }
-
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult SelectSandwichForPurchase(double sandwichPrecio, string sandwichAlergenoSelected)
         {
@@ -40,18 +40,18 @@ namespace Sandwich2Go.Controllers
                     .Where(isa => isa.Ingrediente.AlergSandws
                         .Where(als => als.Alergeno.Name.Equals(sandwichAlergenoSelected))
                     .Any())
-                .Count()==0 || sandwichAlergenoSelected== null) && (s.Precio <= sandwichPrecio || sandwichPrecio == 0));
+                .Count() == 0 || sandwichAlergenoSelected == null) && (s.Precio <= sandwichPrecio || sandwichPrecio == 0));
 
             return View(selectSandwiches);
         }
-        [HttpPost]
+        [Authorize(Roles = "Cliente")]
         [ValidateAntiForgeryToken]
         public IActionResult SelectSandwichForPurchase(SelectedSandwichesForPurchaseViewModel selectedSandwich)
         {
             if (selectedSandwich.IdsToAdd != null)
             {
                 Pedido pedido = new Pedido();
-                return RedirectToAction("Create", "Pedido", pedido);
+                return RedirectToAction("Create", "Pedidos", pedido);
             }
             //a message error will be shown to the customer in case no movies are selected
             ModelState.AddModelError(string.Empty, "Debes seleccionar al menos un Sándwich");
