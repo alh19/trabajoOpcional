@@ -10,8 +10,8 @@ using Sandwich2Go.Data;
 namespace Sandwich2Go.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221107081417_migracion")]
-    partial class migracion
+    [Migration("20221107090006_Sandwich2Go")]
+    partial class Sandwich2Go
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

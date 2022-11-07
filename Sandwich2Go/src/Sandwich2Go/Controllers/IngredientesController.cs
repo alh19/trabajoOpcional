@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -22,23 +23,24 @@ namespace Sandwich2Go.Controllers
         }
 
         [HttpGet]
-        public IActionResult SelectIngredientesForPurchase(string ingredienteAlergeno,
-string ingredienteNombre)
+        public IActionResult SelectIngredientesForPurchase(string ingredienteAlergenoSelected,
+                string ingredienteNombre)
         {
             SelectIngredientesViewModel selectIngredientes =
             new SelectIngredientesViewModel();
 
-            selectIngredientes.Ingredientes = _context.Ingrediente.Where(a => a.Nombre.Contains(ingredienteNombre)).ToList();
 
+            selectIngredientes.Alergenos =
+new SelectList(_context.Alergeno.Select(g => g.Name).ToList());
 
-
-
-            selectIngredientes.Alergenos = new SelectList(_context.Alergeno.Select(a => a.Name).ToList());
+            selectIngredientes.Ingredientes = _context.Ingrediente.
+                Include(a => a.AlergSandws).
+                Where(alergeno => (alergeno.AlergSandws.Equals(ingredienteAlergenoSelected)));          
             
-            List<int> idIng = _context.AlergSandws.Where(als => (_context.Alergeno
-            .Where(al => al.Name == ingredienteAlergeno).Select(al => al.id).ToList()).Contains(als.AlergenoId)).Select(als => als.IngredienteId).ToList();
             selectIngredientes.Ingredientes = _context.Ingrediente
-                .Where(s => !idIng.Contains(s.Id) || ingredienteAlergeno == null);
+                .Where(ing => ing.Nombre == ingredienteNombre)
+                .ToList();
+
 
             return View(selectIngredientes);
         }
