@@ -21,13 +21,13 @@ namespace Sandwich2Go.Controllers
         {
             _context = context;
         }
-
+        [AllowAnonymous]
         // GET: Sandwiches
         public async Task<IActionResult> Index()
         {
             return View(await _context.Sandwich.ToListAsync());
         }
-        [AllowAnonymous]
+        [Authorize(Roles = "Cliente")]
         [HttpGet]
         public IActionResult SelectSandwichForPurchase(double sandwichPrecio, string sandwichAlergenoSelected)
         {
@@ -40,7 +40,7 @@ namespace Sandwich2Go.Controllers
                     .Where(isa => isa.Ingrediente.AlergSandws
                         .Where(als => als.Alergeno.Name.Equals(sandwichAlergenoSelected))
                     .Any())
-                .Count() == 0 || sandwichAlergenoSelected == null) && (s.Precio <= sandwichPrecio || sandwichPrecio == 0));
+                .Count() == 0 || sandwichAlergenoSelected == null) && (s.Precio <= sandwichPrecio || sandwichPrecio == 0)).ToList();
 
             return View(selectSandwiches);
         }
@@ -60,7 +60,7 @@ namespace Sandwich2Go.Controllers
             return SelectSandwichForPurchase(double.Parse(selectedSandwich.sandwichPrecio), selectedSandwich.sandwichAlergenoSelected);
 
         }
-
+        [Authorize(Roles = "Cliente")]
         // GET: Sandwiches/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -78,7 +78,7 @@ namespace Sandwich2Go.Controllers
 
             return View(sandwich);
         }
-
+        [Authorize(Roles = "Gerente")]
         // GET: Sandwiches/Create
         public IActionResult Create()
         {
@@ -89,6 +89,7 @@ namespace Sandwich2Go.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Gerente")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,SandwichName,Precio,Desc")] Sandwich sandwich)
         {
@@ -100,7 +101,7 @@ namespace Sandwich2Go.Controllers
             }
             return View(sandwich);
         }
-
+        [Authorize(Roles = "Gerente")]
         // GET: Sandwiches/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -120,6 +121,7 @@ namespace Sandwich2Go.Controllers
         // POST: Sandwiches/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Gerente")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,SandwichName,Precio,Desc")] Sandwich sandwich)
@@ -151,7 +153,7 @@ namespace Sandwich2Go.Controllers
             }
             return View(sandwich);
         }
-
+        [Authorize(Roles = "Gerente")]
         // GET: Sandwiches/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -169,7 +171,7 @@ namespace Sandwich2Go.Controllers
 
             return View(sandwich);
         }
-
+        [Authorize(Roles = "Gerente")]
         // POST: Sandwiches/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

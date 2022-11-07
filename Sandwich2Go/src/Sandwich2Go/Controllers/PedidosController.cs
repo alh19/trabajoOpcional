@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +13,7 @@ using Sandwich2Go.Models.SandwichViewModels;
 
 namespace Sandwich2Go.Controllers
 {
+    [Authorize]
     public class PedidosController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -19,13 +22,13 @@ namespace Sandwich2Go.Controllers
         {
             _context = context;
         }
-
+        [Authorize(Roles = "Gerente")]
         // GET: Pedidos
         public async Task<IActionResult> Index()
         {
             return View(await _context.Pedido.ToListAsync());
         }
-
+        [Authorize(Roles = "Cliente")]
         // GET: Pedidos/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -43,7 +46,7 @@ namespace Sandwich2Go.Controllers
 
             return View(pedido);
         }
-
+        [Authorize(Roles = "Cliente")]
         // GET: Pedidos/Create
         public IActionResult Create()
         {
@@ -54,6 +57,7 @@ namespace Sandwich2Go.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Cliente")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nombre,Fecha,Preciototal,Direccion,Descripcion,Cantidad")] Pedido pedido)
         {
@@ -66,7 +70,7 @@ namespace Sandwich2Go.Controllers
             return View(pedido);
         }
 
-
+        [Authorize(Roles = "Gerente")]
         // GET: Pedidos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -86,6 +90,7 @@ namespace Sandwich2Go.Controllers
         // POST: Pedidos/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Gerente")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Fecha,Preciototal,Direccion,Descripcion,Cantidad")] Pedido pedido)
@@ -117,7 +122,7 @@ namespace Sandwich2Go.Controllers
             }
             return View(pedido);
         }
-
+        [Authorize(Roles = "Gerente")]
         // GET: Pedidos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -138,6 +143,7 @@ namespace Sandwich2Go.Controllers
 
         // POST: Pedidos/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Gerente")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
