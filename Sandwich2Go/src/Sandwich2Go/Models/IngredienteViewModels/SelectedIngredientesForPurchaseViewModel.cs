@@ -5,14 +5,14 @@ using System.Xml.Linq;
 
 namespace Sandwich2Go.Models.IngredienteViewModels
 {
-    public class SelectIngredientesViewModel
+    public class SelectedIngredientesForPurchaseViewModel
     {
-        public IEnumerable<Ingrediente> Ingredientes { get; set; }
-        //Utilizado para filtrar por Alergeno
-        public SelectList Alergenos;
+
+
+        public string[] IdsToAdd { get; set; }
         [Display(Name = "Alergeno")]
         public string ingredienteAlergenoSelected { get; set; }
-        //Utilizado para filtrar por nombre del ingrediente
+       
         [Display(Name = "Nombre")]
         public string ingredienteNombre
         {

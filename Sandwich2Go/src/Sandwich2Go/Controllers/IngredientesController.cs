@@ -26,20 +26,20 @@ namespace Sandwich2Go.Controllers
         public IActionResult SelectIngredientesForPurchase(string ingredienteAlergenoSelected,
                 string ingredienteNombre)
         {
-            SelectIngredientesViewModel selectIngredientes =
-            new SelectIngredientesViewModel();
+          
+            SelectIngredientesForPurchaseViewModel selectIngredientes = new SelectIngredientesForPurchaseViewModel();
+            selectIngredientes.Alergenos =new SelectList(_context.Alergeno.Select(g => g.Name).ToList());
 
-
-            selectIngredientes.Alergenos =
-new SelectList(_context.Alergeno.Select(g => g.Name).ToList());
-
-            selectIngredientes.Ingredientes = _context.Ingrediente.
-                Include(a => a.AlergSandws).
-                Where(alergeno => (alergeno.AlergSandws.Equals(ingredienteAlergenoSelected)));          
-            
             selectIngredientes.Ingredientes = _context.Ingrediente
-                .Where(ing => ing.Nombre == ingredienteNombre)
-                .ToList();
+          .Include(i => i.AlergSandws).ThenInclude(asa => asa.Alergeno)
+          .Where(s => (s.AlergSandws.Where(isa => isa.Ingrediente.AlergSandws
+                  .Where(als => als.Alergeno.Name.Equals(ingredienteAlergenoSelected))
+              .Any())
+          .Count() == 0 || ingredienteAlergenoSelected == null) && (s.Nombre.Contains(ingredienteNombre)|| ingredienteNombre == null));
+            
+
+            selectIngredientes.Ingredientes = selectIngredientes.Ingredientes.ToList();
+
 
 
             return View(selectIngredientes);
@@ -47,7 +47,7 @@ new SelectList(_context.Alergeno.Select(g => g.Name).ToList());
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult SelectMoviesForPurchase(SelectIngredientesForPurchaseViewModel
+        public IActionResult SelectMoviesForPurchase(SelectedIngredientesForPurchaseViewModel
         selectedIngredientes)
         {
 
