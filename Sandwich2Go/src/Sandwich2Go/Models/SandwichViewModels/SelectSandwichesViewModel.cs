@@ -10,10 +10,10 @@ namespace Sandwich2Go.Models.SandwichViewModels
         public IEnumerable<Sandwich> Sandwiches { get; set; }
         //Utilizado para filtrar por Alergeno
         public SelectList Alergenos;
-        [Display(Name = "Alergeno")]
+        [Display(Name = "Alérgeno: ")]
         public string sandwichAlergenoSelected { get; set; }
         //Utilizado para filtrar por precio del Sándwich
-        [Display(Name = "Precio")]
+        [Display(Name = "Precio menor que: ")]
         public float sandwichPrecio { get; set; }
     }
 }
