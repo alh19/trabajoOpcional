@@ -44,7 +44,7 @@ namespace Sandwich2Go.Controllers
 
             return View(selectSandwiches);
         }
-        [Authorize(Roles = "Cliente")]
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult SelectSandwichesForOffer(string sandwichNombre, double sandwichPrecio)
         {
@@ -54,6 +54,7 @@ namespace Sandwich2Go.Controllers
 
             return View(selectSandwiches);
         }
+        [Authorize(Roles = "Cliente")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult SelectSandwichForPurchase(SelectedSandwichesForPurchaseViewModel selectedSandwich)
@@ -70,13 +71,15 @@ namespace Sandwich2Go.Controllers
             return SelectSandwichForPurchase(double.Parse(selectedSandwich.sandwichPrecio), selectedSandwich.sandwichAlergenoSelected);
 
         }
+        [Authorize(Roles = "Gerente")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult SelectSandwichesForOffer(SelectedSandwichesForOfferViewModel selectedSandwich)
         {
             if (selectedSandwich.IdsToAdd != null)
             {
-                return RedirectToAction("Create", "Ofertas", selectedSandwich);
+                Oferta oferta = new Oferta();
+                return RedirectToAction("Create", "Ofertas", oferta);
             }
             //a message error will be shown to the customer in case no movies are selected
             ModelState.AddModelError(string.Empty, "Debes seleccionar al menos un Sándwich");

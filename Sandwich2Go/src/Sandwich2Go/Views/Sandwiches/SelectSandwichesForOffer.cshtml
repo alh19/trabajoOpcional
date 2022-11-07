@@ -1,12 +1,14 @@
 ﻿@model Sandwich2Go.Models.SandwichViewModels.SelectSandwichesForOfferViewModel
 
 @{
-    ViewData["Title"] = "Select Sandwiches";
+    ViewData["Title"] = "Crear oferta";
 }
 
-<h2>Create Offer</h2>
+<br />
+<h2>Selecciona tus sándwiches</h2>
+<br />
 @* Form to fill in the filters to be used *@
-<form asp-controller="Sandwiches" class="form-horizontal" method="get">
+<form asp-controller="Sandwiches" class="form-horizontal">
     <p>
         <div>
             <label asp-for="sandwichNombre"></label>
@@ -14,10 +16,10 @@
             <span asp-validation-for="sandwichNombre" class="text-danger"></span>
 
             <label asp-for="sandwichPrecio"></label>
-            <input asp-for="sandwichPrecio" size="50"  required/>
+            <input asp-for="sandwichPrecio" size="5"  required/>
             <span asp-validation-for="sandwichPrecio" class="text-danger"></span>
 
-            <input type="submit" value="Filter" />
+            <input asp-action="SelectSandwichesForOffer" type="submit" value="Filtrar" formmethod="get" />
         </div>
     </p>
 
@@ -33,17 +35,17 @@
                     Precio
                 </th>
                 <th>
-                    Desc
+                    Descripción
                 </th>
                 <th align="center" width="10%">
-                    Seleccionar Sándwiches
+                    Seleccionar Sándwich
                 </th>
             </tr>
         </thead>
         <tbody>
             @if (Model.Sandwiches.Count() == 0)
             {
-                <tr><td id="NoSandwiches" colspan="3">There are no sandwiches available</td></tr>
+                <tr><td id="NoSandwiches" colspan="3">No hay sándwiches disponibles</td></tr>
             }
             else
             {
@@ -69,7 +71,9 @@
     </table>
     <form asp-action="SelectSandwichesForOffer" method="post">
 
-        <button type="submit" class="btn btn-primary">Save</button>
-        <a asp-action="Index" class="btn btn-default">Cancel</a>
+        <button type="submit" class="btn btn-primary">Seleccionar</button>
+        <a asp-action="Index" class="btn btn-default">Cancelar</a>
+
     </form>
 </form>
+
