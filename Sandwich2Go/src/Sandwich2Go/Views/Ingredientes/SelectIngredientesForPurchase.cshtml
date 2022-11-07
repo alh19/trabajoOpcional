@@ -19,7 +19,8 @@
             <select asp-for="ingredienteAlergenoSelected" asp-items="Model.Alergenos">
                 <option value="">All</option>
             </select>
-            <input id="filterbyAlergeno" asp-action="SelectAlergenoForPurchase" type="submit" value="Filter" formmethod="get" />
+
+            <input type="submit" value="Filter"
         </div>
     </p>
      <div id="ModelErrors" asp-validation-summary="All" class="text-danger">@TempData["Error"]</div>
