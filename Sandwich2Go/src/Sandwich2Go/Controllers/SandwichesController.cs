@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using Sandwich2Go.Models.SandwichViewModels;
 
 namespace Sandwich2Go.Controllers
 {
+    [Authorize]
     public class SandwichesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -25,29 +27,24 @@ namespace Sandwich2Go.Controllers
         {
             return View(await _context.Sandwich.ToListAsync());
         }
-
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult SelectSandwichForPurchase(double sandwichPrecio, string sandwichAlergenoSelected)
         {
             SelectSandwichesViewModel selectSandwiches = new SelectSandwichesViewModel();
             selectSandwiches.Alergenos = new SelectList(_context.Alergeno.Select(a => a.Name).ToList());
-            //Coge todas las ids de los ingredientes que tienen X alérgeno
-            List<int> idIng = _context.AlergSandws.Where(als => (_context.Alergeno
-            .Where(al => al.Name == sandwichAlergenoSelected).Select(al => al.id).ToList()).Contains(als.AlergenoId)).Select(als => als.IngredienteId).ToList();
-            //Coge todas las ids de los sándwiches que tienen X alérgeno
-            List<int> idSand = _context.IngredienteSandwich.Where(insa => idIng.Contains(insa.IngredienteId)).Select(insa => insa.SandwichId).ToList();
+
             selectSandwiches.Sandwiches = _context.Sandwich
-                .Where(s => !idSand.Contains(s.Id) || sandwichAlergenoSelected == null
-                );
-            selectSandwiches.Sandwiches = selectSandwiches.Sandwiches.Where(s=> s.Precio <= sandwichPrecio || sandwichPrecio == 0);
-            /*selectSandwiches.Sandwiches = _context.Sandwich
-                .Include(s => s.IngredienteSandwich).ThenInclude(isa => isa.Ingrediente).ThenInclude(i => i.Id)
-                .Include(s => s.IngredienteSandwich).ThenInclude(isa => isa.Ingrediente).ThenInclude(i =>i.AlergSandws).ThenInclude(asa => asa.AlergenoId)
-                .Include(s => s.IngredienteSandwich).ThenInclude(isa => isa.Ingrediente).ThenInclude(i => i.AlergSandws).ThenInclude(asa => asa.Alergeno).ThenInclude(a => a.Name)
-                .Where(sandwich => sandwich.IngredienteSandwich);*/
-      
+                .Include(s => s.IngredienteSandwich).ThenInclude(isa => isa.Ingrediente).ThenInclude(i => i.AlergSandws).ThenInclude(asa => asa.Alergeno)
+                .Where(s => (s.IngredienteSandwich
+                    .Where(isa => isa.Ingrediente.AlergSandws
+                        .Where(als => als.Alergeno.Name.Equals(sandwichAlergenoSelected))
+                    .Any())
+                .Count() == 0 || sandwichAlergenoSelected == null) && (s.Precio <= sandwichPrecio || sandwichPrecio == 0));
+
             return View(selectSandwiches);
         }
+        [Authorize(Roles = "Cliente")]
         [HttpGet]
         public IActionResult SelectSandwichesForOffer(string sandwichNombre, double sandwichPrecio)
         {
@@ -63,8 +60,8 @@ namespace Sandwich2Go.Controllers
         {
             if (selectedSandwich.IdsToAdd != null)
             {
-
-                return RedirectToAction("Create", "Pedido", selectedSandwich);
+                Pedido pedido = new Pedido();
+                return RedirectToAction("Create", "Pedidos", pedido);
             }
             //a message error will be shown to the customer in case no movies are selected
             ModelState.AddModelError(string.Empty, "Debes seleccionar al menos un Sándwich");
