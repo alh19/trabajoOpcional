@@ -28,7 +28,7 @@ string ingredienteNombre)
             SelectIngredientesViewModel selectIngredientes =
             new SelectIngredientesViewModel();
 
-            selectIngredientes.Ingredientes = _context.Ingrediente.Where(a => a.Nombre.Contains(ingredienteNombre));
+            selectIngredientes.Ingredientes = _context.Ingrediente.Where(a => a.Nombre.Contains(ingredienteNombre)).ToList();
 
 
 
@@ -38,16 +38,8 @@ string ingredienteNombre)
             List<int> idIng = _context.AlergSandws.Where(als => (_context.Alergeno
             .Where(al => al.Name == ingredienteAlergeno).Select(al => al.id).ToList()).Contains(als.AlergenoId)).Select(als => als.IngredienteId).ToList();
             selectIngredientes.Ingredientes = _context.Ingrediente
-                .Where(s => !idIng.Contains(s.Id) || ingredienteAlergeno == null
-                );
+                .Where(s => !idIng.Contains(s.Id) || ingredienteAlergeno == null);
 
-
-
-
-
-
-
-            selectIngredientes.Ingredientes = selectIngredientes.Ingredientes.ToList();
             return View(selectIngredientes);
         }
 
