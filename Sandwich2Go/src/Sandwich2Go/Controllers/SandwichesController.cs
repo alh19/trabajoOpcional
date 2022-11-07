@@ -12,7 +12,7 @@ using Sandwich2Go.Models.SandwichViewModels;
 
 namespace Sandwich2Go.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class SandwichesController : Controller
     {
         private readonly ApplicationDbContext _context;
