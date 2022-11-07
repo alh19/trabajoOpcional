@@ -12,7 +12,7 @@ using Sandwich2Go.Models.SandwichViewModels;
 
 namespace Sandwich2Go.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class SandwichesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -33,21 +33,17 @@ namespace Sandwich2Go.Controllers
         {
             SelectSandwichesViewModel selectSandwiches = new SelectSandwichesViewModel();
             selectSandwiches.Alergenos = new SelectList(_context.Alergeno.Select(a => a.Name).ToList());
-            //Coge todas las ids de los ingredientes que tienen X alérgeno
-            List<int> idIng = _context.AlergSandws.Where(als => (_context.Alergeno
-            .Where(al => al.Name == sandwichAlergenoSelected).Select(al => al.id).ToList()).Contains(als.AlergenoId)).Select(als => als.IngredienteId).ToList();
-            //Coge todas las ids de los sándwiches que tienen X alérgeno
-            List<int> idSand = _context.IngredienteSandwich.Where(insa => idIng.Contains(insa.IngredienteId)).Select(insa => insa.SandwichId).ToList();
+
             selectSandwiches.Sandwiches = _context.Sandwich
-                .Where(s => !idSand.Contains(s.Id) || sandwichAlergenoSelected == null
-                );
-            selectSandwiches.Sandwiches = selectSandwiches.Sandwiches.Where(s=> s.Precio <= sandwichPrecio || sandwichPrecio == 0);
-            /*selectSandwiches.Sandwiches = _context.Sandwich
-                .Include(s => s.IngredienteSandwich).ThenInclude(isa => isa.Ingrediente).ThenInclude(i => i.Id)
-                .Include(s => s.IngredienteSandwich).ThenInclude(isa => isa.Ingrediente).ThenInclude(i =>i.AlergSandws).ThenInclude(asa => asa.AlergenoId)
-                .Include(s => s.IngredienteSandwich).ThenInclude(isa => isa.Ingrediente).ThenInclude(i => i.AlergSandws).ThenInclude(asa => asa.Alergeno).ThenInclude(a => a.Name)
-                .Where(sandwich => sandwich.IngredienteSandwich);*/
-      
+                .Include(s => s.IngredienteSandwich).ThenInclude(isa => isa.Ingrediente).ThenInclude(i => i.AlergSandws).ThenInclude(asa => asa.Alergeno)
+                .Where(s => s.IngredienteSandwich
+                    .Where(isa => isa.Ingrediente.AlergSandws
+                        .Where(als => als.Alergeno.Name.Equals(sandwichAlergenoSelected))
+                    .Any())
+                .Count()==0 || sandwichAlergenoSelected== null);
+
+            selectSandwiches.Sandwiches = selectSandwiches.Sandwiches.Where(s => s.Precio <= sandwichPrecio || sandwichPrecio == 0);
+
             return View(selectSandwiches);
         }
         [HttpPost]

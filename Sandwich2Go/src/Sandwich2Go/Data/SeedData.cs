@@ -80,6 +80,7 @@ namespace Sandwich2Go.Data
                 user.Nombre = "Elena";
                 user.Apellido = "Navarro Martinez";
                 user.EmailConfirmed = true;
+                user.Direccion = "";
 
                 var result = userManager.CreateAsync(user, "Password1234%");
                 result.Wait();
@@ -100,6 +101,7 @@ namespace Sandwich2Go.Data
                 user.Nombre = "Gregorio";
                 user.Apellido = "Diaz Descalzo";
                 user.EmailConfirmed = true;
+                user.Direccion = "";
 
                 var result = userManager.CreateAsync(user, "APassword1234%");
                 result.Wait();
@@ -121,6 +123,7 @@ namespace Sandwich2Go.Data
                 user.Nombre = "Peter";
                 user.Apellido = "Jackson Jackson";
                 user.EmailConfirmed = true;
+                user.Direccion = "";
 
                 var result=userManager.CreateAsync(user, "OtherPass12$");
 

@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Sandwich2Go.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<Usuario>
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
         public DbSet <Sandwich> Sandwich { set; get; }
         public DbSet<Alergeno> Alergeno { set; get; }
