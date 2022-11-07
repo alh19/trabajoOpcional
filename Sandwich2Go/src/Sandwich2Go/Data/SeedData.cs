@@ -113,30 +113,6 @@ namespace Sandwich2Go.Data
                 }
             }
 
-            if (userManager.FindByNameAsync("peter@uclm.com").Result == null)
-            {
-                //A customer class has been defined because it has different attributes (purchase, rental, etc.)
-                Cliente user = new Cliente();
-                user.Id = "3";
-                user.UserName = "peter@uclm.com";
-                user.Email = "peter@uclm.com";
-                user.Nombre = "Peter";
-                user.Apellido = "Jackson Jackson";
-                user.EmailConfirmed = true;
-                user.Direccion = "";
-
-                var result=userManager.CreateAsync(user, "OtherPass12$");
-
-                result.Wait();
-
-                if (result.IsCompletedSuccessfully)
-                {
-                    //customer role
-                    userManager.AddToRoleAsync(user, roles[2]).Wait();
-                    
-                }
-            }
-
         }
 
 
