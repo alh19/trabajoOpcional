@@ -12,7 +12,6 @@ using Sandwich2Go.Models.ProveedorViewModels;
 
 namespace Sandwich2Go.Controllers
 {
-    [Authorize]
     public class ProveedoresController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -34,7 +33,6 @@ namespace Sandwich2Go.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Gerente")]
         [ValidateAntiForgeryToken]
         public IActionResult SelectProveedoresForPurchase(SelectedProveedoresForPurchaseViewModel
         selectedProveedores)
