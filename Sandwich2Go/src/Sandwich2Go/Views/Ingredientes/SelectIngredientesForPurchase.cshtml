@@ -8,7 +8,7 @@
 <h2>Purchase Ingredientes</h2>
 
 @* Form to fill in the filters to be used *@
-<form asp-controller="Ingredientes" class="form-horizontal" method="get">
+<form asp-controller="Ingredientes" class="form-horizontal">
     <p>
         <div>
             <label asp-for="ingredienteNombre"></label>
@@ -20,11 +20,11 @@
                 <option value="">All</option>
             </select>
 
-            <input type="submit" value="Filter" />
+            <input id="filterbyAlergeno" asp-action="SelectIngredientesForPurchase" type="submit" value="Filtrar" formmethod="get" />
         </div>
     </p>
      <div id="ModelErrors" asp-validation-summary="All" class="text-danger">@TempData["Error"]</div>
-</form>
+
 
 
 <table class="table">
@@ -51,7 +51,7 @@
             {
                 @foreach (var item in Model.Ingredientes)
                 {
-                    <tr id="Sandwich_Name_@item.Nombre">
+                    <tr id="Ingrediente_Name_@item.Nombre">
                         <td width="50%">
                             @Html.DisplayFor(modelItem => item.Nombre)
                         </td>
@@ -60,15 +60,16 @@
                         </td>
                        
                         <td align="center" width="10%">
-                            <input type="checkbox" name="IdsToAdd" value="@item.Id">
+                            <input type="checkbox" name="IdsToAdd" id="Ingrediente_@item.Id" value="@item.Id" class="form-control">
                         </td>
                     </tr>
                 }
             }
         </tbody>
     </table>
-    <form asp-action="SelectSandwichesForPurchase" method="post">
+    <form asp-action="SelectIngredientesForPurchase" method="post">
 
         <button type="submit" class="btn btn-primary">Save</button>
         <a asp-action="Index" class="btn btn-default">Cancel</a>
     </form>
+</form>

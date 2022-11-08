@@ -9,12 +9,16 @@ using Microsoft.EntityFrameworkCore;
 using Sandwich2Go.Data;
 using Sandwich2Go.Models;
 using Sandwich2Go.Models.IngredienteViewModels;
+using Microsoft.AspNetCore.Authorization;
+
 
 
 namespace Sandwich2Go.Controllers
 {
+    [Authorize]
     public class IngredientesController : Controller
     {
+
         private readonly ApplicationDbContext _context;
 
         public IngredientesController(ApplicationDbContext context)
@@ -46,14 +50,16 @@ namespace Sandwich2Go.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Cliente")]
         [ValidateAntiForgeryToken]
-        public IActionResult SelectMoviesForPurchase(SelectedIngredientesForPurchaseViewModel
+        public IActionResult SelectIngredientesForPurchase(SelectedIngredientesForPurchaseViewModel
         selectedIngredientes)
         {
 
             if (selectedIngredientes.IdsToAdd != null)
             {
-                return RedirectToAction("Create", "Purchases", selectedIngredientes);
+                Sandwich sand  = new Sandwich();
+                return RedirectToAction("Create", "Sandwiches", sand);
             }
 
             ModelState.AddModelError(string.Empty, "You must select at least one ingrediente");
