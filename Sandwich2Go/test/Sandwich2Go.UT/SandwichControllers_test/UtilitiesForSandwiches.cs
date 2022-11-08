@@ -41,10 +41,10 @@ namespace Sandwich2Go.UT.SandwichControllers_test
         public static void InitializeDbSandwichesForTests(ApplicationDbContext db)
         {
             CrearDatos();
-            db.Alergeno.AddRange(AlergenosG);
-            db.Ingrediente.AddRange(IngredientesG);
-            db.Sandwich.AddRange(SandwichesG);
-            IList<IList<IngredienteSandwich>> ingredienteSandwiches = GetIngredienteSandwich(0, 4);
+            db.Alergeno.AddRange(GetAlergenos(0,2));
+            db.Ingrediente.AddRange(GetIngredientes(0,4));
+            db.Sandwich.AddRange(GetSandwiches(0,3));
+            IList<IList<IngredienteSandwich>> ingredienteSandwiches = GetIngredienteSandwich(0,3);
 
             while (!(ingredienteSandwiches.Count() == 0))
             {
@@ -52,7 +52,7 @@ namespace Sandwich2Go.UT.SandwichControllers_test
                 db.IngredienteSandwich.AddRange(ingredienteSandwiches.ElementAt(0));
                 ingredienteSandwiches.RemoveAt(0);
             }
-            IList<IList<AlergSandw>> alergSandw = GetAlergSandw(0, 2);
+            IList<IList<AlergSandw>> alergSandw = GetAlergSandw(0,3);
             while (!(alergSandw.Count() == 0))
             {
 
@@ -90,6 +90,11 @@ namespace Sandwich2Go.UT.SandwichControllers_test
 
         public static void CrearDatos()
         {
+            AlergenosG = new List<Alergeno>();
+            IngredientesG = new List<Ingrediente>();
+            SandwichesG = new List<Sandwich>();
+            IngredienteSandwichesG = new List<IList<IngredienteSandwich>>();
+            AlergSandwsG = new List<IList<AlergSandw>>();
             AlergenosG.Add(new Alergeno { id = 1, Name = "Huevo" });
             AlergenosG.Add(new Alergeno { id = 2, Name = "Leche" });
             IngredientesG.Add(new Ingrediente { Id = 1, Nombre = "Jamon" });
@@ -124,6 +129,19 @@ namespace Sandwich2Go.UT.SandwichControllers_test
             AlergSandwsG.Add(new List<AlergSandw> {
                 new AlergSandw{Id = 3, Ingrediente = IngredientesG[3], Alergeno = AlergenosG[1], AlergenoId = AlergenosG[1].id, IngredienteId = IngredientesG[3].Id}
             });
+            AlergenosG[0].AlergSandws = new List<AlergSandw> { AlergSandwsG[1][0], AlergSandwsG[2][0] };
+            AlergenosG[1].AlergSandws = new List<AlergSandw> { AlergSandwsG[0][0] };
+            IngredientesG[0].AlergSandws = new List<AlergSandw> { };
+            IngredientesG[1].AlergSandws = AlergSandwsG[0];
+            IngredientesG[2].AlergSandws = AlergSandwsG[1];
+            IngredientesG[3].AlergSandws = AlergSandwsG[2];
+            IngredientesG[0].IngredienteSandwich = new List<IngredienteSandwich> { IngredienteSandwichesG[0][0], IngredienteSandwichesG[1][0], IngredienteSandwichesG[2][0] };
+            IngredientesG[1].IngredienteSandwich = new List<IngredienteSandwich> { IngredienteSandwichesG[0][1], IngredienteSandwichesG[1][1], IngredienteSandwichesG[2][1] };
+            IngredientesG[2].IngredienteSandwich = new List<IngredienteSandwich> { IngredienteSandwichesG[2][2] };
+            IngredientesG[3].IngredienteSandwich = new List<IngredienteSandwich> { IngredienteSandwichesG[0][2] };
+            SandwichesG[0].IngredienteSandwich = IngredienteSandwichesG[0];
+            SandwichesG[1].IngredienteSandwich = IngredienteSandwichesG[1];
+            SandwichesG[2].IngredienteSandwich = IngredienteSandwichesG[2];
         }
     }
 

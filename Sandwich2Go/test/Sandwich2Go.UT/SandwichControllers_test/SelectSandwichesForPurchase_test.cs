@@ -41,7 +41,7 @@ namespace Sandwich2Go.UT.SandwichControllers_test
                 var controller = new SandwichesController(context);
 
                 //Act
-                var result =  controller.SelectSandwichForPurchase(0.0, "");
+                var result =  controller.SelectSandwichForPurchase(0, "");
 
                 var viewResult = Assert.IsType<ViewResult>(result);
 
