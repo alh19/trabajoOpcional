@@ -9,9 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sandwich2Go.UT.Controllers
+namespace Sandwich2Go.UT.SandwichControllers_test
 {
-    public class Utilities
+    public class UtilitiesForSandwiches
     {
         public static DbContextOptions<ApplicationDbContext> CreateNewContextOptions(){
             // Crear un nuevo proveedor de servicios, y una nueva
