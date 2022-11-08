@@ -29,7 +29,8 @@ namespace Sandwich2Go.Controllers
             }
             else
             {
-                return View(await _context.Ingrediente.ToListAsync());
+                return View(await _context.Ingrediente.
+                    OrderBy(m => m.Nombre).ToListAsync());
             }
         }
 
@@ -43,6 +44,8 @@ namespace Sandwich2Go.Controllers
 
             var ingrediente = await _context.Ingrediente
                 .Include(m => m.AlergSandws).SingleOrDefaultAsync(m => m.Id == id);
+
+
             if (ingrediente == null)
             {
                 return NotFound();
