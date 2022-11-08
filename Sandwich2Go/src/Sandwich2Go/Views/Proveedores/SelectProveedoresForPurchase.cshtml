@@ -1,0 +1,60 @@
+﻿@* model storing which data will be rendered by the View *@
+@model Sandwich2Go.Models.ProveedorViewModels.SelectProveedoresForPurchaseViewModel
+
+@{
+    ViewData["Title"] = "Select Supplier";
+}
+
+<h2>Select Supplier</h2>
+@* Form to fill in the filters to be used *@
+<form asp-controller="Proveedores" class="form-horizontal">
+    <p>
+        <div>
+            <label asp-for="proveedorNombreSelected"></label>
+            <input asp-for="proveedorNombreSelected" size="50" />
+            <span asp-validation-for="proveedorNombreSelected" class="text-danger"></span>
+
+            <input id="filterbyNombre" asp-action="SelectProveedoresForPurchase" type="submit" value="Filtro" formmethod="get" />
+        </div>
+    </p>
+
+    <div id="ModelErrors" asp-validation-summary="All" class="text-danger">@TempData["Error"]</div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th width="50%">
+                    Nombre
+                </th>
+                <th align="center" width="10%">
+                    Seleccionar Nombre
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Proveedores.Count() == 0)
+            {
+                <tr><td id="NoSandwiches" colspan="3">There are no suppliers available</td></tr>
+            }
+            else
+            {
+                @foreach (var item in Model.Proveedores)
+                {
+                    <tr id="Proveedor_Name_@item.Nombre">
+                        <td width="50%">
+                            @Html.DisplayFor(modelItem => item.Nombre)
+                        </td>
+                        <td align="center" width="10%">
+                            <input type="checkbox" name="IdsToAdd" id="Proveedor_@item.Id" value="@item.Id" class="form-control">
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <form asp-action="SelectProveedoresForPurchase" method="post">
+
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a asp-action="Index" class="btn btn-default">Cancelar</a>
+    </form>
+    </form>
