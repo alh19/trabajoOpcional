@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
-namespace Sandwich2Go.Models.ProveedorViewModels
-{
+namespace Sandwich2Go.Models.IngredienteViewModels
+{ 
     public class SelectIngrProvForPurchaseViewModel
     {
         public IEnumerable<Ingrediente> Ingredientes { get; set; }

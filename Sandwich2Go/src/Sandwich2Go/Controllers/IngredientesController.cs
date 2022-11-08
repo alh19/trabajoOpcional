@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Sandwich2Go.Data;
 using Sandwich2Go.Models;
+using Sandwich2Go.Models.IngredienteViewModels;
+using Sandwich2Go.Models.ProveedorViewModels;
 
 namespace Sandwich2Go.Controllers
 {
@@ -17,6 +20,35 @@ namespace Sandwich2Go.Controllers
         public IngredientesController(ApplicationDbContext context)
         {
             _context = context;
+        }
+
+        [HttpGet]
+        public IActionResult SelectIngrProvForPurchase(string ingredienteNombre, int ingredienteStock)
+        {
+            SelectIngrProvForPurchaseViewModel selectIngredientes = new SelectIngrProvForPurchaseViewModel();
+            selectIngredientes.Ingredientes = _context.Ingrediente
+                .Include(s => s.IngrProv).ThenInclude(ing => ing.Ingrediente)
+                .Where(s => ((s.Nombre.Contains(ingredienteNombre) || ingredienteNombre == null) 
+                && (s.Stock == ingredienteStock || ingredienteStock == 0)));
+
+            return View(selectIngredientes);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult SelectIngrProvForPurchase(SelectedIngrProvForPurchaseViewModel selectedIngrediente)
+        {
+            if (selectedIngrediente.IdsToAdd != null)
+            {
+                Ingrediente ingr = new Ingrediente();
+                return RedirectToAction("SelectIngrProvForPurchase", "IngrProv", ingr);
+            }
+            //a message error will be shown to the customer in case no movies are selected
+            ModelState.AddModelError(string.Empty, "Debes seleccionar al menos un ingrediente");
+
+            //the View SelectMoviesForPurchase will be shown again
+            return SelectIngrProvForPurchase(selectedIngrediente.ingredienteNombre, int.Parse(selectedIngrediente.ingredienteStock));
+
         }
 
         // GET: Ingredientes

@@ -1,20 +1,24 @@
 ﻿@* model storing which data will be rendered by the View *@
-@model Sandwich2Go.Models.ProveedorViewModels.SelectProveedoresForPurchaseViewModel
+@model Sandwich2Go.Models.IngredienteViewModels.SelectIngrProvForPurchaseViewModel
 
 @{
     ViewData["Title"] = "Select Ingredients from Supplier";
 }
 
-<h2>Select Supplier</h2>
+<h2>Select Ingredients from Supplier</h2>
 @* Form to fill in the filters to be used *@
 <form asp-controller="IngredientesProveedores" class="form-horizontal">
     <p>
         <div>
-            <label asp-for="proveedorNombreSelected"></label>
-            <input asp-for="proveedorNombreSelected" size="50" />
-            <span asp-validation-for="proveedorNombreSelected" class="text-danger"></span>
+            <label asp-for="ingredienteNombre"></label>
+            <input asp-for="ingredienteNombre" size="50" />
+            <span asp-validation-for="ingredienteNombre" class="text-danger"></span>
 
-            <input id="filterbyNombre" asp-action="SelectProveedoresForPurchase" type="submit" value="Filtro" formmethod="get" />
+            <label asp-for="ingredienteStock"></label>
+            <input asp-for="ingredienteStock" size="5" required />
+            <span asp-validation-for="ingredienteStock" class="text-danger"></span>
+
+            <input asp-action="SelectIngrProvForPurchase" type="submit" value="Filtrar" formmethod="get" />
         </div>
     </p>
 
@@ -27,46 +31,40 @@
                     Nombre
                 </th>
                 <th width="50%">
-                    Cif
-                </th>
-                <th width="50%">
-                    Dirección
+                    Stock
                 </th>
                 <th>
-                    Seleccionar Proveedor
+                    Seleccionar Ingredientes
                 </th>
             </tr>
         </thead>
         <tbody>
-            @if (Model.Proveedores.Count() == 0)
+            @if (Model.Ingredientes.Count() == 0)
             {
-                <tr><td id="NoSandwiches" colspan="3">There are no suppliers available</td></tr>
+                <tr><td id="NoIngredientes" colspan="3">There are no ingredients available</td></tr>
             }
             else
             {
-                @foreach (var item in Model.Proveedores)
+                @foreach (var item in Model.Ingredientes)
                 {
-                    <tr id="Proveedor_Name_@item.Nombre">
+                    <tr id="Ingrediente_Name_@item.Nombre">
                         <td width="50%">
                             @Html.DisplayFor(modelItem => item.Nombre)
                         </td>
                         <td width="50%">
-                            @Html.DisplayFor(modelItem => item.Cif)
-                        </td>
-                        <td width="50%">
-                            @Html.DisplayFor(modelItem => item.Direccion)
+                            @Html.DisplayFor(modelItem => item.Stock)
                         </td>
                         <td align="center" width="10%">
-                            <input type="checkbox" name="IdsToAdd" id="Proveedor_@item.Id" value="@item.Id" class="form-control">
+                            <input type="checkbox" name="IdsToAdd" id="Ingrediente_@item.Id" value="@item.Id" class="form-control">
                         </td>
                     </tr>
                 }
             }
         </tbody>
     </table>
-    <form asp-action="SelectProveedoresForPurchase" method="post">
+    <form asp-action="SelectIngrProvForPurchase" method="post">
 
-        <button type="submit" class="btn btn-primary">Siguiente</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
         <button asp-action="Index" class="btn btn-default">Cancelar</button>
     </form>
     </form>

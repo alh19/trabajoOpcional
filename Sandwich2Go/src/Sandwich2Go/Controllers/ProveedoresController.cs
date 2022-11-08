@@ -42,7 +42,7 @@ namespace Sandwich2Go.Controllers
             {
                 //La siguiente pantalla es la selección de ingredientes por parte de los proveedores
                 Ingrediente ingr = new Ingrediente();
-                return RedirectToAction("Create", "IngredientesProveedores", ingr);
+                return RedirectToAction("Index", "IngredientesProveedores", ingr);
             }
 
             ModelState.AddModelError(string.Empty, "You must select at least one supplier");

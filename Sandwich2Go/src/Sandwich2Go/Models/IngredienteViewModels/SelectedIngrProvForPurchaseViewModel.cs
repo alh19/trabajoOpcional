@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
-namespace Sandwich2Go.Models.ProveedorViewModels
+namespace Sandwich2Go.Models.IngredienteViewModels
 {
     public class SelectedIngrProvForPurchaseViewModel
     {
