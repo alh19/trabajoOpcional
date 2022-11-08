@@ -32,7 +32,8 @@ namespace Sandwich2Go.UT.SandwichControllers_test
         }
 
         [Fact]
-        public async Task Select_withoutAlergenoAndPrecio()
+        [Trait("LevelTesting", "Unit Testing")]
+        public void Select_withoutAlergenoAndPrecio()
         {
             using (context)
             {
@@ -40,7 +41,7 @@ namespace Sandwich2Go.UT.SandwichControllers_test
                 var controller = new SandwichesController(context);
 
                 //Act
-                var result =  controller.SelectSandwichForPurchase(0.0, null);
+                var result =  controller.SelectSandwichForPurchase(0.0, "");
 
                 var viewResult = Assert.IsType<ViewResult>(result);
 
