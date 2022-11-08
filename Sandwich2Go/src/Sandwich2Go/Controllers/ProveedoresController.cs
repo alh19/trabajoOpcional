@@ -7,8 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Sandwich2Go.Data;
 using Sandwich2Go.Models;
-using Sandwich2Go.Models.SelectProveedoresViewModel;
-using Sandwich2Go.Models.SandwichViewModels;
+using Sandwich2Go.Models.ProveedorViewModels;
 
 namespace Sandwich2Go.Controllers
 {
@@ -21,17 +20,53 @@ namespace Sandwich2Go.Controllers
             _context = context;
         }
 
+        public async Task<IActionResult> Index(string SearchString)
+        {
+            var proveedores = _context.Proveedor.
+                    Where(s => s.Nombre.Contains(SearchString)).
+                    OrderBy(i => i.Cif);
+            return View(await proveedores.ToListAsync());
+        }
+
+        /* ANTIGUA CLASE INDEX. SEGÚN DIAPOSITIVAS DE MOODLE
+        // GET: Proveedores
+        public async Task<IActionResult> Index(string SearchString)
+        {
+            //Se filtra por Nombre de proveedor y se ordena por CIF
+            if (!String.IsNullOrEmpty(SearchString))
+            {
+                var proveedores = _context.Proveedor.
+                    Where(s => s.Nombre.Contains(SearchString)).
+                    OrderBy(i => i.Cif);
+                return View(await proveedores.ToListAsync());
+            }
+            else
+            {
+                return View(await _context.Proveedor.
+                    OrderBy(m => m.Cif).ToListAsync());
+            }
+        }
+        */
+
         [HttpGet]
-        public IActionResult SelectProveedorForPedidoProveedor(double proveedorCif, string proveedorNombreSelected)
+        public IActionResult SelectProveedoresForPurchase(string proveedorCif, string nombreProveedorSelected)
         {
             SelectProveedoresViewModel selectProveedores = new SelectProveedoresViewModel();
             
+            //Muestra un listado con el nombre de los proveedores disponibles
             selectProveedores.Nombres = 
                 new SelectList(_context.Proveedor.Select(g => g.Nombre).ToList());
 
-            selectProveedores.Proveedores =
-                _context.Proveedor.Include(m => m.Cif)
-                .Where(cif => cif.Cif.Contains((Char) proveedorCif) || proveedorCif.Equals(null));
+            //Filtra por nombre y/o cif
+            selectProveedores.Proveedores = _context.Proveedor
+                //.Include(m => m.Nombre)
+                .Where(prov => (prov.Nombre.Contains(nombreProveedorSelected) || nombreProveedorSelected==null)
+                && ((prov.Cif.Contains(proveedorCif) || proveedorCif==null)));
+
+            selectProveedores.Proveedores = selectProveedores.Proveedores.ToList();
+
+            return View(selectProveedores);
+
             /*
             selectProveedores.Proveedores = _context.Proveedor
                 .Include(s => s.IngrProv).ThenInclude(isa => isa.Ingrediente).ThenInclude(i => i.Nombre)
@@ -54,60 +89,49 @@ namespace Sandwich2Go.Controllers
                 .Where(ped => ped.IngrProv);
             */
 
-            return View(selectProveedores);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult SelectProveedorForPedidoProveedor(SelectedSandwichesForPurchaseViewModel selectedSandwich)
+        public IActionResult SelectProveedoresForPurchase(SelectedProveedoresForPurchaseViewModel selectedProveedor)
         {
-            if (selectedSandwich.IdsToAdd != null)
-            {
+            //Si el usuario ha seleccionado algún proveedor, entonces crearemos la compra.
+            //Para ello llamaremos al método de acción Create (GET) de Purchase
 
-                return RedirectToAction("Create", "Pedido", selectedSandwich);
+            if (selectedProveedor.IdsToAdd != null)
+            {
+                //Redirecciona a la página ingrediente
+                Ingrediente ingr = new Ingrediente();
+                return RedirectToAction("Create", "Ingredientes", ingr);
             }
-            //a message error will be shown to the customer in case no movies are selected
-            ModelState.AddModelError(string.Empty, "Debes seleccionar al menos un Sándwich");
+            //Si el usuario no ha seleccionado ninguna película, le informaremos y
+            //se vuelve a generar el ViewModel
+            ModelState.AddModelError(string.Empty, "You must select at least one movie");
 
             //the View SelectMoviesForPurchase will be shown again
-            return SelectProveedorForPurchase(double.Parse(selectedSandwich.sandwichPrecio), selectedSandwich.sandwichAlergenoSelected);
-
+            return SelectProveedoresForPurchase((selectedProveedor.proveedorCif), 
+                selectedProveedor.nombreProveedorSelected);
         }
 
-        // GET: Proveedores
-        public async Task<IActionResult> Index(string SearchString)
-        {
-            //Se filtra por Nombre de proveedor y se ordena por CIF
-            if (!String.IsNullOrEmpty(SearchString))
-            {
-                var proveedores = _context.Proveedor.
-                    Where(s => s.Nombre.Contains(SearchString)).
-                    OrderBy(i => i.Cif);
-                return View(await proveedores.ToListAsync());
-            }
-            else
-            {
-                return View(await _context.Proveedor.
-                    OrderBy(m => m.Cif).ToListAsync());
-            }
-        }
+       
 
         // GET: Proveedores/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            /*var proveedor = await _context.Proveedor
+            var proveedor = await _context.Proveedor
                 .FirstOrDefaultAsync(m => m.Id == id);
-            */
-
-            //Muestra todos los detalles de los proveedores
+            
+            /*
             var proveedor = await _context.Proveedor
                 .Include(p => p.IngrProv)
                 .ThenInclude(p => p.Ingrediente)
-                .FirstAsync(p => p.Id == id);
+                .FirstAsync(p => p.Id.Equals(id));
+            */
 
             if (proveedor == null)
             {
@@ -141,7 +165,7 @@ namespace Sandwich2Go.Controllers
         }
 
         // GET: Proveedores/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -161,7 +185,7 @@ namespace Sandwich2Go.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Cif,Nombre,Direccion")] Proveedor proveedor)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Cif,Nombre,Direccion")] Proveedor proveedor)
         {
             if (id != proveedor.Id)
             {
@@ -192,7 +216,7 @@ namespace Sandwich2Go.Controllers
         }
 
         // GET: Proveedores/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -212,7 +236,7 @@ namespace Sandwich2Go.Controllers
         // POST: Proveedores/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var proveedor = await _context.Proveedor.FindAsync(id);
             _context.Proveedor.Remove(proveedor);
@@ -220,7 +244,7 @@ namespace Sandwich2Go.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProveedorExists(string id)
+        private bool ProveedorExists(int id)
         {
             return _context.Proveedor.Any(e => e.Id == id);
         }

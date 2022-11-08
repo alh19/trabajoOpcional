@@ -20,6 +20,7 @@ namespace Sandwich2Go.Data
         public DbSet<Oferta> Oferta { get; set; }
         public DbSet<PedidoProv> PedidoProv { get; set; }
         public DbSet<AlergSandw> AlergSandws { get; set; }
+        public DbSet<IngrPedProv> IngrPedProv { get; set; }
         public DbSet<OfertaSandwich> OfertaSandwich { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options){ }
         protected override void OnModelCreating(ModelBuilder builder)
@@ -37,6 +38,9 @@ namespace Sandwich2Go.Data
 
             builder.Entity<AlergSandw>()
                 .HasKey(a => new { a.IngredienteId, a.AlergenoId });
+
+            /*builder.Entity<IngrProv>()
+                .HasKey(a => new { a.IngredienteId, a.ProveedorId });*/
 
             builder.Entity<IngredienteSandwich>()
                 .HasKey(i => new { i.IngredienteId, i.SandwichId });

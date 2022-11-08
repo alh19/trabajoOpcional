@@ -1,5 +1,5 @@
 ﻿@* model storing which data will be rendered by the View *@
-@model Sandwich2Go.Models.ProveedoresViewModels.SelectProveedoresViewModel
+@model Sandwich2Go.Models.ProveedorViewModels.SelectProveedoresViewModel
 
 @{
     ViewData["Title"] = "Select Proveedores";
@@ -7,6 +7,8 @@
 
 <h2>Order a purchase to supplier</h2>
 @* Form to fill in the filters to be used *@
+
+<!-- CREAMOS EL FORMULARIO CON LOS DATOS QUE SE ENVIARÁN AL MÉTODO GET SelectProveedoresForPurchase -->
 <form asp-controller="Proveedores" class="form-horizontal">
     <p>
         <div>
@@ -19,10 +21,17 @@
                 <option value="">All</option>
             </select>
             <input id="filterbyNombres" asp-action="SelectProveedoresForPurchase" type="submit" value="Filter" formmethod="get" />
+            <!-- <input asp-action="SelectProveedoresForPurchase" method="get" type="submit" value="Filtrar" /> -->
         </div>
     </p>
 
-    <div id="ModelErrors" asp-validation-summary="All" class="text-danger">@TempData["Error"]</div>
+
+<!-- VALIDAMOS TODOS LOS DATOS DEL FORMULARIO -->
+
+<div id="ModelErrors" asp-validation-summary="All" class="text-danger">@TempData["Error"]</div>
+
+
+<!-- LOS PROVEEDORES SE MOSTRARÁN EN LA SIGUIENTE TABLA -->
 
     <table class="table">
         <thead>
@@ -37,7 +46,7 @@
                     Nombre
                 </th>
                 <th align="center" width="10%">
-                    Seleccionar Nombre
+                    Seleccionar Proveedor
                 </th>
             </tr>
         </thead>
@@ -50,15 +59,15 @@
             {
                 @foreach (var item in Model.Proveedores)
                 {
-                    <tr id="Proveedor_Name_@item.ProveedoresName">
+                    <tr id="Proveedor_Name_@item.Nombre">
                         <td width="50%">
-                            @Html.DisplayFor(modelItem => item.ProveedoresName)
+                            @Html.DisplayFor(modelItem => item.Nombre)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.CIF)
+                            @Html.DisplayFor(modelItem => item.Cif)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Desc)
+                            @Html.DisplayFor(modelItem => item.Direccion)
                         </td>
                         <td align="center" width="10%">
                             <input type="checkbox" name="IdsToAdd" id="Proveedor_@item.Id" value="@item.Id" class="form-control">
@@ -68,9 +77,13 @@
             }
         </tbody>
     </table>
-    <form asp-action="SelectSandwichesForPurchase" method="post">
 
-        <button type="submit" class="btn btn-primary">Save</button>
-        <a asp-action="Index" class="btn btn-default">Cancel</a>
+    <!-- CREAMOS EL FORMULARIO CON LOS DATOS QUE SE ENVIARÁN AL MÉTODO POST SelectProveedoresForPurchase -->
+
+    <form asp-action="SelectProveedoresForPurchase" method="post">
+
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a asp-action="Index" class="btn btn-default">Cancelar</a>
+
     </form>
-    </form>
+</form>
