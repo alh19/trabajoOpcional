@@ -1,51 +1,38 @@
 ﻿@* model storing which data will be rendered by the View *@
-@model Sandwich2Go.Models.ProveedorViewModels.SelectProveedoresViewModel
+@model Sandwich2Go.Models.ProveedorViewModels.SelectProveedoresForPurchaseViewModel
 
 @{
-    ViewData["Title"] = "Select Proveedores";
+    ViewData["Title"] = "Select Supplier";
 }
 
-<h2>Order a purchase to supplier</h2>
+<h2>Select Supplier</h2>
 @* Form to fill in the filters to be used *@
-
-<!-- CREAMOS EL FORMULARIO CON LOS DATOS QUE SE ENVIARÁN AL MÉTODO GET SelectProveedoresForPurchase -->
 <form asp-controller="Proveedores" class="form-horizontal">
     <p>
         <div>
-            <label asp-for="proveedorCif"></label>
-            <input asp-for="proveedorCif" size="50" />
-            <span asp-validation-for="proveedorCif" class="text-danger"></span>
+            <label asp-for="proveedorNombreSelected"></label>
+            <input asp-for="proveedorNombreSelected" size="50" />
+            <span asp-validation-for="proveedorNombreSelected" class="text-danger"></span>
 
-            <label asp-for="nombreProveedorSelected"></label>
-            <select asp-for="nombreProveedorSelected" asp-items="Model.Nombres">
-                <option value="">All</option>
-            </select>
-            <input id="filterbyNombres" asp-action="SelectProveedoresForPurchase" type="submit" value="Filter" formmethod="get" />
-            <!-- <input asp-action="SelectProveedoresForPurchase" method="get" type="submit" value="Filtrar" /> -->
+            <input id="filterbyNombre" asp-action="SelectProveedoresForPurchase" type="submit" value="Filtro" formmethod="get" />
         </div>
     </p>
 
-
-<!-- VALIDAMOS TODOS LOS DATOS DEL FORMULARIO -->
-
-<div id="ModelErrors" asp-validation-summary="All" class="text-danger">@TempData["Error"]</div>
-
-
-<!-- LOS PROVEEDORES SE MOSTRARÁN EN LA SIGUIENTE TABLA -->
+    <div id="ModelErrors" asp-validation-summary="All" class="text-danger">@TempData["Error"]</div>
 
     <table class="table">
         <thead>
             <tr>
                 <th width="50%">
-                    CIF
-                </th>
-                <th>
-                    Proveedor
-                </th>
-                <th>
                     Nombre
                 </th>
-                <th align="center" width="10%">
+                <th width="50%">
+                    Cif
+                </th>
+                <th width="50%">
+                    Dirección
+                </th>
+                <th>
                     Seleccionar Proveedor
                 </th>
             </tr>
@@ -53,7 +40,7 @@
         <tbody>
             @if (Model.Proveedores.Count() == 0)
             {
-                <tr><td id="NoProveedores" colspan="3">There are no suppliers available</td></tr>
+                <tr><td id="NoSandwiches" colspan="3">There are no suppliers available</td></tr>
             }
             else
             {
@@ -63,10 +50,10 @@
                         <td width="50%">
                             @Html.DisplayFor(modelItem => item.Nombre)
                         </td>
-                        <td>
+                        <td width="50%">
                             @Html.DisplayFor(modelItem => item.Cif)
                         </td>
-                        <td>
+                        <td width="50%">
                             @Html.DisplayFor(modelItem => item.Direccion)
                         </td>
                         <td align="center" width="10%">
@@ -77,13 +64,9 @@
             }
         </tbody>
     </table>
-
-    <!-- CREAMOS EL FORMULARIO CON LOS DATOS QUE SE ENVIARÁN AL MÉTODO POST SelectProveedoresForPurchase -->
-
     <form asp-action="SelectProveedoresForPurchase" method="post">
 
-        <button type="submit" class="btn btn-primary">Guardar</button>
+        <button type="submit" class="btn btn-primary">Siguiente</button>
         <a asp-action="Index" class="btn btn-default">Cancelar</a>
-
     </form>
-</form>
+    </form>
