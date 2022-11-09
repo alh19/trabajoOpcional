@@ -34,19 +34,5 @@ namespace Sandwich2Go.Models
         }
         public virtual IList<OfertaSandwich> OfertaSandwich { get; set; }
 
-        public override bool Equals(object obj)
-        {
-            Sandwich sandwich = obj as Sandwich;
-            List<IngredienteSandwich> inter = this.IngredienteSandwich.Union(sandwich.IngredienteSandwich).ToList();
-            List<IngredienteSandwich> union = this.IngredienteSandwich.Intersect(sandwich.IngredienteSandwich).ToList();
-
-            return true;/*obj is Sandwich sandwich &&
-                this.Id == sandwich.Id &&
-                this.SandwichName.Equals(sandwich.SandwichName) &&
-                this.Precio == sandwich.Precio &&
-                this.Desc.Equals(sandwich.Desc) &&
-                (this.IngredienteSandwich.Union(sandwich.IngredienteSandwich)).Equals(this.IngredienteSandwich.Intersect(sandwich.IngredienteSandwich));*/
-            
-        }
     }
 }
