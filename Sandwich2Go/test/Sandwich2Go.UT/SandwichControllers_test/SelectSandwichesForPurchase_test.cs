@@ -43,7 +43,7 @@ namespace Sandwich2Go.UT.SandwichControllers_test
                     sandwichPrecio =0,
                     sandwichAlergenoSelected = null,
                     Alergenos =new SelectList(UtilitiesForSandwiches.GetAlergenos(0, 2).Select(a => a.Name))
-                },0,null},
+                },0,null},//No introducimos precio ni alérgeno, por lo que esperamos todos los sándwiches
 
                 new object[]{new SelectSandwichesViewModel
                 {
@@ -51,7 +51,7 @@ namespace Sandwich2Go.UT.SandwichControllers_test
                     sandwichPrecio =0,
                     sandwichAlergenoSelected = "Leche",
                     Alergenos =new SelectList(UtilitiesForSandwiches.GetAlergenos(0, 2).Select(a => a.Name))
-                },0,"Leche"},
+                },0,"Leche"},//No introducimos precio. Alérgeno Leche. No esperamos ningún sándwich.
 
                 new object[]{new SelectSandwichesViewModel
                 {
@@ -59,7 +59,7 @@ namespace Sandwich2Go.UT.SandwichControllers_test
                     sandwichPrecio =4,
                     sandwichAlergenoSelected = null,
                     Alergenos =new SelectList(UtilitiesForSandwiches.GetAlergenos(0, 2).Select(a => a.Name))
-                },4,null},
+                },4,null},//Introducimos precio y no alérgeno. Esperamos 2 sándwiches.
 
                 new object[]{new SelectSandwichesViewModel
                 {
@@ -67,7 +67,7 @@ namespace Sandwich2Go.UT.SandwichControllers_test
                     sandwichPrecio =3,
                     sandwichAlergenoSelected = "Huevo",
                     Alergenos =new SelectList(UtilitiesForSandwiches.GetAlergenos(0, 2).Select(a => a.Name))
-                },3,"Leche"}
+                },3,"Leche"}//Introducimos precio y alérgeno. No esperamos ningún sándwich.
             };
 
             UtilitiesForSandwiches.BorrarDatos();

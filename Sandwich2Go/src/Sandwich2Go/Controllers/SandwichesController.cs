@@ -28,7 +28,7 @@ namespace Sandwich2Go.Controllers
             return View(await _context.Sandwich.ToListAsync());
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "Cliente")]
         [HttpGet]
         public IActionResult SelectSandwichForPurchase(double sandwichPrecio, string sandwichAlergenoSelected)
         {
@@ -41,11 +41,15 @@ namespace Sandwich2Go.Controllers
                     .Where(isa => isa.Ingrediente.AlergSandws
                         .Where(als => als.Alergeno.Name.Equals(sandwichAlergenoSelected))
                     .Any())
-                .Count() == 0 || sandwichAlergenoSelected == null) && (s.Precio <= sandwichPrecio || sandwichPrecio == 0))
+                .Count() == 0 || sandwichAlergenoSelected == null) && //No muestro los sándwiches con el alérgeno indicado. Si no se indica no se aplica filtro.
+                (s.Precio <= sandwichPrecio || sandwichPrecio == 0) &&//No muestro los sándwiches con precio superior al introducido. Si no se introduce precio o es 0 no se aplica filtro.
+                (s.IngredienteSandwich.Where(isa => isa.Ingrediente.Stock == 0)).Count()==0)//No muestro los sándwiches que no tienen stock
                 .OrderBy(s=> s.SandwichName)
                 .Select(s=>new SandwichForPurchaseViewModel(s)).ToList();
+
             return View(selectSandwiches);
         }
+
         [Authorize(Roles = "Cliente")]
         [ValidateAntiForgeryToken]
         public IActionResult SelectSandwichForPurchase(SelectedSandwichesForPurchaseViewModel selectedSandwich)
