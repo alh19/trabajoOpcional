@@ -41,11 +41,12 @@ namespace Sandwich2Go.UT.SandwichControllers_test
                 var controller = new SandwichesController(context);
 
                 //Act
-                var result =  controller.SelectSandwichForPurchase(0, "");
+                var result =  controller.SelectSandwichForPurchase(0, null);
 
                 var viewResult = Assert.IsType<ViewResult>(result);
 
-                List<Sandwich> model = (result as ViewResult).Model as List<Sandwich>;
+                SelectSandwichesViewModel viewModel = (result as ViewResult).Model as SelectSandwichesViewModel;
+                List<Sandwich> model = viewModel.Sandwiches.OrderBy(s => s.SandwichName).ToList();
 
                 Assert.Equal(expectedModel, model);
             }

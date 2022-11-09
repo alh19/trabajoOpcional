@@ -28,7 +28,7 @@ namespace Sandwich2Go.Controllers
             return View(await _context.Sandwich.ToListAsync());
         }
 
-        [Authorize(Roles = "Cliente")]
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult SelectSandwichForPurchase(double sandwichPrecio, string sandwichAlergenoSelected)
         {
