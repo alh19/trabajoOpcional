@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Sandwich2Go.Controllers;
 using Sandwich2Go.Data;
@@ -37,8 +38,13 @@ namespace Sandwich2Go.UT.SandwichControllers_test
         {
             using (context)
             {
-                IEnumerable<Sandwich> expectedModel = UtilitiesForSandwiches.GetSandwiches(0, 3).OrderBy(s => s.SandwichName).ToList();
+                IEnumerable<Sandwich> expectedSandwiches = UtilitiesForSandwiches.GetSandwiches(0, 3).OrderBy(s => s.SandwichName).ToList();
                 var controller = new SandwichesController(context);
+                SelectSandwichesViewModel expectedModel = new SelectSandwichesViewModel();
+                expectedModel.Sandwiches = expectedSandwiches.Select(s=>new SandwichForPurchaseViewModel(s));
+                expectedModel.sandwichPrecio = 0;
+                expectedModel.sandwichAlergenoSelected = null;
+                expectedModel.Alergenos = new SelectList(UtilitiesForSandwiches.GetAlergenos(0, 2).Select(a => a.Name));
 
                 //Act
                 var result =  controller.SelectSandwichForPurchase(0, null);
@@ -46,9 +52,8 @@ namespace Sandwich2Go.UT.SandwichControllers_test
                 var viewResult = Assert.IsType<ViewResult>(result);
 
                 SelectSandwichesViewModel viewModel = (result as ViewResult).Model as SelectSandwichesViewModel;
-                List<Sandwich> model = viewModel.Sandwiches.OrderBy(s => s.SandwichName).ToList();
 
-                Assert.Equal(expectedModel, model);
+                Assert.Equal(expectedModel, viewModel);
             }
         }
 
@@ -77,9 +82,8 @@ namespace Sandwich2Go.UT.SandwichControllers_test
                 var viewResult = Assert.IsType<ViewResult>(result);
 
                 SelectSandwichesViewModel viewModel = (result as ViewResult).Model as SelectSandwichesViewModel;
-                List<Sandwich> model = viewModel.Sandwiches.ToList();
 
-                Assert.Equal(expectedModel, model);
+                //Assert.Equal(expectedModel, viewModel.Sandwiches);
 
             }
         }

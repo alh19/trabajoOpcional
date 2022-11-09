@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace Sandwich2Go.Models.SandwichViewModels
 {
@@ -46,6 +47,17 @@ namespace Sandwich2Go.Models.SandwichViewModels
         public int[] ingredientes { get; set; }
 
         public string Desc { get; set; }
+
+        public override bool Equals(object obj)
+        {
+
+            return obj is SandwichForPurchaseViewModel sandwich &&
+                this.SandwichID == sandwich.SandwichID &&
+                this.SandwichName == sandwich.SandwichName &&
+                this.Precio == sandwich.Precio &&
+                this.Desc == sandwich.Desc &&
+                this.ingredientes.SequenceEqual(sandwich.ingredientes);
+        }
 
 
     }
