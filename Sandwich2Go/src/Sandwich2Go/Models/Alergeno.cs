@@ -16,5 +16,14 @@ namespace Sandwich2Go.Models
         public virtual string Name { get; set; }
 
         public virtual IList<AlergSandw> AlergSandws { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            
+            return obj is Alergeno alergeno &&
+                this.id == alergeno.id &&
+                this.Name.Equals(alergeno.Name) &&
+                this.AlergSandws.Equals(alergeno.AlergSandws);
+        }
     }
 }

@@ -34,5 +34,16 @@ namespace Sandwich2Go.Models
         }
 
         public virtual IList<IngrProv> IngrProv { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Ingrediente ingrediente &&
+                this.Id == ingrediente.Id &&
+                this.Nombre.Equals(ingrediente.Nombre) &&
+                this.IngredienteSandwich.Equals(ingrediente.IngredienteSandwich) &&
+                this.AlergSandws.Equals(ingrediente.AlergSandws) &&
+                this.PrecioUnitario == ingrediente.PrecioUnitario &&
+                this.Stock == ingrediente.Stock;
+        }
     }
 }

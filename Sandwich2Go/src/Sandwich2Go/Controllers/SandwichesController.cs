@@ -41,8 +41,9 @@ namespace Sandwich2Go.Controllers
                     .Where(isa => isa.Ingrediente.AlergSandws
                         .Where(als => als.Alergeno.Name.Equals(sandwichAlergenoSelected))
                     .Any())
-                .Count() == 0 || sandwichAlergenoSelected == null) && (s.Precio <= sandwichPrecio || sandwichPrecio == 0)).ToList();
-
+                .Count() == 0 || sandwichAlergenoSelected == null) && (s.Precio <= sandwichPrecio || sandwichPrecio == 0))
+                .OrderBy(s=> s.SandwichName)
+                .Select(s=>new SandwichForPurchaseViewModel(s)).ToList();
             return View(selectSandwiches);
         }
         [Authorize(Roles = "Cliente")]

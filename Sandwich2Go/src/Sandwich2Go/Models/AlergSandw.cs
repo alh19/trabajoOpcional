@@ -17,5 +17,12 @@ namespace Sandwich2Go.Models
         public virtual Ingrediente Ingrediente { get; set; }
         public virtual int IngredienteId { get; set; }
 
+        public override bool Equals(object obj)
+        {
+            return obj is AlergSandw alergSandw &&
+                this.Id == alergSandw.Id &&
+                this.AlergenoId == alergSandw.AlergenoId &&
+                this.IngredienteId == alergSandw.IngredienteId;
+        }
     }
 }

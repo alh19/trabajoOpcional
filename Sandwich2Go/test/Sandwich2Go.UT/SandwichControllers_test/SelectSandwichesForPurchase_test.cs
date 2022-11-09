@@ -51,5 +51,38 @@ namespace Sandwich2Go.UT.SandwichControllers_test
                 Assert.Equal(expectedModel, model);
             }
         }
+
+        public static IEnumerable<object[]> TestCasesForSelect_AlergenoSelected()
+        {
+            UtilitiesForSandwiches.CrearDatos();
+            var allTest = new List<object[]>
+            {
+                new object[]{UtilitiesForSandwiches.GetSandwiches(1,1).ToList(),"Huevo"},
+                new object[]{new List<Sandwich> {}, "Leche" }
+            };
+            UtilitiesForSandwiches.BorrarDatos();
+            return allTest;
+        }
+
+        [Theory]
+        [MemberData(nameof(TestCasesForSelect_AlergenoSelected))]
+        [Trait("LevelTesting", "Unit Testing")]
+        public void Select_AlergenoSelected(List<Sandwich>expectedModel, string alergeno)
+        {
+            using (context)
+            {
+                var controller = new SandwichesController(context);
+                var result = controller.SelectSandwichForPurchase(0, alergeno);
+
+                var viewResult = Assert.IsType<ViewResult>(result);
+
+                SelectSandwichesViewModel viewModel = (result as ViewResult).Model as SelectSandwichesViewModel;
+                List<Sandwich> model = viewModel.Sandwiches.ToList();
+
+                Assert.Equal(expectedModel, model);
+
+            }
+        }
+
     }
 }
