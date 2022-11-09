@@ -31,13 +31,5 @@ namespace Sandwich2Go.Models
         [Range(0, 4, ErrorMessage = "La cantidad máxima de un mismo ingrediente es 4")]
         public virtual int Cantidad { get; set; }
 
-        public override bool Equals(object obj)
-        {
-            return obj is IngredienteSandwich ingredienteSandwich &&
-                this.Id == ingredienteSandwich.Id &&
-                this.Cantidad == ingredienteSandwich.Cantidad &&
-                this.SandwichId == ingredienteSandwich.SandwichId &&
-                this.IngredienteId == ingredienteSandwich.IngredienteId;
-        }
     }
 }
