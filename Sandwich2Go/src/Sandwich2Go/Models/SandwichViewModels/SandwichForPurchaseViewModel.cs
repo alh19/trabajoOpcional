@@ -14,7 +14,22 @@ namespace Sandwich2Go.Models.SandwichViewModels
         {
             this.SandwichID = sandwich.Id;
             this.SandwichName = sandwich.SandwichName;
-            this.Precio = sandwich.Precio;
+            this.hayOferta = false;
+            this.porcentajeOferta = 0;
+            this.oferta = "";
+            if (sandwich.OfertaSandwich != null) {
+                this.hayOferta = true;
+                foreach (OfertaSandwich ofs in sandwich.OfertaSandwich)
+                {
+                    if (ofs.Porcentaje > this.porcentajeOferta)
+                    {
+                        this.porcentajeOferta = ofs.Porcentaje;
+                        this.oferta = ofs.Oferta.Descripcion;
+                    }
+                }
+            }
+            this.oferta = this.oferta + " con Descuento de: " + this.porcentajeOferta+"%";
+            this.Precio = sandwich.Precio - (sandwich.Precio * (this.porcentajeOferta/100));
             this.ingredientes = new string[sandwich.IngredienteSandwich.Count];
             this.Desc = sandwich.Desc;
             this.alergenos = new string[0];
@@ -57,6 +72,12 @@ namespace Sandwich2Go.Models.SandwichViewModels
         public string[] alergenos { get; set; }
 
         public string Desc { get; set; }
+
+        public string oferta { get; set; }
+
+        public double porcentajeOferta { get; set; }
+
+        public bool hayOferta { get; set; }
 
         public override bool Equals(object obj)
         {

@@ -46,7 +46,6 @@ namespace Sandwich2Go.Controllers
 
             return View(pedido);
         }
-        [Authorize(Roles = "Cliente")]
         // GET: Pedidos/Create
         public IActionResult Create()
         {
@@ -57,7 +56,6 @@ namespace Sandwich2Go.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [Authorize(Roles = "Cliente")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nombre,Fecha,Preciototal,Direccion,Descripcion,Cantidad")] Pedido pedido)
         {

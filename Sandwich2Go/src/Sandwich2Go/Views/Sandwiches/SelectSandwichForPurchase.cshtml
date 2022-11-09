@@ -30,8 +30,11 @@
     <table class="table">
         <thead>
             <tr>
-                <th width="30%">
+                <th>
                     Nombre
+                </th>
+                <th>
+                    Oferta
                 </th>
                 <th>
                     Precio
@@ -57,8 +60,13 @@
                 @foreach (var item in Model.Sandwiches)
                 {
                     <tr id="Sandwich_Name_@item.SandwichName">
-                        <td width="30%">
+                        <td>
                             @Html.DisplayFor(modelItem => item.SandwichName)
+                        </td>
+                        <td>
+                            @if(item.hayOferta){
+                            @Html.DisplayFor(modelItem => item.oferta)
+                            }
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Precio)
