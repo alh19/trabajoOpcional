@@ -34,7 +34,7 @@ namespace Sandwich2Go.UT.IngredientesController_test
             db.Alergeno.AddRange(GetAlergenos(2, 2));
             db.SaveChanges();
 
-            db.Users.Add(new Customer { Id = "1", UserName = "peter@uclm.com", PhoneNumber = "967959595", Email = "peter@uclm.com", Name = "Peter", FirstSurname = "Jackson", SecondSurname = "García" });
+            db.Users.Add(new Cliente { Id = "3", UserName = "peter@uclm.com", Email = "peter@uclm.com", Nombre = "Peter", Apellido = "Jackson Jackson", EmailConfirmed = true, Direccion = "" });
             db.SaveChanges();
         }
 
@@ -45,17 +45,16 @@ namespace Sandwich2Go.UT.IngredientesController_test
             db.SaveChanges();
         }
 
-        public static IList<Ingrediente> GetMovies(int index, int numOfIngredientes)
+        public static IList<Ingrediente> GetIngredientes(int index, int numOfIngredientes)
         {
-            Alergeno alergeno = GetAlergenos(0, 1).First();
-            Alergeno alergeno2 = GetAlergenos(1, 1).First();
+            Ingrediente ingrediente = GetIngredientes(0, 1).First();
+            Ingrediente ingrediente2 = GetIngredientes(1, 1).First();
             var allIngredientes = new List<Ingrediente>
             {
-                new Ingrediente { Id = 1, Nombre = "Pepino", PrecioUnitario= 3, Stock = 8},
-                 new Ingrediente { Id = 2, Nombre = "Ketchup", PrecioUnitario= 2, Stock = 7},
-                  new Ingrediente { Id = 3, Nombre = "Pan", PrecioUnitario= 4, Stock = 3},
-                  new Ingrediente { Id = 4, Nombre = "Lechuga", PrecioUnitario= 5, Stock = 2}
-
+                new Ingrediente {Id=1,Nombre="Lechuga",PrecioUnitario=2,Stock=8 },
+                new Ingrediente {Id=2,Nombre="Tomate",PrecioUnitario=3,Stock=9},
+                new Ingrediente {Id=3,Nombre="Queso",PrecioUnitario=1,Stock=5 },
+                new Ingrediente {Id=4,Nombre="Pan",PrecioUnitario=2,Stock=10 }
             };
 
             return allIngredientes.GetRange(index, numOfIngredientes);
@@ -64,17 +63,17 @@ namespace Sandwich2Go.UT.IngredientesController_test
         public static IList<Alergeno> GetAlergenos(int index, int numOfAlergenos)
         {
             var allAlergenos = new List<Alergeno>
-            {
-                new Alergeno { id=1, Name = "Gluten" } ,
-                new Alergeno { id=2, Name = "Soja" },
-                 new Alergeno { id=3, Name = "Huevo" },
-                  new Alergeno { id=4, Name = "Lactosa" }
+                {
+                    new Alergeno { id=1, Name="Gluten" } ,
+                    new Alergeno { id=2, Name="Lactosa" } ,
+                    new Alergeno { id=3, Name="Soja" } ,
+                    new Alergeno { id=4, Name="Huevo" } 
                 };
             //return from the list as much instances as specified in numOfGenres
             return allAlergenos.GetRange(index, numOfAlergenos);
         }
 
-
         
     }
 }
+

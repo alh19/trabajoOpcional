@@ -14,11 +14,9 @@ namespace Sandwich2Go.UT
     {
         public static DbContextOptions<ApplicationDbContext> CreateNewContextOptions()
 
-        {
-            // Create a fresh service provider, and therefore a fresh 
+        {// Create a fresh service provider, and therefore a fresh 
             // InMemory database instance.
-            var serviceProvider = new ServiceCollection()
-                .AddEntityFrameworkInMemoryDatabase()
+            var serviceProvider = new ServiceCollection().AddEntityFrameworkInMemoryDatabase()
                 .BuildServiceProvider();
             // Create a new options instance telling the context to use an
             // InMemory database and the new service provider.
@@ -40,11 +38,12 @@ namespace Sandwich2Go.UT
             db.SaveChanges();
         }
 
-        public static IList<ApplicationUser> GetUsers(int index, int numOfUsers)
+        public static IList<Usuario> GetUsers(int index, int numOfUsers)
         {
-            var allUsers = new List<ApplicationUser>
+            var allUsers = new List<Usuario>
                 {
-                   new Customer { Id = "1", UserName = "peter@uclm.com", PhoneNumber = "967959595",  Email = "peter@uclm.com", Name = "Peter", FirstSurname = "Jackson", SecondSurname = "García" }
+                   new Cliente {Id = "3",UserName = "peter@uclm.com",Email = "peter@uclm.com",Nombre = "Peter",Apellido = "Jackson Jackson",EmailConfirmed = true,Direccion = "" }
+        
                 };
             //return from the list as much instances as specified in numOfGenres
             return allUsers.GetRange(index, numOfUsers);
