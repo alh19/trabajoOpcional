@@ -43,8 +43,9 @@ namespace Sandwich2Go.Controllers
                     .Any())
                 .Count() == 0 || sandwichAlergenoSelected == null) && //No muestro los sándwiches con el alérgeno indicado. Si no se indica no se aplica filtro.
                 (s.Precio <= sandwichPrecio || sandwichPrecio == 0) &&//No muestro los sándwiches con precio superior al introducido. Si no se introduce precio o es 0 no se aplica filtro.
-                (s.IngredienteSandwich.Where(isa => isa.Ingrediente.Stock == 0)).Count()==0)//No muestro los sándwiches que no tienen stock
-                .OrderBy(s=> s.SandwichName)
+                (s.IngredienteSandwich.Where(isa => isa.Ingrediente.Stock == 0)).Count()==0 && //No muestro los sándwiches que no tienen stock
+                (s.IngredienteSandwich.Where(isa => isa.Cantidad > (isa.Ingrediente.Stock))).Count()==0)//Tampoco los sándwiches que tengan ingredientes que necesiten
+                .OrderBy(s=> s.SandwichName)                                                            //más cantidad que stock disponible
                 .Select(s=>new SandwichForPurchaseViewModel(s)).ToList();
 
             return View(selectSandwiches);

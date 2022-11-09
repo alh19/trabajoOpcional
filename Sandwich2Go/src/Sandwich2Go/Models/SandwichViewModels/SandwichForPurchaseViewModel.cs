@@ -15,12 +15,20 @@ namespace Sandwich2Go.Models.SandwichViewModels
             this.SandwichID = sandwich.Id;
             this.SandwichName = sandwich.SandwichName;
             this.Precio = sandwich.Precio;
-            this.ingredientes = new int[sandwich.IngredienteSandwich.Count];
+            this.ingredientes = new string[sandwich.IngredienteSandwich.Count];
             this.Desc = sandwich.Desc;
+            this.alergenos = new string[0];
             int i = 0;
             foreach(IngredienteSandwich ing in sandwich.IngredienteSandwich)
             {
-                this.ingredientes[i] = ing.IngredienteId;
+                this.ingredientes[i] = ing.Ingrediente.Nombre+" ";
+                foreach(AlergSandw als in ing.Ingrediente.AlergSandws)
+                {
+                    if (!alergenos.Contains(als.Alergeno.Name)){
+                        alergenos = alergenos.Concat(new string[] {(als.Alergeno.Name+" ")}).ToArray();
+                    }
+                }
+
                 i++;
             }
         }
@@ -44,7 +52,9 @@ namespace Sandwich2Go.Models.SandwichViewModels
         }
 
         [Required]
-        public int[] ingredientes { get; set; }
+        public string[] ingredientes { get; set; }
+
+        public string[] alergenos { get; set; }
 
         public string Desc { get; set; }
 
@@ -56,7 +66,8 @@ namespace Sandwich2Go.Models.SandwichViewModels
                 this.SandwichName == sandwich.SandwichName &&
                 this.Precio == sandwich.Precio &&
                 this.Desc == sandwich.Desc &&
-                this.ingredientes.SequenceEqual(sandwich.ingredientes);
+                this.ingredientes.SequenceEqual(sandwich.ingredientes) &&
+                this.alergenos.SequenceEqual(sandwich.alergenos);
         }
 
 
