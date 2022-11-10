@@ -87,7 +87,7 @@ namespace Sandwich2Go.UT.SandwichControllers_test
 
                 var viewResult = Assert.IsType<ViewResult>(result);
 
-                SelectSandwichesViewModel viewModel = (result as ViewResult).Model as SelectSandwichesViewModel;
+                SelectSandwichesViewModel viewModel = (result.Result as ViewResult).Model as SelectSandwichesViewModel;
 
                 Assert.Equal(expectedModel.Sandwiches, viewModel.Sandwiches);
 
