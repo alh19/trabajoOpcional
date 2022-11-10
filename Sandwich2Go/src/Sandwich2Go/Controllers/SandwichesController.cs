@@ -51,6 +51,7 @@ namespace Sandwich2Go.Controllers
             return View(selectSandwiches);
         }
         [HttpPost]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult SelectSandwichForPurchase(SelectedSandwichesForPurchaseViewModel selectedSandwich)
         {
@@ -64,6 +65,7 @@ namespace Sandwich2Go.Controllers
             //the View SelectMoviesForPurchase will be shown again
             return SelectSandwichForPurchase(double.Parse(selectedSandwich.sandwichPrecio), selectedSandwich.sandwichAlergenoSelected);
 
+        }
         }
         // GET: Sandwiches/Details/5
         public async Task<IActionResult> Details(int? id)

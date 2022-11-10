@@ -10,31 +10,22 @@ using Sandwich2Go.Models;
 
 namespace Sandwich2Go.Controllers
 {
-    public class IngredientesController : Controller
+    public class OfertasController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public IngredientesController(ApplicationDbContext context)
+        public OfertasController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Ingredientes
-        public async Task<IActionResult> Index(string SearchString)
+        // GET: Ofertas
+        public async Task<IActionResult> Index()
         {
-            if (!String.IsNullOrEmpty(SearchString))
-            {
-                var ingredientes = _context.Ingrediente.Where(s => s.Nombre.Contains(SearchString)).OrderBy(i => i.AlergSandws);
-                return View(await ingredientes.ToListAsync());
-            }
-            else
-            {
-                return View(await _context.Ingrediente.
-                    OrderBy(m => m.Nombre).ToListAsync());
-            }
+            return View(await _context.Oferta.ToListAsync());
         }
 
-        // GET: Ingredientes/Details/5
+        // GET: Ofertas/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -42,41 +33,39 @@ namespace Sandwich2Go.Controllers
                 return NotFound();
             }
 
-            var ingrediente = await _context.Ingrediente
-                .Include(m => m.AlergSandws).SingleOrDefaultAsync(m => m.Id == id);
-
-
-            if (ingrediente == null)
+            var oferta = await _context.Oferta
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (oferta == null)
             {
                 return NotFound();
             }
 
-            return View(ingrediente);
+            return View(oferta);
         }
 
-        // GET: Ingredientes/Create
+        // GET: Ofertas/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Ingredientes/Create
+        // POST: Ofertas/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Cantidad,Stock")] Ingrediente ingrediente)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,FechaInicio,FechaFin,Descripcion")] Oferta oferta)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(ingrediente);
+                _context.Add(oferta);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(ingrediente);
+            return View(oferta);
         }
 
-        // GET: Ingredientes/Edit/5
+        // GET: Ofertas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -84,22 +73,22 @@ namespace Sandwich2Go.Controllers
                 return NotFound();
             }
 
-            var ingrediente = await _context.Ingrediente.FindAsync(id);
-            if (ingrediente == null)
+            var oferta = await _context.Oferta.FindAsync(id);
+            if (oferta == null)
             {
                 return NotFound();
             }
-            return View(ingrediente);
+            return View(oferta);
         }
 
-        // POST: Ingredientes/Edit/5
+        // POST: Ofertas/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Cantidad,Stock")] Ingrediente ingrediente)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,FechaInicio,FechaFin,Descripcion")] Oferta oferta)
         {
-            if (id != ingrediente.Id)
+            if (id != oferta.Id)
             {
                 return NotFound();
             }
@@ -108,12 +97,12 @@ namespace Sandwich2Go.Controllers
             {
                 try
                 {
-                    _context.Update(ingrediente);
+                    _context.Update(oferta);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!IngredienteExists(ingrediente.Id))
+                    if (!OfertaExists(oferta.Id))
                     {
                         return NotFound();
                     }
@@ -124,10 +113,10 @@ namespace Sandwich2Go.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(ingrediente);
+            return View(oferta);
         }
 
-        // GET: Ingredientes/Delete/5
+        // GET: Ofertas/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -135,30 +124,30 @@ namespace Sandwich2Go.Controllers
                 return NotFound();
             }
 
-            var ingrediente = await _context.Ingrediente
+            var oferta = await _context.Oferta
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (ingrediente == null)
+            if (oferta == null)
             {
                 return NotFound();
             }
 
-            return View(ingrediente);
+            return View(oferta);
         }
 
-        // POST: Ingredientes/Delete/5
+        // POST: Ofertas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var ingrediente = await _context.Ingrediente.FindAsync(id);
-            _context.Ingrediente.Remove(ingrediente);
+            var oferta = await _context.Oferta.FindAsync(id);
+            _context.Oferta.Remove(oferta);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool IngredienteExists(int id)
+        private bool OfertaExists(int id)
         {
-            return _context.Ingrediente.Any(e => e.Id == id);
+            return _context.Oferta.Any(e => e.Id == id);
         }
     }
 }

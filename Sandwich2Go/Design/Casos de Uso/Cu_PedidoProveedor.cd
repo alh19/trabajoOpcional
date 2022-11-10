@@ -15,7 +15,7 @@
       <Property Name="IngrProv" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="Design.IngrPedProv">
+  <Class Name="Design.ArticulosPed">
     <Position X="4.5" Y="3" Width="1.5" />
     <AssociationLine Name="PedidoProv" Type="Design.PedidoProv">
       <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
@@ -23,17 +23,16 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAEAAAAAAAAAAAAAAAAIAAAAAAAAAAEAAAAABAA=</HashCode>
-      <FileName>IngrPedProv.cs</FileName>
+      <HashCode>AAACAAEACAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>ArticulosPed.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="PedidoProv" />
-      <Property Name="IngrProv" />
     </ShowAsAssociation>
   </Class>
   <Class Name="Design.PedidoProv">
     <Position X="4.5" Y="5.75" Width="1.5" />
-    <AssociationLine Name="ArticulosPed" Type="Design.IngrPedProv">
+    <AssociationLine Name="ArticulosPed" Type="Design.ArticulosPed">
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="-1.171" Y="0.258" />
       </MemberNameLabel>
@@ -50,10 +49,8 @@
     <ShowAsAssociation>
       <Property Name="Gerente" />
       <Property Name="MetodoDePago" />
+      <Property Name="Proveedor" />
     </ShowAsAssociation>
-    <ShowAsCollectionAssociation>
-      <Property Name="ArticulosPed" />
-    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Design.Proveedor">
     <Position X="8" Y="5.5" Width="1.5" />
@@ -145,6 +142,21 @@
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Efectivo.cs</FileName>
     </TypeIdentifier>
+  </Class>
+  <Class Name="Design.ArticulosPed">
+    <Position X="4.5" Y="3" Width="1.5" />
+    <AssociationLine Name="PedidoProv" Type="Design.PedidoProv">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.235" Y="0.646" Height="0.182" Width="1.265" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAACAAEACAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>ArticulosPed.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="PedidoProv" />
+    </ShowAsAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
