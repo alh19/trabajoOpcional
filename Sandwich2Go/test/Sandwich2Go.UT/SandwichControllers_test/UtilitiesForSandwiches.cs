@@ -104,10 +104,10 @@ namespace Sandwich2Go.UT.SandwichControllers_test
             AlergenosG.Add(new Alergeno { id = 1, Name = "Huevo" });
             AlergenosG.Add(new Alergeno { id = 2, Name = "Leche" });
 
-            IngredientesG.Add(new Ingrediente { Id = 1, Nombre = "Jamon" });
-            IngredientesG.Add(new Ingrediente { Id = 2, Nombre = "Queso" });
-            IngredientesG.Add(new Ingrediente { Id = 3, Nombre = "Huevo" });
-            IngredientesG.Add(new Ingrediente { Id = 4, Nombre = "Mayonesa" });
+            IngredientesG.Add(new Ingrediente { Id = 1, Nombre = "Jamon" , Stock = 100});
+            IngredientesG.Add(new Ingrediente { Id = 2, Nombre = "Queso" , Stock = 100});
+            IngredientesG.Add(new Ingrediente { Id = 3, Nombre = "Huevo" , Stock = 100});
+            IngredientesG.Add(new Ingrediente { Id = 4, Nombre = "Mayonesa" , Stock = 100 });
 
             SandwichesG.Add(new Sandwich{Id = 1, SandwichName = "Cubano", Precio = 5.50, Desc = "Queso, jamón y mayonesa"});
             SandwichesG.Add(new Sandwich{Id = 2, SandwichName = "Mixto", Precio = 3.00, Desc = "Jamón y queso"});

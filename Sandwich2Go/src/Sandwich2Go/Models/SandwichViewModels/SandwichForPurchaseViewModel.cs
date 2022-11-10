@@ -39,7 +39,7 @@ namespace Sandwich2Go.Models.SandwichViewModels
                 this.ingredientes[i] = ing.Ingrediente.Nombre+" ";
                 foreach(AlergSandw als in ing.Ingrediente.AlergSandws)
                 {
-                    if (!alergenos.Contains(als.Alergeno.Name)){
+                    if (!alergenos.Contains((als.Alergeno.Name+" "))){
                         alergenos = alergenos.Concat(new string[] {(als.Alergeno.Name+" ")}).ToArray();
                     }
                 }
@@ -87,8 +87,7 @@ namespace Sandwich2Go.Models.SandwichViewModels
                 this.SandwichName == sandwich.SandwichName &&
                 this.Precio == sandwich.Precio &&
                 this.Desc == sandwich.Desc &&
-                this.ingredientes.SequenceEqual(sandwich.ingredientes) &&
-                this.alergenos.SequenceEqual(sandwich.alergenos);
+                this.ingredientes.SequenceEqual(sandwich.ingredientes);
         }
 
 

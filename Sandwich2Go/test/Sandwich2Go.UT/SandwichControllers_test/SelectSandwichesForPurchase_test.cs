@@ -42,7 +42,7 @@ namespace Sandwich2Go.UT.SandwichControllers_test
                     Sandwiches = UtilitiesForSandwiches.GetSandwiches(0,3).OrderBy(s=>s.SandwichName).ToList().Select(s=>new SandwichForPurchaseViewModel(s)),
                     sandwichPrecio =0,
                     sandwichAlergenoSelected = null,
-                    Alergenos =new SelectList(UtilitiesForSandwiches.GetAlergenos(0, 2).Select(a => a.Name))
+                    Alergenos =new SelectList(UtilitiesForSandwiches.GetAlergenos(0, 2).Select(a => a.Name)),
                 },0,null},//No introducimos precio ni alérgeno, por lo que esperamos todos los sándwiches
 
                 new object[]{new SelectSandwichesViewModel
