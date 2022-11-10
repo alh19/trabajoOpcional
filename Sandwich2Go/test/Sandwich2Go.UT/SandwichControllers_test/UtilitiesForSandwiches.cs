@@ -47,6 +47,8 @@ namespace Sandwich2Go.UT.SandwichControllers_test
             db.Alergeno.AddRange(GetAlergenos(0,2));
             db.Ingrediente.AddRange(GetIngredientes(0,4));
             db.Sandwich.AddRange(GetSandwiches(0,3));
+            db.Users.AddRange(Utilities.GetUsers(0, 2));
+
             IList<IList<IngredienteSandwich>> ingredienteSandwiches = GetIngredienteSandwich(0,3);
 
             while (!(ingredienteSandwiches.Count() == 0))
@@ -82,6 +84,7 @@ namespace Sandwich2Go.UT.SandwichControllers_test
             db.AlergSandws.RemoveRange(db.AlergSandws);
             db.Oferta.RemoveRange(db.Oferta);
             db.OfertaSandwich.RemoveRange(db.OfertaSandwich);
+            db.Users.RemoveRange(db.Users);
 
             db.SaveChanges();
         }

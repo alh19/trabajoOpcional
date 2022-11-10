@@ -51,7 +51,7 @@ namespace Sandwich2Go.Controllers
 
             return View(selectSandwiches);
         }
-
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult SelectSandwichForPurchase(SelectedSandwichesForPurchaseViewModel selectedSandwich)
         {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.UI.V4.Pages.Internal.Account;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -21,14 +22,20 @@ namespace Sandwich2Go.UT.SandwichControllers_test
     {
         private DbContextOptions<ApplicationDbContext> _contextOptions;
         private ApplicationDbContext context;
+        Microsoft.AspNetCore.Http.DefaultHttpContext sandwichesHttpContext;
 
         public SelectSandwichesForPurchase_test()
         {
-            _contextOptions = UtilitiesForSandwiches.CreateNewContextOptions();
+            _contextOptions = Utilities.CreateNewContextOptions();
             context = new ApplicationDbContext(_contextOptions);
             context.Database.EnsureCreated();
 
             UtilitiesForSandwiches.InitializeDbSandwichesForTests(context);
+            //Conexión de usuario
+            System.Security.Principal.GenericIdentity user = new System.Security.Principal.GenericIdentity("peter@uclm.com");
+            System.Security.Claims.ClaimsPrincipal identity = new System.Security.Claims.ClaimsPrincipal(user);
+            sandwichesHttpContext = new Microsoft.AspNetCore.Http.DefaultHttpContext();
+            sandwichesHttpContext.User = identity;
 
         }
 
