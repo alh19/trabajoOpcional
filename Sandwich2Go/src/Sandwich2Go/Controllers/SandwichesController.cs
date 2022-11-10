@@ -29,12 +29,13 @@ namespace Sandwich2Go.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> SelectSandwichForPurchase(double sandwichPrecio, string sandwichAlergenoSelected)
+        public IActionResult SelectSandwichForPurchase(double sandwichPrecio, string sandwichAlergenoSelected)
         {
             SelectSandwichesViewModel selectSandwiches = new SelectSandwichesViewModel();
             selectSandwiches.Alergenos = new SelectList(_context.Alergeno.Select(a => a.Name).ToList());
-
-            selectSandwiches.Sandwiches = await _context.Sandwich
+            selectSandwiches.sandwichAlergenoSelected = sandwichAlergenoSelected;
+            selectSandwiches.sandwichPrecio = sandwichPrecio;
+            selectSandwiches.Sandwiches = _context.Sandwich
                 .Include(s => s.OfertaSandwich).ThenInclude(os => os.Oferta)
                 .Include(s => s.IngredienteSandwich).ThenInclude(isa => isa.Ingrediente).ThenInclude(i => i.AlergSandws).ThenInclude(asa => asa.Alergeno)
                 .Where(s => (s.IngredienteSandwich
@@ -46,13 +47,13 @@ namespace Sandwich2Go.Controllers
                 (s.IngredienteSandwich.Where(isa => isa.Ingrediente.Stock == 0)).Count()==0 && //No muestro los sándwiches que no tienen stock
                 (s.IngredienteSandwich.Where(isa => isa.Cantidad > (isa.Ingrediente.Stock))).Count()==0)//Tampoco los sándwiches que tengan ingredientes que necesiten
                 .OrderBy(s=> s.SandwichName)                                                            //más cantidad que stock disponible
-                .Select(s=>new SandwichForPurchaseViewModel(s)).ToListAsync();
+                .Select(s=>new SandwichForPurchaseViewModel(s)).ToList();
 
             return View(selectSandwiches);
         }
 
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SelectSandwichForPurchase(SelectedSandwichesForPurchaseViewModel selectedSandwich)
+        public IActionResult SelectSandwichForPurchase(SelectedSandwichesForPurchaseViewModel selectedSandwich)
         {
             if (selectedSandwich.IdsToAdd != null)
             {
@@ -63,7 +64,7 @@ namespace Sandwich2Go.Controllers
             ModelState.AddModelError(string.Empty, "Debes seleccionar al menos un Sándwich");
 
             //the View SelectMoviesForPurchase will be shown again
-            return await SelectSandwichForPurchase(double.Parse(selectedSandwich.sandwichPrecio), selectedSandwich.sandwichAlergenoSelected);
+            return SelectSandwichForPurchase(double.Parse(selectedSandwich.sandwichPrecio), selectedSandwich.sandwichAlergenoSelected);
 
         }
         // GET: Sandwiches/Details/5

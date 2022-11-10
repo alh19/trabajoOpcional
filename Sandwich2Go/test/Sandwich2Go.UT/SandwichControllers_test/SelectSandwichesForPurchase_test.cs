@@ -63,11 +63,11 @@ namespace Sandwich2Go.UT.SandwichControllers_test
 
                 new object[]{new SelectSandwichesViewModel
                 {
-                    Sandwiches = UtilitiesForSandwiches.GetSandwiches(0,0).OrderBy(s=>s.SandwichName).ToList().Select(s=>new SandwichForPurchaseViewModel(s)),
+                    Sandwiches = UtilitiesForSandwiches.GetSandwiches(1,1).OrderBy(s=>s.SandwichName).ToList().Select(s=>new SandwichForPurchaseViewModel(s)),
                     sandwichPrecio =3,
                     sandwichAlergenoSelected = "Huevo",
                     Alergenos =new SelectList(UtilitiesForSandwiches.GetAlergenos(0, 2).Select(a => a.Name))
-                },3,"Leche"}//Introducimos precio y alérgeno. No esperamos ningún sándwich.
+                },3,"Huevo"}//Introducimos precio y alérgeno. No esperamos ningún sándwich.
             };
 
             UtilitiesForSandwiches.BorrarDatos();
@@ -87,9 +87,9 @@ namespace Sandwich2Go.UT.SandwichControllers_test
 
                 var viewResult = Assert.IsType<ViewResult>(result);
 
-                SelectSandwichesViewModel viewModel = (result.Result as ViewResult).Model as SelectSandwichesViewModel;
+                SelectSandwichesViewModel viewModel = (result as ViewResult).Model as SelectSandwichesViewModel;
 
-                Assert.Equal(expectedModel.Sandwiches, viewModel.Sandwiches);
+                Assert.Equal(expectedModel, viewModel);
 
             }
         }

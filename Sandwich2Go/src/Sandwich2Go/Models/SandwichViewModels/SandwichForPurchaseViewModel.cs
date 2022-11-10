@@ -17,7 +17,7 @@ namespace Sandwich2Go.Models.SandwichViewModels
             this.hayOferta = false;
             this.porcentajeOferta = 0;
             this.oferta = "";
-            if (sandwich.OfertaSandwich != null) {
+            if (sandwich.OfertaSandwich.Count()>0) {
                 this.hayOferta = true;
                 foreach (OfertaSandwich ofs in sandwich.OfertaSandwich)
                 {

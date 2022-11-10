@@ -15,7 +15,7 @@ namespace Sandwich2Go.Models.SandwichViewModels
         public string sandwichAlergenoSelected { get; set; }
         //Utilizado para filtrar por precio del Sándwich
         [Display(Name = "Precio menor que: ")]
-        public float sandwichPrecio { get; set; }
+        public double sandwichPrecio { get; set; }
 
 
         public override bool Equals(object obj)

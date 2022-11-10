@@ -19,6 +19,8 @@ namespace Sandwich2Go.UT.SandwichControllers_test
         static IList<Ingrediente> IngredientesG;
         static IList<IList<IngredienteSandwich>> IngredienteSandwichesG;
         static IList<Sandwich> SandwichesG;
+        static IList<Oferta> OfertasG;
+        static IList<IList<OfertaSandwich>> OfertaSandwichesG;
 
         public static DbContextOptions<ApplicationDbContext> CreateNewContextOptions(){
             // Crear un nuevo proveedor de servicios, y una nueva
@@ -61,6 +63,13 @@ namespace Sandwich2Go.UT.SandwichControllers_test
                 alergSandw.RemoveAt(0);
             }
 
+            IList<IList<OfertaSandwich>> ofertaSandwiches = GetOfertaSandwiches(0, 1);
+            while (!(ofertaSandwiches.Count() == 0))
+            {
+
+                db.OfertaSandwich.AddRange(ofertaSandwiches.ElementAt(0));
+                ofertaSandwiches.RemoveAt(0);
+            }
             db.SaveChanges();
         }
 
@@ -71,6 +80,8 @@ namespace Sandwich2Go.UT.SandwichControllers_test
             db.Ingrediente.RemoveRange(db.Ingrediente);
             db.Alergeno.RemoveRange(db.Alergeno);
             db.AlergSandws.RemoveRange(db.AlergSandws);
+            db.Oferta.RemoveRange(db.Oferta);
+            db.OfertaSandwich.RemoveRange(db.OfertaSandwich);
 
             db.SaveChanges();
         }
@@ -82,6 +93,16 @@ namespace Sandwich2Go.UT.SandwichControllers_test
         {
             return AlergSandwsG.ToList().GetRange(index, numOfAlergSandw);
         }
+
+        public static IList<Oferta> GetOfertas(int index, int numOfIngredientes)
+        {
+            return OfertasG.ToList().GetRange(index, numOfIngredientes);
+        }
+        public static IList<IList<OfertaSandwich>> GetOfertaSandwiches(int index, int numOfAlergSandw)
+        {
+            return OfertaSandwichesG.ToList().GetRange(index, numOfAlergSandw);
+        }
+
 
         public static IList<IList<IngredienteSandwich>> GetIngredienteSandwich(int index, int numOfIngredienteSandwich)
         {
@@ -100,6 +121,8 @@ namespace Sandwich2Go.UT.SandwichControllers_test
             SandwichesG = new List<Sandwich>();
             IngredienteSandwichesG = new List<IList<IngredienteSandwich>>();
             AlergSandwsG = new List<IList<AlergSandw>>();
+            OfertasG = new List<Oferta>();
+            OfertaSandwichesG = new List<IList<OfertaSandwich>>();
 
             AlergenosG.Add(new Alergeno { id = 1, Name = "Huevo" });
             AlergenosG.Add(new Alergeno { id = 2, Name = "Leche" });
@@ -109,9 +132,17 @@ namespace Sandwich2Go.UT.SandwichControllers_test
             IngredientesG.Add(new Ingrediente { Id = 3, Nombre = "Huevo" , Stock = 100});
             IngredientesG.Add(new Ingrediente { Id = 4, Nombre = "Mayonesa" , Stock = 100 });
 
-            SandwichesG.Add(new Sandwich{Id = 1, SandwichName = "Cubano", Precio = 5.50, Desc = "Queso, jamón y mayonesa"});
-            SandwichesG.Add(new Sandwich{Id = 2, SandwichName = "Mixto", Precio = 3.00, Desc = "Jamón y queso"});
-            SandwichesG.Add(new Sandwich{Id = 3,SandwichName = "Inglés", Precio = 4.00, Desc = "Jamón, queso y huevo revuelto"});
+            SandwichesG.Add(new Sandwich{Id = 1, SandwichName = "Cubano", Precio = 5.50, Desc = "Queso, jamón y mayonesa", OfertaSandwich = new List<OfertaSandwich>() });
+            SandwichesG.Add(new Sandwich{Id = 2, SandwichName = "Mixto", Precio = 3.00, Desc = "Jamón y queso", OfertaSandwich = new List<OfertaSandwich>() });
+            SandwichesG.Add(new Sandwich{Id = 3,SandwichName = "Inglés", Precio = 4.00, Desc = "Jamón, queso y huevo revuelto", OfertaSandwich = new List<OfertaSandwich>() });
+
+            OfertaSandwichesG.Add(new List<OfertaSandwich> { new OfertaSandwich { OfertaId = 1, SandwichId = 1, Sandwich = SandwichesG[0],Porcentaje = 10 } });
+
+            OfertasG.Add(new Oferta { Id = 1, Nombre = "Oferta 1", Descripcion ="Desc Oferta 1", FechaFin=new DateTime(), FechaInicio= new DateTime(), OfertaSandwich = OfertaSandwichesG[0] });
+
+            OfertaSandwichesG[0][0].Oferta = OfertasG[0];
+
+            SandwichesG[0].OfertaSandwich = OfertaSandwichesG[0];
 
             IngredienteSandwichesG.Add(new List<IngredienteSandwich> {
                 new IngredienteSandwich{ Id = 1, Ingrediente = IngredientesG[0], Sandwich = SandwichesG[0], IngredienteId = IngredientesG[0].Id, SandwichId = SandwichesG[0].Id, Cantidad = 1},
