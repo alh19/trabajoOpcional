@@ -89,14 +89,72 @@ namespace Sandwich2Go.UT.SandwichControllers_test
         {
             using (context)
             {
+                //Arrange
                 var controller = new SandwichesController(context);
+                //Act
                 var result = controller.SelectSandwichForPurchase(precio, alergeno);
-
+                //Assert
                 var viewResult = Assert.IsType<ViewResult>(result);
 
                 SelectSandwichesViewModel viewModel = (result as ViewResult).Model as SelectSandwichesViewModel;
-
+                //Comprobamos igualdad entre ViewModels
                 Assert.Equal(expectedModel, viewModel);
+
+            }
+        }
+
+        [Fact]
+        [Trait("LevelTesting", "Unit Testing")]
+        public void SelectSandwichesForPurchase_Post_SandwichesNotSelected()
+        {
+            using (context)
+            {
+                //Arrange
+                var controller = new SandwichesController(context);
+
+                var expectedViewModel = new SelectSandwichesViewModel()
+                {
+                    Sandwiches = UtilitiesForSandwiches.GetSandwiches(0, 3).OrderBy(s => s.SandwichName).ToList().Select(s => new SandwichForPurchaseViewModel(s)),
+                    sandwichPrecio = 0,
+                    sandwichAlergenoSelected = null,
+                    Alergenos = new SelectList(UtilitiesForSandwiches.GetAlergenos(0, 2).Select(a => a.Name))
+                };
+
+                SelectedSandwichesForPurchaseViewModel selected = new SelectedSandwichesForPurchaseViewModel { IdsToAdd = null, sandwichAlergenoSelected = null, sandwichPrecio = "0" };
+
+                //Act
+
+                var result = controller.SelectSandwichForPurchase(selected);
+
+                //Assert
+                var viewResult = Assert.IsType<ViewResult>(result);
+
+                SelectSandwichesViewModel model = viewResult.Model as SelectSandwichesViewModel;
+                //Comprobamos igualdad entre ViewModels
+                Assert.Equal(expectedViewModel, model);
+            }
+        }
+
+        [Fact]
+        [Trait("LevelTesting", "Unit Testing")]
+        public void SelectSandwichesForPurchase_Post_SandwichesSelected()
+        {
+            using (context)
+            {
+                //Arrange
+                var controller = new SandwichesController(context);
+                controller.ControllerContext.HttpContext = sandwichesHttpContext;
+
+                String[] ids = new string[2] { "1", "2" };
+                SelectedSandwichesForPurchaseViewModel sandwiches = new SelectedSandwichesForPurchaseViewModel { IdsToAdd = ids, sandwichAlergenoSelected = null, sandwichPrecio = "0" };
+
+                //Act
+                var result = controller.SelectSandwichForPurchase(sandwiches);
+
+                //Assert
+                var viewResult = Assert.IsType<RedirectToActionResult>(result);
+                var currentSandwiches = viewResult.RouteValues.Values.First();
+                Assert.Equal(sandwiches.IdsToAdd, currentSandwiches);
 
             }
         }
