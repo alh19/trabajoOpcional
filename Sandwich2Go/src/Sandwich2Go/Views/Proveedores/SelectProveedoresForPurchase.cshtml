@@ -1,24 +1,20 @@
 ﻿@* model storing which data will be rendered by the View *@
-@model Sandwich2Go.Models.ProveedoresViewModels.SelectProveedoresViewModel
+@model Sandwich2Go.Models.ProveedorViewModels.SelectProveedoresForPurchaseViewModel
 
 @{
-    ViewData["Title"] = "Select Proveedores";
+    ViewData["Title"] = "Select Supplier";
 }
 
-<h2>Order a purchase to supplier</h2>
+<h2>Select Supplier</h2>
 @* Form to fill in the filters to be used *@
 <form asp-controller="Proveedores" class="form-horizontal">
     <p>
         <div>
-            <label asp-for="proveedorCif"></label>
-            <input asp-for="proveedorCif" size="50" />
-            <span asp-validation-for="proveedorCif" class="text-danger"></span>
+            <label asp-for="proveedorNombreSelected"></label>
+            <input asp-for="proveedorNombreSelected" size="50" />
+            <span asp-validation-for="proveedorNombreSelected" class="text-danger"></span>
 
-            <label asp-for="nombreProveedorSelected"></label>
-            <select asp-for="nombreProveedorSelected" asp-items="Model.Nombres">
-                <option value="">All</option>
-            </select>
-            <input id="filterbyNombres" asp-action="SelectProveedoresForPurchase" type="submit" value="Filter" formmethod="get" />
+            <input id="filterbyNombre" asp-action="SelectProveedoresForPurchase" type="submit" value="Filtro" formmethod="get" />
         </div>
     </p>
 
@@ -28,37 +24,37 @@
         <thead>
             <tr>
                 <th width="50%">
-                    CIF
-                </th>
-                <th>
-                    Proveedor
-                </th>
-                <th>
                     Nombre
                 </th>
-                <th align="center" width="10%">
-                    Seleccionar Nombre
+                <th width="50%">
+                    Cif
+                </th>
+                <th width="50%">
+                    Dirección
+                </th>
+                <th>
+                    Seleccionar Proveedor
                 </th>
             </tr>
         </thead>
         <tbody>
             @if (Model.Proveedores.Count() == 0)
             {
-                <tr><td id="NoProveedores" colspan="3">There are no suppliers available</td></tr>
+                <tr><td id="NoSandwiches" colspan="3">There are no suppliers available</td></tr>
             }
             else
             {
                 @foreach (var item in Model.Proveedores)
                 {
-                    <tr id="Proveedor_Name_@item.ProveedoresName">
+                    <tr id="Proveedor_Name_@item.Nombre">
                         <td width="50%">
-                            @Html.DisplayFor(modelItem => item.ProveedoresName)
+                            @Html.DisplayFor(modelItem => item.Nombre)
                         </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CIF)
+                        <td width="50%">
+                            @Html.DisplayFor(modelItem => item.Cif)
                         </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Desc)
+                        <td width="50%">
+                            @Html.DisplayFor(modelItem => item.Direccion)
                         </td>
                         <td align="center" width="10%">
                             <input type="checkbox" name="IdsToAdd" id="Proveedor_@item.Id" value="@item.Id" class="form-control">
@@ -68,9 +64,9 @@
             }
         </tbody>
     </table>
-    <form asp-action="SelectSandwichesForPurchase" method="post">
+    <form asp-action="SelectProveedoresForPurchase" method="post">
 
-        <button type="submit" class="btn btn-primary">Save</button>
-        <a asp-action="Index" class="btn btn-default">Cancel</a>
+        <button type="submit" class="btn btn-primary">Siguiente</button>
+        <a asp-action="Index" class="btn btn-default">Cancelar</a>
     </form>
     </form>

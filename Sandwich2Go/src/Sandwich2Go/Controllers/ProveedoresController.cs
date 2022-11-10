@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Sandwich2Go.Data;
 using Sandwich2Go.Models;
-using Sandwich2Go.Models.SelectProveedoresViewModel;
-using Sandwich2Go.Models.SandwichViewModels;
+using Sandwich2Go.Models.ProveedorViewModels;
 
 namespace Sandwich2Go.Controllers
 {
@@ -22,73 +22,38 @@ namespace Sandwich2Go.Controllers
         }
 
         [HttpGet]
-        public IActionResult SelectProveedorForPedidoProveedor(double proveedorCif, string proveedorNombreSelected)
+        public IActionResult SelectProveedoresForPurchase(string proveedorNombreSelected)
         {
-            SelectProveedoresViewModel selectProveedores = new SelectProveedoresViewModel();
-            
-            selectProveedores.Nombres = 
-                new SelectList(_context.Proveedor.Select(g => g.Nombre).ToList());
 
-            selectProveedores.Proveedores =
-                _context.Proveedor.Include(m => m.Cif)
-                .Where(cif => cif.Cif.Contains((Char) proveedorCif) || proveedorCif.Equals(null));
-            /*
+            SelectProveedoresForPurchaseViewModel selectProveedores = new SelectProveedoresForPurchaseViewModel();
             selectProveedores.Proveedores = _context.Proveedor
-                .Include(s => s.IngrProv).ThenInclude(isa => isa.Ingrediente).ThenInclude(i => i.Nombre)
-                .Where(s => (s.IngrProv
-                    .Where(i => i.Ingrediente.IngrProv.Equals(proveedorNombreSelected)
-                    .Any())
-                .Count() == 0 || proveedorNombreSelected == null) && (s.Precio <= sandwichPrecio || sandwichPrecio == 0)).ToList();
-
-                .Include(m => m.Genre) //join table Movie and table Genre
-                .Where(movie => movie.QuantityForPurchase > 0 // where clause
-                && (movie.Title.Contains(movieTitle) || movieTitle == null)
-                && (movie.Genre.Name.Contains(movieGenreSelected) || movieGenreSelected == null));
-            
-            selectProveedores.Movies = selectMovies.Movies.ToList();
-
-            selectProveedores.Proveedores = _context.Proveedor
-                .Include(s => s.IngrProv).ThenInclude(isa => isa.Ingrediente).ThenInclude(i => i.Id)
-                .Include(s => s.IngrProv).ThenInclude(isa => isa.Ingrediente).ThenInclude(i => i.Nombre)
-                .Include(s => s.IngrProv).ThenInclude(isa => isa.Ingrediente).ThenInclude(i => i.Stock)
-                .Where(ped => ped.IngrProv);
-            */
+                .Where(prov => prov.Nombre.Equals(proveedorNombreSelected) || prov.Nombre == null);
 
             return View(selectProveedores);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult SelectProveedorForPedidoProveedor(SelectedSandwichesForPurchaseViewModel selectedSandwich)
+        public IActionResult SelectProveedoresForPurchase(SelectedProveedoresForPurchaseViewModel
+        selectedProveedores)
         {
-            if (selectedSandwich.IdsToAdd != null)
+
+            if (selectedProveedores.IdsToAdd != null)
             {
-
-                return RedirectToAction("Create", "Pedido", selectedSandwich);
+                //La siguiente pantalla es la selección de ingredientes por parte de los proveedores
+                Ingrediente ingr = new Ingrediente();
+                return RedirectToAction("Create", "IngredientesProveedores", ingr);
             }
-            //a message error will be shown to the customer in case no movies are selected
-            ModelState.AddModelError(string.Empty, "Debes seleccionar al menos un Sándwich");
 
-            //the View SelectMoviesForPurchase will be shown again
-            return SelectProveedorForPurchase(double.Parse(selectedSandwich.sandwichPrecio), selectedSandwich.sandwichAlergenoSelected);
+            ModelState.AddModelError(string.Empty, "You must select at least one supplier");
 
+            return SelectProveedoresForPurchase(selectedProveedores.proveedorNombreSelected);
         }
 
         // GET: Proveedores
-        public async Task<IActionResult> Index(string SearchString)
+        public async Task<IActionResult> Index()
         {
-            //Se filtra por Nombre de proveedor y se ordena por CIF
-            if (!String.IsNullOrEmpty(SearchString))
-            {
-                var proveedores = _context.Proveedor.
-                    Where(s => s.Nombre.Contains(SearchString)).
-                    OrderBy(i => i.Cif);
-                return View(await proveedores.ToListAsync());
-            }
-            else
-            {
-                return View(await _context.Proveedor.
-                    OrderBy(m => m.Cif).ToListAsync());
-            }
+            return View(await _context.Proveedor.ToListAsync());
         }
 
         // GET: Proveedores/Details/5
@@ -99,16 +64,8 @@ namespace Sandwich2Go.Controllers
                 return NotFound();
             }
 
-            /*var proveedor = await _context.Proveedor
-                .FirstOrDefaultAsync(m => m.Id == id);
-            */
-
-            //Muestra todos los detalles de los proveedores
             var proveedor = await _context.Proveedor
-                .Include(p => p.IngrProv)
-                .ThenInclude(p => p.Ingrediente)
-                .FirstAsync(p => p.Id == id);
-
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (proveedor == null)
             {
                 return NotFound();
@@ -120,7 +77,6 @@ namespace Sandwich2Go.Controllers
         // GET: Proveedores/Create
         public IActionResult Create()
         {
-            //Al invocarse se realiza una llamada a la vista
             return View();
         }
 
