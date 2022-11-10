@@ -66,7 +66,7 @@ namespace Sandwich2Go.Controllers
             return SelectSandwichForPurchase(double.Parse(selectedSandwich.sandwichPrecio), selectedSandwich.sandwichAlergenoSelected);
 
         }
-        }
+        
         // GET: Sandwiches/Details/5
         public async Task<IActionResult> Details(int? id)
         {
