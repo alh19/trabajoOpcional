@@ -30,14 +30,20 @@
     <table class="table">
         <thead>
             <tr>
-                <th width="50%">
+                <th>
                     Nombre
+                </th>
+                <th>
+                    Oferta
                 </th>
                 <th>
                     Precio
                 </th>
                 <th>
-                    Descripción
+                    Ingredientes
+                </th>
+                <th>
+                    Alérgenos
                 </th>
                 <th align="center" width="10%">
                     Seleccionar Sándwich
@@ -54,17 +60,31 @@
                 @foreach (var item in Model.Sandwiches)
                 {
                     <tr id="Sandwich_Name_@item.SandwichName">
-                        <td width="50%">
+                        <td>
                             @Html.DisplayFor(modelItem => item.SandwichName)
+                        </td>
+                        <td>
+                            @if(item.hayOferta){
+                            @Html.DisplayFor(modelItem => item.oferta)
+                            }
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Precio)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Desc)
+                            @foreach (string ing in item.ingredientes)
+                            {
+                                @Html.DisplayFor(modelItem => ing)
+                            }
+                        </td>
+                        <td>
+                            @foreach (string ale in item.alergenos)
+                            {
+                                @Html.DisplayFor(modelItem => ale)
+                            }
                         </td>
                         <td align="center" width="10%">
-                            <input type="checkbox" name="IdsToAdd" id="Sandwich_@item.Id" value="@item.Id" class="form-control">
+                            <input type="checkbox" name="IdsToAdd" id="Sandwich_@item.SandwichID" value="@item.SandwichID" class="form-control">
                         </td>
                     </tr>
                 }

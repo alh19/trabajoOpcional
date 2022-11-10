@@ -21,48 +21,43 @@ namespace Sandwich2Go.Controllers
         {
             _context = context;
         }
-
+        [AllowAnonymous]
         // GET: Sandwiches
         public async Task<IActionResult> Index()
         {
             return View(await _context.Sandwich.ToListAsync());
         }
-        [AllowAnonymous]
+
         [HttpGet]
         public IActionResult SelectSandwichForPurchase(double sandwichPrecio, string sandwichAlergenoSelected)
         {
             SelectSandwichesViewModel selectSandwiches = new SelectSandwichesViewModel();
             selectSandwiches.Alergenos = new SelectList(_context.Alergeno.Select(a => a.Name).ToList());
-
+            selectSandwiches.sandwichAlergenoSelected = sandwichAlergenoSelected;
+            selectSandwiches.sandwichPrecio = sandwichPrecio;
             selectSandwiches.Sandwiches = _context.Sandwich
+                .Include(s => s.OfertaSandwich).ThenInclude(os => os.Oferta)
                 .Include(s => s.IngredienteSandwich).ThenInclude(isa => isa.Ingrediente).ThenInclude(i => i.AlergSandws).ThenInclude(asa => asa.Alergeno)
                 .Where(s => (s.IngredienteSandwich
                     .Where(isa => isa.Ingrediente.AlergSandws
                         .Where(als => als.Alergeno.Name.Equals(sandwichAlergenoSelected))
                     .Any())
-                .Count() == 0 || sandwichAlergenoSelected == null) && (s.Precio <= sandwichPrecio || sandwichPrecio == 0));
+                .Count() == 0 || sandwichAlergenoSelected == null) && //No muestro los sándwiches con el alérgeno indicado. Si no se indica no se aplica filtro.
+                (s.Precio <= sandwichPrecio || sandwichPrecio == 0) &&//No muestro los sándwiches con precio superior al introducido. Si no se introduce precio o es 0 no se aplica filtro.
+                (s.IngredienteSandwich.Where(isa => isa.Cantidad > (isa.Ingrediente.Stock))).Count()==0)//Tampoco los sándwiches que tengan ingredientes que necesiten
+                .OrderBy(s=> s.SandwichName)                                                            //más cantidad que stock disponible. También incluye a ingredientes.stock = 0 por naturaleza.
+                .Select(s=>new SandwichForPurchaseViewModel(s)).ToList();
 
             return View(selectSandwiches);
         }
-        [AllowAnonymous]
-        [HttpGet]
-        public IActionResult SelectSandwichesForOffer(string sandwichNombre, double sandwichPrecio)
-        {
-            SelectSandwichesForOfferViewModel selectSandwiches = new SelectSandwichesForOfferViewModel();
-            selectSandwiches.Sandwiches = _context.Sandwich
-                .Where(s => ((s.SandwichName.Contains(sandwichNombre) || sandwichNombre == null) && (s.Precio == sandwichPrecio || sandwichPrecio == 0)));
-
-            return View(selectSandwiches);
-        }
-        [Authorize(Roles = "Cliente")]
+        [HttpPost]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult SelectSandwichForPurchase(SelectedSandwichesForPurchaseViewModel selectedSandwich)
         {
             if (selectedSandwich.IdsToAdd != null)
             {
-                Pedido pedido = new Pedido();
-                return RedirectToAction("Create", "Pedidos", pedido);
+                return RedirectToAction("Create", "Pedidos", selectedSandwich);
             }
             //a message error will be shown to the customer in case no movies are selected
             ModelState.AddModelError(string.Empty, "Debes seleccionar al menos un Sándwich");
@@ -71,23 +66,7 @@ namespace Sandwich2Go.Controllers
             return SelectSandwichForPurchase(double.Parse(selectedSandwich.sandwichPrecio), selectedSandwich.sandwichAlergenoSelected);
 
         }
-        [Authorize(Roles = "Gerente")]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult SelectSandwichesForOffer(SelectedSandwichesForOfferViewModel selectedSandwich)
-        {
-            if (selectedSandwich.IdsToAdd != null)
-            {
-                Oferta oferta = new Oferta();
-                return RedirectToAction("Create", "Ofertas", oferta);
-            }
-            //a message error will be shown to the customer in case no movies are selected
-            ModelState.AddModelError(string.Empty, "Debes seleccionar al menos un Sándwich");
-
-            //the View SelectMoviesForPurchase will be shown again
-            return SelectSandwichesForOffer(selectedSandwich.sandwichNombre, double.Parse(selectedSandwich.sandwichPrecio));
-
-        }
+        
         // GET: Sandwiches/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -105,7 +84,7 @@ namespace Sandwich2Go.Controllers
 
             return View(sandwich);
         }
-
+        [Authorize(Roles = "Gerente")]
         // GET: Sandwiches/Create
         public IActionResult Create()
         {
@@ -116,6 +95,7 @@ namespace Sandwich2Go.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Gerente")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,SandwichName,Precio,Desc")] Sandwich sandwich)
         {
@@ -127,7 +107,7 @@ namespace Sandwich2Go.Controllers
             }
             return View(sandwich);
         }
-
+        [Authorize(Roles = "Gerente")]
         // GET: Sandwiches/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -147,6 +127,7 @@ namespace Sandwich2Go.Controllers
         // POST: Sandwiches/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Gerente")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,SandwichName,Precio,Desc")] Sandwich sandwich)
@@ -178,7 +159,7 @@ namespace Sandwich2Go.Controllers
             }
             return View(sandwich);
         }
-
+        [Authorize(Roles = "Gerente")]
         // GET: Sandwiches/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -196,7 +177,7 @@ namespace Sandwich2Go.Controllers
 
             return View(sandwich);
         }
-
+        [Authorize(Roles = "Gerente")]
         // POST: Sandwiches/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
