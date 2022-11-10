@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Sandwich2Go.Controllers;
 using Sandwich2Go.Data;
@@ -18,7 +19,7 @@ namespace Sandwich2Go.UT.IngredientesController_test
     {
         private DbContextOptions<ApplicationDbContext> _contextOptions;
         private ApplicationDbContext context;
-        Microsoft.AspNetCore.Http.DefaultHttpContext purchaseContext;
+        Microsoft.AspNetCore.Http.DefaultHttpContext ingredienteContext;
 
         public SelectIngredientes_test()
         {
@@ -33,109 +34,120 @@ namespace Sandwich2Go.UT.IngredientesController_test
             //how to simulate the connection of a user
             System.Security.Principal.GenericIdentity user = new System.Security.Principal.GenericIdentity("peter@uclm.com");
             System.Security.Claims.ClaimsPrincipal identity = new System.Security.Claims.ClaimsPrincipal(user);
-            purchaseContext = new Microsoft.AspNetCore.Http.DefaultHttpContext();
-            purchaseContext.User = identity;
+            ingredienteContext = new Microsoft.AspNetCore.Http.DefaultHttpContext();
+            ingredienteContext.User = identity;
 
         }
         public static IEnumerable<object[]> TestCasesForSelectIngredientesForPurchase_get()
         {
-            var allTests = new List<object[]>
+            var alergenosNames = new SelectList(UtilitiesForIngredientes.GetAlergenos(0, 4).Select(a => a.Name));
+            var ingredientesForPurchaseVMTC1 = new SelectIngredientesForPurchaseViewModel()
             {
-                new object[] { UtilitiesForIngredientes.GetIngredientes(0,3), UtilitiesForIngredientes.GetAlergenos(0,4), null, null },
-                new object[] { UtilitiesForIngredientes.GetIngredientes(0,1), UtilitiesForIngredientes.GetAlergenos(0,4), "Lechuga", null},
-                new object[] { UtilitiesForIngredientes.GetIngredientes(2,1), UtilitiesForIngredientes.GetAlergenos(0,4), null, "Gluten"},
+                Alergenos = alergenosNames,
+                Ingredientes = UtilitiesForIngredientes.GetIngredientes(0, 2)
+                        .OrderBy(i => i.Id)
+                        .Select(h => new IngredienteForPurchaseViewModel(h)).ToList()
+            };
+           
+            var ingredientesForPurchaseVMTC2 = new SelectIngredientesForPurchaseViewModel()
+            {
+                Alergenos = alergenosNames,
+                Ingredientes = UtilitiesForIngredientes.GetIngredientes(0, 2)
+                        .OrderBy(i => i.Id)
+                        .Select(h => new IngredienteForPurchaseViewModel(h)).ToList()
             };
 
+            var ingredientesForPurchaseVMTC3 = new SelectIngredientesForPurchaseViewModel()
+            {
+                Alergenos = alergenosNames,
+                Ingredientes = UtilitiesForIngredientes.GetIngredientes(0, 2)
+                        .OrderBy(i => i.Id)
+                        .Select(h => new IngredienteForPurchaseViewModel(h)).ToList()
+            };
+            var allTests = new List<object[]>
+                {
+                    new object[] { ingredientesForPurchaseVMTC1, null, null},
+                    new object[] { ingredientesForPurchaseVMTC2, "Gluten", null},
+                    new object[]{ ingredientesForPurchaseVMTC3, null,"Lechuga" },
+                  };
             return allTests;
         }
 
         [Theory]
         [MemberData(nameof(TestCasesForSelectIngredientesForPurchase_get))]
         [Trait("LevelTesting", "Unit Testing")]
-        public async Task SelectIngredientesForPurchase_Get(List<Ingrediente> expectedIngredientes, List<Alergeno> expectedAlergenos, string filterNombre, string filterAlergeno)
+        public void SelectIngredientesForPurchase_Get(SelectIngredientesForPurchaseViewModel expectedIngredientes, string ingredienteAlergenoSelected, string ingredienteNombre)
         {
-            using (context)
-            {
 
-                // Arrange
-                var controller = new IngredientesController(context);
-                controller.ControllerContext.HttpContext = purchaseContext;
+            var controller = new IngredientesController(context);
 
-                var expectedAlergenosNames = expectedAlergenos.Select(g => new { nameofAlergeno = g.Name });
 
-                // Act
-                var result = controller.SelectIngredientesForPurchase(filterNombre, filterAlergeno);
 
-                //Assert
-                var viewResult = Assert.IsType<ViewResult>(result); // Check the controller returns a view
-                SelectIngredientesForPurchaseViewModel model = viewResult.Model as SelectIngredientesForPurchaseViewModel;
 
-                // Check that both collections (expected and result returned) have the same elements with the same name
-                // You must implement Equals in Movies, otherwise Assert will fail
-                Assert.Equal(expectedIngredientes, model.Ingredientes);
-                //check that both collections (expected and result) have the same names of Genre
-                var modelAlergenos = model.Alergenos.Select(g => new { nameofAlergeno = g.Text });
-                Assert.True(expectedAlergenosNames.SequenceEqual(modelAlergenos));
-            }
+            var result = controller.SelectIngredientesForPurchase(ingredienteAlergenoSelected, ingredienteNombre);
+
+
+            var viewResult = Assert.IsType<ViewResult>(result.Result);
+            SelectIngredientesForPurchaseViewModel model = viewResult.Model as SelectIngredientesForPurchaseViewModel;
+
+            Assert.Equal(expectedIngredientes, model);
         }
+    
 
 
-        [Fact]
-        [Trait("LevelTesting", "Unit Testing")]
-        public void SelectIngredientesForPurchase_Post_IngredientesNotSelected()
-        {
-            using (context)
+    [Fact]
+    [Trait("LevelTesting", "Unit Testing")]
+    public void SelectIngredientesForPurchase_Post_IngredientesNotSelected()
+    {
+        
+
+
+            var controller = new IngredientesController(context);
+            var alergenosNames = new SelectList(UtilitiesForIngredientes.GetAlergenos(0, 4).Select(a => a.Name));
+            var expectedSelectIngredientesForPurchaseViewModel = new SelectIngredientesForPurchaseViewModel()
             {
+                Alergenos = alergenosNames,
+                Ingredientes = UtilitiesForIngredientes.GetIngredientes(0, 2)
+                        .OrderBy(i => i.Id)
+                        .Select(h => new IngredienteForPurchaseViewModel(h)).ToList()
+            };
 
-                // Arrange
-                var controller = new IngredientesController(context);
-                controller.ControllerContext.HttpContext = purchaseContext;
-                //we create an array that is a list names of genres
-                var expectedAlergenos = UtilitiesForIngredientes.GetAlergenos(0, 4).Select(g => new { nameofAlergeno = g.Name });
-                var expectedIngredientes = UtilitiesForIngredientes.GetIngredientes(0, 3);
+            SelectedIngredientesForPurchaseViewModel selected = new SelectedIngredientesForPurchaseViewModel { IdsToAdd = null };
 
-                SelectedIngredientesForPurchaseViewModel selected = new SelectedIngredientesForPurchaseViewModel { IdsToAdd = null };
 
-                // Act
-                var result = controller.SelectIngredientesForPurchase(selected);
+            var result = controller.SelectIngredientesForPurchase(selected);
 
-                //Assert
-                var viewResult = Assert.IsType<ViewResult>(result); // Check the controller returns a view
-                SelectIngredientesForPurchaseViewModel model = viewResult.Model as SelectIngredientesForPurchaseViewModel;
 
-                // Check that both collections (expected and result returned) have the same elements with the same name
-                Assert.Equal(expectedIngredientes, model.Ingredientes);
+            var viewResult = Assert.IsType<ViewResult>(result.Result);
+            SelectIngredientesForPurchaseViewModel model = viewResult.Model as SelectIngredientesForPurchaseViewModel;
 
-                //check that both collections (expected and result) have the same names of Genre
-                var modelAlergenos = model.Alergenos.Select(g => new { nameofAlergeno = g.Text });
-                Assert.True(expectedAlergenos.SequenceEqual(modelAlergenos));
 
-            }
-        }
-
-        [Fact]
-        [Trait("LevelTesting", "Unit Testing")]
-        public void SelectIngredientesForPurchase_Post_IngredientesSelected()
-        {
-            using (context)
-            {
-
-                // Arrange
-                var controller = new IngredientesController(context);
-                controller.ControllerContext.HttpContext = purchaseContext;
-
-                String[] ids = new string[1] { "1" };
-                SelectedIngredientesForPurchaseViewModel ingredientes = new SelectedIngredientesForPurchaseViewModel { IdsToAdd = ids };
-
-                // Act
-                var result = controller.SelectIngredientesForPurchase(ingredientes);
-
-                //Assert
-                var viewResult = Assert.IsType<RedirectToActionResult>(result);
-                var currentIngredientes = viewResult.RouteValues.Values.First();
-                Assert.Equal(ingredientes.IdsToAdd, currentIngredientes);
-
-            }
-        }
+            Assert.Equal(expectedSelectIngredientesForPurchaseViewModel, model);
     }
+
+    [Fact]
+    [Trait("LevelTesting", "Unit Testing")]
+    public void SelectIngredientesForPurchase_Post_IngredientesSelected()
+    {
+        
+
+            // Arrange
+            var controller = new IngredientesController(context);
+            controller.ControllerContext.HttpContext = ingredienteContext;
+
+            String[] ids = new string[1] { "1" };
+            SelectedIngredientesForPurchaseViewModel ingredientes = new SelectedIngredientesForPurchaseViewModel { IdsToAdd = ids };
+
+            // Act
+            var result = controller.SelectIngredientesForPurchase(ingredientes);
+
+            //Assert
+            var viewResult = Assert.IsType<RedirectToActionResult>(result.Result);
+            var currentIngredientes = viewResult.RouteValues.Values.First();
+            Assert.Equal(ingredientes.IdsToAdd, currentIngredientes);
+
+        
+    }
+
+}
 }

@@ -13,9 +13,9 @@ namespace Sandwich2Go.UT.IngredientesController_test
 {
     public static class UtilitiesForIngredientes
     {
-        public static void InitializeDbGenresForTests(ApplicationDbContext db)
+        public static void InitializeDbAlergenosForTests(ApplicationDbContext db)
         {
-            db.Alergeno.AddRange(GetAlergenos(0, 3));
+            db.Alergeno.AddRange(GetAlergenos(0, 4));
             db.SaveChanges();
 
         }
@@ -25,12 +25,46 @@ namespace Sandwich2Go.UT.IngredientesController_test
             db.Alergeno.RemoveRange(db.Alergeno);
             db.SaveChanges();
         }
+        
+
+
+
+
+        
+
+        public static IList<Ingrediente> GetIngredientes(int index, int numOfIngredientes)
+        {
+            IList<Alergeno> alergenos = GetAlergenos(0, 2);
+            
+           
+            var allIngredientes = new List<Ingrediente>
+            {
+                new Ingrediente {Id=1,Nombre="Lechuga",PrecioUnitario=2,Stock=8,AlergSandws = new List<AlergSandw>{ new AlergSandw {Id=1,IngredienteId=1,Alergeno = alergenos[0]}}},
+                new Ingrediente {Id=2,Nombre="Tomate",PrecioUnitario=3,Stock=9,AlergSandws = new List<AlergSandw>{ new AlergSandw {Id=2,IngredienteId=2,Alergeno = alergenos[1]}}}
+            };
+
+            return allIngredientes.GetRange(index, numOfIngredientes);
+        }
+
+        public static IList<Alergeno> GetAlergenos(int index, int numOfAlergenos)
+        {
+            var allAlergenos = new List<Alergeno>
+                {
+                    
+                    new Alergeno { id=1, Name="Lactosa" } ,
+                    new Alergeno { id=2, Name="Gluten" } ,
+                    new Alergeno { id=3, Name="Soja" } ,
+                    new Alergeno { id=4, Name="Huevo" } 
+                };
+            //return from the list as much instances as specified in numOfAlergenos
+            return allAlergenos.GetRange(index, numOfAlergenos);
+        }
 
         public static void InitializeDbIngredientesForTests(ApplicationDbContext db)
         {
 
-            db.Ingrediente.AddRange(GetIngredientes(0, 4));
-            //genre id=1 it is already added because it is related to the movies
+            db.Ingrediente.AddRange(GetIngredientes(0, 2));
+            
             db.Alergeno.AddRange(GetAlergenos(2, 2));
             db.SaveChanges();
 
@@ -42,38 +76,14 @@ namespace Sandwich2Go.UT.IngredientesController_test
         {
             db.Ingrediente.RemoveRange(db.Ingrediente);
             db.Alergeno.RemoveRange(db.Alergeno);
+            db.Users.RemoveRange(db.Users);
             db.SaveChanges();
         }
 
-        public static IList<Ingrediente> GetIngredientes(int index, int numOfIngredientes)
-        {
-            Ingrediente ingrediente = GetIngredientes(0, 1).First();
-            Ingrediente ingrediente2 = GetIngredientes(1, 1).First();
-            var allIngredientes = new List<Ingrediente>
-            {
-                new Ingrediente {Id=1,Nombre="Lechuga",PrecioUnitario=2,Stock=8 },
-                new Ingrediente {Id=2,Nombre="Tomate",PrecioUnitario=3,Stock=9},
-                new Ingrediente {Id=3,Nombre="Queso",PrecioUnitario=1,Stock=5 },
-                new Ingrediente {Id=4,Nombre="Pan",PrecioUnitario=2,Stock=10 }
-            };
 
-            return allIngredientes.GetRange(index, numOfIngredientes);
-        }
 
-        public static IList<Alergeno> GetAlergenos(int index, int numOfAlergenos)
-        {
-            var allAlergenos = new List<Alergeno>
-                {
-                    new Alergeno { id=1, Name="Gluten" } ,
-                    new Alergeno { id=2, Name="Lactosa" } ,
-                    new Alergeno { id=3, Name="Soja" } ,
-                    new Alergeno { id=4, Name="Huevo" } 
-                };
-            //return from the list as much instances as specified in numOfGenres
-            return allAlergenos.GetRange(index, numOfAlergenos);
-        }
 
-        
+
     }
 }
 

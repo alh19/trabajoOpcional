@@ -27,7 +27,7 @@ namespace Sandwich2Go.Controllers
         }
 
         [HttpGet]
-        public IActionResult SelectIngredientesForPurchase(string ingredienteAlergenoSelected,
+        public async Task<IActionResult> SelectIngredientesForPurchase(string ingredienteAlergenoSelected,
                 string ingredienteNombre)
         {
           
@@ -39,7 +39,15 @@ namespace Sandwich2Go.Controllers
           .Where(s => (s.AlergSandws.Where(isa => isa.Ingrediente.AlergSandws
                   .Where(als => als.Alergeno.Name.Equals(ingredienteAlergenoSelected))
               .Any())
-          .Count() == 0 || ingredienteAlergenoSelected == null) && (s.Nombre.Contains(ingredienteNombre)|| ingredienteNombre == null));
+          .Count() == 0 || ingredienteAlergenoSelected == null) && (s.Nombre.Contains(ingredienteNombre) || ingredienteNombre == null))
+          .Select(m => new IngredienteForPurchaseViewModel()
+          {
+               Id = m.Id,
+               Nombre = m.Nombre,
+               PrecioUnitario = m.PrecioUnitario,
+               Stock = m.Stock,
+          });
+           
             
 
             selectIngredientes.Ingredientes = selectIngredientes.Ingredientes.ToList();
@@ -52,20 +60,19 @@ namespace Sandwich2Go.Controllers
         [HttpPost]
         [Authorize(Roles = "Cliente")]
         [ValidateAntiForgeryToken]
-        public IActionResult SelectIngredientesForPurchase(SelectedIngredientesForPurchaseViewModel
+        public async Task <IActionResult> SelectIngredientesForPurchase(SelectedIngredientesForPurchaseViewModel
         selectedIngredientes)
         {
 
             if (selectedIngredientes.IdsToAdd != null)
             {
-                Sandwich sand  = new Sandwich();
-                return RedirectToAction("Create", "Sandwiches", sand);
+                
+                return RedirectToAction("Create", "Sandwiches", selectedIngredientes);
             }
 
             ModelState.AddModelError(string.Empty, "You must select at least one ingrediente");
 
-            return SelectIngredientesForPurchase(selectedIngredientes.ingredienteNombre,
-            selectedIngredientes.ingredienteAlergenoSelected);
+            return await SelectIngredientesForPurchase(selectedIngredientes.ingredienteAlergenoSelected, selectedIngredientes.ingredienteNombre);
         }
 
             // GET: Ingredientes

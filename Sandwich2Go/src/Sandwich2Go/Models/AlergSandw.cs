@@ -5,7 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Sandwich2Go.Models
 {
     public class AlergSandw
-    {
+    { 
+
         [Key]  
         public virtual int Id { get; set; }
 
