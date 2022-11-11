@@ -24,7 +24,6 @@
             <input id="filterbyAlergeno" asp-action="SelectSandwichForPurchase" type="submit" value="Filtrar" formmethod="get" />
         </div>
     </p>
-</form>
 
     <div id="ModelErrors" asp-validation-summary="All" class="text-danger">@TempData["Error"]</div>
 
@@ -65,8 +64,9 @@
                             @Html.DisplayFor(modelItem => item.SandwichName)
                         </td>
                         <td>
-                            @if(item.hayOferta){
-                            @Html.DisplayFor(modelItem => item.oferta)
+                            @if (item.hayOferta)
+                            {
+                                @Html.DisplayFor(modelItem => item.oferta)
                             }
                         </td>
                         <td>
@@ -97,4 +97,4 @@
         <button type="submit" class="btn btn-primary">Seleccionar</button>
         <a asp-action="Index" class="btn btn-default">Cancelar</a>
     </form>
-    
+</form>

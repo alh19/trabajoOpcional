@@ -84,7 +84,6 @@ namespace Sandwich2Go.Controllers
 
             return View(sandwich);
         }
-        [Authorize(Roles = "Gerente")]
         // GET: Sandwiches/Create
         public IActionResult Create()
         {

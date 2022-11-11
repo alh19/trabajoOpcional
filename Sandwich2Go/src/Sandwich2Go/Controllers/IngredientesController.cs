@@ -58,7 +58,6 @@ namespace Sandwich2Go.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Cliente")]
         [ValidateAntiForgeryToken]
         public async Task <IActionResult> SelectIngredientesForPurchase(SelectedIngredientesForPurchaseViewModel
         selectedIngredientes)
