@@ -12,5 +12,6 @@ namespace Sandwich2Go.Models.IngredienteViewModels
         [Display(Name = "Stock")]
         public string ingredienteStock { get; set; }
 
+        public int IdProveedor { get; set; }
     }
 }

@@ -11,7 +11,7 @@
     <p>
         <div>
             <label asp-for="proveedorNombreSelected"></label>
-            <input asp-for="proveedorNombreSelected" size="50" />
+            <input asp-for="proveedorNombreSelected" size="50" required />
             <span asp-validation-for="proveedorNombreSelected" class="text-danger"></span>
 
             <input id="filterbyNombre" asp-action="SelectProveedoresForPurchase" type="submit" value="Filtro" formmethod="get" />

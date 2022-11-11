@@ -7,7 +7,7 @@
 
 <h2>Select Ingredients from Supplier</h2>
 @* Form to fill in the filters to be used *@
-<form asp-controller="IngredientesProveedores" class="form-horizontal">
+<form asp-controller="Ingredientes" class="form-horizontal">
     <p>
         <div>
             <label asp-for="ingredienteNombre"></label>
@@ -15,8 +15,12 @@
             <span asp-validation-for="ingredienteNombre" class="text-danger"></span>
 
             <label asp-for="ingredienteStock"></label>
-            <input asp-for="ingredienteStock" size="5" required />
+            <input asp-for="ingredienteStock" size="25" />
             <span asp-validation-for="ingredienteStock" class="text-danger"></span>
+
+            <input asp-for="IdProveedor" size="5" type="hidden"/>
+
+            
 
             <input asp-action="SelectIngrProvForPurchase" type="submit" value="Filtrar" formmethod="get" />
         </div>
@@ -27,11 +31,11 @@
     <table class="table">
         <thead>
             <tr>
-                <th width="50%">
+                <th>
                     Nombre
                 </th>
-                <th width="50%">
-                    Stock
+                <th>
+                    Stock menor que
                 </th>
                 <th>
                     Seleccionar Ingredientes
@@ -47,7 +51,7 @@
             {
                 @foreach (var item in Model.Ingredientes)
                 {
-                    <tr id="Ingrediente_Name_@item.Nombre">
+                    <tr id="Ingrediente_Name_@item.Id">
                         <td width="50%">
                             @Html.DisplayFor(modelItem => item.Nombre)
                         </td>
@@ -65,6 +69,6 @@
     <form asp-action="SelectIngrProvForPurchase" method="post">
 
         <button type="submit" class="btn btn-primary">Guardar</button>
-        <button asp-action="Index" class="btn btn-default">Cancelar</button>
+        <button asp-controller="Proveedores" asp-action="Index" class="btn btn-default">Cancelar</button>
     </form>
     </form>

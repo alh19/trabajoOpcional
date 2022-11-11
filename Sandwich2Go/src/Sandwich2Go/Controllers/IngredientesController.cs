@@ -23,13 +23,16 @@ namespace Sandwich2Go.Controllers
         }
 
         [HttpGet]
-        public IActionResult SelectIngrProvForPurchase(string ingredienteNombre, int ingredienteStock)
+        public IActionResult SelectIngrProvForPurchase(string? ingredienteNombre, int? ingredienteStock, int IdProveedor)
         {
             SelectIngrProvForPurchaseViewModel selectIngredientes = new SelectIngrProvForPurchaseViewModel();
             selectIngredientes.Ingredientes = _context.Ingrediente
-                .Include(s => s.IngrProv).ThenInclude(ing => ing.Ingrediente)
-                .Where(s => ((s.Nombre.Contains(ingredienteNombre) || ingredienteNombre == null) 
-                && (s.Stock == ingredienteStock || ingredienteStock == 0)));
+                .Include(s => s.IngrProv).ThenInclude(p => p.Proveedor)
+                .Where(s => (s.IngrProv
+                    .Where(p => p.Proveedor.Id == IdProveedor.ToString()).Any()
+                    || IdProveedor.Equals(null))).Where(s => 
+                (s.Nombre.Contains(ingredienteNombre) || ingredienteNombre == null)
+                && (s.Stock <= ingredienteStock || ingredienteStock.Equals(null)));
 
             return View(selectIngredientes);
         }
@@ -40,14 +43,15 @@ namespace Sandwich2Go.Controllers
         {
             if (selectedIngrediente.IdsToAdd != null)
             {
-                Ingrediente ingr = new Ingrediente();
-                return RedirectToAction("SelectIngrProvForPurchase", "IngrProv", ingr);
+                PedidoProv pedprov = new PedidoProv();
+                return RedirectToAction("Create", "Pedidos", pedprov);
             }
             //a message error will be shown to the customer in case no movies are selected
             ModelState.AddModelError(string.Empty, "Debes seleccionar al menos un ingrediente");
 
             //the View SelectMoviesForPurchase will be shown again
-            return SelectIngrProvForPurchase(selectedIngrediente.ingredienteNombre, int.Parse(selectedIngrediente.ingredienteStock));
+            return SelectIngrProvForPurchase(selectedIngrediente.ingredienteNombre, int.Parse(selectedIngrediente.ingredienteStock),
+                selectedIngrediente.IdProveedor);
 
         }
 
