@@ -14,8 +14,10 @@ namespace Sandwich2Go.Models
 
         [ForeignKey("PedidoId")]
         public virtual PedidoProv PedidoProv { get; set; }
+        public virtual int PedidoProvId { get; set; }
         [ForeignKey("IngrProvId")]
         public virtual IngrProv IngrProv { get; set; }
+        public virtual int IngrProvId { get; set; }
 
     }
 }

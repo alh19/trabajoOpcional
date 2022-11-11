@@ -31,5 +31,7 @@ namespace Sandwich2Go.Models
         [Required, Display(Name = "Maximo sándwiches")]
         [Range(1, 10, ErrorMessage = "El máximo de un mismo sándwich por pedido es 10")]
         public virtual int Cantidad { get; set; }
+
+        
     }
 }

@@ -1,7 +1,8 @@
-﻿using Sandwich2Go.Data;
-using Sandwich2Go.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Sandwich2Go.Data;
+using Sandwich2Go.Models;
+using Sandwich2Go.UT.SandwichControllers_test;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,10 @@ namespace Sandwich2Go.UT
     public static class Utilities
     {
         public static DbContextOptions<ApplicationDbContext> CreateNewContextOptions()
+        {
+            var serviceProvider = new ServiceCollection()
+                .AddEntityFrameworkInMemoryDatabase()
+                .BuildServiceProvider();
 
         {// Create a fresh service provider, and therefore a fresh 
             // InMemory database instance.
@@ -21,10 +26,16 @@ namespace Sandwich2Go.UT
             // Create a new options instance telling the context to use an
             // InMemory database and the new service provider.
             var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
+
             builder.UseInMemoryDatabase("Sandwich2Go")
-                        .UseInternalServiceProvider(serviceProvider);
+                .UseInternalServiceProvider(serviceProvider);
+
+            builder.EnableSensitiveDataLogging();
+            builder.EnableDetailedErrors();
+
             return builder.Options;
         }
+
         public static void InitializeDbCustomersForTests(ApplicationDbContext db)
         {
 
@@ -40,10 +51,27 @@ namespace Sandwich2Go.UT
 
         public static IList<Usuario> GetUsers(int index, int numOfUsers)
         {
-            var allUsers = new List<Usuario>
-                {
-                   new Cliente {Id = "3",UserName = "peter@uclm.com",Email = "peter@uclm.com",Nombre = "Peter",Apellido = "Jackson Jackson",EmailConfirmed = true,Direccion = "" }
-        
+            var allUsers = new List<Usuario> {
+                new Gerente
+                   {
+                       Id = "1",
+                       UserName = "elena@uclm.com",
+                       Email = "elena@uclm.com",
+                       Nombre = "Elena",
+                       Apellido = "Navarro Martinez",
+                       EmailConfirmed = true,
+                       Direccion = ""
+                   },
+                new Cliente {
+                        Id = "2",
+                        UserName = "gregorio@uclm.com",
+                        Email = "gregorio@uclm.com",
+                        Nombre = "Gregorio",
+                        Apellido = "Diaz Descalzo",
+                        EmailConfirmed = true,
+                        Direccion = ""
+                   }
+                   
                 };
             //return from the list as much instances as specified in numOfGenres
             return allUsers.GetRange(index, numOfUsers);
