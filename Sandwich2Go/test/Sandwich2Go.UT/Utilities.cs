@@ -11,14 +11,13 @@ using System.Threading.Tasks;
 
 namespace Sandwich2Go.UT
 {
-    public class Utilities
+    public static class Utilities
     {
         public static DbContextOptions<ApplicationDbContext> CreateNewContextOptions()
         {
             var serviceProvider = new ServiceCollection()
                 .AddEntityFrameworkInMemoryDatabase()
                 .BuildServiceProvider();
-
             var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
 
             builder.UseInMemoryDatabase("Sandwich2Go")
@@ -30,7 +29,7 @@ namespace Sandwich2Go.UT
             return builder.Options;
         }
 
-        public static void InitializeDbCustomersForTests(ApplicationDbContext db)
+            public static void InitializeDbCustomersForTests(ApplicationDbContext db)
         {
 
             db.Users.Add(GetUsers(0, 1).First());
