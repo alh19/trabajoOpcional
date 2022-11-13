@@ -44,7 +44,7 @@ namespace Sandwich2Go.UT.SandwichControllers_test
 
             var sandwichesForOfferVMTC1 = new SelectSandwichesForOfferViewModel()
             {
-                Sandwiches = UtilitiesForSandwichesForOffer.GetSandwiches(0, 3)
+                Sandwiches = UtilitiesForSandwichesForOffer.GetSandwiches(0, 2)
                         .OrderBy(i => i.Id)
                         .Select(h => new SandwichForOfferViewModel(h)).ToList()
             };
@@ -58,7 +58,7 @@ namespace Sandwich2Go.UT.SandwichControllers_test
 
             var sandwichesForOfferVMTC3 = new SelectSandwichesForOfferViewModel()
             {
-                Sandwiches = UtilitiesForSandwichesForOffer.GetSandwiches(2, 1)
+                Sandwiches = UtilitiesForSandwichesForOffer.GetSandwiches(1, 1)
                         .OrderBy(i => i.Id)
                         .Select(h => new SandwichForOfferViewModel(h)).ToList()
             };
@@ -66,7 +66,7 @@ namespace Sandwich2Go.UT.SandwichControllers_test
                 {
                     new object[] { sandwichesForOfferVMTC1, null, 0.00},
                     new object[] { sandwichesForOfferVMTC2, "Cubano", 0.00},
-                    new object[] { sandwichesForOfferVMTC3, null, 4.00},
+                    new object[] { sandwichesForOfferVMTC3, null, 3.50},
                   };
             return allTests;
         }

@@ -28,9 +28,9 @@ namespace Sandwich2Go.Models.SandwichViewModels
         public string SandwichName { get; set; }
 
         [Required, DataType(DataType.Currency)]
-        public virtual double Precio { get; set; }
+        public double Precio { get; set; }
         [Required, StringLength(100, ErrorMessage = "La descripción no puede ser mayor a 100 caracteres.")]
-        public virtual string Desc { get; set; }
+        public string Desc { get; set; }
 
         public override bool Equals(object obj)
         {
