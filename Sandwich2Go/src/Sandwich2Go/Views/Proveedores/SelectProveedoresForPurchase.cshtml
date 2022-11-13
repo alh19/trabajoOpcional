@@ -32,15 +32,15 @@
                 <th width="50%">
                     Dirección
                 </th>
-                <th>
-                    Seleccionar Proveedor
+                <th align="center" width="10%">
+                    Seleccionar Proveedores
                 </th>
             </tr>
         </thead>
         <tbody>
             @if (Model.Proveedores.Count() == 0)
             {
-                <tr><td id="NoSandwiches" colspan="3">There are no suppliers available</td></tr>
+                <tr><td id="NoProveedores" colspan="3">There are no suppliers available</td></tr>
             }
             else
             {
@@ -56,8 +56,14 @@
                         <td width="50%">
                             @Html.DisplayFor(modelItem => item.Direccion)
                         </td>
+                        <!--
                         <td align="center" width="10%">
-                            <input type="checkbox" name="IdsToAdd" id="Proveedor_@item.Id" value="@item.Id" class="form-control">
+                             <input type="checkbox" name="IdsToAdd" id="Proveedores_@item.Id" value="@item.Id" class="form-control">
+                         </td>
+                        -->
+                        
+                        <td>
+                            <a asp-controller="Ingredientes" asp-action="SelectIngrProvForPurchase" asp-route-IdProveedor="@item.Id">Comprar Ingredientes</a>
                         </td>
                     </tr>
                 }

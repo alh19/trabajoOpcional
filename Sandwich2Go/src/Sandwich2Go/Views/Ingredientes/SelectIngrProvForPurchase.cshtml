@@ -1,0 +1,72 @@
+﻿@* model storing which data will be rendered by the View *@
+@model Sandwich2Go.Models.IngredienteViewModels.SelectIngrProvForPurchaseViewModel
+
+@{
+    ViewData["Title"] = "Select Ingredients from Supplier";
+}
+
+<h2>Select Ingredients from Supplier</h2>
+@* Form to fill in the filters to be used *@
+<form asp-controller="Ingredientes" class="form-horizontal" asp-action="SelectIngrProvForPurchase">
+    <p>
+        <div>
+            <label asp-for="ingredienteNombre"></label>
+            <input asp-for="ingredienteNombre" size="50" />
+            <span asp-validation-for="ingredienteNombre" class="text-danger"></span>
+
+            <label asp-for="ingredienteStock">Stock menor que</label>
+            <input asp-for="ingredienteStock" size="25" />
+            <span asp-validation-for="ingredienteStock" class="text-danger"></span>
+
+            <input asp-for="IdProveedor" size="5" type="hidden" asp-items=Model.IdProveedor />
+
+            <input asp-action="SelectIngrProvForPurchase" type="submit" value="Filtrar" formmethod="get" />
+        </div>
+    </p>
+
+    <div id="ModelErrors" asp-validation-summary="All" class="text-danger">@TempData["Error"]</div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Nombre
+                </th>
+                <th>
+                    Stock menor que
+                </th>
+                <th>
+                    Seleccionar Ingredientes
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Ingredientes.Count() == 0)
+            {
+                <tr><td id="NoIngredientes" colspan="3">There are no ingredients available</td></tr>
+            }
+            else
+            {
+                @foreach (var item in Model.Ingredientes)
+                {
+                    <tr id="Ingrediente_Name_@item.Id">
+                        <td width="50%">
+                            @Html.DisplayFor(modelItem => item.Nombre)
+                        </td>
+                        <td width="50%">
+                            @Html.DisplayFor(modelItem => item.Stock)
+                        </td>
+                        <td align="center" width="10%">
+                            <input type="checkbox" name="IdsToAdd" id="Ingrediente_@item.Id" value="@item.Id" class="form-control">
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <form asp-action="SelectIngrProvForPurchase" method="post">
+
+        <button type="submit" class="btn btn-primary" asp-route-IdProveedor=Model.IdProveedor formmethod="post">Guardar</button>
+        <a asp-controller="Proveedores" asp-action="Index" class="btn btn-default">Cancelar</a>
+    </form>
+    </form>
