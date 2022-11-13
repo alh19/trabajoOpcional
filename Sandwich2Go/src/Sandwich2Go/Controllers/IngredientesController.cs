@@ -27,6 +27,7 @@ namespace Sandwich2Go.Controllers
             _context = context;
         }
 
+        [Authorize(Roles = "Gerente")]
         [HttpGet]
         public IActionResult SelectIngrProvForPurchase(string? ingredienteNombre, int? ingredienteStock, int IdProveedor)
         {
@@ -34,7 +35,9 @@ namespace Sandwich2Go.Controllers
             selectIngredientes.Ingredientes = _context.Ingrediente
                 .Include(s => s.IngrProv).ThenInclude(p => p.Proveedor)
                 .Where(s => (s.IngrProv
-                    .Where(p => p.Proveedor.Id == IdProveedor.ToString()).Any()
+                    //.Where(p => p.Proveedor.Id == IdProveedor).Any()
+                    //.Where(p => p.Proveedor.Id.Equals(IdProveedor)).Any()
+                    .Where(p => p.Proveedor.Id == IdProveedor).Any()
                     || IdProveedor.Equals(null))).Where(s =>
                 (s.Nombre.Contains(ingredienteNombre) || ingredienteNombre == null)
                 && (s.Stock <= ingredienteStock || ingredienteStock.Equals(null)));
@@ -42,6 +45,7 @@ namespace Sandwich2Go.Controllers
             return View(selectIngredientes);
         }
 
+        [Authorize(Roles = "Gerente")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult SelectIngrProvForPurchase(SelectedIngrProvForPurchaseViewModel selectedIngrediente)
@@ -56,8 +60,8 @@ namespace Sandwich2Go.Controllers
 
             //the View SelectMoviesForPurchase will be shown again
             return SelectIngrProvForPurchase(selectedIngrediente.ingredienteNombre, int.Parse(selectedIngrediente.ingredienteStock),
-                selectedIngrediente.IdProveedor);
-
+                //int.Parse(selectedIngrediente.IdProveedor));
+                (selectedIngrediente.IdProveedor));
         }
 
         [HttpGet]

@@ -31,7 +31,7 @@ namespace Design
 
         [Required]
         public virtual Gerente Gerente { get; set; }
-        public virtual IList<IngrPedProv> ArticulosPed { get; set; }
+        public virtual IList<IngrPedProv> IngrPedProv { get; set; }
 
         public MetodoDePago MetodoDePago
         {

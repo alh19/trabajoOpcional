@@ -11,7 +11,7 @@
     <p>
         <div>
             <label asp-for="proveedorNombreSelected"></label>
-            <input asp-for="proveedorNombreSelected" size="50" required />
+            <input asp-for="proveedorNombreSelected" size="50" />
             <span asp-validation-for="proveedorNombreSelected" class="text-danger"></span>
 
             <input id="filterbyNombre" asp-action="SelectProveedoresForPurchase" type="submit" value="Filtro" formmethod="get" />
@@ -32,15 +32,15 @@
                 <th width="50%">
                     Dirección
                 </th>
-                <th>
-                    Seleccionar Proveedor
+                <th align="center" width="10%">
+                    Seleccionar Proveedores
                 </th>
             </tr>
         </thead>
         <tbody>
             @if (Model.Proveedores.Count() == 0)
             {
-                <tr><td id="NoSandwiches" colspan="3">There are no suppliers available</td></tr>
+                <tr><td id="NoProveedores" colspan="3">There are no suppliers available</td></tr>
             }
             else
             {

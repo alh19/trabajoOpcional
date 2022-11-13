@@ -8,10 +8,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Sandwich2Go.Data;
 using Sandwich2Go.Models;
+using Sandwich2Go.Models.IngredienteViewModels;
 using Sandwich2Go.Models.ProveedorViewModels;
 
 namespace Sandwich2Go.Controllers
 {
+    [Authorize]
     public class ProveedoresController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -21,17 +23,28 @@ namespace Sandwich2Go.Controllers
             _context = context;
         }
 
+        [Authorize(Roles = "Gerente")]
         [HttpGet]
         public IActionResult SelectProveedoresForPurchase(string proveedorNombreSelected)
         {
 
             SelectProveedoresForPurchaseViewModel selectProveedores = new SelectProveedoresForPurchaseViewModel();
             selectProveedores.Proveedores = _context.Proveedor
-                .Where(prov => prov.Nombre.Equals(proveedorNombreSelected) || prov.Nombre == null);
+                .Where(prov => prov.Nombre.Equals(proveedorNombreSelected) || proveedorNombreSelected == null)
+                .Select(m => new ProveedorForPurchaseViewModel()
+                {
+                    Id = m.Id,
+                    Nombre = m.Nombre,
+                    Cif = m.Cif,
+                    Direccion = m.Direccion,
+                });
+
+            //selectProveedores.Proveedores = selectProveedores.Proveedores.ToList();
 
             return View(selectProveedores);
         }
 
+        [Authorize(Roles = "Gerente")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult SelectProveedoresForPurchase(SelectedProveedoresForPurchaseViewModel
@@ -57,7 +70,7 @@ namespace Sandwich2Go.Controllers
         }
 
         // GET: Proveedores/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(int id)
         {
             if (id == null)
             {
@@ -65,7 +78,8 @@ namespace Sandwich2Go.Controllers
             }
 
             var proveedor = await _context.Proveedor
-                .FirstOrDefaultAsync(m => m.Id == id);
+                //.FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id.Equals(id));
             if (proveedor == null)
             {
                 return NotFound();
@@ -97,8 +111,9 @@ namespace Sandwich2Go.Controllers
         }
 
         // GET: Proveedores/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(int? id)
         {
+            //if (id.Equals(null))
             if (id == null)
             {
                 return NotFound();
@@ -117,9 +132,10 @@ namespace Sandwich2Go.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Cif,Nombre,Direccion")] Proveedor proveedor)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Cif,Nombre,Direccion")] Proveedor proveedor)
         {
-            if (id != proveedor.Id)
+            //if (id != proveedor.Id)
+            if (!id.Equals(proveedor.Id))
             {
                 return NotFound();
             }
@@ -133,7 +149,9 @@ namespace Sandwich2Go.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
+                    //if (!ProveedorExists(int.Parse(proveedor.Id)))
                     if (!ProveedorExists(proveedor.Id))
+                    //if (!ProveedorExists(proveedor.Id.ToString()))
                     {
                         return NotFound();
                     }
@@ -148,7 +166,7 @@ namespace Sandwich2Go.Controllers
         }
 
         // GET: Proveedores/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -156,7 +174,8 @@ namespace Sandwich2Go.Controllers
             }
 
             var proveedor = await _context.Proveedor
-                .FirstOrDefaultAsync(m => m.Id == id);
+                //.FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id.Equals(id));
             if (proveedor == null)
             {
                 return NotFound();
@@ -168,7 +187,7 @@ namespace Sandwich2Go.Controllers
         // POST: Proveedores/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var proveedor = await _context.Proveedor.FindAsync(id);
             _context.Proveedor.Remove(proveedor);
@@ -176,9 +195,10 @@ namespace Sandwich2Go.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProveedorExists(string id)
+        private bool ProveedorExists(int id)
         {
-            return _context.Proveedor.Any(e => e.Id == id);
+            //return _context.Proveedor.Any(e => e.Id == id);
+            return _context.Proveedor.Any(e => e.Id.Equals(id));
         }
     }
 }
