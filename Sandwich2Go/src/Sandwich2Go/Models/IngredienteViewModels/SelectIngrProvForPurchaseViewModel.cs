@@ -8,7 +8,7 @@ namespace Sandwich2Go.Models.IngredienteViewModels
 { 
     public class SelectIngrProvForPurchaseViewModel
     {
-        public IEnumerable<IngredienteForPurchaseViewModel> Ingredientes { get; set; }
+        public IEnumerable<IngrProvForPurchaseViewModel> Ingredientes { get; set; }
         //Utilizado para filtrar por nombres
         [Display(Name = "Nombre")]
         public string ingredienteNombre { get; set; }
@@ -19,9 +19,10 @@ namespace Sandwich2Go.Models.IngredienteViewModels
         
         public override bool Equals(object obj)
         {
-            return obj is IngredienteForPurchaseViewModel model &&
-                ingredienteNombre == model.Nombre &&
-                ingredienteStock == model.Stock;
+            return obj is SelectIngrProvForPurchaseViewModel model &&
+                ingredienteNombre == model.ingredienteNombre &&
+                ingredienteStock == model.ingredienteStock &&
+                IdProveedor == model.IdProveedor;
         }
     }
 }

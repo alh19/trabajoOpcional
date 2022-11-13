@@ -10,11 +10,11 @@ namespace Sandwich2Go.Models.IngredienteViewModels
 
         }
 
-        public IngrProvForPurchaseViewModel(IngrProv ingrprov)
+        public IngrProvForPurchaseViewModel(Ingrediente ingrprov)
         {
             Id = ingrprov.Id;
-            Nombre = ingrprov.Ingrediente.Nombre;
-            Stock = ingrprov.Ingrediente.Stock;
+            Nombre = ingrprov.Nombre;
+            Stock = ingrprov.Stock;
         }
 
         [Key]
@@ -31,7 +31,7 @@ namespace Sandwich2Go.Models.IngredienteViewModels
 
         public override bool Equals(object obj)
         {
-            return obj is IngredienteForPurchaseViewModel model &&
+            return obj is IngrProvForPurchaseViewModel model &&
                 Id == model.Id &&
                 Nombre == model.Nombre &&
                 Stock == model.Stock;

@@ -96,34 +96,33 @@ namespace Sandwich2Go.UT.IngredientesController_test
         public static IEnumerable<object[]> TestCasesForSelectIngrProvForPurchase_get()
         {
             var proveedores = UtilitiesForIngredientes.GetProveedores(0, 1).Select(a => a.Id).First();
+            var ingredientes = UtilitiesForIngredientes.GetIngredientes(0, 2)
+                    .OrderBy(i => i.Id)
+                    .Select(h => new IngrProvForPurchaseViewModel(h)).ToList();
+
             var ingrprovForPurchaseVMTC1 = new SelectIngrProvForPurchaseViewModel()
             {
                 IdProveedor = proveedores,
-                Ingredientes = UtilitiesForIngredientes.GetIngredientes(0, 2)
-                    .OrderBy(i => i.Id)
-                    .Select(h => new IngredienteForPurchaseViewModel(h)).ToList()
+                Ingredientes = ingredientes
             };
 
-            //var ingrprovForPurchaseVMTC2 = new SelectIngrProvForPurchaseViewModel()
-            //{
-            //    IdProveedor = proveedores,
-            //    Ingredientes = UtilitiesForIngredientes.GetIngredientes(0, 1)
-            //        .OrderBy(i => i.Id)
-            //        .Select(h => new IngredienteForPurchaseViewModel(h)).ToList()
-            //};
+            var ingrprovForPurchaseVMTC2 = new SelectIngrProvForPurchaseViewModel()
+            {
+                IdProveedor = UtilitiesForIngredientes.GetProveedores(1, 1).Select(a => a.Id).First(),
+                Ingredientes = ingredientes
+            };
 
-            //var ingrprovForPurchaseVMTC3 = new SelectIngrProvForPurchaseViewModel()
-            //{
-            //    IdProveedor = proveedores,
-            //    Ingredientes = UtilitiesForIngredientes.GetIngredientes(0, 1)
-            //        .OrderBy(i => i.Id)
-            //        .Select(h => new IngredienteForPurchaseViewModel(h)).ToList()
-            //};
+            var ingrprovForPurchaseVMTC3 = new SelectIngrProvForPurchaseViewModel()
+            {
+                IdProveedor = proveedores,
+                Ingredientes = ingredientes
+            };
+
             var allTests = new List<object[]>
                 {
-                    new object[] { ingrprovForPurchaseVMTC1, null, null, 1},
-                    //new object[] { ingredientesForPurchaseVMTC2, "Gluten", null},
-                    //new object[]{ ingredientesForPurchaseVMTC3, null,"Lechuga" },
+                    new object[] { ingrprovForPurchaseVMTC1, null, 0, 1},
+                    new object[] { ingrprovForPurchaseVMTC2, "Lechuga", null, 2},
+                    new object[]{ ingrprovForPurchaseVMTC3, null, 8, 1},
                   };
             return allTests;
         }
@@ -146,16 +145,11 @@ namespace Sandwich2Go.UT.IngredientesController_test
             Assert.Equal(expectedIngredientes, model);
         }
 
-        
-    
-
 
     [Fact]
     [Trait("LevelTesting", "Unit Testing")]
     public void SelectIngredientesForPurchase_Post_IngredientesNotSelected()
     {
-        
-
 
             var controller = new IngredientesController(context);
             var alergenosNames = new SelectList(UtilitiesForIngredientes.GetAlergenos(0, 4).Select(a => a.Name));
@@ -200,9 +194,60 @@ namespace Sandwich2Go.UT.IngredientesController_test
             var viewResult = Assert.IsType<RedirectToActionResult>(result.Result);
             var currentIngredientes = viewResult.RouteValues.Values.First();
             Assert.Equal(ingredientes.IdsToAdd, currentIngredientes);
-
-        
     }
 
-}
+
+        [Fact]
+        [Trait("LevelTesting", "Unit Testing")]
+        public void SelectIngrProvForPurchase_Post_IngredientesNotSelected()
+        {
+
+            var controller = new IngredientesController(context);
+            var proveedores = UtilitiesForIngredientes.GetProveedores(0, 1).Select(a => a.Id).First();
+            var ingredientes = UtilitiesForIngredientes.GetIngredientes(0, 2)
+                    .OrderBy(i => i.Id)
+                    .Select(h => new IngrProvForPurchaseViewModel(h)).ToList();
+
+            var expectedSelectIngrProvForPurchaseViewModel = new SelectIngrProvForPurchaseViewModel()
+            {
+                Ingredientes = ingredientes,
+                IdProveedor = 0
+            };
+
+            String[] ids = new string[1] { "1" };
+            SelectedIngrProvForPurchaseViewModel selected = new SelectedIngrProvForPurchaseViewModel { IdsToAdd = null };
+
+
+            var result = controller.SelectIngrProvForPurchase(selected);
+
+
+            var viewResult = Assert.IsType<ViewResult>(result.Result);
+            SelectIngrProvForPurchaseViewModel model = viewResult.Model as SelectIngrProvForPurchaseViewModel;
+
+
+            Assert.Equal(expectedSelectIngrProvForPurchaseViewModel, model);
+        }
+
+        [Fact]
+        [Trait("LevelTesting", "Unit Testing")]
+        public void SelectIngrProvForPurchase_Post_IngredientesSelected()
+        {
+            // Arrange
+            var controller = new IngredientesController(context);
+            controller.ControllerContext.HttpContext = ingredienteContext;
+
+            String[] ids = new string[1] { "0" };
+            SelectedIngrProvForPurchaseViewModel ingredientes = new SelectedIngrProvForPurchaseViewModel { IdsToAdd = ids };
+
+            // Act
+            var result = controller.SelectIngrProvForPurchase(ingredientes);
+
+            //Assert
+            var viewResult = Assert.IsType<RedirectToActionResult>(result.Result);
+            var currentIngredientes = viewResult.RouteValues.Values.First();
+            Assert.Equal(ingredientes.IdsToAdd, currentIngredientes);
+
+
+        }
+    }
 }

@@ -10,7 +10,7 @@ namespace Sandwich2Go.Models.IngredienteViewModels
         [Display(Name = "Nombre")]
         public string ingredienteNombre { get; set; }
         [Display(Name = "Stock")]
-        public string ingredienteStock { get; set; }
+        public int ingredienteStock { get; set; }
 
         public int IdProveedor { get; set; }
     }

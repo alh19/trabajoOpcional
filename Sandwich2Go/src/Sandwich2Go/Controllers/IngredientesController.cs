@@ -45,7 +45,7 @@ namespace Sandwich2Go.Controllers
             //&& (s.Stock <= ingredienteStock || ingredienteStock.Equals(null)));
             .Where(s => (s.Nombre.Contains(ingredienteNombre) || ingredienteNombre == null)
             && (s.Stock <= ingredienteStock || ingredienteStock.Equals(null)))
-            .Select(m => new IngredienteForPurchaseViewModel()
+            .Select(m => new IngrProvForPurchaseViewModel()
             {
                 Id = m.Id,
                 Nombre = m.Nombre,
@@ -60,20 +60,20 @@ namespace Sandwich2Go.Controllers
         [Authorize(Roles = "Gerente")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult SelectIngrProvForPurchase(SelectedIngrProvForPurchaseViewModel selectedIngrediente)
+        public async Task <IActionResult> SelectIngrProvForPurchase(SelectedIngrProvForPurchaseViewModel selectedIngrediente)
         {
             if (selectedIngrediente.IdsToAdd != null)
             {
-                PedidoProv pedprov = new PedidoProv();
-                return RedirectToAction("Create", "Pedidos", pedprov);
+                //PedidoProv pedprov = new PedidoProv();
+                return RedirectToAction("Create", "Pedidos", selectedIngrediente);
             }
             
             //a message error will be shown to the customer in case no movies are selected
             ModelState.AddModelError(string.Empty, "Debes seleccionar al menos un ingrediente");
 
             //the View SelectMoviesForPurchase will be shown again
-            return SelectIngrProvForPurchase(selectedIngrediente.ingredienteNombre, 
-                int.Parse(selectedIngrediente.ingredienteStock),
+            return await SelectIngrProvForPurchase(selectedIngrediente.ingredienteNombre, 
+                selectedIngrediente.ingredienteStock,
                 selectedIngrediente.IdProveedor);
                 //(selectedIngrediente.IdProveedor));
         }
