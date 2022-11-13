@@ -7,8 +7,8 @@ namespace Sandwich2Go.Models.SandwichViewModels
     {
         public string[] IdsToAdd { get; set; }
         [Display(Name = "Nombre")]
-        public string sandwichNombre { get; set; }
+        public string SandwichName { get; set; }
         [Display(Name = "Precio")]
-        public string sandwichPrecio { get; set; }
+        public double sandwichPrecio { get; set; }
     }
 }
