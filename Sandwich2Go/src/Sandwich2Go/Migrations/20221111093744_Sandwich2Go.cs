@@ -39,13 +39,13 @@ namespace Sandwich2Go.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Nombre = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    Apellido = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    Direccion = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TarjetaCredito = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FechaUltimaCompra = table.Column<DateTime>(type: "datetime2", nullable: true),
                     FechaNacimiento = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Nombre = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Apellido = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Direccion = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: true),
                     FechaContratacion = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Salario = table.Column<double>(type: "float", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -107,7 +107,8 @@ namespace Sandwich2Go.Migrations
                 name: "Proveedor",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Cif = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: false),
                     Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Direccion = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -326,7 +327,7 @@ namespace Sandwich2Go.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IngredienteId = table.Column<int>(type: "int", nullable: false),
-                    ProveedorId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    ProveedorId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -443,7 +444,8 @@ namespace Sandwich2Go.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Cantidad = table.Column<int>(type: "int", nullable: false),
                     PedidoId = table.Column<int>(type: "int", nullable: false),
-                    IngrProvId = table.Column<int>(type: "int", nullable: true)
+                    PedidoProvId = table.Column<int>(type: "int", nullable: false),
+                    IngrProvId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -453,7 +455,7 @@ namespace Sandwich2Go.Migrations
                         column: x => x.IngrProvId,
                         principalTable: "IngrProv",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_IngrPedProv_PedidoProv_PedidoId",
                         column: x => x.PedidoId,
@@ -540,7 +542,8 @@ namespace Sandwich2Go.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_IngrPedProv_IngrProvId",
                 table: "IngrPedProv",
-                column: "IngrProvId");
+                column: "IngrProvId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_IngrPedProv_PedidoId",

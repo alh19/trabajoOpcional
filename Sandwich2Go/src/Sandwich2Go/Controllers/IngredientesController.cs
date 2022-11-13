@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -9,12 +10,16 @@ using Microsoft.EntityFrameworkCore;
 using Sandwich2Go.Data;
 using Sandwich2Go.Models;
 using Sandwich2Go.Models.IngredienteViewModels;
-using Sandwich2Go.Models.ProveedorViewModels;
+using Microsoft.AspNetCore.Authorization;
+
+
 
 namespace Sandwich2Go.Controllers
 {
+    [Authorize]
     public class IngredientesController : Controller
     {
+
         private readonly ApplicationDbContext _context;
 
         public IngredientesController(ApplicationDbContext context)
@@ -30,7 +35,7 @@ namespace Sandwich2Go.Controllers
                 .Include(s => s.IngrProv).ThenInclude(p => p.Proveedor)
                 .Where(s => (s.IngrProv
                     .Where(p => p.Proveedor.Id == IdProveedor.ToString()).Any()
-                    || IdProveedor.Equals(null))).Where(s => 
+                    || IdProveedor.Equals(null))).Where(s =>
                 (s.Nombre.Contains(ingredienteNombre) || ingredienteNombre == null)
                 && (s.Stock <= ingredienteStock || ingredienteStock.Equals(null)));
 
@@ -55,18 +60,58 @@ namespace Sandwich2Go.Controllers
 
         }
 
-        // GET: Ingredientes
-        public async Task<IActionResult> Index(string SearchString)
+        [HttpGet]
+        public async Task<IActionResult> SelectIngredientesForPurchase(string ingredienteAlergenoSelected,
+                string ingredienteNombre)
         {
-            if (!String.IsNullOrEmpty(SearchString))
+          
+            SelectIngredientesForPurchaseViewModel selectIngredientes = new SelectIngredientesForPurchaseViewModel();
+            selectIngredientes.Alergenos =new SelectList(_context.Alergeno.Select(g => g.Name).ToList());
+
+            selectIngredientes.Ingredientes = _context.Ingrediente
+          .Include(i => i.AlergSandws).ThenInclude(asa => asa.Alergeno)
+          .Where(s => (s.AlergSandws.Where(isa => isa.Ingrediente.AlergSandws
+                  .Where(als => als.Alergeno.Name.Equals(ingredienteAlergenoSelected))
+              .Any())
+          .Count() == 0 || ingredienteAlergenoSelected == null) && (s.Nombre.Contains(ingredienteNombre) || ingredienteNombre == null))
+          .Select(m => new IngredienteForPurchaseViewModel()
+          {
+               Id = m.Id,
+               Nombre = m.Nombre,
+               PrecioUnitario = m.PrecioUnitario,
+               Stock = m.Stock,
+          });
+           
+            
+
+            selectIngredientes.Ingredientes = selectIngredientes.Ingredientes.ToList();
+
+
+
+            return View(selectIngredientes);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task <IActionResult> SelectIngredientesForPurchase(SelectedIngredientesForPurchaseViewModel
+        selectedIngredientes)
+        {
+
+            if (selectedIngredientes.IdsToAdd != null)
             {
-                var ingredientes = _context.Ingrediente.Where(s => s.Nombre.Contains(SearchString)).OrderBy(i => i.AlergSandws);
-                return View(await ingredientes.ToListAsync());
+                
+                return RedirectToAction("Create", "Sandwiches", selectedIngredientes);
             }
-            else
-            {
-                return View(await _context.Ingrediente.ToListAsync());
-            }
+
+            ModelState.AddModelError(string.Empty, "You must select at least one ingrediente");
+
+            return await SelectIngredientesForPurchase(selectedIngredientes.ingredienteAlergenoSelected, selectedIngredientes.ingredienteNombre);
+        }
+
+            // GET: Ingredientes
+            public async Task<IActionResult> Index()
+        {
+            return View(await _context.Ingrediente.ToListAsync());
         }
 
         // GET: Ingredientes/Details/5
@@ -78,7 +123,7 @@ namespace Sandwich2Go.Controllers
             }
 
             var ingrediente = await _context.Ingrediente
-                .Include(m => m.AlergSandws).SingleOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (ingrediente == null)
             {
                 return NotFound();
@@ -98,7 +143,7 @@ namespace Sandwich2Go.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Cantidad,Stock")] Ingrediente ingrediente)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,PrecioUnitario,Stock")] Ingrediente ingrediente)
         {
             if (ModelState.IsValid)
             {
@@ -130,7 +175,7 @@ namespace Sandwich2Go.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Cantidad,Stock")] Ingrediente ingrediente)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,PrecioUnitario,Stock")] Ingrediente ingrediente)
         {
             if (id != ingrediente.Id)
             {

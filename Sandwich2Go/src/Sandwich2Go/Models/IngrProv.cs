@@ -15,12 +15,16 @@ namespace Sandwich2Go.Models
         [Key]
         public virtual int Id { get; set; }
 
-        [Required]
+        [ForeignKey("IngredienteId")]
         public virtual Ingrediente Ingrediente { get; set; }
+        public virtual int IngredienteId { get; set; }
+
+        [ForeignKey("ProveedorId")]
+        public virtual Proveedor Proveedor { get; set; }
+        public virtual int ProveedorId { get; set; }
 
         [Required]
-        public virtual Proveedor Proveedor { get; set; }
-
-        public virtual IList<IngrPedProv> IngrPedProv { get; set; }
+        public virtual IngrPedProv IngrPedProv { get; set; }
+        //public virtual IList<IngrPedProv> IngrPedProv { get; set; }
     }
 }

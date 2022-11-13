@@ -2,23 +2,26 @@
 @model Sandwich2Go.Models.SandwichViewModels.SelectSandwichesViewModel
 
 @{
-    ViewData["Title"] = "Select Sandwiches";
+    ViewData["Title"] = "Comprar sándwiches";
 }
-
-<h2>Purchase Sandwiches</h2>
+<br />
+<h2>Selecciona tus sándwiches</h2>
+<br />
 @* Form to fill in the filters to be used *@
 <form asp-controller="Sandwiches" class="form-horizontal">
     <p>
         <div>
             <label asp-for="sandwichPrecio"></label>
-            <input asp-for="sandwichPrecio" size="50" />
+            <input asp-for="sandwichPrecio" size="5" />
             <span asp-validation-for="sandwichPrecio" class="text-danger"></span>
-
+            <br />
             <label asp-for="sandwichAlergenoSelected"></label>
             <select asp-for="sandwichAlergenoSelected" asp-items="Model.Alergenos">
-                <option value="">All</option>
+                <option value="">Selecciona un alérgeno</option>
             </select>
-            <input id="filterbyAlergeno" asp-action="SelectSandwichForPurchase" type="submit" value="Filter" formmethod="get" />
+            <br />
+            <br />
+            <input id="filterbyAlergeno" asp-action="SelectSandwichForPurchase" type="submit" value="Filtrar" formmethod="get" />
         </div>
     </p>
 
@@ -27,41 +30,62 @@
     <table class="table">
         <thead>
             <tr>
-                <th width="50%">
+                <th>
                     Nombre
+                </th>
+                <th>
+                    Oferta
                 </th>
                 <th>
                     Precio
                 </th>
                 <th>
-                    Alergeno
+                    Ingredientes
+                </th>
+                <th>
+                    Alérgenos
                 </th>
                 <th align="center" width="10%">
-                    Seleccionar Alérgeno
+                    Seleccionar Sándwich
                 </th>
             </tr>
         </thead>
         <tbody>
             @if (Model.Sandwiches.Count() == 0)
             {
-                <tr><td id="NoSandwiches" colspan="3">There are no sandwiches available</td></tr>
+                <tr><td id="NoSandwiches" colspan="3">No hay sándwiches disponibles</td></tr>
             }
             else
             {
                 @foreach (var item in Model.Sandwiches)
                 {
                     <tr id="Sandwich_Name_@item.SandwichName">
-                        <td width="50%">
+                        <td>
                             @Html.DisplayFor(modelItem => item.SandwichName)
+                        </td>
+                        <td>
+                            @if (item.hayOferta)
+                            {
+                                @Html.DisplayFor(modelItem => item.oferta)
+                            }
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Precio)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Desc)
+                            @foreach (string ing in item.ingredientes)
+                            {
+                                @Html.DisplayFor(modelItem => ing)
+                            }
+                        </td>
+                        <td>
+                            @foreach (string ale in item.alergenos)
+                            {
+                                @Html.DisplayFor(modelItem => ale)
+                            }
                         </td>
                         <td align="center" width="10%">
-                            <input type="checkbox" name="IdsToAdd" id="Sandwich_@item.Id" value="@item.Id" class="form-control">
+                            <input type="checkbox" name="IdsToAdd" id="Sandwich_@item.SandwichID" value="@item.SandwichID" class="form-control">
                         </td>
                     </tr>
                 }
@@ -70,7 +94,7 @@
     </table>
     <form asp-action="SelectSandwichesForPurchase" method="post">
 
-        <button type="submit" class="btn btn-primary">Save</button>
-        <a asp-action="Index" class="btn btn-default">Cancel</a>
+        <button type="submit" class="btn btn-primary">Seleccionar</button>
+        <a asp-action="Index" class="btn btn-default">Cancelar</a>
     </form>
-    </form>
+</form>

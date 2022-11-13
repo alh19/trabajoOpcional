@@ -16,5 +16,6 @@ namespace Sandwich2Go.Models
         public virtual string Name { get; set; }
 
         public virtual IList<AlergSandw> AlergSandws { get; set; }
+
     }
 }

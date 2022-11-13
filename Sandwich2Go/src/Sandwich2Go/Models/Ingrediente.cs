@@ -34,5 +34,6 @@ namespace Sandwich2Go.Models
         }
 
         public virtual IList<IngrProv> IngrProv { get; set; }
+
     }
 }
