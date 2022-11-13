@@ -30,6 +30,15 @@ INSERT INTO [dbo].[Proveedor] ([Id], [Cif], [Nombre], [Direccion]) VALUES (5, N'
 INSERT INTO [dbo].[Proveedor] ([Id], [Cif], [Nombre], [Direccion]) VALUES (6, N'66666f', N'Ana', N'Calle5')
 SET IDENTITY_INSERT [dbo].[Proveedor] OFF
 
+SET IDENTITY_INSERT [dbo].[IngrProv] ON
+INSERT INTO [dbo].[IngrProv] ([Id], [IngredienteId], [ProveedorId]) VALUES (1, 1, 1)
+INSERT INTO [dbo].[IngrProv] ([Id], [IngredienteId], [ProveedorId]) VALUES (2, 2, 1)
+INSERT INTO [dbo].[IngrProv] ([Id], [IngredienteId], [ProveedorId]) VALUES (3, 5, 2)
+INSERT INTO [dbo].[IngrProv] ([Id], [IngredienteId], [ProveedorId]) VALUES (4, 6, 3)
+INSERT INTO [dbo].[IngrProv] ([Id], [IngredienteId], [ProveedorId]) VALUES (5, 5, 4)
+INSERT INTO [dbo].[IngrProv] ([Id], [IngredienteId], [ProveedorId]) VALUES (6, 3, 5)
+SET IDENTITY_INSERT [dbo].[IngrProv] OFF
+
 INSERT INTO [dbo].[AlergSandws] ([AlergenoId], [IngredienteId], [Id]) VALUES (2, 1, 2)
 INSERT INTO [dbo].[AlergSandws] ([AlergenoId], [IngredienteId], [Id]) VALUES (3, 3, 3)
 INSERT INTO [dbo].[AlergSandws] ([AlergenoId], [IngredienteId], [Id]) VALUES (1, 4, 1)
@@ -54,19 +63,3 @@ INSERT INTO [dbo].[IngredienteSandwich] ([IngredienteId], [SandwichId], [Id], [C
 INSERT INTO [dbo].[IngredienteSandwich] ([IngredienteId], [SandwichId], [Id], [Cantidad]) VALUES (5, 5, 18, 1)
 INSERT INTO [dbo].[IngredienteSandwich] ([IngredienteId], [SandwichId], [Id], [Cantidad]) VALUES (6, 5, 19, 1)
 
-INSERT INTO [dbo].[IngrProv] ([Id], [IngredienteId], [ProveedorId]) VALUES (1, 1, 1)
-INSERT INTO [dbo].[IngrProv] ([Id], [IngredienteId], [ProveedorId]) VALUES (2, 2, 1)
-INSERT INTO [dbo].[IngrProv] ([Id], [IngredienteId], [ProveedorId]) VALUES (3, 5, 1)
-INSERT INTO [dbo].[IngrProv] ([Id], [IngredienteId], [ProveedorId]) VALUES (4, 6, 2)
-INSERT INTO [dbo].[IngrProv] ([Id], [IngredienteId], [ProveedorId]) VALUES (5, 5, 2)
-INSERT INTO [dbo].[IngrProv] ([Id], [IngredienteId], [ProveedorId]) VALUES (6, 3, 2)
-INSERT INTO [dbo].[IngrProv] ([Id], [IngredienteId], [ProveedorId]) VALUES (7, 1, 3)
-INSERT INTO [dbo].[IngrProv] ([Id], [IngredienteId], [ProveedorId]) VALUES (8, 2, 3)
-INSERT INTO [dbo].[IngrProv] ([Id], [IngredienteId], [ProveedorId]) VALUES (9, 3, 3)
-INSERT INTO [dbo].[IngrProv] ([Id], [IngredienteId], [ProveedorId]) VALUES (10, 4, 3)
-INSERT INTO [dbo].[IngrProv] ([Id], [IngredienteId], [ProveedorId]) VALUES (11, 5, 3)
-INSERT INTO [dbo].[IngrProv] ([Id], [IngredienteId], [ProveedorId]) VALUES (12, 6, 3)
-INSERT INTO [dbo].[IngrProv] ([Id], [IngredienteId], [ProveedorId]) VALUES (13, 2, 4)
-INSERT INTO [dbo].[IngrProv] ([Id], [IngredienteId], [ProveedorId]) VALUES (14, 6, 4)
-INSERT INTO [dbo].[IngrProv] ([Id], [IngredienteId], [ProveedorId]) VALUES (15, 4, 5)
-INSERT INTO [dbo].[IngrProv] ([Id], [IngredienteId], [ProveedorId]) VALUES (16, 5, 5)

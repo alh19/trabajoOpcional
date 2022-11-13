@@ -23,8 +23,7 @@ namespace Design
         public virtual Proveedor Proveedor { get; set; }
         public virtual int ProveedorId { get; set; }
 
-        [Required]
         public virtual IngrPedProv IngrPedProv { get; set; }
-        //public virtual IList<IngrPedProv> IngrPedProv { get; set; }
+        //public virtual IList<IngrPedProv> IngrPedProvs { get; set; }
     }
 }
