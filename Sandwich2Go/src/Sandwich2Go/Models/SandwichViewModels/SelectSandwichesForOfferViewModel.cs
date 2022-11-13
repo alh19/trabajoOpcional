@@ -2,6 +2,7 @@
 using Sandwich2Go.Models.IngredienteViewModels;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Xml.Linq;
 
 namespace Sandwich2Go.Models.SandwichViewModels
@@ -19,6 +20,7 @@ namespace Sandwich2Go.Models.SandwichViewModels
         public override bool Equals(object obj)
         {
             return obj is SelectSandwichesForOfferViewModel model &&
+                Sandwiches.SequenceEqual(model.Sandwiches) &&
                 SandwichName == model.SandwichName &&
                 sandwichPrecio == model.sandwichPrecio;
         }
