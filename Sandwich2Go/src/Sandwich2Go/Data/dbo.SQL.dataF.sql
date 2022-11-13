@@ -26,6 +26,24 @@ INSERT INTO [dbo].[Oferta] ([Id], [Nombre], [FechaInicio], [FechaFin], [Descripc
 INSERT INTO [dbo].[Oferta] ([Id], [Nombre], [FechaInicio], [FechaFin], [Descripcion], [GerenteId]) VALUES (2, N'Oferta pasada', N'2022-04-22 00:00:00', N'2022-04-23 00:00:00', N'Pasada', N'1')
 SET IDENTITY_INSERT [dbo].[Oferta] OFF
 
+SET IDENTITY_INSERT [dbo].[Proveedor] ON
+INSERT INTO [dbo].[Proveedor] ([Id], [Cif], [Nombre], [Direccion]) VALUES (1, N'11111a', N'Alberto', N'Calle1')
+INSERT INTO [dbo].[Proveedor] ([Id], [Cif], [Nombre], [Direccion]) VALUES (2, N'22222b', N'Maria', N'Calle2')
+INSERT INTO [dbo].[Proveedor] ([Id], [Cif], [Nombre], [Direccion]) VALUES (3, N'33333c', N'Luis', N'Calle3')
+INSERT INTO [dbo].[Proveedor] ([Id], [Cif], [Nombre], [Direccion]) VALUES (4, N'44444d', N'Sara', N'Calle1')
+INSERT INTO [dbo].[Proveedor] ([Id], [Cif], [Nombre], [Direccion]) VALUES (5, N'55555e', N'Pepe', N'Calle4')
+INSERT INTO [dbo].[Proveedor] ([Id], [Cif], [Nombre], [Direccion]) VALUES (6, N'66666f', N'Ana', N'Calle5')
+SET IDENTITY_INSERT [dbo].[Proveedor] OFF
+
+SET IDENTITY_INSERT [dbo].[IngrProv] ON
+INSERT INTO [dbo].[IngrProv] ([Id], [IngredienteId], [ProveedorId]) VALUES (1, 1, 1)
+INSERT INTO [dbo].[IngrProv] ([Id], [IngredienteId], [ProveedorId]) VALUES (2, 2, 1)
+INSERT INTO [dbo].[IngrProv] ([Id], [IngredienteId], [ProveedorId]) VALUES (3, 5, 2)
+INSERT INTO [dbo].[IngrProv] ([Id], [IngredienteId], [ProveedorId]) VALUES (4, 6, 3)
+INSERT INTO [dbo].[IngrProv] ([Id], [IngredienteId], [ProveedorId]) VALUES (5, 5, 4)
+INSERT INTO [dbo].[IngrProv] ([Id], [IngredienteId], [ProveedorId]) VALUES (6, 3, 5)
+SET IDENTITY_INSERT [dbo].[IngrProv] OFF
+
 INSERT INTO [dbo].[AlergSandws] ([AlergenoId], [IngredienteId], [Id]) VALUES (2, 1, 2)
 INSERT INTO [dbo].[AlergSandws] ([AlergenoId], [IngredienteId], [Id]) VALUES (3, 3, 3)
 INSERT INTO [dbo].[AlergSandws] ([AlergenoId], [IngredienteId], [Id]) VALUES (1, 4, 1)

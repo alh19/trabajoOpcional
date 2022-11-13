@@ -10,7 +10,7 @@ using Sandwich2Go.Data;
 namespace Sandwich2Go.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221111203143_Sandwich2Go")]
+    [Migration("20221113225417_Sandwich2Go")]
     partial class Sandwich2Go
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -779,7 +779,7 @@ namespace Sandwich2Go.Migrations
                         .IsRequired();
 
                     b.HasOne("Sandwich2Go.Models.PedidoProv", "PedidoProv")
-                        .WithMany("ArticulosPed")
+                        .WithMany("IngrPedProv")
                         .HasForeignKey("PedidoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -957,7 +957,7 @@ namespace Sandwich2Go.Migrations
 
             modelBuilder.Entity("Sandwich2Go.Models.PedidoProv", b =>
                 {
-                    b.Navigation("ArticulosPed");
+                    b.Navigation("IngrPedProv");
                 });
 
             modelBuilder.Entity("Sandwich2Go.Models.Proveedor", b =>

@@ -26,12 +26,6 @@ namespace Sandwich2Go.UT.IngredientesController_test
             db.SaveChanges();
         }
         
-
-
-
-
-        
-
         public static IList<Ingrediente> GetIngredientes(int index, int numOfIngredientes)
         {
             IList<Alergeno> alergenos = GetAlergenos(0, 2);
@@ -44,6 +38,30 @@ namespace Sandwich2Go.UT.IngredientesController_test
             };
 
             return allIngredientes.GetRange(index, numOfIngredientes);
+        }
+
+        public static IList<Proveedor> GetProveedores(int index, int numOfProveedores)
+        {
+            List<Proveedor> allProveedores = new List<Proveedor>
+            {
+               new Proveedor{Id=1,Nombre="Alberto",Cif="11111a",Direccion="Calle1"},
+               new Proveedor{Id=2,Nombre="Maria",Cif="22222b",Direccion="Calle2"}
+
+            };
+            return allProveedores.GetRange(index, numOfProveedores);
+        }
+
+        public static IList<IngrProv> GetIngrProv(int index, int numOfallIngrProv)
+        {
+            List<IngrProv> allIngrProv = new List<IngrProv>
+            {
+               new IngrProv{Id=1,IngredienteId=1,ProveedorId=1},
+               new IngrProv{Id=2,IngredienteId=2,ProveedorId=1},
+               new IngrProv{Id=3,IngredienteId=3,ProveedorId=2},
+               new IngrProv{Id=4,IngredienteId=1,ProveedorId=2}
+
+            };
+            return allIngrProv.GetRange(index, numOfallIngrProv);
         }
 
         public static IList<Alergeno> GetAlergenos(int index, int numOfAlergenos)
@@ -64,11 +82,13 @@ namespace Sandwich2Go.UT.IngredientesController_test
         {
 
             db.Ingrediente.AddRange(GetIngredientes(0, 2));
-            
+            db.Proveedor.AddRange(GetProveedores(0, 2));
+            db.IngrProv.AddRange(GetIngrProv(0, 2));
             db.Alergeno.AddRange(GetAlergenos(2, 2));
             db.SaveChanges();
 
-            db.Users.Add(new Cliente { Id = "3", UserName = "peter@uclm.com", Email = "peter@uclm.com", Nombre = "Peter", Apellido = "Jackson Jackson", EmailConfirmed = true, Direccion = "" });
+            db.Users.Add(new Cliente { Id = "3", UserName = "elena@uclm.com", Email = "elena@uclm.com", 
+                Nombre = "Elena", Apellido = "Navarro Martinez", EmailConfirmed = true, Direccion = "" });
             db.SaveChanges();
         }
 
