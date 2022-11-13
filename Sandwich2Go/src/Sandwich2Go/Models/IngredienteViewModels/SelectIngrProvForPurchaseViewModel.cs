@@ -15,6 +15,7 @@ namespace Sandwich2Go.Models.IngredienteViewModels
         public string ingredienteStock { get; set; }
         public int IdProveedor { get; set; }
 
+        
         public override bool Equals(object obj)
         {
             return obj is SelectIngrProvForPurchaseViewModel model &&

@@ -32,15 +32,19 @@ namespace Sandwich2Go.Controllers
         public IActionResult SelectIngrProvForPurchase(string? ingredienteNombre, int? ingredienteStock, int IdProveedor)
         {
             SelectIngrProvForPurchaseViewModel selectIngredientes = new SelectIngrProvForPurchaseViewModel();
+            selectIngredientes.IdProveedor = IdProveedor;
+
             selectIngredientes.Ingredientes = _context.Ingrediente
                 .Include(s => s.IngrProv).ThenInclude(p => p.Proveedor)
                 .Where(s => (s.IngrProv
-                    //.Where(p => p.Proveedor.Id == IdProveedor).Any()
-                    //.Where(p => p.Proveedor.Id.Equals(IdProveedor)).Any()
                     .Where(p => p.Proveedor.Id == IdProveedor).Any()
-                    || IdProveedor.Equals(null))).Where(s =>
-                (s.Nombre.Contains(ingredienteNombre) || ingredienteNombre == null)
-                && (s.Stock <= ingredienteStock || ingredienteStock.Equals(null)));
+                    //.Where(p => p.Proveedor.Id.Equals(IdProveedor)).Any()
+                    //.Where(p => p.Proveedor.Id.Equals(IdProveedor)).Any())
+                    || IdProveedor.Equals(null)))
+                //&& (s.Nombre.Contains(ingredienteNombre) || ingredienteNombre == null)
+                //&& (s.Stock <= ingredienteStock || ingredienteStock.Equals(null)));
+            .Where(s => (s.Nombre.Contains(ingredienteNombre) || ingredienteNombre == null)
+            && (s.Stock <= ingredienteStock || ingredienteStock.Equals(null)));
 
             return View(selectIngredientes);
         }
@@ -55,13 +59,15 @@ namespace Sandwich2Go.Controllers
                 PedidoProv pedprov = new PedidoProv();
                 return RedirectToAction("Create", "Pedidos", pedprov);
             }
+            
             //a message error will be shown to the customer in case no movies are selected
             ModelState.AddModelError(string.Empty, "Debes seleccionar al menos un ingrediente");
 
             //the View SelectMoviesForPurchase will be shown again
-            return SelectIngrProvForPurchase(selectedIngrediente.ingredienteNombre, int.Parse(selectedIngrediente.ingredienteStock),
-                //int.Parse(selectedIngrediente.IdProveedor));
-                (selectedIngrediente.IdProveedor));
+            return SelectIngrProvForPurchase(selectedIngrediente.ingredienteNombre, 
+                int.Parse(selectedIngrediente.ingredienteStock),
+                selectedIngrediente.IdProveedor);
+                //(selectedIngrediente.IdProveedor));
         }
 
         [HttpGet]

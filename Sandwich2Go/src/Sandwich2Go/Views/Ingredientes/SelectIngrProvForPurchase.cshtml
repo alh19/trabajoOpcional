@@ -7,7 +7,7 @@
 
 <h2>Select Ingredients from Supplier</h2>
 @* Form to fill in the filters to be used *@
-<form asp-controller="Ingredientes" class="form-horizontal">
+<form asp-controller="Ingredientes" class="form-horizontal" asp-action="SelectIngrProvForPurchase">
     <p>
         <div>
             <label asp-for="ingredienteNombre"></label>
@@ -18,9 +18,7 @@
             <input asp-for="ingredienteStock" size="25" />
             <span asp-validation-for="ingredienteStock" class="text-danger"></span>
 
-            <input asp-for="IdProveedor" size="5" type="hidden"/>
-
-            
+            <input asp-for="IdProveedor" size="5" type="hidden" asp-items=Model.IdProveedor />
 
             <input asp-action="SelectIngrProvForPurchase" type="submit" value="Filtrar" formmethod="get" />
         </div>
@@ -68,7 +66,7 @@
     </table>
     <form asp-action="SelectIngrProvForPurchase" method="post">
 
-        <button type="submit" class="btn btn-primary">Guardar</button>
+        <button type="submit" class="btn btn-primary" asp-route-IdProveedor=Model.IdProveedor formmethod="post">Guardar</button>
         <a asp-controller="Proveedores" asp-action="Index" class="btn btn-default">Cancelar</a>
     </form>
     </form>

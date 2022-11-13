@@ -8,15 +8,15 @@ namespace Sandwich2Go.Models.ProveedorViewModels
 {
     public class SelectProveedoresForPurchaseViewModel
     {
-        public IEnumerable<ProveedorForPurchaseViewModel> Proveedores { get; set; }
+        public IEnumerable<Proveedor> Proveedores { get; set; }
         //Utilizado para filtrar por nombres
         [Display(Name = "Nombre")]
         public string proveedorNombreSelected { get; set; }
 
-        public override bool Equals(object obj)
+        /*public override bool Equals(object obj)
         {
             return obj is SelectProveedoresForPurchaseViewModel model &&
                 proveedorNombreSelected == model.proveedorNombreSelected;
-        }
+        }*/
     }
 }
