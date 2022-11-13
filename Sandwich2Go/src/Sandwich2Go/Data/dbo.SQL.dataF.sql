@@ -21,6 +21,11 @@ INSERT INTO [dbo].[Sandwich] ([Id], [SandwichName], [Precio], [Desc], [Discrimin
 INSERT INTO [dbo].[Sandwich] ([Id], [SandwichName], [Precio], [Desc], [Discriminator], [Cantidad]) VALUES (5, N'Mixto sin Gúten', 4, N'sfioasdi', N'Sandwich', NULL)
 SET IDENTITY_INSERT [dbo].[Sandwich] OFF
 
+SET IDENTITY_INSERT [dbo].[Oferta] ON
+INSERT INTO [dbo].[Oferta] ([Id], [Nombre], [FechaInicio], [FechaFin], [Descripcion], [GerenteId]) VALUES (1, N'Oferta 1', N'2022-04-22 00:00:00', N'2022-12-31 00:00:00', N'Ejemplo', N'1')
+INSERT INTO [dbo].[Oferta] ([Id], [Nombre], [FechaInicio], [FechaFin], [Descripcion], [GerenteId]) VALUES (2, N'Oferta pasada', N'2022-04-22 00:00:00', N'2022-04-23 00:00:00', N'Pasada', N'1')
+SET IDENTITY_INSERT [dbo].[Oferta] OFF
+
 INSERT INTO [dbo].[AlergSandws] ([AlergenoId], [IngredienteId], [Id]) VALUES (2, 1, 2)
 INSERT INTO [dbo].[AlergSandws] ([AlergenoId], [IngredienteId], [Id]) VALUES (3, 3, 3)
 INSERT INTO [dbo].[AlergSandws] ([AlergenoId], [IngredienteId], [Id]) VALUES (1, 4, 1)
@@ -44,3 +49,6 @@ INSERT INTO [dbo].[IngredienteSandwich] ([IngredienteId], [SandwichId], [Id], [C
 INSERT INTO [dbo].[IngredienteSandwich] ([IngredienteId], [SandwichId], [Id], [Cantidad]) VALUES (5, 4, 17, 1)
 INSERT INTO [dbo].[IngredienteSandwich] ([IngredienteId], [SandwichId], [Id], [Cantidad]) VALUES (5, 5, 18, 1)
 INSERT INTO [dbo].[IngredienteSandwich] ([IngredienteId], [SandwichId], [Id], [Cantidad]) VALUES (6, 5, 19, 1)
+
+INSERT INTO [dbo].[OfertaSandwich] ([OfertaId], [SandwichId], [Porcentaje]) VALUES (1, 1, 10)
+INSERT INTO [dbo].[OfertaSandwich] ([OfertaId], [SandwichId], [Porcentaje]) VALUES (2, 4, 20)
