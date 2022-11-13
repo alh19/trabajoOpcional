@@ -29,7 +29,7 @@ namespace Sandwich2Go.Controllers
 
         [Authorize(Roles = "Gerente")]
         [HttpGet]
-        public IActionResult SelectIngrProvForPurchase(string? ingredienteNombre, int? ingredienteStock, int IdProveedor)
+        public async Task<IActionResult> SelectIngrProvForPurchase(string? ingredienteNombre, int? ingredienteStock, int IdProveedor)
         {
             SelectIngrProvForPurchaseViewModel selectIngredientes = new SelectIngrProvForPurchaseViewModel();
             selectIngredientes.IdProveedor = IdProveedor;
@@ -41,10 +41,18 @@ namespace Sandwich2Go.Controllers
                     //.Where(p => p.Proveedor.Id.Equals(IdProveedor)).Any()
                     //.Where(p => p.Proveedor.Id.Equals(IdProveedor)).Any())
                     || IdProveedor.Equals(null)))
-                //&& (s.Nombre.Contains(ingredienteNombre) || ingredienteNombre == null)
-                //&& (s.Stock <= ingredienteStock || ingredienteStock.Equals(null)));
+            //&& (s.Nombre.Contains(ingredienteNombre) || ingredienteNombre == null)
+            //&& (s.Stock <= ingredienteStock || ingredienteStock.Equals(null)));
             .Where(s => (s.Nombre.Contains(ingredienteNombre) || ingredienteNombre == null)
-            && (s.Stock <= ingredienteStock || ingredienteStock.Equals(null)));
+            && (s.Stock <= ingredienteStock || ingredienteStock.Equals(null)))
+            .Select(m => new IngredienteForPurchaseViewModel()
+            {
+                Id = m.Id,
+                Nombre = m.Nombre,
+                Stock = m.Stock
+            }).ToList();
+
+
 
             return View(selectIngredientes);
         }

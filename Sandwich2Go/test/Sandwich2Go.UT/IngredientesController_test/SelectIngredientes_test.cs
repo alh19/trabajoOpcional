@@ -92,6 +92,61 @@ namespace Sandwich2Go.UT.IngredientesController_test
 
             Assert.Equal(expectedIngredientes, model);
         }
+
+        public static IEnumerable<object[]> TestCasesForSelectIngrProvForPurchase_get()
+        {
+            var proveedores = UtilitiesForIngredientes.GetProveedores(0, 1).Select(a => a.Id).First();
+            var ingrprovForPurchaseVMTC1 = new SelectIngrProvForPurchaseViewModel()
+            {
+                IdProveedor = proveedores,
+                Ingredientes = UtilitiesForIngredientes.GetIngredientes(0, 2)
+                    .OrderBy(i => i.Id)
+                    .Select(h => new IngredienteForPurchaseViewModel(h)).ToList()
+            };
+
+            //var ingrprovForPurchaseVMTC2 = new SelectIngrProvForPurchaseViewModel()
+            //{
+            //    IdProveedor = proveedores,
+            //    Ingredientes = UtilitiesForIngredientes.GetIngredientes(0, 1)
+            //        .OrderBy(i => i.Id)
+            //        .Select(h => new IngredienteForPurchaseViewModel(h)).ToList()
+            //};
+
+            //var ingrprovForPurchaseVMTC3 = new SelectIngrProvForPurchaseViewModel()
+            //{
+            //    IdProveedor = proveedores,
+            //    Ingredientes = UtilitiesForIngredientes.GetIngredientes(0, 1)
+            //        .OrderBy(i => i.Id)
+            //        .Select(h => new IngredienteForPurchaseViewModel(h)).ToList()
+            //};
+            var allTests = new List<object[]>
+                {
+                    new object[] { ingrprovForPurchaseVMTC1, null, null, 1},
+                    //new object[] { ingredientesForPurchaseVMTC2, "Gluten", null},
+                    //new object[]{ ingredientesForPurchaseVMTC3, null,"Lechuga" },
+                  };
+            return allTests;
+        }
+
+        [Theory]
+        [MemberData(nameof(TestCasesForSelectIngrProvForPurchase_get))]
+        [Trait("LevelTesting", "Unit Testing")]
+        public void SelectIngrProvForPurchase_Get(SelectIngrProvForPurchaseViewModel expectedIngredientes, 
+            string ingredienteNombre, int ingredienteStock, int IdProveedor)
+        {
+
+            var controller = new IngredientesController(context);
+
+            var result = controller.SelectIngrProvForPurchase(ingredienteNombre, ingredienteStock, IdProveedor);
+
+
+            var viewResult = Assert.IsType<ViewResult>(result.Result);
+            SelectIngrProvForPurchaseViewModel model = viewResult.Model as SelectIngrProvForPurchaseViewModel;
+
+            Assert.Equal(expectedIngredientes, model);
+        }
+
+        
     
 
 
