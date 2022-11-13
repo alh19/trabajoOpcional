@@ -18,13 +18,17 @@ namespace Sandwich2Go.Models.SandwichViewModels
             this.porcentajeOferta = 0;
             this.oferta = "";
             if (sandwich.OfertaSandwich.Count()>0) {
-                this.hayOferta = true;
+                
                 foreach (OfertaSandwich ofs in sandwich.OfertaSandwich)
                 {
                     if (ofs.Porcentaje > this.porcentajeOferta)
                     {
-                        this.porcentajeOferta = ofs.Porcentaje;
-                        this.oferta = ofs.Oferta.Descripcion;
+                        if (ofs.Oferta.FechaFin > System.DateTime.Now)
+                        {
+                            this.hayOferta = true;
+                            this.porcentajeOferta = ofs.Porcentaje;
+                            this.oferta = ofs.Oferta.Descripcion;
+                        }
                     }
                 }
             }
