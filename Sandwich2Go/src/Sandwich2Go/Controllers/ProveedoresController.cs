@@ -72,12 +72,14 @@ namespace Sandwich2Go.Controllers
         }
 
         // GET: Proveedores
+        [Authorize(Roles = "Gerente")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Proveedor.ToListAsync());
         }
 
         // GET: Proveedores/Details/5
+        [Authorize(Roles = "Gerente")]
         public async Task<IActionResult> Details(int id)
         {
             if (id == null)
@@ -97,6 +99,7 @@ namespace Sandwich2Go.Controllers
         }
 
         // GET: Proveedores/Create
+        [Authorize(Roles = "Gerente")]
         public IActionResult Create()
         {
             return View();
@@ -106,6 +109,7 @@ namespace Sandwich2Go.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Gerente")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Cif,Nombre,Direccion")] Proveedor proveedor)
         {
@@ -119,6 +123,7 @@ namespace Sandwich2Go.Controllers
         }
 
         // GET: Proveedores/Edit/5
+        [Authorize(Roles = "Gerente")]
         public async Task<IActionResult> Edit(int? id)
         {
             //if (id.Equals(null))
@@ -139,6 +144,7 @@ namespace Sandwich2Go.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Gerente")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Cif,Nombre,Direccion")] Proveedor proveedor)
         {
@@ -174,6 +180,7 @@ namespace Sandwich2Go.Controllers
         }
 
         // GET: Proveedores/Delete/5
+        [Authorize(Roles = "Gerente")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -194,6 +201,7 @@ namespace Sandwich2Go.Controllers
 
         // POST: Proveedores/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Gerente")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
