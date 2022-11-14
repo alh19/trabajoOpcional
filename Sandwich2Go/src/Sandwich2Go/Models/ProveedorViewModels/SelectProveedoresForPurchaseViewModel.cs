@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Design;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Sandwich2Go.Models.IngredienteViewModels;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -16,6 +17,7 @@ namespace Sandwich2Go.Models.ProveedorViewModels
         /*public override bool Equals(object obj)
         {
             return obj is SelectProveedoresForPurchaseViewModel model &&
+                Proveedores.SequenceEqual(model.Proveedores) &&
                 proveedorNombreSelected == model.proveedorNombreSelected;
         }*/
     }

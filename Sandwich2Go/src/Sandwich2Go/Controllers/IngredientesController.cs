@@ -38,11 +38,7 @@ namespace Sandwich2Go.Controllers
                 .Include(s => s.IngrProv).ThenInclude(p => p.Proveedor)
                 .Where(s => (s.IngrProv
                     .Where(p => p.Proveedor.Id == IdProveedor).Any()
-                    //.Where(p => p.Proveedor.Id.Equals(IdProveedor)).Any()
-                    //.Where(p => p.Proveedor.Id.Equals(IdProveedor)).Any())
                     || IdProveedor.Equals(null)))
-            //&& (s.Nombre.Contains(ingredienteNombre) || ingredienteNombre == null)
-            //&& (s.Stock <= ingredienteStock || ingredienteStock.Equals(null)));
             .Where(s => (s.Nombre.Contains(ingredienteNombre) || ingredienteNombre == null)
             && (s.Stock <= ingredienteStock || ingredienteStock.Equals(null)))
             .Select(m => new IngrProvForPurchaseViewModel()
@@ -64,7 +60,6 @@ namespace Sandwich2Go.Controllers
         {
             if (selectedIngrediente.IdsToAdd != null)
             {
-                //PedidoProv pedprov = new PedidoProv();
                 return RedirectToAction("Create", "Pedidos", selectedIngrediente);
             }
             
@@ -75,7 +70,6 @@ namespace Sandwich2Go.Controllers
             return await SelectIngrProvForPurchase(selectedIngrediente.ingredienteNombre, 
                 selectedIngrediente.ingredienteStock,
                 selectedIngrediente.IdProveedor);
-                //(selectedIngrediente.IdProveedor));
         }
 
         [HttpGet]
