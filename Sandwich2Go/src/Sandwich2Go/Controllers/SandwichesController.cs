@@ -66,6 +66,7 @@ namespace Sandwich2Go.Controllers
             return SelectSandwichForPurchase(double.Parse(selectedSandwich.sandwichPrecio), selectedSandwich.sandwichAlergenoSelected);
 
         }
+        [Authorize(Roles = "Gerente")]
         [HttpGet]
         public async Task<IActionResult> SelectSandwichesForOffer(string SandwichName, double sandwichPrecio)
         {
