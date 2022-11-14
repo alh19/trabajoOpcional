@@ -85,6 +85,7 @@ namespace Sandwich2Go.Controllers
 
             return View(selectSandwiches);
         }
+        [Authorize(Roles = "Gerente")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SelectSandwichesForOffer(SelectedSandwichesForOfferViewModel selectedSandwich)
