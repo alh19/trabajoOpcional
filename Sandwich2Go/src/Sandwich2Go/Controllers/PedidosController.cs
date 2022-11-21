@@ -46,25 +46,20 @@ namespace Sandwich2Go.Controllers
 
             return View(pedido);
         }
-        // GET: Pedidos/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
 
         // POST: Pedidos/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpGet]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Fecha,Preciototal,Direccion,Descripcion,Cantidad")] Pedido pedido)
+        public async Task<IActionResult> Create(SelectedSandwichesForPurchaseViewModel selectedSandwiches)
         {
-            if (ModelState.IsValid)
+
+            if (selectedSandwiches.IdsToAdd == null)
             {
-                _context.Add(pedido);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ModelState.AddModelError("SandwichNoSelected","Debes elegir al menos un sándwich para crear un pedido.");
             }
+
             return View(pedido);
         }
 
