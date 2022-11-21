@@ -15,45 +15,32 @@
       <Property Name="IngrProv" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="Design.ArticulosPed">
-    <Position X="4.5" Y="3" Width="1.5" />
-    <AssociationLine Name="PedidoProv" Type="Design.PedidoProv">
-      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
-        <Position X="0.235" Y="0.646" Height="0.182" Width="1.265" />
-      </MemberNameLabel>
-    </AssociationLine>
-    <TypeIdentifier>
-      <HashCode>AAACAAEACAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
-      <FileName>ArticulosPed.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="PedidoProv" />
-    </ShowAsAssociation>
-  </Class>
   <Class Name="Design.PedidoProv">
     <Position X="4.5" Y="5.75" Width="1.5" />
-    <AssociationLine Name="ArticulosPed" Type="Design.ArticulosPed">
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="-1.171" Y="0.258" />
-      </MemberNameLabel>
-    </AssociationLine>
     <AssociationLine Name="MetodoDePago" Type="Design.MetodoDePago">
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="0.141" Y="0.206" />
       </MemberNameLabel>
     </AssociationLine>
+    <AssociationLine Name="IngrPedProv" Type="Design.IngrPedProv">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-1.213" Y="0.3" />
+      </MemberNameLabel>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAQAAAAAAAAAAABAAAEAAAAAQAAAAAQAAAIAAAAA=</HashCode>
+      <HashCode>AAAAAQAAAAAAAAAAABAABEAAAAAQAAAAAQAAAAAAAAA=</HashCode>
       <FileName>PedidoProv.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Gerente" />
       <Property Name="MetodoDePago" />
-      <Property Name="Proveedor" />
     </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="IngrPedProv" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Design.Proveedor">
-    <Position X="8" Y="5.5" Width="1.5" />
+    <Position X="8" Y="5.75" Width="1.5" />
     <AssociationLine Name="IngrProv" Type="Design.IngrProv">
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="-0.911" Y="0.227" />
@@ -103,16 +90,14 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAAAAAAABAADAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAACAAAACAAAAAAAAAAABAADAAAAAAAAAAAAAAAAIAA=</HashCode>
       <FileName>IngrProv.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Ingrediente" />
       <Property Name="Proveedor" />
-    </ShowAsAssociation>
-    <ShowAsCollectionAssociation>
       <Property Name="IngrPedProv" />
-    </ShowAsCollectionAssociation>
+    </ShowAsAssociation>
   </Class>
   <Class Name="Design.MetodoDePago">
     <Position X="4.5" Y="8.25" Width="1.5" />
@@ -143,18 +128,14 @@
       <FileName>Efectivo.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Design.ArticulosPed">
-    <Position X="4.5" Y="3" Width="1.5" />
-    <AssociationLine Name="PedidoProv" Type="Design.PedidoProv">
-      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
-        <Position X="0.235" Y="0.646" Height="0.182" Width="1.265" />
-      </MemberNameLabel>
-    </AssociationLine>
+  <Class Name="Design.IngrPedProv">
+    <Position X="4.75" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAEACAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
-      <FileName>ArticulosPed.cs</FileName>
+      <HashCode>AAQAAAEAAAAAACAAAAAAAAAIAAAAAAAAAAEAAAAABAA=</HashCode>
+      <FileName>IngrPedProv.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
+      <Property Name="IngrProv" />
       <Property Name="PedidoProv" />
     </ShowAsAssociation>
   </Class>
