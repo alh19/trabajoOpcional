@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace Sandwich2Go.Models.PedidoViewModels
 {
-    public class PedidoSandwichViewModel
+    public class SandwichPedidoViewModel
     {
-        public PedidoSandwichViewModel() { }
+        public SandwichPedidoViewModel() { }
 
-        public PedidoSandwichViewModel (SandwichPedido sandwichPedido)
+        public SandwichPedidoViewModel (SandwichPedido sandwichPedido)
         {
             this.NombreSandwich = sandwichPedido.Sandwich.SandwichName;
             this.PrecioCompra = sandwichPedido.Sandwich.Precio;
@@ -47,5 +47,15 @@ namespace Sandwich2Go.Models.PedidoViewModels
         {
             get; set;
         }
+
+        public override bool Equals(object obj)
+        {
+            return obj is SandwichPedidoViewModel model &&
+                this.NombreSandwich == model.NombreSandwich &&
+                this.PrecioCompra == model.PrecioCompra &&
+                this.Ingredientes.SequenceEqual(model.Ingredientes) &&
+                this.Alergenos.SequenceEqual(model.Alergenos);
+        }
+
     }
 }
