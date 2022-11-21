@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Sandwich2Go.Data;
 using Sandwich2Go.Models;
+using Sandwich2Go.Models.IngredienteViewModels;
 using Sandwich2Go.Models.SandwichViewModels;
 
 namespace Sandwich2Go.Controllers
@@ -47,7 +48,8 @@ namespace Sandwich2Go.Controllers
             return View(pedido);
         }
         // GET: Pedidos/Create
-        public IActionResult Create()
+        public IActionResult CreateSandwichPersonalizado(SelectedIngredientesForPurchaseViewModel
+        selectedIngredientes)
         {
             return View();
         }
@@ -57,7 +59,7 @@ namespace Sandwich2Go.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Fecha,Preciototal,Direccion,Descripcion,Cantidad")] Pedido pedido)
+        public async Task<IActionResult> CreateSandwichPersonalizado([Bind("Id,Nombre,Fecha,Preciototal,Direccion,Descripcion,Cantidad")] Pedido pedido)
         {
             if (ModelState.IsValid)
             {

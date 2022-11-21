@@ -66,7 +66,7 @@ namespace Sandwich2Go.Controllers
             if (selectedIngredientes.IdsToAdd != null)
             {
                 
-                return RedirectToAction("Create", "Sandwiches", selectedIngredientes);
+                return RedirectToAction("CreateSandwichPersonalizado", "Pedidos", selectedIngredientes);
             }
 
             ModelState.AddModelError(string.Empty, "You must select at least one ingrediente");
