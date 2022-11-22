@@ -1,15 +1,15 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Sandwich2Go.Data;
+using Sandwich2Go.Models;
+using Sandwich2Go.Models.PedidoViewModels;
+using Sandwich2Go.Models.SandwichViewModels;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Sandwich2Go.Data;
-using Sandwich2Go.Models;
-using Sandwich2Go.Models.SandwichViewModels;
 
 namespace Sandwich2Go.Controllers
 {
@@ -32,6 +32,7 @@ namespace Sandwich2Go.Controllers
         // GET: Pedidos/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+
             if (id == null)
             {
                 return NotFound();
@@ -51,13 +52,24 @@ namespace Sandwich2Go.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpGet]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken] 
         public async Task<IActionResult> Create(SelectedSandwichesForPurchaseViewModel selectedSandwiches)
         {
+            PedidoSandwichCreateViewModel pedido = new PedidoSandwichCreateViewModel();
+            pedido.sandwichesPedidos = new List<SandwichPedidoViewModel>();
 
             if (selectedSandwiches.IdsToAdd == null)
             {
-                ModelState.AddModelError("SandwichNoSelected","Debes elegir al menos un sándwich para crear un pedido.");
+                ModelState.AddModelError("SandwichNoSelected", "Debes elegir al menos un sándwich para crear un pedido.");
+            }
+            else
+            {
+                IList<String> idsSandwiches = selectedSandwiches.IdsToAdd.ToList();
+                pedido.sandwichesPedidos = _context.Sandwich
+                    .Include(s => s.IngredienteSandwich).ThenInclude(ins => ins.Ingrediente).ThenInclude(ing => ing.AlergSandws)
+                    .Where(s => idsSandwiches.Contains(s.Id.ToString()))
+                    .Select(s => new SandwichPedidoViewModel(s))
+                    .ToList();
             }
 
             return View(pedido);

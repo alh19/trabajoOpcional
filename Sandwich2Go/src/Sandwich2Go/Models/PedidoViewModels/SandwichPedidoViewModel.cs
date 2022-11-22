@@ -8,13 +8,14 @@ namespace Sandwich2Go.Models.PedidoViewModels
     {
         public SandwichPedidoViewModel() { }
 
-        public SandwichPedidoViewModel (SandwichPedido sandwichPedido)
+        public SandwichPedidoViewModel (Sandwich sandwichPedido)
         {
-            this.NombreSandwich = sandwichPedido.Sandwich.SandwichName;
-            this.PrecioCompra = sandwichPedido.Sandwich.Precio;
+
+            this.NombreSandwich = sandwichPedido.SandwichName;
+            this.PrecioCompra = sandwichPedido.Precio;
             this.Ingredientes = new List<string>();
             this.Alergenos = new List<string>();
-            foreach (IngredienteSandwich ingSand in sandwichPedido.Sandwich.IngredienteSandwich)
+            foreach (IngredienteSandwich ingSand in sandwichPedido.IngredienteSandwich)
             {
                 this.Ingredientes.Add(ingSand.Ingrediente.Nombre);
                 foreach(AlergSandw alSand in ingSand.Ingrediente.AlergSandws)
@@ -25,6 +26,7 @@ namespace Sandwich2Go.Models.PedidoViewModels
                     }
                 }
             }
+
         }
 
 
