@@ -35,7 +35,7 @@
                     Precio
                 </th>
                 <th>
-                    Descripción
+                    Ingredientes
                 </th>
                 <th align="center" width="10%">
                     Seleccionar Sándwich
@@ -59,7 +59,10 @@
                             @Html.DisplayFor(modelItem => item.Precio)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Desc)
+                            @foreach (string ing in item.ingredientes)
+                            {
+                                @Html.DisplayFor(modelItem => ing)
+                            }
                         </td>
                         <td align="center" width="10%">
                             <input type="checkbox" name="IdsToAdd" id="Sandwich_@item.Id" value="@item.Id" class="form-control">

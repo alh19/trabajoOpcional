@@ -72,14 +72,9 @@ namespace Sandwich2Go.Controllers
         {
             SelectSandwichesForOfferViewModel selectSandwiches = new SelectSandwichesForOfferViewModel();
             selectSandwiches.Sandwiches = _context.Sandwich
+                .Include(s => s.IngredienteSandwich).ThenInclude(isa => isa.Ingrediente)
                 .Where(s => (s.SandwichName.Contains(SandwichName) || SandwichName == null) && (s.Precio <= sandwichPrecio || sandwichPrecio == 0.0))
-                .Select(s => new SandwichForOfferViewModel()
-                {
-                    Id = s.Id,
-                    SandwichName = s.SandwichName,
-                    Precio = s.Precio,
-                    Desc = s.Desc,
-                });
+                .Select(s => new SandwichForOfferViewModel(s));
 
             selectSandwiches.Sandwiches = selectSandwiches.Sandwiches.ToList();
 

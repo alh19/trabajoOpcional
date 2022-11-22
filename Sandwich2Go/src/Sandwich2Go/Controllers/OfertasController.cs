@@ -12,6 +12,7 @@ using Sandwich2Go.Models;
 namespace Sandwich2Go.Controllers
 {
     [Authorize]
+    [Authorize(Roles = "Gerente")]
     public class OfertasController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -46,6 +47,7 @@ namespace Sandwich2Go.Controllers
         }
 
         // GET: Ofertas/Create
+        [Authorize(Roles = "Gerente")]
         public IActionResult Create()
         {
             return View();
@@ -54,6 +56,7 @@ namespace Sandwich2Go.Controllers
         // POST: Ofertas/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Gerente")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nombre,FechaInicio,FechaFin,Descripcion")] Oferta oferta)
