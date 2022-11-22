@@ -29,6 +29,7 @@ namespace Sandwich2Go.Models.PedidoViewModels
 
         }
 
+        public virtual int Id { get; set; }
 
         public virtual string NombreSandwich
         {
@@ -53,6 +54,7 @@ namespace Sandwich2Go.Models.PedidoViewModels
         public override bool Equals(object obj)
         {
             return obj is SandwichPedidoViewModel model &&
+                this.Id == model.Id &&
                 this.NombreSandwich == model.NombreSandwich &&
                 this.PrecioCompra == model.PrecioCompra &&
                 this.Ingredientes.SequenceEqual(model.Ingredientes) &&

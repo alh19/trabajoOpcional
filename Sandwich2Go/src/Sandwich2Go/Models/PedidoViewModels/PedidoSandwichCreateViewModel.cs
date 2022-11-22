@@ -10,8 +10,7 @@ namespace Sandwich2Go.Models.PedidoViewModels
         public PedidoSandwichCreateViewModel() { }
 
         public virtual string Name { get; set; }
-        public virtual string primerApellido { get; set; }
-        public virtual string segundoApellido { get; set; }
+        public virtual string Apellido { get; set; }
         public virtual int IdCliente { get; set; }
         public virtual double PrecioTotal { get; set; }
         public DateTime fechaCompra { get; set; }
@@ -61,15 +60,25 @@ namespace Sandwich2Go.Models.PedidoViewModels
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            throw new System.NotImplementedException();
+            if(MetodoPago == "Tarjeta")
+            {
+                if (NumeroTarjetaCredito == null)
+                    yield return new ValidationResult("Por favor, rellena el número de la tarjeta de crédito", 
+                        new[] {nameof(NumeroTarjetaCredito)});
+                if (CCV == null)
+                    yield return new ValidationResult("Por favor, rellena el CCV de la tarjeta de crédito",
+                        new[] { nameof(CCV) });
+                if (FechaCaducidad == null)
+                    yield return new ValidationResult("Por favor, rellena la fecha de caducidad de la tarjeta de crédito",
+                        new[] { nameof(FechaCaducidad) });
+            }
         }
 
         public override bool Equals(object obj)
         {
             return obj is PedidoSandwichCreateViewModel pedido &&
                 Name == pedido.Name &&
-                primerApellido == pedido.primerApellido &&
-                segundoApellido == pedido.segundoApellido &&
+                Apellido == pedido.Apellido &&
                 IdCliente == pedido.IdCliente &&
                 PrecioTotal == pedido.PrecioTotal &&
                 fechaCompra.Equals(pedido.fechaCompra) &&

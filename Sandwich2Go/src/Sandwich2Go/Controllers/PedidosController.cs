@@ -72,7 +72,33 @@ namespace Sandwich2Go.Controllers
                     .ToList();
             }
 
+            Cliente cliente = _context.Users.OfType<Cliente>().FirstOrDefault<Cliente>(c => c.UserName.Equals(User.Identity.Name));
+
+            pedido.Name = cliente.Nombre;
+            pedido.Apellido = cliente.Apellido;
+
             return View(pedido);
+        }
+
+        public async Task<IActionResult> CreatePost(PedidoSandwichCreateViewModel pedidoViewModel)
+        {
+            Sandwich sandwich;
+            SandwichPedido sandwichPedido;
+            Cliente cliente;
+            Pedido pedido = new();
+            pedido.Preciototal = 0;
+            pedido.sandwichesPedidos = new List<SandwichPedido>();
+            cliente = await _context.Users.OfType<Cliente>().FirstOrDefaultAsync<Cliente>(c => c.UserName.Equals(User.Identity.Name));
+            
+            if(ModelState.IsValid)
+            {
+                foreach (SandwichPedidoViewModel sandwichP in pedidoViewModel.sandwichesPedidos)
+                {
+                    sandwich = await _context.Sandwich.FirstOrDefaultAsync<Sandwich>(s => s.Id == sandwichP.Id);
+                }
+            }
+
+            return RedirectToAction("Details", new {id = pedido.Id});
         }
 
         [Authorize(Roles = "Gerente")]
