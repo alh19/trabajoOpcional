@@ -16,6 +16,7 @@ namespace Sandwich2Go.Models.PedidoViewModels
             this.PrecioCompra = sandwichPedido.Precio;
             this.Ingredientes = new List<string>();
             this.Alergenos = new List<string>();
+            this.porcentajeOferta = 0;
             foreach (IngredienteSandwich ingSand in sandwichPedido.IngredienteSandwich)
             {
                 this.Ingredientes.Add(ingSand.Ingrediente.Nombre+" ");
@@ -27,11 +28,25 @@ namespace Sandwich2Go.Models.PedidoViewModels
                     }
                 }
             }
+            if (sandwichPedido.OfertaSandwich != null) 
+            {
+                foreach (OfertaSandwich o in sandwichPedido.OfertaSandwich)
+                {
+                    if(o.Porcentaje>this.porcentajeOferta)
+                    {
+                        this.oferta = o.Oferta.Nombre;
+                        this.porcentajeOferta = o.Porcentaje;
+                    }
+                    this.oferta = this.oferta + "con descuento del " + this.porcentajeOferta + "%";
+                }
+            }
 
         }
 
         public virtual int Id { get; set; }
 
+        public virtual string oferta { get; set; }
+        public virtual double porcentajeOferta { get; set; }
         public virtual string NombreSandwich
         {
             get; set;

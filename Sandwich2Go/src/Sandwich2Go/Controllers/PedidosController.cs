@@ -64,6 +64,7 @@ namespace Sandwich2Go.Controllers
                 IList<string> idsSandwiches = selectedSandwiches.IdsToAdd.ToList();
                 pedido.sandwichesPedidos = await _context.Sandwich
                     .Include(s => s.IngredienteSandwich).ThenInclude(ins => ins.Ingrediente).ThenInclude(ing => ing.AlergSandws).ThenInclude(als => als.Alergeno)
+                    .Include(s => s.OfertaSandwich).ThenInclude(os => os.Oferta)
                     .Where(s => idsSandwiches.Contains(s.Id.ToString()))
                     .Select(s => new SandwichPedidoViewModel(s))
                     .ToListAsync();

@@ -121,9 +121,20 @@
             <div class="panel panel-default ">
                 <div class="panel-heading">
                     <div>
-                        Subtotal: @Html.DisplayFor(modelItem => Model.PrecioTotal)
+                        <h6>Subtotal:</h6> @Html.DisplayFor(modelItem => Model.PrecioTotal)
+                        Ofertas aplicadas:
+                        @for(int i = 0; i<Model.sandwichesPedidos.Count(); i++ )
+                        {
+                            if(Model.sandwichesPedidos[i].oferta != null){
+                                <div>
+                                @Html.DisplayFor(modelItem => Model.sandwichesPedidos[i].oferta)
+                                </div>
+                            }
+                            
+                        }
 
                     </div>
+
                     <h4 class="panel-title">
                         <label for='r11' style='width: 350px;'>
                             @* <input type='radio' id='r11' name='PaymentMethod' value='CreditCard' required checked /> Credit Card*@
