@@ -51,8 +51,6 @@ namespace Sandwich2Go.Controllers
         // POST: Pedidos/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpGet]
-        [ValidateAntiForgeryToken] 
         public async Task<IActionResult> Create(SelectedSandwichesForPurchaseViewModel selectedSandwiches)
         {
             PedidoSandwichCreateViewModel pedido = new PedidoSandwichCreateViewModel();
@@ -64,22 +62,23 @@ namespace Sandwich2Go.Controllers
             }
             else
             {
-                IList<String> idsSandwiches = selectedSandwiches.IdsToAdd.ToList();
-                pedido.sandwichesPedidos = _context.Sandwich
-                    .Include(s => s.IngredienteSandwich).ThenInclude(ins => ins.Ingrediente).ThenInclude(ing => ing.AlergSandws)
+                IList<string> idsSandwiches = selectedSandwiches.IdsToAdd.ToList();
+                pedido.sandwichesPedidos = await _context.Sandwich
+                    .Include(s => s.IngredienteSandwich).ThenInclude(ins => ins.Ingrediente).ThenInclude(ing => ing.AlergSandws).ThenInclude(als => als.Alergeno)
                     .Where(s => idsSandwiches.Contains(s.Id.ToString()))
                     .Select(s => new SandwichPedidoViewModel(s))
-                    .ToList();
+                    .ToListAsync();
             }
 
             Cliente cliente = _context.Users.OfType<Cliente>().FirstOrDefault<Cliente>(c => c.UserName.Equals(User.Identity.Name));
 
-            pedido.Name = cliente.Nombre;
-            pedido.Apellido = cliente.Apellido;
+            pedido.Name = "";
+            pedido.Apellido = "";
 
             return View(pedido);
         }
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreatePost(PedidoSandwichCreateViewModel pedidoViewModel)
         {
             Sandwich sandwich;

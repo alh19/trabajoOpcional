@@ -41,6 +41,7 @@ namespace Sandwich2Go.Models.PedidoViewModels
             get; set;
         }
 
+        public virtual int cantidad { get; set; }
         public virtual List<string> Ingredientes
         {
             get; set;

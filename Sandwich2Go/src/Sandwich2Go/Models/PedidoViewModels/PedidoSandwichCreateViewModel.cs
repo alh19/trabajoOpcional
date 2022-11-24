@@ -9,7 +9,7 @@ namespace Sandwich2Go.Models.PedidoViewModels
     {
         public PedidoSandwichCreateViewModel() { }
 
-        public virtual string Name { get; set; }
+        public virtual string Name{ get; set; }
         public virtual string Apellido { get; set; }
         public virtual int IdCliente { get; set; }
         public virtual double PrecioTotal { get; set; }
@@ -20,7 +20,7 @@ namespace Sandwich2Go.Models.PedidoViewModels
         [Display(Name = "Dirección de entrega")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Please, set your address for delivery")]
 
-        public String DireccionEntrega
+        public string DireccionEntrega
         {
             get;
             set;
