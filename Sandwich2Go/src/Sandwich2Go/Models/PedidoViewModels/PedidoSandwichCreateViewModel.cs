@@ -12,12 +12,13 @@ namespace Sandwich2Go.Models.PedidoViewModels
         public virtual string Name{ get; set; }
         public virtual string Apellido { get; set; }
         public virtual int IdCliente { get; set; }
+        [DataType(DataType.Currency)]
         public virtual double PrecioTotal { get; set; }
         public DateTime fechaCompra { get; set; }
         public IList<SandwichPedidoViewModel> sandwichesPedidos { get; set; }
 
         [DataType(DataType.MultilineText)]
-        [Display(Name = "Dirección de entrega")]
+        [Display(Name = "Dirección de entrega:")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Please, set your address for delivery")]
 
         public string DireccionEntrega
@@ -28,9 +29,9 @@ namespace Sandwich2Go.Models.PedidoViewModels
 
         [DataType(DataType.MultilineText)]
         [Display(Name = "Método de pago")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Please, set your address for delivery")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Por favor, selecciona un método de pago")]
 
-        public String MetodoPago
+        public string MetodoPago
         {
             get;
             set;
@@ -71,6 +72,15 @@ namespace Sandwich2Go.Models.PedidoViewModels
                 if (FechaCaducidad == null)
                     yield return new ValidationResult("Por favor, rellena la fecha de caducidad de la tarjeta de crédito",
                         new[] { nameof(FechaCaducidad) });
+            }
+        }
+
+        public virtual void precioTotal()
+        {
+            this.PrecioTotal = 0;
+            foreach(SandwichPedidoViewModel s in sandwichesPedidos)
+            {
+                this.PrecioTotal += s.PrecioCompra;
             }
         }
 

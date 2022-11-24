@@ -22,13 +22,12 @@ namespace Sandwich2Go.Controllers
         {
             _context = context;
         }
-        [Authorize(Roles = "Gerente")]
         // GET: Pedidos
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Pedido.ToListAsync());
+            Cliente cliente = await _context.Users.OfType<Cliente>().FirstOrDefaultAsync<Cliente>(c => c.UserName.Equals(User.Identity.Name));
+            return View(await _context.Pedido.Where(p => p.Cliente.Id.Equals(cliente.Id)).ToListAsync());
         }
-        [Authorize(Roles = "Cliente")]
         // GET: Pedidos/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -37,10 +36,10 @@ namespace Sandwich2Go.Controllers
             {
                 return NotFound();
             }
-
+            Cliente cliente = await _context.Users.OfType<Cliente>().FirstOrDefaultAsync<Cliente>(c => c.UserName.Equals(User.Identity.Name));
             var pedido = await _context.Pedido
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (pedido == null)
+            if (pedido == null || !pedido.Cliente.Id.Equals(cliente.Id))
             {
                 return NotFound();
             }
@@ -70,11 +69,11 @@ namespace Sandwich2Go.Controllers
                     .ToListAsync();
             }
 
-            Cliente cliente = _context.Users.OfType<Cliente>().FirstOrDefault<Cliente>(c => c.UserName.Equals(User.Identity.Name));
+            Cliente cliente = await _context.Users.OfType<Cliente>().FirstOrDefaultAsync<Cliente>(c => c.UserName.Equals(User.Identity.Name));
 
-            pedido.Name = "";
-            pedido.Apellido = "";
-
+            pedido.Name = cliente.Nombre;
+            pedido.Apellido = cliente.Apellido;
+            pedido.precioTotal();
             return View(pedido);
         }
         [HttpPost]

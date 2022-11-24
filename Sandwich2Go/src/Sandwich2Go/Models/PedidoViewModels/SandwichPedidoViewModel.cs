@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace Sandwich2Go.Models.PedidoViewModels
@@ -17,12 +18,12 @@ namespace Sandwich2Go.Models.PedidoViewModels
             this.Alergenos = new List<string>();
             foreach (IngredienteSandwich ingSand in sandwichPedido.IngredienteSandwich)
             {
-                this.Ingredientes.Add(ingSand.Ingrediente.Nombre);
+                this.Ingredientes.Add(ingSand.Ingrediente.Nombre+" ");
                 foreach(AlergSandw alSand in ingSand.Ingrediente.AlergSandws)
                 {
-                    if (!this.Alergenos.Contains(alSand.Alergeno.Name))
+                    if (!this.Alergenos.Contains(alSand.Alergeno.Name+" "))
                     {
-                        this.Alergenos.Add(alSand.Alergeno.Name);
+                        this.Alergenos.Add(alSand.Alergeno.Name + " ");
                     }
                 }
             }
@@ -35,7 +36,7 @@ namespace Sandwich2Go.Models.PedidoViewModels
         {
             get; set;
         }
-
+        [DataType(DataType.Currency)]
         public virtual double PrecioCompra
         {
             get; set;
