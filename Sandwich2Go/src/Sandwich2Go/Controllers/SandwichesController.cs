@@ -71,12 +71,10 @@ namespace Sandwich2Go.Controllers
         public async Task<IActionResult> SelectSandwichesForOffer(string SandwichName, double sandwichPrecio)
         {
             SelectSandwichesForOfferViewModel selectSandwiches = new SelectSandwichesForOfferViewModel();
-            selectSandwiches.Sandwiches = _context.Sandwich
+            selectSandwiches.Sandwiches = await _context.Sandwich
                 .Include(s => s.IngredienteSandwich).ThenInclude(isa => isa.Ingrediente)
                 .Where(s => (s.SandwichName.Contains(SandwichName) || SandwichName == null) && (s.Precio <= sandwichPrecio || sandwichPrecio == 0.0))
-                .Select(s => new SandwichForOfferViewModel(s));
-
-            selectSandwiches.Sandwiches = selectSandwiches.Sandwiches.ToList();
+                .Select(s => new SandwichForOfferViewModel(s)).ToListAsync();
 
             return View(selectSandwiches);
         }

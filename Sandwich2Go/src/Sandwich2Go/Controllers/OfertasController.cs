@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Sandwich2Go.Data;
 using Sandwich2Go.Models;
+using Sandwich2Go.Models.OfertaViewModels;
+using Sandwich2Go.Models.SandwichViewModels;
 
 namespace Sandwich2Go.Controllers
 {
@@ -25,7 +27,10 @@ namespace Sandwich2Go.Controllers
         // GET: Ofertas
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Oferta.ToListAsync());
+            var applicationDbContext = _context.Oferta
+                .Include(p => p.Gerente)
+                .Where(p => p.Gerente.Email == User.Identity.Name);
+            return View(await applicationDbContext.ToListAsync());
         }
         [Authorize(Roles = "Gerente")]
         // GET: Ofertas/Details/5
@@ -48,26 +53,59 @@ namespace Sandwich2Go.Controllers
 
         // GET: Ofertas/Create
         [Authorize(Roles = "Gerente")]
-        public IActionResult Create()
+        public async Task<IActionResult> Create(SelectedSandwichesForOfferViewModel selectedSandwiches)
         {
-            return View();
+            OfertaCreateViewModel oferta = new OfertaCreateViewModel();
+            oferta.OfertaSandwiches = new List<OfertaSandwichViewModel>();
+
+            if (selectedSandwiches.IdsToAdd == null)
+            {
+                ModelState.AddModelError("SandwichNoSelected", "Debes elegir al menos un sándwich para crear una oferta.");
+            }
+            else
+            {
+                IList<string> idsSandwiches = selectedSandwiches.IdsToAdd.ToList();
+                oferta.OfertaSandwiches = await _context.Sandwich
+                    .Include(s => s.IngredienteSandwich).ThenInclude(ins => ins.Ingrediente)
+                    .Where(s => idsSandwiches.Contains(s.Id.ToString()))
+                    .Select(s => new OfertaSandwichViewModel(s))
+                    .ToListAsync();
+            }
+
+            Gerente gerente = _context.Users.OfType<Gerente>().FirstOrDefault<Gerente>(c => c.UserName.Equals(User.Identity.Name));
+
+            oferta.Nombre = gerente.Nombre;
+            oferta.Apellido = gerente.Apellido;
+            oferta.Email = gerente.Email;
+
+            return View(oferta);
         }
 
         // POST: Ofertas/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize(Roles = "Gerente")]
         [HttpPost]
+        [Authorize(Roles = "Gerente")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,FechaInicio,FechaFin,Descripcion")] Oferta oferta)
+        public async Task<IActionResult> CreatePost(OfertaCreateViewModel ofertaViewModel)
         {
+            Sandwich sandwich;
+            OfertaSandwich ofertaSandwich;
+            Gerente gerente;
+            Oferta oferta = new();
+            oferta.Nombre = "";
+            oferta.OfertaSandwich = new List<OfertaSandwich>();
+            gerente = await _context.Users.OfType<Gerente>().FirstOrDefaultAsync<Gerente>(c => c.UserName.Equals(User.Identity.Name));
+
             if (ModelState.IsValid)
             {
-                _context.Add(oferta);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                foreach (OfertaSandwichViewModel sandwichO in ofertaViewModel.OfertaSandwiches)
+                {
+                    sandwich = await _context.Sandwich.FirstOrDefaultAsync<Sandwich>(s => s.Id == sandwichO.SandwichID);
+                }
             }
-            return View(oferta);
+
+            return RedirectToAction("Details", new { id = oferta.Id });
         }
         [Authorize(Roles = "Gerente")]
         // GET: Ofertas/Edit/5
