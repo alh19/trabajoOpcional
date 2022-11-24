@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +25,57 @@ namespace Sandwich2Go.Controllers
         public IngredientesController(ApplicationDbContext context)
         {
             _context = context;
+        }
+
+        [Authorize(Roles = "Gerente")]
+        [HttpGet]
+        public async Task<IActionResult> SelectIngrProvForPurchase(string? ingredienteNombre, int? ingredienteStock, int IdProveedor)
+        {
+            SelectIngrProvForPurchaseViewModel selectIngredientes = new SelectIngrProvForPurchaseViewModel();
+            selectIngredientes.IdProveedor = IdProveedor;
+
+            selectIngredientes.Ingredientes = _context.Ingrediente
+                .Include(s => s.IngrProv).ThenInclude(p => p.Proveedor)
+                .Where(s => (s.IngrProv
+                    .Where(p => p.Proveedor.Id == IdProveedor).Any()
+                    //.Where(p => p.Proveedor.Id.Equals(IdProveedor)).Any()
+                    //.Where(p => p.Proveedor.Id.Equals(IdProveedor)).Any())
+                    || IdProveedor.Equals(null)))
+            //&& (s.Nombre.Contains(ingredienteNombre) || ingredienteNombre == null)
+            //&& (s.Stock <= ingredienteStock || ingredienteStock.Equals(null)));
+            .Where(s => (s.Nombre.Contains(ingredienteNombre) || ingredienteNombre == null)
+            && (s.Stock <= ingredienteStock || ingredienteStock.Equals(null)))
+            .Select(m => new IngrProvForPurchaseViewModel()
+            {
+                Id = m.Id,
+                Nombre = m.Nombre,
+                Stock = m.Stock
+            }).ToList();
+
+
+
+            return View(selectIngredientes);
+        }
+
+        [Authorize(Roles = "Gerente")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task <IActionResult> SelectIngrProvForPurchase(SelectedIngrProvForPurchaseViewModel selectedIngrediente)
+        {
+            if (selectedIngrediente.IdsToAdd != null)
+            {
+                //PedidoProv pedprov = new PedidoProv();
+                return RedirectToAction("Create", "Pedidos", selectedIngrediente);
+            }
+            
+            //a message error will be shown to the customer in case no movies are selected
+            ModelState.AddModelError(string.Empty, "Debes seleccionar al menos un ingrediente");
+
+            //the View SelectMoviesForPurchase will be shown again
+            return await SelectIngrProvForPurchase(selectedIngrediente.ingredienteNombre, 
+                selectedIngrediente.ingredienteStock,
+                selectedIngrediente.IdProveedor);
+                //(selectedIngrediente.IdProveedor));
         }
 
         [HttpGet]
