@@ -77,6 +77,7 @@ namespace Sandwich2Go.Controllers
             pedido.precioTotal();
             return View(pedido);
         }
+        [HttpPost, ActionName("Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreatePost(PedidoSandwichCreateViewModel pedidoViewModel)
@@ -86,6 +87,7 @@ namespace Sandwich2Go.Controllers
             Cliente cliente;
             Pedido pedido = new();
             pedido.Preciototal = 0;
+            PedidoSandwichCreateViewModel pedidoViewModel1 = pedidoViewModel;
             pedido.sandwichesPedidos = new List<SandwichPedido>();
             cliente = await _context.Users.OfType<Cliente>().FirstOrDefaultAsync<Cliente>(c => c.UserName.Equals(User.Identity.Name));
             

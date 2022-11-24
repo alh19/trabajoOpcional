@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -30,19 +31,21 @@ namespace Sandwich2Go.Models.PedidoViewModels
             }
             if (sandwichPedido.OfertaSandwich != null) 
             {
-                foreach (OfertaSandwich o in sandwichPedido.OfertaSandwich)
+                foreach (OfertaSandwich os in sandwichPedido.OfertaSandwich)
                 {
-                    if(o.Porcentaje>this.porcentajeOferta)
+                    if(os.Porcentaje>this.porcentajeOferta && os.Oferta.FechaFin>DateTime.Now)
                     {
-                        this.oferta = o.Oferta.Nombre;
-                        this.porcentajeOferta = o.Porcentaje;
+                        this.oferta = os.Oferta.Nombre;
+                        this.porcentajeOferta = os.Porcentaje;
                     }
-                    this.oferta = this.oferta + "con descuento del " + this.porcentajeOferta + "%";
+                    this.descuento = this.PrecioCompra * (this.porcentajeOferta/100);
+                    this.oferta = this.NombreSandwich +" con oferta "+this.oferta + " y descuento del " + this.porcentajeOferta + "% ..... -";
                 }
             }
 
         }
-
+        [DataType(DataType.Currency)]
+        public virtual double descuento { get; set; }
         public virtual int Id { get; set; }
 
         public virtual string oferta { get; set; }
@@ -58,12 +61,12 @@ namespace Sandwich2Go.Models.PedidoViewModels
         }
 
         public virtual int cantidad { get; set; }
-        public virtual List<string> Ingredientes
+        public virtual IList<string> Ingredientes
         {
             get; set;
         }
 
-        public virtual List<string> Alergenos
+        public virtual IList<string> Alergenos
         {
             get; set;
         }
@@ -75,7 +78,9 @@ namespace Sandwich2Go.Models.PedidoViewModels
                 this.NombreSandwich == model.NombreSandwich &&
                 this.PrecioCompra == model.PrecioCompra &&
                 this.Ingredientes.SequenceEqual(model.Ingredientes) &&
-                this.Alergenos.SequenceEqual(model.Alergenos);
+                this.Alergenos.SequenceEqual(model.Alergenos) &&
+                this.porcentajeOferta == model.porcentajeOferta &&
+                this.oferta == model.oferta;
         }
 
     }

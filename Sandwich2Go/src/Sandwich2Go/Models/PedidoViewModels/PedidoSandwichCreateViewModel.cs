@@ -41,8 +41,9 @@ namespace Sandwich2Go.Models.PedidoViewModels
         public string Email { get; set; }
 
         [StringLength(3, MinimumLength = 2)]
-        public string Prefijo { get; set; }
-
+        public virtual string Prefijo { get; set; }
+        [DataType(DataType.Currency)]
+        public virtual double PrecioFinal { get; set; } 
 
         [StringLength(9, MinimumLength = 9)]
 
@@ -78,9 +79,11 @@ namespace Sandwich2Go.Models.PedidoViewModels
         public virtual void precioTotal()
         {
             this.PrecioTotal = 0;
+            this.PrecioFinal = 0;
             foreach(SandwichPedidoViewModel s in sandwichesPedidos)
             {
-                this.PrecioTotal += s.PrecioCompra;
+                this.PrecioTotal += (s.PrecioCompra)*s.cantidad;
+                this.PrecioFinal += (s.PrecioCompra - (s.PrecioCompra*(s.porcentajeOferta/100)))*s.cantidad;
             }
         }
 
