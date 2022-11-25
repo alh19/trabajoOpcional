@@ -5,6 +5,19 @@ namespace Design
 {
     public class OfertaSandwich
     {
+        public OfertaSandwich()
+        {
+        }
+
+        public OfertaSandwich(Sandwich sandwich, double porcentaje, Oferta oferta)
+        {
+            Sandwich = sandwich;
+            Porcentaje = porcentaje;
+            SandwichId = sandwich.Id;
+            Oferta = oferta;
+            OfertaId = oferta.Id;
+        }
+
         [ForeignKey("OfertaId")]
         public virtual Oferta Oferta { get; set; }
         public virtual int OfertaId { get; set; }

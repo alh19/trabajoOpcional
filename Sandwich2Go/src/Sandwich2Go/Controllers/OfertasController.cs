@@ -84,7 +84,7 @@ namespace Sandwich2Go.Controllers
         // POST: Ofertas/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("Create")]
         [Authorize(Roles = "Gerente")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreatePost(OfertaCreateViewModel ofertaViewModel)
@@ -93,10 +93,6 @@ namespace Sandwich2Go.Controllers
             OfertaSandwich ofertaSandwich;
             Gerente gerente;
             Oferta oferta = new();
-            oferta.Nombre = "";
-            oferta.FechaInicio.ToString("00/00/0000");
-            oferta.FechaFin.ToString("00/00/0000");
-            oferta.Descripcion = "";
             oferta.OfertaSandwich = new List<OfertaSandwich>();
             gerente = await _context.Users.OfType<Gerente>().FirstOrDefaultAsync<Gerente>(c => c.UserName.Equals(User.Identity.Name));
 
@@ -105,8 +101,26 @@ namespace Sandwich2Go.Controllers
                 foreach (OfertaSandwichViewModel sandwichO in ofertaViewModel.OfertaSandwiches)
                 {
                     sandwich = await _context.Sandwich.FirstOrDefaultAsync<Sandwich>(s => s.Id == sandwichO.SandwichID);
+                    ofertaSandwich = new OfertaSandwich(sandwich, sandwichO.Porcentaje, oferta);
+                    oferta.OfertaSandwich.Add(ofertaSandwich);
                 }
             }
+            if (ModelState.ErrorCount > 0)
+            {
+                ofertaViewModel.Nombre = gerente.Nombre;
+                ofertaViewModel.Apellido = gerente.Apellido;
+                ofertaViewModel.Email = gerente.Email;
+                return View(ofertaViewModel);
+            }
+
+            oferta.Gerente = gerente;
+            oferta.Nombre = ofertaViewModel.NombreOferta;
+            oferta.FechaInicio = ofertaViewModel.FechaInicio;
+            oferta.FechaFin = ofertaViewModel.FechaFin;
+            oferta.Descripcion = ofertaViewModel.Descripcion;
+            _context.Add(oferta);
+
+            await _context.SaveChangesAsync();
 
             return RedirectToAction("Details", new { id = oferta.Id });
         }

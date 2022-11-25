@@ -114,7 +114,7 @@
                                     <input asp-for="OfertaSandwiches[i].SandwichID" type="hidden" class="form-control" />
                                     <input asp-for="OfertaSandwiches[i].Precio" type="hidden" class="form-control" />
                                     <input asp-for="OfertaSandwiches[i].Nombre" type="hidden" class="form-control" />
-                                    <input asp-for="OfertaSandwiches[i].Porcentaje" id="Sandwich_Porcentaje_@Model.OfertaSandwiches[i].SandwichID" class="form-control" />
+                                    <input asp-for="OfertaSandwiches[i].Porcentaje" id="Sandwich_Porcentaje_@Model.OfertaSandwiches[i].SandwichID" class="form-control" min=0.00001 max=100 required />
                                     <span asp-validation-for="OfertaSandwiches[i].Porcentaje" class="text-danger" />
 
                                 </div>
