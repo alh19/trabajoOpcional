@@ -11,6 +11,14 @@ namespace Sandwich2Go.Models.OfertaViewModels
     {
         public OfertaCreateViewModel() { }
 
+        public OfertaCreateViewModel(Gerente gerente, IList<OfertaSandwichViewModel> ofertaSandwiches)
+        {
+            Nombre = gerente.Nombre;
+            Apellido = gerente.Apellido;
+            Email = gerente.Email;
+            OfertaSandwiches = ofertaSandwiches;
+        }
+
         [Display(Name = "Nombre")]
         public virtual string Nombre { get; set; }
         [Display(Name = "Apellido")]

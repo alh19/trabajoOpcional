@@ -14,5 +14,14 @@ namespace Design
         public virtual int SandwichId { get; set; }
         [Required]
         public virtual double Porcentaje { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is OfertaSandwich item &&
+                   Sandwich.Equals(item.Sandwich) &&
+                   Porcentaje == item.Porcentaje &&
+                   SandwichId == item.SandwichId &&
+                   OfertaId == item.OfertaId;
+        }
     }
 }

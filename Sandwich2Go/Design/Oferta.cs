@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace Design
 {
@@ -23,5 +24,29 @@ namespace Design
         public virtual IList<OfertaSandwich> OfertaSandwich { get; set; }
         [Required]
         public virtual Gerente Gerente { get; set; }
+        public Oferta() { }
+        public Oferta(int id, string nombre, DateTime fechaInicio, DateTime fechaFin, string descripcion, IList<OfertaSandwich> ofertaSandwich, Gerente gerente)
+        {
+            Id = id;
+            Nombre = nombre;
+            FechaInicio = fechaInicio;
+            FechaFin = fechaFin;
+            Descripcion = descripcion;
+            OfertaSandwich = ofertaSandwich;
+            Gerente = gerente;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Oferta oferta &&
+                Id == oferta.Id &&
+                Nombre == oferta.Nombre &&
+                //we check that no more than 1 minute has passed between them
+                (this.FechaInicio.Subtract(oferta.FechaInicio) < new TimeSpan(0, 1, 0)) &&
+                (this.FechaFin.Subtract(oferta.FechaFin) < new TimeSpan(0, 1, 0)) &&
+                Descripcion == oferta.Descripcion &&
+                Gerente.Equals(oferta.Gerente) &&
+                OfertaSandwich.SequenceEqual(oferta.OfertaSandwich);
+        }
     }
 }
