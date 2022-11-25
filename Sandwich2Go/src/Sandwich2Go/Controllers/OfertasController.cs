@@ -94,6 +94,9 @@ namespace Sandwich2Go.Controllers
             Gerente gerente;
             Oferta oferta = new();
             oferta.Nombre = "";
+            oferta.FechaInicio.ToString("00/00/0000");
+            oferta.FechaFin.ToString("00/00/0000");
+            oferta.Descripcion = "";
             oferta.OfertaSandwich = new List<OfertaSandwich>();
             gerente = await _context.Users.OfType<Gerente>().FirstOrDefaultAsync<Gerente>(c => c.UserName.Equals(User.Identity.Name));
 

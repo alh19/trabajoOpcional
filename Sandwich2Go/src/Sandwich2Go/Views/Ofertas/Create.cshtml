@@ -39,6 +39,29 @@
             </div>
         </div>
 
+        <p>
+            <div>
+                <label asp-for="NombreOferta"></label>
+                <input asp-for="NombreOferta" size="30" required />
+                <span asp-validation-for="NombreOferta" class="text-danger"></span>
+
+                <label asp-for="FechaInicio"></label>
+                <input asp-for="FechaInicio" size="10" required />
+                <span asp-validation-for="FechaInicio" class="text-danger"></span>
+
+                <label asp-for="FechaFin "></label>
+                <input asp-for="FechaFin" size="10" required />
+                <span asp-validation-for="FechaFin" class="text-danger"></span>
+            </div>
+        </p>
+        <p>
+            <div>
+                <label asp-for="Descripcion"></label>
+                <input asp-for="Descripcion" size="120"/>
+                <span asp-validation-for="Descripcion" class="text-danger"></span>
+            </div>
+        </p>
+
         <input asp-for="GerenteId" type="hidden" class="form-control" />
 
         <div id="ModelErrors" asp-validation-summary="ModelOnly" class="text-danger">

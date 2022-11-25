@@ -20,15 +20,17 @@ namespace Sandwich2Go.Models.OfertaViewModels
         public virtual string Email { get; set; }
         public virtual int GerenteId { get; set; }
         [Required, StringLength(20, ErrorMessage = "El nombre no puede contener más de 20 caracteres")]
+        [Display(Name = "Nombre de la oferta: ")]
         public string NombreOferta { get; set; }
         [Required]
-        [DataType(DataType.Date), Display(Name = "Fecha de inicio")]
+        [DataType(DataType.Date), Display(Name = "Fecha de inicio: ")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public virtual DateTime FechaInicio { get; set; }
         [Required]
-        [DataType(DataType.Date), Display(Name = "Fecha de finalización")]
+        [DataType(DataType.Date), Display(Name = "Fecha de finalización: ")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public virtual DateTime FechaFin { get; set; }
+        [Display(Name = "Descripción: ")]
         public virtual string Descripcion { get; set; }
         public virtual IList<OfertaSandwichViewModel> OfertaSandwiches { get; set; }
 
