@@ -11,7 +11,7 @@ namespace Sandwich2Go.Models.PedidoViewModels
 
         public virtual string Name{ get; set; }
         public virtual string Apellido { get; set; }
-        public virtual int IdCliente { get; set; }
+        public virtual string IdCliente { get; set; }
         [DataType(DataType.Currency)]
         public virtual double PrecioTotal { get; set; }
         public DateTime fechaCompra { get; set; }
@@ -36,6 +36,7 @@ namespace Sandwich2Go.Models.PedidoViewModels
             get;
             set;
         }
+        public virtual bool necesitaCambio { get; set; }
 
         [EmailAddress]
         public string Email { get; set; }
@@ -80,6 +81,7 @@ namespace Sandwich2Go.Models.PedidoViewModels
         {
             this.PrecioTotal = 0;
             this.PrecioFinal = 0;
+            this.necesitaCambio = false;
             foreach(SandwichPedidoViewModel s in sandwichesPedidos)
             {
                 this.PrecioTotal += (s.PrecioCompra)*s.cantidad;

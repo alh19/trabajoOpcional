@@ -71,7 +71,7 @@
             <tbody>
                 @if (Model.sandwichesPedidos.Count() == 0)
                 {
-                    <tr><td colspan="3">There are no movies available</td></tr>
+                    <tr><td colspan="3">No has introducido sándwiches para comprar.</td></tr>
                 }
                 else
                 {
@@ -178,7 +178,8 @@
                     </h4>
                 </div>
                 <div id="collapseTwo" class="panel-collapse collapse">
-                    <h6>El repartidor te cobrará el pedido en la entrega.</h6>
+                    <h2>El repartidor te cobrará el pedido en la entrega.</h2>
+                    <h6>¿Necesitas cambio para tu entrega?: </h6>@Html.CheckBoxFor(m => m.necesitaCambio)
                 </div>
             </div>
         </div>

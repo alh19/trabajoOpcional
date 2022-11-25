@@ -74,6 +74,7 @@ namespace Sandwich2Go.Controllers
 
             pedido.Name = cliente.Nombre;
             pedido.Apellido = cliente.Apellido;
+            pedido.IdCliente = cliente.Id;
             pedido.precioTotal();
             return View(pedido);
         }
