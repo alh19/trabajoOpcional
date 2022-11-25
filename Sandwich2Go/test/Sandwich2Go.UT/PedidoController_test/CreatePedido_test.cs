@@ -120,5 +120,42 @@ namespace Sandwich2Go.UT.PedidoController_test
                 Assert.Equal("Debes elegir al menos un sándwich para crear un pedido.",error.ErrorMessage);
             }
         }
+
+        [Fact]
+        [Trait("LevelTesting", "Unit Testing")]
+        public void CreatePedido_SandwichesSelected()
+        {
+            using (context)
+            {
+                //Arrange
+                var controller = new PedidosController(context);
+
+                controller.ControllerContext.HttpContext = pedidosHttpContext;
+                Cliente cliente = Utilities.GetUsers(1, 1).First() as Cliente;
+                var expectedViewModel = new PedidoSandwichCreateViewModel
+                {
+                    Name = cliente.Nombre,
+                    Apellido = cliente.Apellido,
+                    IdCliente = "2",
+                    necesitaCambio = false,
+                    PrecioFinal = 0,
+                    sandwichesPedidos = UtilitiesForPedido.GetSandwiches(0, 2).OrderBy(s => s.SandwichName).Select(s => new SandwichPedidoViewModel(s)).ToList(),
+                    PrecioTotal = 0
+                };
+
+                SelectedSandwichesForPurchaseViewModel selected = new SelectedSandwichesForPurchaseViewModel { IdsToAdd = new string[] {"1","2"}, sandwichAlergenoSelected = null, sandwichPrecio = "0" };
+
+                //Act
+
+                var result = controller.Create(selected);
+
+                //Assert
+                ViewResult viewResult = Assert.IsType<ViewResult>(result.Result);
+
+                PedidoSandwichCreateViewModel model = viewResult.Model as PedidoSandwichCreateViewModel;
+                //Comprobamos igualdad entre ViewModels
+                Assert.Equal(expectedViewModel, model);
+            }
+        }
     }
 }
