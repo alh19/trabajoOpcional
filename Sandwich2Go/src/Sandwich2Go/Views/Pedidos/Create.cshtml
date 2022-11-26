@@ -121,7 +121,7 @@
             <div class="panel panel-default ">
                 <div class="panel-heading">
                     <div>
-                        Subtotal: @Html.DisplayFor(modelItem => Model.PrecioTotal)<br /><br />
+                        @*Subtotal: @Html.DisplayFor(modelItem => Model.PrecioTotal)<br /><br />*@
                         <h6> Ofertas aplicadas:</h6>
 
                         @for(int i = 0; i<Model.sandwichesPedidos.Count(); i++ )
@@ -130,13 +130,13 @@
                                 <div>
                                 @Html.DisplayFor(modelItem => Model.sandwichesPedidos[i].oferta)
                                 @Html.DisplayFor(modelItem => Model.sandwichesPedidos[i].descuento)
-                                / Sandwich
+                                    / Sandwich. Precio final : @Html.DisplayFor(modelItem => Model.sandwichesPedidos[i].PrecioConDescuento)
                                 </div>
                             }
                             
                         }
                         <br />
-                        <h6>Total : @Html.DisplayFor(modelItem => Model.PrecioFinal)</h6>
+                        @*<h6>Total : @Html.DisplayFor(modelItem => Model.PrecioFinal)</h6>*@
                     </div>
                     <br />
                     <h4 class="panel-title">
@@ -166,6 +166,7 @@
                         </div>
                     </div>
                 </div>
+                <br />
             </div>
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -179,7 +180,7 @@
                 </div>
                 <div id="collapseTwo" class="panel-collapse collapse">
                     <h2>El repartidor te cobrará el pedido en la entrega.</h2>
-                    <h6>¿Necesitas cambio para tu entrega?: </h6>@Html.CheckBoxFor(m => m.necesitaCambio)
+                    <h6>¿Necesitas cambio para tu entrega?: @Html.CheckBoxFor(m => m.necesitaCambio)</h6>
                 </div>
             </div>
         </div>

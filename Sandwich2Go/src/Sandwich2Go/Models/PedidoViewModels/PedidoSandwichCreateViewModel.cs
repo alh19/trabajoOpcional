@@ -19,7 +19,7 @@ namespace Sandwich2Go.Models.PedidoViewModels
 
         [DataType(DataType.MultilineText)]
         [Display(Name = "Dirección de entrega:")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Please, set your address for delivery")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Por favor, introduce una dirección de entrega.")]
 
         public string DireccionEntrega
         {

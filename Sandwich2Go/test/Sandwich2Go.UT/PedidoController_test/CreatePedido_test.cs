@@ -39,49 +39,6 @@ namespace Sandwich2Go.UT.PedidoController_test
             pedidosHttpContext.User = identity;
         }
 
-        //public static IEnumerable<object[]> TestCasesForCreatePedido()
-        //{
-        //    UtilitiesForSandwiches.CrearDatos();
-        //    var allTest = new List<object[]>
-        //    {
-        //        new object[]{new SelectSandwichesViewModel
-        //        {
-        //            Sandwiches = UtilitiesForSandwiches.GetSandwiches(0,3).OrderBy(s=>s.SandwichName).ToList().Select(s=>new SandwichForPurchaseViewModel(s)),
-        //            sandwichPrecio =0,
-        //            sandwichAlergenoSelected = null,
-        //            Alergenos =new SelectList(UtilitiesForSandwiches.GetAlergenos(0, 2).Select(a => a.Name)),
-        //        },0,null},//No introducimos precio ni alérgeno, por lo que esperamos todos los sándwiches
-
-        //        new object[]{new SelectSandwichesViewModel
-        //        {
-        //            Sandwiches = UtilitiesForSandwiches.GetSandwiches(0,0).OrderBy(s=>s.SandwichName).ToList().Select(s=>new SandwichForPurchaseViewModel(s)),
-        //            sandwichPrecio =0,
-        //            sandwichAlergenoSelected = "Leche",
-        //            Alergenos =new SelectList(UtilitiesForSandwiches.GetAlergenos(0, 2).Select(a => a.Name))
-        //        },0,"Leche"},//No introducimos precio. Alérgeno Leche. No esperamos ningún sándwich.
-
-        //        new object[]{new SelectSandwichesViewModel
-        //        {
-        //            Sandwiches = UtilitiesForSandwiches.GetSandwiches(1,2).OrderBy(s=>s.SandwichName).ToList().Select(s=>new SandwichForPurchaseViewModel(s)),
-        //            sandwichPrecio =4,
-        //            sandwichAlergenoSelected = null,
-        //            Alergenos =new SelectList(UtilitiesForSandwiches.GetAlergenos(0, 2).Select(a => a.Name))
-        //        },4,null},//Introducimos precio y no alérgeno. Esperamos 2 sándwiches.
-
-        //        new object[]{new SelectSandwichesViewModel
-        //        {
-        //            Sandwiches = UtilitiesForSandwiches.GetSandwiches(1,1).OrderBy(s=>s.SandwichName).ToList().Select(s=>new SandwichForPurchaseViewModel(s)),
-        //            sandwichPrecio =3,
-        //            sandwichAlergenoSelected = "Huevo",
-        //            Alergenos =new SelectList(UtilitiesForSandwiches.GetAlergenos(0, 2).Select(a => a.Name))
-        //        },3,"Huevo"}//Introducimos precio y alérgeno. No esperamos ningún sándwich.
-        //    };
-
-        //    UtilitiesForSandwiches.BorrarDatos();
-
-        //    return allTest;
-        //}
-
         [Fact]
         [Trait("LevelTesting", "Unit Testing")]
         public void CreatePedido_SandwichesNotSelected()
@@ -138,9 +95,9 @@ namespace Sandwich2Go.UT.PedidoController_test
                     Apellido = cliente.Apellido,
                     IdCliente = "2",
                     necesitaCambio = false,
-                    PrecioFinal = 0,
+                    PrecioFinal = 8.5,
                     sandwichesPedidos = UtilitiesForPedido.GetSandwiches(0, 2).OrderBy(s => s.SandwichName).Select(s => new SandwichPedidoViewModel(s)).ToList(),
-                    PrecioTotal = 0
+                    PrecioTotal = 8.5
                 };
 
                 SelectedSandwichesForPurchaseViewModel selected = new SelectedSandwichesForPurchaseViewModel { IdsToAdd = new string[] {"1","2"}, sandwichAlergenoSelected = null, sandwichPrecio = "0" };
