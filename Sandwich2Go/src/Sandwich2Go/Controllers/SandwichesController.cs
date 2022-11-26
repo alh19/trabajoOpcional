@@ -35,7 +35,7 @@ namespace Sandwich2Go.Controllers
             selectSandwiches.Alergenos = new SelectList(_context.Alergeno.Select(a => a.Name).ToList());
             selectSandwiches.sandwichAlergenoSelected = sandwichAlergenoSelected;
             selectSandwiches.sandwichPrecio = sandwichPrecio;
-            selectSandwiches.Sandwiches = _context.Sandwich
+            selectSandwiches.Sandwiches =  _context.Sandwich
                 .Include(s => s.OfertaSandwich).ThenInclude(os => os.Oferta)
                 .Include(s => s.IngredienteSandwich).ThenInclude(isa => isa.Ingrediente).ThenInclude(i => i.AlergSandws).ThenInclude(asa => asa.Alergeno)
                 .Where(s => (s.IngredienteSandwich
@@ -50,7 +50,6 @@ namespace Sandwich2Go.Controllers
 
             return View(selectSandwiches);
         }
-        [HttpPost]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult SelectSandwichForPurchase(SelectedSandwichesForPurchaseViewModel selectedSandwich)
