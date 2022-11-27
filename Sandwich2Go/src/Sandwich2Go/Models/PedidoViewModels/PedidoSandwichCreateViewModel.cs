@@ -56,6 +56,10 @@ namespace Sandwich2Go.Models.PedidoViewModels
 
         [RegularExpression(@"^[0-9]{3}$")]
         public virtual string CCV { get; set; }
+        [Display(Name = "Mes Caducidad")]
+        public virtual string MesCad { get; set; }
+        [Display(Name = "Año caducidad")]
+        public virtual string AnoCad { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MMM/yyyy}")]
@@ -71,9 +75,12 @@ namespace Sandwich2Go.Models.PedidoViewModels
                 if (CCV == null)
                     yield return new ValidationResult("Por favor, rellena el CCV de la tarjeta de crédito",
                         new[] { nameof(CCV) });
-                if (FechaCaducidad == null)
-                    yield return new ValidationResult("Por favor, rellena la fecha de caducidad de la tarjeta de crédito",
-                        new[] { nameof(FechaCaducidad) });
+                if (MesCad == null)
+                    yield return new ValidationResult("Por favor, rellena el mes de caducidad de la tarjeta de crédito",
+                        new[] { nameof(MesCad) });
+                if (AnoCad == null)
+                    yield return new ValidationResult("Por favor, rellena el año de caducidad de la tarjeta de crédito",
+                        new[] { nameof(AnoCad) });
             }
         }
 
@@ -104,8 +111,9 @@ namespace Sandwich2Go.Models.PedidoViewModels
                 Telefono == pedido.Telefono &&
                 NumeroTarjetaCredito == pedido.NumeroTarjetaCredito &&
                 CCV == pedido.CCV &&
-                FechaCaducidad.Equals(pedido.FechaCaducidad) &&
-                sandwichesPedidos.SequenceEqual(pedido.sandwichesPedidos);
+                sandwichesPedidos.SequenceEqual(pedido.sandwichesPedidos) &&
+                MesCad == pedido.MesCad &&
+                AnoCad == pedido.AnoCad;
         }
 
     }

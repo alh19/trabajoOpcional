@@ -71,7 +71,6 @@ namespace Sandwich2Go.Controllers
             }
 
             Cliente cliente = await _context.Users.OfType<Cliente>().FirstOrDefaultAsync<Cliente>(c => c.UserName.Equals(User.Identity.Name));
-
             pedido.Name = cliente.Nombre;
             pedido.Apellido = cliente.Apellido;
             pedido.IdCliente = cliente.Id;
@@ -91,10 +90,10 @@ namespace Sandwich2Go.Controllers
             PedidoSandwichCreateViewModel pedidoViewModel1 = pedidoViewModel;
             pedido.sandwichesPedidos = new List<SandwichPedido>();
             cliente = await _context.Users.OfType<Cliente>().FirstOrDefaultAsync<Cliente>(c => c.UserName.Equals(User.Identity.Name));
-            
-            
-            //if(ModelState.IsValid)
-            //{
+
+
+            if (ModelState.IsValid)
+            {
                 foreach (SandwichPedidoViewModel sandwichP in pedidoViewModel.sandwichesPedidos)
                 {
                     bool puedePedir = true;
@@ -127,13 +126,13 @@ namespace Sandwich2Go.Controllers
                         pedido.sandwichesPedidos.Add(sandwichPedido);
                     }
                 }
-            //}
-            //if (ModelState.ErrorCount > 0)
-            //{
-            //    pedidoViewModel.Name = cliente.Nombre;
-            //    pedidoViewModel.Apellido = cliente.Apellido;
-            //    return View(pedidoViewModel);
-            //}
+            }
+            if (ModelState.ErrorCount > 0)
+            {
+                pedidoViewModel.Name = cliente.Nombre;
+                pedidoViewModel.Apellido = cliente.Apellido;
+                return View(pedidoViewModel);
+            }
             pedido.Cliente = cliente;
             pedido.Fecha = DateTime.Now;
 
