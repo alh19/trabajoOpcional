@@ -12,7 +12,7 @@ namespace Sandwich2Go.Models.PedidoViewModels
 
         public SandwichPedidoViewModel (Sandwich sandwichPedido)
         {
-
+            this.Id = sandwichPedido.Id;
             this.NombreSandwich = sandwichPedido.SandwichName;
             this.PrecioCompra = sandwichPedido.Precio;
             this.Ingredientes = new List<string>();

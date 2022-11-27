@@ -59,7 +59,7 @@ namespace Sandwich2Go.Models.PedidoViewModels
 
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MMM/yyyy}")]
-        public virtual DateTime? FechaCaducidad { get; set; }
+        public virtual DateTime FechaCaducidad { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

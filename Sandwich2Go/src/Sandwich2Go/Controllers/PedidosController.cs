@@ -78,8 +78,8 @@ namespace Sandwich2Go.Controllers
             pedido.precioTotal();
             return View(pedido);
         }
+
         [HttpPost, ActionName("Create")]
-        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreatePost(PedidoSandwichCreateViewModel pedidoViewModel)
         {
@@ -92,13 +92,77 @@ namespace Sandwich2Go.Controllers
             pedido.sandwichesPedidos = new List<SandwichPedido>();
             cliente = await _context.Users.OfType<Cliente>().FirstOrDefaultAsync<Cliente>(c => c.UserName.Equals(User.Identity.Name));
             
-            if(ModelState.IsValid)
-            {
+            
+            //if(ModelState.IsValid)
+            //{
                 foreach (SandwichPedidoViewModel sandwichP in pedidoViewModel.sandwichesPedidos)
                 {
-                    sandwich = await _context.Sandwich.FirstOrDefaultAsync<Sandwich>(s => s.Id == sandwichP.Id);
+                    bool puedePedir = true;
+                    sandwich = await _context.Sandwich
+                    .Include(s => s.IngredienteSandwich).ThenInclude(insa => insa.Ingrediente)
+                    .FirstOrDefaultAsync<Sandwich>(s => s.Id == sandwichP.Id);
+                    foreach (IngredienteSandwich insa in sandwich.IngredienteSandwich)
+                    {
+                        if(insa.Ingrediente.Stock < insa.Cantidad*sandwichP.cantidad)
+                        {
+                            puedePedir = false;
+                            ModelState.AddModelError("",$"No hay suficiente/s {insa.Ingrediente.Nombre} para el sándwich {sandwich.SandwichName}, por favor, selecciona menos sándwiches o no lo incluyas en el pedido.");
+                        }
+                    }
+                    if (puedePedir && sandwichP.cantidad>0)
+                    {
+                        foreach (IngredienteSandwich insa in sandwich.IngredienteSandwich)
+                        {
+                            insa.Ingrediente.Stock = insa.Ingrediente.Stock-(insa.Cantidad*sandwichP.cantidad);
+                        }
+
+                        sandwichPedido = new SandwichPedido()
+                        {
+                            Sandwich = sandwich,
+                            SandwichId = sandwich.Id,
+                            Pedido = pedido,
+                            PedidoId = pedido.Id,
+                            Cantidad = sandwichP.cantidad
+                        };
+                        pedido.sandwichesPedidos.Add(sandwichPedido);
+                    }
                 }
+            //}
+            //if (ModelState.ErrorCount > 0)
+            //{
+            //    pedidoViewModel.Name = cliente.Nombre;
+            //    pedidoViewModel.Apellido = cliente.Apellido;
+            //    return View(pedidoViewModel);
+            //}
+            pedido.Cliente = cliente;
+            pedido.Fecha = DateTime.Now;
+
+            if(pedidoViewModel.MetodoPago == "Tarjeta")
+            {
+                pedido.MetodoDePago = new Tarjeta()
+                {
+                    Numero = int.Parse(pedidoViewModel.NumeroTarjetaCredito),
+                    CCV = int.Parse(pedidoViewModel.CCV),
+                    MesCaducidad = pedidoViewModel.FechaCaducidad.Month,
+                    AnoCaducidad = pedidoViewModel.FechaCaducidad.Year,
+                    Titular = cliente.Nombre + " " + cliente.Apellido
+                };
             }
+            else
+            {
+                pedido.MetodoDePago = new Efectivo()
+                {
+                    NecesitasCambio = pedidoViewModel.necesitaCambio
+                };
+            }
+            pedido.Cantidad = 1;
+            pedido.Direccion = pedidoViewModel.DireccionEntrega;
+            pedido.Descripcion = "";
+            pedido.Nombre = "";
+
+            _context.Add(pedido);
+
+            await _context.SaveChangesAsync();
 
             return RedirectToAction("Details", new {id = pedido.Id});
         }
