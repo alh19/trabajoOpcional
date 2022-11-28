@@ -42,6 +42,7 @@ namespace Sandwich2Go.Controllers
             var pedido = await _context.Pedido
                 .Include(p => p.MetodoDePago)
                 .Include(p => p.sandwichesPedidos).ThenInclude(sp => sp.Sandwich).ThenInclude(s => s.IngredienteSandwich).ThenInclude(isa => isa.Ingrediente)
+                .Include(p=> p.sandwichesPedidos).ThenInclude(sp => sp.Sandwich).ThenInclude(s => s.OfertaSandwich).ThenInclude(os =>os.Oferta)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (pedido == null || !pedido.Cliente.Id.Equals(cliente.Id))
             {
