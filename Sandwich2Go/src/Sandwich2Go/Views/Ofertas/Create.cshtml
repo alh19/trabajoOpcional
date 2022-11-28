@@ -49,7 +49,7 @@
                 <input asp-for="FechaInicio" size="10" required />
                 <span asp-validation-for="FechaInicio" class="text-danger"></span>
 
-                <label asp-for="FechaFin "></label>
+                <label asp-for="FechaFin"></label>
                 <input asp-for="FechaFin" size="10" required />
                 <span asp-validation-for="FechaFin" class="text-danger"></span>
             </div>
@@ -104,17 +104,18 @@
                                 @Html.DisplayFor(modelItem => Model.OfertaSandwiches[i].Precio)
                             </td>
                             <td width="50%">
-                                @foreach (string ing in Model.OfertaSandwiches[i].Ingredientes)
-                                {
-                                    @Html.DisplayFor(modelItem => ing)
-                                }
+                                <div class="form-group">
+                                    @Html.DisplayFor(modelItem => Model.OfertaSandwiches[i].IngM)
+                                </div>
                             </td>
                             <td>
                                 <div class="form-group">
                                     <input asp-for="OfertaSandwiches[i].SandwichID" type="hidden" class="form-control" />
                                     <input asp-for="OfertaSandwiches[i].Precio" type="hidden" class="form-control" />
                                     <input asp-for="OfertaSandwiches[i].Nombre" type="hidden" class="form-control" />
-                                    <input asp-for="OfertaSandwiches[i].Porcentaje" id="Sandwich_Porcentaje_@Model.OfertaSandwiches[i].SandwichID" class="form-control" min=0.00001 max=100 required />
+                                    <input asp-for="OfertaSandwiches[i].Ingredientes" type="hidden" class="form-control" />
+                                    <input asp-for="OfertaSandwiches[i].IngM" type="hidden" class="form-control" />
+                                    <input asp-for="OfertaSandwiches[i].Porcentaje" id="Sandwich_Porcentaje_@Model.OfertaSandwiches[i].SandwichID" class="form-control" required />
                                     <span asp-validation-for="OfertaSandwiches[i].Porcentaje" class="text-danger" />
 
                                 </div>

@@ -7,7 +7,8 @@ namespace Sandwich2Go.Models.OfertaViewModels
 {
     public class OfertaSandwichViewModel
     {
-        public OfertaSandwichViewModel() { }
+        public OfertaSandwichViewModel() {
+        }
         public OfertaSandwichViewModel(Sandwich sandwich)
         {
             SandwichID = sandwich.Id;
@@ -17,12 +18,16 @@ namespace Sandwich2Go.Models.OfertaViewModels
             foreach (IngredienteSandwich ingSand in sandwich.IngredienteSandwich)
             {
                 Ingredientes.Add(ingSand.Ingrediente.Nombre + " ");
+                IngM = IngM + ingSand.Ingrediente.Nombre + " ";
             }
         }
+        public virtual string IngM { get; set; }
         public virtual int SandwichID { get; set; }
         public virtual string Nombre { get; set; }
+        [DataType(DataType.Currency)]
         public virtual double Precio { get; set; }
         [Required]
+        [Range(1,100)]
         public virtual double Porcentaje { get; set; }
         public virtual List<string> Ingredientes { get; set; }
 
@@ -34,6 +39,5 @@ namespace Sandwich2Go.Models.OfertaViewModels
                 Precio == model.Precio &&
                 Ingredientes.SequenceEqual(model.Ingredientes);
         }
-
     }
 }

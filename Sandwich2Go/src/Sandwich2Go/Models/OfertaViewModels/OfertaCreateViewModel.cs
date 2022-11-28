@@ -4,10 +4,11 @@ using System.Linq;
 using System.Xml.Linq;
 using System;
 using Xunit.Sdk;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace Sandwich2Go.Models.OfertaViewModels
 {
-    public class OfertaCreateViewModel
+    public class OfertaCreateViewModel : IValidatableObject
     {
         public OfertaCreateViewModel() { }
 
@@ -19,12 +20,12 @@ namespace Sandwich2Go.Models.OfertaViewModels
             OfertaSandwiches = ofertaSandwiches;
         }
 
-        [Display(Name = "Nombre")]
+        [Display(Name = "Nombre:")]
         public virtual string Nombre { get; set; }
-        [Display(Name = "Apellido")]
+        [Display(Name = "Apellido:")]
         public virtual string Apellido { get; set; }
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "Email:")]
         public virtual string Email { get; set; }
         public virtual int GerenteId { get; set; }
         [Required, StringLength(20, ErrorMessage = "El nombre no puede contener más de 20 caracteres")]
@@ -54,6 +55,14 @@ namespace Sandwich2Go.Models.OfertaViewModels
               FechaFin == model.FechaFin &&
               Descripcion == model.Descripcion &&
               OfertaSandwiches.SequenceEqual(model.OfertaSandwiches);
+        }
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (DateTime.Compare(FechaFin, FechaInicio) < 0)
+            {
+                yield return new ValidationResult("La fecha de finalización tiene que ser mayor o igual que la fecha de inicio",
+                     new[] { nameof(FechaFin) });
+            }
         }
     }
 }
