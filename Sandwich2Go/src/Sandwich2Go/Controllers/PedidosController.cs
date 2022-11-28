@@ -22,12 +22,14 @@ namespace Sandwich2Go.Controllers
         {
             _context = context;
         }
+        [Authorize(Roles = "Cliente")]
         // GET: Pedidos
         public async Task<IActionResult> Index()
         {
             Cliente cliente = await _context.Users.OfType<Cliente>().FirstOrDefaultAsync<Cliente>(c => c.UserName.Equals(User.Identity.Name));
-            return View(await _context.Pedido.Where(p => p.Cliente.Id.Equals(cliente.Id)).ToListAsync());
+            return View(await _context.Pedido.Where(p => p.Cliente.Id.Equals(cliente.Id)).Select(p => new PedidoIndexViewModel(p)).ToListAsync());
         }
+        [Authorize(Roles = "Cliente")]
         // GET: Pedidos/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -48,7 +50,7 @@ namespace Sandwich2Go.Controllers
 
             return View(new PedidoDetailsViewModel (pedido));
         }
-
+        [Authorize(Roles = "Cliente")]
         // POST: Pedidos/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -79,7 +81,7 @@ namespace Sandwich2Go.Controllers
             pedido.precioTotal();
             return View(pedido);
         }
-
+        [Authorize(Roles = "Cliente")]
         [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreatePost(PedidoSandwichCreateViewModel pedidoViewModel)

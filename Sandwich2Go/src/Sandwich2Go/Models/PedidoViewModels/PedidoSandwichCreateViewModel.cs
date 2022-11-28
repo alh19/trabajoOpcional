@@ -191,7 +191,7 @@ namespace Sandwich2Go.Models.PedidoViewModels
         {
             get; set;
         }
-
+        [Range(1, 10, ErrorMessage = "Minimo un sándwich, máximo 10 de un mismo tipo por pedido")]
         public virtual int cantidad { get; set; }
         public virtual IList<string> Ingredientes
         {
