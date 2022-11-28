@@ -128,7 +128,14 @@ namespace Sandwich2Go.Controllers
                             PedidoId = pedido.Id,
                             Cantidad = sandwichP.cantidad
                         };
-                        precioCompra += sandwichP.PrecioCompra;
+                        if (sandwichP.PrecioConDescuento == -1)
+                        {
+                            precioCompra += sandwichP.PrecioCompra;
+                        }
+                        else
+                        {
+                            precioCompra += sandwichP.PrecioConDescuento;
+                        }
                         sandws += sandwichP.NombreSandwich + " ";
                         pedido.sandwichesPedidos.Add(sandwichPedido);
                     }
