@@ -10,6 +10,7 @@ namespace Sandwich2Go.Models.OfertaViewModels
     {
         public OfertaDetailsViewModel(Oferta oferta)
         {
+            Id = oferta.Id;
             NombreOferta = oferta.Nombre;
             FechaInicio = oferta.FechaInicio;
             FechaFin = oferta.FechaFin;
@@ -17,7 +18,8 @@ namespace Sandwich2Go.Models.OfertaViewModels
             OfertaSandwiches = oferta.OfertaSandwich
                 .Select(pi => new OfertaSandwichDetailsViewModel(pi)).ToList();
         }
-
+        [Required]
+        public int Id { get; set; }
         [Display(Name = "Nombre de la oferta: ")]
         public string NombreOferta { get; set; }
         [Required]
@@ -38,6 +40,7 @@ namespace Sandwich2Go.Models.OfertaViewModels
             //  return obj is PurchaseDetailsViewModel model &&
             var model = obj as OfertaDetailsViewModel;
             result = result &&
+              Id == model.Id &&
               NombreOferta == model.NombreOferta &&
               (this.FechaInicio.Subtract(model.FechaInicio) < new TimeSpan(0, 1, 0)) &&
               (this.FechaFin.Subtract(model.FechaFin) < new TimeSpan(0, 1, 0)) &&
