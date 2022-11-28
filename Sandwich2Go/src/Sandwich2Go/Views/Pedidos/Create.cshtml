@@ -89,13 +89,13 @@
                             </td>
                             <td>
                                 <div class="form-group">
-                                    @Html.DisplayFor(modelItem => Model.sandwichesPedidos[i].Ingredientes)
+                                    @Html.DisplayFor(modelItem => Model.sandwichesPedidos[i].IngM)
 
                                 </div>
                             </td>
                             <td>
                                 <div class="form-group">
-                                    @Html.DisplayFor(modelItem => Model.sandwichesPedidos[i].Alergenos)
+                                    @Html.DisplayFor(modelItem => Model.sandwichesPedidos[i].Alm)
 
                                 </div>
                             </td>
@@ -104,6 +104,8 @@
                                     <input asp-for="sandwichesPedidos[i].Id" type="hidden" class="form-control" />
                                     <input asp-for="sandwichesPedidos[i].PrecioCompra" type="hidden" class="form-control" />
                                     <input asp-for="sandwichesPedidos[i].NombreSandwich" type="hidden" class="form-control" />
+                                    <input asp-for="sandwichesPedidos[i].Alm" type="hidden" class="form-control" />
+                                    <input asp-for="sandwichesPedidos[i].IngM" type="hidden" class="form-control" />
                                     <input asp-for="sandwichesPedidos[i].cantidad" id="Sandwich_Quantity_@Model.sandwichesPedidos[i].Id" class="form-control" />
                                     <span asp-validation-for="sandwichesPedidos[i].cantidad" class="text-danger" />
 

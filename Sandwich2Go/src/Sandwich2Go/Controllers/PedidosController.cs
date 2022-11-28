@@ -100,6 +100,7 @@ namespace Sandwich2Go.Controllers
                     sandwich = await _context.Sandwich
                     .Include(s => s.IngredienteSandwich).ThenInclude(insa => insa.Ingrediente)
                     .FirstOrDefaultAsync<Sandwich>(s => s.Id == sandwichP.Id);
+                    pedidoViewModel1.sandwichesPedidos.Add(sandwichP);
                     foreach (IngredienteSandwich insa in sandwich.IngredienteSandwich)
                     {
                         if(insa.Ingrediente.Stock < insa.Cantidad*sandwichP.cantidad)
@@ -129,9 +130,9 @@ namespace Sandwich2Go.Controllers
             }
             if (ModelState.ErrorCount > 0)
             {
-                pedidoViewModel.Name = cliente.Nombre;
-                pedidoViewModel.Apellido = cliente.Apellido;
-                return View(pedidoViewModel);
+                pedidoViewModel1.Name = cliente.Nombre;
+                pedidoViewModel1.Apellido = cliente.Apellido;
+                return View(pedidoViewModel1);
             }
             pedido.Cliente = cliente;
             pedido.Fecha = DateTime.Now;
@@ -142,8 +143,8 @@ namespace Sandwich2Go.Controllers
                 {
                     Numero = int.Parse(pedidoViewModel.NumeroTarjetaCredito),
                     CCV = int.Parse(pedidoViewModel.CCV),
-                    MesCaducidad = pedidoViewModel.FechaCaducidad.Month,
-                    AnoCaducidad = pedidoViewModel.FechaCaducidad.Year,
+                    MesCaducidad = int.Parse(pedidoViewModel.MesCad),
+                    AnoCaducidad = int.Parse(pedidoViewModel.AnoCad),
                     Titular = cliente.Nombre + " " + cliente.Apellido
                 };
             }
