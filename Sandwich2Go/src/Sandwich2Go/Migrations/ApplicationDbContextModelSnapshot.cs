@@ -677,8 +677,8 @@ namespace Sandwich2Go.Migrations
                     b.Property<int>("MesCaducidad")
                         .HasColumnType("int");
 
-                    b.Property<int>("Numero")
-                        .HasColumnType("int");
+                    b.Property<long>("Numero")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Titular")
                         .IsRequired()

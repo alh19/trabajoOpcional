@@ -10,7 +10,7 @@ using Sandwich2Go.Data;
 namespace Sandwich2Go.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221128095848_Sandwich2Go")]
+    [Migration("20221128141428_Sandwich2Go")]
     partial class Sandwich2Go
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -679,8 +679,8 @@ namespace Sandwich2Go.Migrations
                     b.Property<int>("MesCaducidad")
                         .HasColumnType("int");
 
-                    b.Property<int>("Numero")
-                        .HasColumnType("int");
+                    b.Property<long>("Numero")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Titular")
                         .IsRequired()

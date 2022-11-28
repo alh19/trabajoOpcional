@@ -156,7 +156,7 @@ namespace Sandwich2Go.Controllers
             {
                 pedido.MetodoDePago = new Tarjeta()
                 {
-                    Numero = int.Parse(pedidoViewModel.NumeroTarjetaCredito),
+                    Numero = long.Parse(pedidoViewModel.NumeroTarjetaCredito),
                     CCV = int.Parse(pedidoViewModel.CCV),
                     MesCaducidad = int.Parse(pedidoViewModel.MesCad),
                     AnoCaducidad = int.Parse(pedidoViewModel.AnoCad),
@@ -175,7 +175,7 @@ namespace Sandwich2Go.Controllers
             pedido.Direccion = pedidoViewModel.DireccionEntrega;
             pedido.Preciototal = precioCompra;
             pedido.Descripcion = "Pedido del dia "+ DateTime.Now.ToString()+" con los sándwiches "+sandws;
-            pedido.Nombre = DateTime.Now.ToString() + " " + pedido.Direccion;
+            pedido.Nombre = DateTime.Now.ToString();
 
             _context.Add(pedido);
 

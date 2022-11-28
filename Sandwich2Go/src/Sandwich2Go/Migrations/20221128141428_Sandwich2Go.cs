@@ -92,7 +92,7 @@ namespace Sandwich2Go.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NecesitasCambio = table.Column<bool>(type: "bit", nullable: true),
-                    Numero = table.Column<int>(type: "int", nullable: true),
+                    Numero = table.Column<long>(type: "bigint", nullable: true),
                     Titular = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CCV = table.Column<int>(type: "int", nullable: true),
                     MesCaducidad = table.Column<int>(type: "int", nullable: true),

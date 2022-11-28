@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace Sandwich2Go.Models.PedidoViewModels
 {
@@ -21,6 +22,7 @@ namespace Sandwich2Go.Models.PedidoViewModels
         [Display(Name = "Método de pago:")]
         public string metodoPago { get; set; }
         public IList<SandwichPedidoDetailsViewModel> sandwichesPedidos { get; set; }
+        public IList<string> ofertasAplicadas { get; set; }
 
         public PedidoDetailsViewModel(Pedido p)
         {
@@ -30,6 +32,7 @@ namespace Sandwich2Go.Models.PedidoViewModels
             fechaCompra = p.Fecha.ToString();
             direccionEntrega = p.Direccion;
             precioTotal = p.Preciototal;
+            ofertasAplicadas = new List<string>();
             sandwichesPedidos = new List<SandwichPedidoDetailsViewModel>();
             MetodoPagoDetailsViewModel metodo = new MetodoPagoDetailsViewModel(p.MetodoDePago);
             if (metodo.Tipo == "Tarjeta")
@@ -40,18 +43,30 @@ namespace Sandwich2Go.Models.PedidoViewModels
             {
                 if (metodo.cambio)
                 {
-                    metodoPago = "Solicitado pago en efectivo. Has pedido cambio";
+                    metodoPago = "Solicitado pago en efectivo. Has pedido cambio.";
                 }
                 else
                 {
-                    metodoPago = "Solicitado pago en efectivo. No has pedido cambio";
+                    metodoPago = "Solicitado pago en efectivo. No has pedido cambio.";
                 }
             }
             foreach(SandwichPedido s in p.sandwichesPedidos)
             {
                 sandwichesPedidos.Add(new SandwichPedidoDetailsViewModel(s));
+                foreach(OfertaSandwich os in s.Sandwich.OfertaSandwich)
+                {
+                    double porc = 0;
+                    if (os.Oferta.FechaFin > p.Fecha && os.Porcentaje>porc)
+                    {
+                        
+                        double precioAux = s.Sandwich.Precio - (s.Sandwich.Precio * os.Porcentaje/100);
+                        ofertasAplicadas.Add(s.Sandwich.SandwichName + " con oferta " + os.Oferta.Nombre + " y descuento del " + os.Porcentaje + "% ..... -"+ precioAux.ToString("C"));
+                        sandwichesPedidos.Last().precio=precioAux;
+                    }
+                }
             }
             precioTotal = p.Preciototal;
+
         }
     }
 
@@ -72,22 +87,7 @@ namespace Sandwich2Go.Models.PedidoViewModels
                 Ingredientes.Add(isa.Ingrediente.Nombre+" ");
             }
             cantidad = s.Cantidad;
-            if (s.Sandwich.OfertaSandwich != null)
-            {
-                double porc = 0;
-                foreach (OfertaSandwich o in s.Sandwich.OfertaSandwich)
-                {
-                    if(o.Porcentaje > porc)
-                    {
-                        porc = o.Porcentaje;
-                    }
-                }
-                precio = s.Sandwich.Precio - (s.Sandwich.Precio*porc/100);
-            }
-            else
-            {
-                precio = s.Sandwich.Precio;
-            }
+            precio = s.Sandwich.Precio;
             
 
         }
@@ -105,7 +105,7 @@ namespace Sandwich2Go.Models.PedidoViewModels
             {
                 Tipo = "Tarjeta";
                 Tarjeta t = p as Tarjeta;
-                Tarjeta = t.Numero.ToString()[12..15];
+                Tarjeta = t.Numero.ToString()[12..16];
             }
             else
             {
