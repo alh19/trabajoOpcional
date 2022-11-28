@@ -38,13 +38,15 @@ namespace Sandwich2Go.Controllers
             }
             Cliente cliente = await _context.Users.OfType<Cliente>().FirstOrDefaultAsync<Cliente>(c => c.UserName.Equals(User.Identity.Name));
             var pedido = await _context.Pedido
+                .Include(p => p.MetodoDePago)
+                .Include(p => p.sandwichesPedidos).ThenInclude(sp => sp.Sandwich).ThenInclude(s => s.IngredienteSandwich).ThenInclude(isa => isa.Ingrediente)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (pedido == null || !pedido.Cliente.Id.Equals(cliente.Id))
             {
                 return NotFound();
             }
 
-            return View(pedido);
+            return View(new PedidoDetailsViewModel (pedido));
         }
 
         // POST: Pedidos/Create

@@ -46,23 +46,26 @@ namespace Sandwich2Go.Models.PedidoViewModels
             Ingredientes = new List<string>();
             foreach(IngredienteSandwich  isa in s.Sandwich.IngredienteSandwich)
             {
-                Ingredientes.Add(isa.Ingrediente.Nombre);
+                Ingredientes.Add(isa.Ingrediente.Nombre+" ");
             }
             cantidad = s.Cantidad;
             if (s.Sandwich.OfertaSandwich != null)
             {
-
+                double porc = 0;
                 foreach (OfertaSandwich o in s.Sandwich.OfertaSandwich)
                 {
-
+                    if(o.Porcentaje > porc)
+                    {
+                        porc = o.Porcentaje;
+                    }
                 }
+                precio = s.Sandwich.Precio - (s.Sandwich.Precio*porc/100);
             }
             else
             {
                 precio = s.Sandwich.Precio;
             }
             
-            precio = ;
 
         }
     }
