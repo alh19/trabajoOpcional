@@ -6,24 +6,47 @@ namespace Sandwich2Go.Models.PedidoViewModels
 {
     public class PedidoDetailsViewModel
     {
+        public string nombrePedido { get; set; }
+        [Display(Name = "Nombre:")]
         public string clienteNombre { get; set; }
+        [Display(Name = "Apellidos:")]
         public string clienteApellidos { get; set; }
+        [Display(Name = "Fecha de compra:")]
         public string fechaCompra { get; set; }
+        [Display(Name = "Dirección de entrega:")]
         public string direccionEntrega { get; set; }
         [DataType(DataType.Currency)]
+        [Display(Name = "Precio total:")]
         public double precioTotal { get; set; }
-        public MetodoPagoDetailsViewModel metodoPago { get; set; }
+        [Display(Name = "Método de pago:")]
+        public string metodoPago { get; set; }
         public IList<SandwichPedidoDetailsViewModel> sandwichesPedidos { get; set; }
 
         public PedidoDetailsViewModel(Pedido p)
         {
+            nombrePedido = p.Nombre;
             clienteNombre = p.Cliente.Nombre;
             clienteApellidos = p.Cliente.Apellido;
             fechaCompra = p.Fecha.ToString();
             direccionEntrega = p.Direccion;
             precioTotal = p.Preciototal;
             sandwichesPedidos = new List<SandwichPedidoDetailsViewModel>();
-            metodoPago = new MetodoPagoDetailsViewModel(p.MetodoDePago);
+            MetodoPagoDetailsViewModel metodo = new MetodoPagoDetailsViewModel(p.MetodoDePago);
+            if (metodo.Tipo == "Tarjeta")
+            {
+                metodoPago = "Pagado con tarjeta *" + metodo.Tarjeta;
+            }
+            else
+            {
+                if (metodo.cambio)
+                {
+                    metodoPago = "Solicitado pago en efectivo. Has pedido cambio";
+                }
+                else
+                {
+                    metodoPago = "Solicitado pago en efectivo. No has pedido cambio";
+                }
+            }
             foreach(SandwichPedido s in p.sandwichesPedidos)
             {
                 sandwichesPedidos.Add(new SandwichPedidoDetailsViewModel(s));

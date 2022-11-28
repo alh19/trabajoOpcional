@@ -92,7 +92,8 @@ namespace Sandwich2Go.Controllers
             PedidoSandwichCreateViewModel pedidoViewModel1 = pedidoViewModel;
             pedido.sandwichesPedidos = new List<SandwichPedido>();
             cliente = await _context.Users.OfType<Cliente>().FirstOrDefaultAsync<Cliente>(c => c.UserName.Equals(User.Identity.Name));
-
+            double precioCompra = 0;
+            string sandws = "";
 
             if (ModelState.IsValid)
             {
@@ -110,14 +111,13 @@ namespace Sandwich2Go.Controllers
                             puedePedir = false;
                             ModelState.AddModelError("",$"No hay suficiente/s {insa.Ingrediente.Nombre} para el sándwich {sandwich.SandwichName}, por favor, selecciona menos sándwiches o no lo incluyas en el pedido.");
                         }
+                        else
+                        {
+                            insa.Ingrediente.Stock = insa.Ingrediente.Stock - (insa.Cantidad * sandwichP.cantidad);
+                        }
                     }
                     if (puedePedir && sandwichP.cantidad>0)
                     {
-                        foreach (IngredienteSandwich insa in sandwich.IngredienteSandwich)
-                        {
-                            insa.Ingrediente.Stock = insa.Ingrediente.Stock-(insa.Cantidad*sandwichP.cantidad);
-                        }
-
                         sandwichPedido = new SandwichPedido()
                         {
                             Sandwich = sandwich,
@@ -126,10 +126,13 @@ namespace Sandwich2Go.Controllers
                             PedidoId = pedido.Id,
                             Cantidad = sandwichP.cantidad
                         };
+                        precioCompra += sandwichP.PrecioCompra;
+                        sandws += sandwichP.NombreSandwich + " ";
                         pedido.sandwichesPedidos.Add(sandwichPedido);
                     }
                 }
             }
+
             if (ModelState.ErrorCount > 0)
             {
                 pedidoViewModel1.Name = cliente.Nombre;
@@ -157,23 +160,10 @@ namespace Sandwich2Go.Controllers
                     NecesitasCambio = pedidoViewModel.necesitaCambio
                 };
             }
+
             pedido.Cantidad = 1;
             pedido.Direccion = pedidoViewModel.DireccionEntrega;
-            string sandws = "";
-            double precioTotal = 0;
-            foreach(SandwichPedidoViewModel s in pedidoViewModel.sandwichesPedidos)
-            {
-                sandws += s.NombreSandwich + " ";
-                if (s.PrecioConDescuento > 0)
-                {
-                    precioTotal += s.PrecioConDescuento;
-                }
-                else
-                {
-                    precioTotal += s.PrecioCompra;
-                }
-            }
-            pedido.Preciototal = precioTotal;
+            pedido.Preciototal = precioCompra;
             pedido.Descripcion = "Pedido del dia "+ DateTime.Now.ToString()+" con los sándwiches "+sandws;
             pedido.Nombre = DateTime.Now.ToString() + " " + pedido.Direccion;
 
