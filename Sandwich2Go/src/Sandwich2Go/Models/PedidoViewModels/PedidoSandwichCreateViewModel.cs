@@ -7,8 +7,7 @@ namespace Sandwich2Go.Models.PedidoViewModels
 {
     public class PedidoSandwichCreateViewModel : IValidatableObject
     {
-        public PedidoSandwichCreateViewModel() { }
-
+        
         public virtual string Name{ get; set; }
         public virtual string Apellido { get; set; }
         public virtual string IdCliente { get; set; }
@@ -59,6 +58,10 @@ namespace Sandwich2Go.Models.PedidoViewModels
         [Display(Name = "Año caducidad")]
         public virtual string AnoCad { get; set; }
 
+        public PedidoSandwichCreateViewModel()
+        {
+            sandwichesPedidos = new List<SandwichPedidoViewModel>();
+        }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

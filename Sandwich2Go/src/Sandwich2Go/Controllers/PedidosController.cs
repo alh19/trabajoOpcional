@@ -58,7 +58,6 @@ namespace Sandwich2Go.Controllers
         public async Task<IActionResult> Create(SelectedSandwichesForPurchaseViewModel selectedSandwiches)
         {
             PedidoSandwichCreateViewModel pedido = new PedidoSandwichCreateViewModel();
-            pedido.sandwichesPedidos = new List<SandwichPedidoViewModel>();
 
             if (selectedSandwiches.IdsToAdd == null)
             {
@@ -128,11 +127,11 @@ namespace Sandwich2Go.Controllers
                         };
                         if (sandwichP.PrecioConDescuento == -1)
                         {
-                            precioCompra += sandwichP.PrecioCompra;
+                            precioCompra += sandwichP.PrecioCompra*sandwichP.cantidad;
                         }
                         else
                         {
-                            precioCompra += sandwichP.PrecioConDescuento;
+                            precioCompra += sandwichP.PrecioConDescuento * sandwichP.cantidad;
                         }
                         sandws += sandwichP.NombreSandwich + " ";
                         pedido.sandwichesPedidos.Add(sandwichPedido);

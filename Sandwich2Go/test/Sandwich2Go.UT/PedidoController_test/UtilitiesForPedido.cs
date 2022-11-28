@@ -21,6 +21,9 @@ namespace Sandwich2Go.UT.SandwichControllers_test
         static IList<Sandwich> SandwichesG;
         static IList<Oferta> OfertasG;
         static IList<IList<OfertaSandwich>> OfertaSandwichesG;
+        static IList<MetodoDePago> MetodosDePagoG;
+        static IList<Pedido> PedidosG;
+        static IList<IList<SandwichPedido>> SandwichesPedidosG;
 
         public static DbContextOptions<ApplicationDbContext> CreateNewContextOptions(){
             // Crear un nuevo proveedor de servicios, y una nueva
@@ -47,7 +50,9 @@ namespace Sandwich2Go.UT.SandwichControllers_test
             db.Alergeno.AddRange(GetAlergenos(0,2));
             db.Ingrediente.AddRange(GetIngredientes(0,4));
             db.Sandwich.AddRange(GetSandwiches(0,3));
+            db.Oferta.AddRange(GetOfertas(0, 1));
             db.Users.AddRange(Utilities.GetUsers(0, 2));
+            db.MetodoDePago.AddRange(GetMetodosDePago(0, 2));
 
             IList<IList<IngredienteSandwich>> ingredienteSandwiches = GetIngredienteSandwich(0,3);
 
@@ -72,6 +77,7 @@ namespace Sandwich2Go.UT.SandwichControllers_test
                 db.OfertaSandwich.AddRange(ofertaSandwiches.ElementAt(0));
                 ofertaSandwiches.RemoveAt(0);
             }
+
             db.SaveChanges();
         }
 
@@ -83,7 +89,9 @@ namespace Sandwich2Go.UT.SandwichControllers_test
             db.Alergeno.RemoveRange(db.Alergeno);
             db.AlergSandws.RemoveRange(db.AlergSandws);
             db.Oferta.RemoveRange(db.Oferta);
+            db.MetodoDePago.RemoveRange(db.MetodoDePago);
             db.OfertaSandwich.RemoveRange(db.OfertaSandwich);
+            db.SandwichPedido.RemoveRange(db.SandwichPedido);
             db.Users.RemoveRange(db.Users);
 
             db.SaveChanges();
@@ -117,6 +125,21 @@ namespace Sandwich2Go.UT.SandwichControllers_test
             return AlergenosG.ToList().GetRange(index,numOfAlergenos);
         }
 
+        public static IList<MetodoDePago> GetMetodosDePago(int index, int numOfMetodosDePago)
+        {
+            return MetodosDePagoG.ToList().GetRange(index, numOfMetodosDePago);
+        }
+
+        public static IList<Pedido> GetPedidos(int index, int numOfPedidos)
+        {
+            return PedidosG.ToList().GetRange(index, numOfPedidos);
+        }
+
+        public static IList<IList<SandwichPedido>> GetSandwichesPedidos(int index, int numOfSandwichesPedidos)
+        {
+            return SandwichesPedidosG.ToList().GetRange(index, numOfSandwichesPedidos);
+        }
+
         public static void CrearDatos()
         {
             AlergenosG = new List<Alergeno>();
@@ -126,9 +149,18 @@ namespace Sandwich2Go.UT.SandwichControllers_test
             AlergSandwsG = new List<IList<AlergSandw>>();
             OfertasG = new List<Oferta>();
             OfertaSandwichesG = new List<IList<OfertaSandwich>>();
+            MetodosDePagoG = new List<MetodoDePago>();
+            PedidosG = new List<Pedido>();
+            SandwichesPedidosG = new List<IList<SandwichPedido>>();
 
             AlergenosG.Add(new Alergeno { id = 1, Name = "Huevo" });
             AlergenosG.Add(new Alergeno { id = 2, Name = "Leche" });
+
+            MetodosDePagoG.Add(new Tarjeta { Id = 1, AnoCaducidad=2030, CCV=123, MesCaducidad=12, Numero=1234123412344321});
+            MetodosDePagoG.Add(new Efectivo { Id=2, NecesitasCambio=true});
+
+            PedidosG.Add(new Pedido { Id = 1, Cantidad= 1, Direccion="Calle 1", MetodoDePago = MetodosDePagoG[0], Preciototal=5.50 });
+            PedidosG.Add(new Pedido { Id = 2, Cantidad= 1, Direccion="Calle 2", MetodoDePago = MetodosDePagoG[1], Preciototal=7 });
 
             IngredientesG.Add(new Ingrediente { Id = 1, Nombre = "Jamon" , Stock = 100});
             IngredientesG.Add(new Ingrediente { Id = 2, Nombre = "Queso" , Stock = 100});
@@ -139,9 +171,28 @@ namespace Sandwich2Go.UT.SandwichControllers_test
             SandwichesG.Add(new Sandwich{Id = 2, SandwichName = "Mixto", Precio = 3.00, Desc = "Jamón y queso", OfertaSandwich = new List<OfertaSandwich>() });
             SandwichesG.Add(new Sandwich{Id = 3,SandwichName = "Inglés", Precio = 4.00, Desc = "Jamón, queso y huevo revuelto", OfertaSandwich = new List<OfertaSandwich>() });
 
+            SandwichesPedidosG.Add(new List<SandwichPedido>
+            {
+                new SandwichPedido{ Id= 1, Cantidad=1, Pedido=PedidosG[0], PedidoId=1, Sandwich =SandwichesG[0], SandwichId=1}
+            });
+
+            SandwichesPedidosG.Add(new List<SandwichPedido>
+            {
+                new SandwichPedido{ Id= 2, Cantidad=1, Pedido=PedidosG[1], PedidoId=2, Sandwich =SandwichesG[1], SandwichId=2},
+                new SandwichPedido{ Id= 3, Cantidad=1, Pedido=PedidosG[1], PedidoId=2, Sandwich =SandwichesG[2], SandwichId=3}
+            });
+
+            PedidosG[0].sandwichesPedidos = SandwichesPedidosG[0];
+            PedidosG[1].sandwichesPedidos = SandwichesPedidosG[1];
+
+            SandwichesG[0].SandwichPedido = new List<SandwichPedido> { SandwichesPedidosG[0][0] };
+            SandwichesG[1].SandwichPedido = new List<SandwichPedido> { SandwichesPedidosG[1][0] };
+            SandwichesG[2].SandwichPedido = new List<SandwichPedido> { SandwichesPedidosG[1][1] };
+
+
             OfertaSandwichesG.Add(new List<OfertaSandwich> { new OfertaSandwich { OfertaId = 1, SandwichId = 1, Sandwich = SandwichesG[0],Porcentaje = 10 } });
 
-            OfertasG.Add(new Oferta { Id = 1, Nombre = "Oferta 1", Descripcion ="Desc Oferta 1", FechaFin=new DateTime(), FechaInicio= new DateTime(), OfertaSandwich = OfertaSandwichesG[0] });
+            OfertasG.Add(new Oferta { Id = 1, Nombre = "Oferta 1", Descripcion ="Desc Oferta 1", FechaFin= new DateTime(2030, 5, 10), FechaInicio = new DateTime(2020, 5, 10), OfertaSandwich = OfertaSandwichesG[0] });
 
             OfertaSandwichesG[0][0].Oferta = OfertasG[0];
 
