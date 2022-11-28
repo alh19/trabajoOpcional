@@ -29,7 +29,11 @@ namespace Sandwich2Go.Controllers
         {
             var applicationDbContext = _context.Oferta
                 .Include(p => p.Gerente)
+                .Include(p => p.OfertaSandwich)
+                .OrderByDescending(p => p.Id)
                 .Where(p => p.Gerente.Email == User.Identity.Name);
+               // .Select(p => new OfertaIndexViewModel(p.PurchaseId, p.TotalPrice, p.PurchaseDate,
+                //    p.DeliveryAddress, p.PurchaseItems.Sum(pi => pi.Quantity)));
             return View(await applicationDbContext.ToListAsync());
         }
         [Authorize(Roles = "Gerente")]
@@ -42,13 +46,16 @@ namespace Sandwich2Go.Controllers
             }
 
             var oferta = await _context.Oferta
+                .Include(p => p.Gerente)
+                .Include(p => p.OfertaSandwich).ThenInclude(p => p.Sandwich)
+                .ThenInclude(s => s.IngredienteSandwich).ThenInclude(ins => ins.Ingrediente)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (oferta == null)
             {
                 return NotFound();
             }
 
-            return View(oferta);
+            return View(new OfertaDetailsViewModel(oferta));
         }
 
         // GET: Ofertas/Create

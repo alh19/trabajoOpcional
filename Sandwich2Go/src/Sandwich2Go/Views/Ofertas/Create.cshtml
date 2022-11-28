@@ -13,7 +13,7 @@
         <hr />
         <div class="container">
             <div class="row">
-                <div class="col-2 font-weight-bold">
+                <div class="col-0 font-weight-bold">
                     @Html.DisplayNameFor(model => model.Nombre)
                 </div>
                 <div class="col-8">
@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-2 font-weight-bold">
+                <div class="col-0 font-weight-bold">
                     @Html.DisplayNameFor(model => model.Apellido)
                 </div>
                 <div class="col-8">
@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-2 font-weight-bold">
+                <div class="col-0 font-weight-bold">
                     @Html.DisplayNameFor(model => model.Email)
                 </div>
                 <div class="col-8">
@@ -44,11 +44,17 @@
                 <label asp-for="NombreOferta"></label>
                 <input asp-for="NombreOferta" size="30" required />
                 <span asp-validation-for="NombreOferta" class="text-danger"></span>
-
+            </div>
+        </p>
+        <p>
+            <div>
                 <label asp-for="FechaInicio"></label>
                 <input asp-for="FechaInicio" size="10" required />
                 <span asp-validation-for="FechaInicio" class="text-danger"></span>
-
+            </div>
+        </p>
+         <p>
+            <div>
                 <label asp-for="FechaFin"></label>
                 <input asp-for="FechaFin" size="10" required />
                 <span asp-validation-for="FechaFin" class="text-danger"></span>
