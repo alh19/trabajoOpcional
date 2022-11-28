@@ -33,7 +33,7 @@
             <div class="form-group row">
                 <label asp-for="DireccionEntrega" class="col-md-2 control-label font-weight-bold"></label>
                 <span class="col-md-8">
-                    <input asp-for="DireccionEntrega" class="form-control" height="20" />
+                    <input asp-for="DireccionEntrega" class="form-control" height="20"  />
                     <span asp-validation-for="DireccionEntrega" class="text-danger"></span>
                 </span>
             </div>
@@ -104,6 +104,8 @@
                                     <input asp-for="sandwichesPedidos[i].Id" type="hidden" class="form-control" />
                                     <input asp-for="sandwichesPedidos[i].PrecioCompra" type="hidden" class="form-control" />
                                     <input asp-for="sandwichesPedidos[i].NombreSandwich" type="hidden" class="form-control" />
+                                    <input asp-for="sandwichesPedidos[i].Ingredientes" type="hidden" class="form-control" />
+                                    <input asp-for="sandwichesPedidos[i].Alergenos" type="hidden" class="form-control" />
                                     <input asp-for="sandwichesPedidos[i].Alm" type="hidden" class="form-control" />
                                     <input asp-for="sandwichesPedidos[i].IngM" type="hidden" class="form-control" />
                                     <input asp-for="sandwichesPedidos[i].cantidad" id="Sandwich_Quantity_@Model.sandwichesPedidos[i].Id" class="form-control" />

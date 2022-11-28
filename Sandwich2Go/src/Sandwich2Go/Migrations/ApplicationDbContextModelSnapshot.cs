@@ -281,8 +281,7 @@ namespace Sandwich2Go.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IngrProvId")
-                        .IsUnique();
+                    b.HasIndex("IngrProvId");
 
                     b.HasIndex("PedidoId");
 
@@ -458,8 +457,8 @@ namespace Sandwich2Go.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Preciototal")
-                        .HasColumnType("int");
+                    b.Property<double>("Preciototal")
+                        .HasColumnType("float");
 
                     b.Property<int?>("SandwCreadoId")
                         .HasColumnType("int");
@@ -771,8 +770,8 @@ namespace Sandwich2Go.Migrations
             modelBuilder.Entity("Sandwich2Go.Models.IngrPedProv", b =>
                 {
                     b.HasOne("Sandwich2Go.Models.IngrProv", "IngrProv")
-                        .WithOne("IngrPedProv")
-                        .HasForeignKey("Sandwich2Go.Models.IngrPedProv", "IngrProvId")
+                        .WithMany("IngrPedProvs")
+                        .HasForeignKey("IngrProvId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -923,8 +922,7 @@ namespace Sandwich2Go.Migrations
 
             modelBuilder.Entity("Sandwich2Go.Models.IngrProv", b =>
                 {
-                    b.Navigation("IngrPedProv")
-                        .IsRequired();
+                    b.Navigation("IngrPedProvs");
                 });
 
             modelBuilder.Entity("Sandwich2Go.Models.Ingrediente", b =>

@@ -20,7 +20,8 @@ namespace Sandwich2Go.Models.PedidoViewModels
         [DataType(DataType.MultilineText)]
         [Display(Name = "Dirección de entrega:")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Por favor, introduce una dirección de entrega.")]
-
+        
+        [StringLength(30,ErrorMessage = "No introduzcas una dirección mayor de 30 caracteres.")]
         public string DireccionEntrega
         {
             get;
@@ -140,6 +141,7 @@ namespace Sandwich2Go.Models.PedidoViewModels
             this.porcentajeOferta = 0;
             this.cantidad = 1;
             this.Alm = "";
+            this.PrecioConDescuento = -1;
             foreach (IngredienteSandwich ingSand in sandwichPedido.IngredienteSandwich)
             {
                 this.Ingredientes.Add(ingSand.Ingrediente.Nombre + " ");

@@ -22,10 +22,11 @@ namespace Sandwich2Go.Models
 
         [Required, Display(Name = "preciototal")]
         [Range(1, int.MaxValue, ErrorMessage = "Minimum quantity for renting is 1")]
-        public virtual int Preciototal { get; set; }
+        public virtual double Preciototal { get; set; }
 
         
         [Required, StringLength(30, ErrorMessage = "First name cannot be longer than 30 characters.")]
+        
         public virtual string Direccion { get; set; }
 
 

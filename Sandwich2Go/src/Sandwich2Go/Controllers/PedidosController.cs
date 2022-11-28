@@ -100,7 +100,7 @@ namespace Sandwich2Go.Controllers
                     sandwich = await _context.Sandwich
                     .Include(s => s.IngredienteSandwich).ThenInclude(insa => insa.Ingrediente)
                     .FirstOrDefaultAsync<Sandwich>(s => s.Id == sandwichP.Id);
-                    pedidoViewModel1.sandwichesPedidos.Add(sandwichP);
+                 //   pedidoViewModel1.sandwichesPedidos.Add(sandwichP);
                     foreach (IngredienteSandwich insa in sandwich.IngredienteSandwich)
                     {
                         if(insa.Ingrediente.Stock < insa.Cantidad*sandwichP.cantidad)
@@ -157,8 +157,23 @@ namespace Sandwich2Go.Controllers
             }
             pedido.Cantidad = 1;
             pedido.Direccion = pedidoViewModel.DireccionEntrega;
-            pedido.Descripcion = "";
-            pedido.Nombre = "";
+            string sandws = "";
+            double precioTotal = 0;
+            foreach(SandwichPedidoViewModel s in pedidoViewModel.sandwichesPedidos)
+            {
+                sandws += s.NombreSandwich + " ";
+                if (s.PrecioConDescuento > 0)
+                {
+                    precioTotal += s.PrecioConDescuento;
+                }
+                else
+                {
+                    precioTotal += s.PrecioCompra;
+                }
+            }
+            pedido.Preciototal = precioTotal;
+            pedido.Descripcion = "Pedido del dia "+ DateTime.Now.ToString()+" con los sándwiches "+sandws;
+            pedido.Nombre = DateTime.Now.ToString() + " " + pedido.Direccion;
 
             _context.Add(pedido);
 
