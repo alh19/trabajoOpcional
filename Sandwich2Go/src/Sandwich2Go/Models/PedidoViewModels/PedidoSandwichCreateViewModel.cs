@@ -14,7 +14,6 @@ namespace Sandwich2Go.Models.PedidoViewModels
         public virtual string IdCliente { get; set; }
         [DataType(DataType.Currency)]
         public virtual double PrecioTotal { get; set; }
-        public DateTime fechaCompra { get; set; }
         public IList<SandwichPedidoViewModel> sandwichesPedidos { get; set; }
 
         [DataType(DataType.MultilineText)]
@@ -39,13 +38,9 @@ namespace Sandwich2Go.Models.PedidoViewModels
         }
         public virtual bool necesitaCambio { get; set; }
 
-        [EmailAddress]
-        public string Email { get; set; }
 
         [StringLength(3, MinimumLength = 2)]
         public virtual string Prefijo { get; set; }
-        [DataType(DataType.Currency)]
-        public virtual double PrecioFinal { get; set; } 
 
         [StringLength(9, MinimumLength = 9)]
 
@@ -94,18 +89,6 @@ namespace Sandwich2Go.Models.PedidoViewModels
 
         }
 
-        public virtual void precioTotal()
-        {
-            this.PrecioTotal = 0;
-            this.PrecioFinal = 0;
-            this.necesitaCambio = false;
-            foreach(SandwichPedidoViewModel s in sandwichesPedidos)
-            {
-                this.PrecioTotal += (s.PrecioCompra)*s.cantidad;
-                this.PrecioFinal += (s.PrecioCompra - (s.PrecioCompra*(s.porcentajeOferta/100)))*s.cantidad;
-            }
-        }
-
         public override bool Equals(object obj)
         {
             return obj is PedidoSandwichCreateViewModel pedido &&
@@ -113,10 +96,8 @@ namespace Sandwich2Go.Models.PedidoViewModels
                 Apellido == pedido.Apellido &&
                 IdCliente == pedido.IdCliente &&
                 PrecioTotal == pedido.PrecioTotal &&
-                fechaCompra.Equals(pedido.fechaCompra) &&
                 DireccionEntrega == pedido.DireccionEntrega &&
                 MetodoPago == pedido.MetodoPago &&
-                Email == pedido.Email &&
                 Prefijo == pedido.Prefijo &&
                 Telefono == pedido.Telefono &&
                 NumeroTarjetaCredito == pedido.NumeroTarjetaCredito &&
@@ -217,7 +198,9 @@ namespace Sandwich2Go.Models.PedidoViewModels
                 this.porcentajeOferta == model.porcentajeOferta &&
                 this.oferta == model.oferta &&
                 this.PrecioConDescuento == model.PrecioConDescuento &&
-                this.descuento == model.descuento;
+                this.descuento == model.descuento &&
+                this.Alm == model.Alm &&
+                this.IngM == model.IngM;
         }
 
     }

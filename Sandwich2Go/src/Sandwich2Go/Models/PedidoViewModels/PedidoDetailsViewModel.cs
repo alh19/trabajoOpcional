@@ -68,6 +68,19 @@ namespace Sandwich2Go.Models.PedidoViewModels
             precioTotal = p.Preciototal;
 
         }
+        public override bool Equals(object obj)
+        {
+            return obj is PedidoDetailsViewModel model &&
+                this.nombrePedido == model.nombrePedido &&
+                this.clienteNombre == model.clienteNombre &&
+                this.clienteApellidos == model.clienteApellidos &&
+                this.fechaCompra == model.fechaCompra &&
+                this.direccionEntrega == model.direccionEntrega &&
+                this.precioTotal == model.precioTotal &&
+                this.metodoPago == model.metodoPago &&
+                this.sandwichesPedidos.SequenceEqual(model.sandwichesPedidos) &&
+                this.ofertasAplicadas.SequenceEqual(model.ofertasAplicadas);
+        }
     }
 
     public class SandwichPedidoDetailsViewModel
@@ -91,6 +104,14 @@ namespace Sandwich2Go.Models.PedidoViewModels
             
 
         }
+        public override bool Equals(object obj)
+        {
+            return obj is SandwichPedidoDetailsViewModel model &&
+                this.nombre == model.nombre &&
+                this.Ingredientes.SequenceEqual(model.Ingredientes) &&
+                this.precio == model.precio &&
+                this.cantidad == model.cantidad;
+        }
     }
 
     public class MetodoPagoDetailsViewModel
@@ -113,6 +134,13 @@ namespace Sandwich2Go.Models.PedidoViewModels
                 Efectivo e = p as Efectivo;
                 cambio = e.NecesitasCambio;
             }
+        }
+        public override bool Equals(object obj)
+        {
+            return obj is MetodoPagoDetailsViewModel model &&
+                this.Tipo == model.Tipo &&
+                this.Tarjeta == model.Tarjeta &&
+                this.cambio == model.cambio;
         }
     }
 }

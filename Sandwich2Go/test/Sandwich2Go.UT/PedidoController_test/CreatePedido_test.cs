@@ -56,9 +56,7 @@ namespace Sandwich2Go.UT.PedidoController_test
                     Apellido = cliente.Apellido,
                     IdCliente = "2",
                     necesitaCambio = false,
-                    PrecioFinal = 0,
                     sandwichesPedidos = UtilitiesForPedido.GetSandwiches(0, 0).OrderBy(s => s.SandwichName).Select(s => new SandwichPedidoViewModel(s)).ToList(),
-                    PrecioTotal = 0
                 };
 
                 SelectedSandwichesForPurchaseViewModel selected = new SelectedSandwichesForPurchaseViewModel { IdsToAdd = null, sandwichAlergenoSelected = null, sandwichPrecio = "0" };
@@ -95,9 +93,7 @@ namespace Sandwich2Go.UT.PedidoController_test
                     Apellido = cliente.Apellido,
                     IdCliente = "2",
                     necesitaCambio = false,
-                    PrecioFinal = 8.5,
                     sandwichesPedidos = UtilitiesForPedido.GetSandwiches(0, 2).OrderBy(s => s.SandwichName).Select(s => new SandwichPedidoViewModel(s)).ToList(),
-                    PrecioTotal = 8.5
                 };
 
                 SelectedSandwichesForPurchaseViewModel selected = new SelectedSandwichesForPurchaseViewModel { IdsToAdd = new string[] {"1","2"}, sandwichAlergenoSelected = null, sandwichPrecio = "0" };
@@ -113,6 +109,17 @@ namespace Sandwich2Go.UT.PedidoController_test
                 //Comprobamos igualdad entre ViewModels
                 Assert.Equal(expectedViewModel, model);
             }
+        }
+
+        public static IEnumerable<object[]> TestCasesForCompraCreatePost_WithErrors()
+        {
+            
+            var allTest = new List<object[]>
+            {
+
+            };
+
+            return allTest;
         }
     }
 }

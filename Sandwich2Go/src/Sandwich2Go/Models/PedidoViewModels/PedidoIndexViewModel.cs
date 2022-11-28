@@ -17,5 +17,15 @@ namespace Sandwich2Go.Models.PedidoViewModels
             precio = p.Preciototal;
             direccion = p.Direccion;
         }
+
+        public override bool Equals(object obj)
+        {
+            return obj is PedidoIndexViewModel model &&
+                this.Id == model.Id &&
+                this.fechaCompra == model.fechaCompra &&
+                this.precio == model.precio &&
+                this.direccion == model.direccion;
+        }
     }
+
 }

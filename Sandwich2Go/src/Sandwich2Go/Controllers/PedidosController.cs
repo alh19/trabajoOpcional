@@ -79,7 +79,6 @@ namespace Sandwich2Go.Controllers
             pedido.Name = cliente.Nombre;
             pedido.Apellido = cliente.Apellido;
             pedido.IdCliente = cliente.Id;
-            pedido.precioTotal();
             return View(pedido);
         }
         [Authorize(Roles = "Cliente")]
@@ -106,13 +105,11 @@ namespace Sandwich2Go.Controllers
                     sandwich = await _context.Sandwich
                     .Include(s => s.IngredienteSandwich).ThenInclude(insa => insa.Ingrediente)
                     .FirstOrDefaultAsync<Sandwich>(s => s.Id == sandwichP.Id);
-                 //   pedidoViewModel1.sandwichesPedidos.Add(sandwichP);
                     foreach (IngredienteSandwich insa in sandwich.IngredienteSandwich)
                     {
                         if(insa.Ingrediente.Stock < insa.Cantidad*sandwichP.cantidad)
                         {
                             puedePedir = false;
-                            ModelState.AddModelError("",$"No hay suficiente/s {insa.Ingrediente.Nombre} para el sándwich {sandwich.SandwichName}, por favor, selecciona menos sándwiches o no lo incluyas en el pedido.");
                         }
                         else
                         {
@@ -139,6 +136,10 @@ namespace Sandwich2Go.Controllers
                         }
                         sandws += sandwichP.NombreSandwich + " ";
                         pedido.sandwichesPedidos.Add(sandwichPedido);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", $"El restaurante no puede preparar en estos momentos el sándwich {sandwich.SandwichName}, por favor, selecciona una cantidad distinta o no lo incluyas en el pedido.");
                     }
                 }
             }
