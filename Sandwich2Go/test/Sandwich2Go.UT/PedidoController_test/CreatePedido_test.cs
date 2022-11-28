@@ -207,6 +207,7 @@ namespace Sandwich2Go.UT.PedidoController_test
 
         public static IEnumerable<object[]> TestCasesForCompraCreatePost_WithoutErrors()
         {
+            
             Cliente cliente = Utilities.GetUsers(1, 1).First() as Cliente;
             IList<MetodoDePago> metodosDePago = UtilitiesForPedido.GetMetodosDePago(0, 2);
             IList<Sandwich> sandwiches = UtilitiesForPedido.GetSandwiches(0, 3);
@@ -246,11 +247,16 @@ namespace Sandwich2Go.UT.PedidoController_test
                 PrecioTotal = pedidoEsperado2.Preciototal,
                 MetodoPago = "Efectivo",
                 necesitaCambio = false,
-                sandwichesPedidos = pedidoEsperado1.sandwichesPedidos.Select(s => new SandwichPedidoViewModel(s.Sandwich)).ToList()
+                sandwichesPedidos = pedidoEsperado2.sandwichesPedidos.Select(s => new SandwichPedidoViewModel(s.Sandwich)).ToList()
             };
             cantidades2[0] -= 2;
             cantidades2[1] -= 2;
             cantidades2[2] -= 1;
+
+            pedidos[0].Fecha = DateTime.Now;
+            pedidos[1].Fecha = DateTime.Now;
+
+            (pedidos[0].MetodoDePago as Tarjeta).Titular = cliente.Nombre + " " + cliente.Apellido;
 
             var allTest = new List<object[]>
             {
@@ -267,6 +273,7 @@ namespace Sandwich2Go.UT.PedidoController_test
         {
             using (context)
             {
+                
                 //Arrange
                 var controller = new PedidosController(context);
                 controller.ControllerContext.HttpContext = pedidosHttpContext;
@@ -276,14 +283,14 @@ namespace Sandwich2Go.UT.PedidoController_test
 
                 //Assert
                 var viewResult = Assert.IsType<RedirectToActionResult>(result.Result);
-                //Assert.Equal(pedidoEsperado.Id, viewResult.RouteValues.First().Value);
+
+                Assert.Equal(pedidoEsperado.Id, viewResult.RouteValues.First().Value);
 
                 var actualPedido = context.Pedido.Include(p => p.sandwichesPedidos).ThenInclude(sc => sc.Sandwich).ThenInclude(s => s.IngredienteSandwich).ThenInclude(isa => isa.Ingrediente).ThenInclude(i => i.AlergSandws).ThenInclude(als => als.Alergeno)
                     .Include(p => p.MetodoDePago)
                     .Include(p => p.sandwichesPedidos).ThenInclude(sp => sp.Sandwich).ThenInclude(s => s.OfertaSandwich).ThenInclude(os => os.Oferta)
                     .FirstOrDefault(p => p.Id == pedidoEsperado.Id);
-                Console.WriteLine();
-                //Assert.Equal(pedidoEsperado, actualPedido);
+                Assert.Equal(pedidoEsperado, actualPedido);
                 //List<int> ids = pedidoEsperado.sandwichesPedidos.Select(s => s.SandwichId).ToList();
                 //List <int> cantidadesReales = context.Ingrediente.Include(i => i.IngredienteSandwich)
                 //    .Where(i => (i.IngredienteSandwich.Where(isa => ids.Contains.(isa.SandwichId)))).Select(i => i.Stock).ToList();

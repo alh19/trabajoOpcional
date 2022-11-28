@@ -61,5 +61,17 @@ namespace Sandwich2Go.Models
             get;
             set;
         }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Pedido model &&
+                this.Id == model.Id &&
+                this.Cantidad == model.Cantidad &&
+                this.Nombre == model.Nombre &&
+                (this.Fecha.Subtract(model.Fecha) < new TimeSpan(0,1,0)) &&
+                this.Preciototal == model.Preciototal &&
+                this.Direccion == model.Direccion &&
+                this.Cantidad == model.Cantidad;
+        }
     }
 }

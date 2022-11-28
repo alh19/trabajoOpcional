@@ -159,8 +159,7 @@ namespace Sandwich2Go.UT.SandwichControllers_test
             MetodosDePagoG.Add(new Tarjeta { Id = 1, AnoCaducidad=2030, CCV=123, MesCaducidad=12, Numero=1234123412344321});
             MetodosDePagoG.Add(new Efectivo { Id=2, NecesitasCambio=true});
 
-            PedidosG.Add(new Pedido { Id = 1, Cantidad= 1, Direccion="Calle 1", MetodoDePago = MetodosDePagoG[0], Preciototal=5.50 });
-            PedidosG.Add(new Pedido { Id = 2, Cantidad= 1, Direccion="Calle 2", MetodoDePago = MetodosDePagoG[1], Preciototal=7 });
+            
 
             IngredientesG.Add(new Ingrediente { Id = 1, Nombre = "Jamon" , Stock = 100});
             IngredientesG.Add(new Ingrediente { Id = 2, Nombre = "Queso" , Stock = 100});
@@ -171,23 +170,23 @@ namespace Sandwich2Go.UT.SandwichControllers_test
             SandwichesG.Add(new Sandwich{Id = 2, SandwichName = "Mixto", Precio = 3.00, Desc = "Jamón y queso", OfertaSandwich = new List<OfertaSandwich>() });
             SandwichesG.Add(new Sandwich{Id = 3,SandwichName = "Inglés", Precio = 4.00, Desc = "Jamón, queso y huevo revuelto", OfertaSandwich = new List<OfertaSandwich>() });
 
-            SandwichesPedidosG.Add(new List<SandwichPedido>
-            {
-                new SandwichPedido{ Id= 1, Cantidad=1, Pedido=PedidosG[0], PedidoId=1, Sandwich =SandwichesG[0], SandwichId=1}
-            });
+            //SandwichesPedidosG.Add(new List<SandwichPedido>
+            //{
+            //    new SandwichPedido{ Id= 1, Cantidad=1, Pedido=PedidosG[0], PedidoId=1, Sandwich =SandwichesG[0], SandwichId=1}
+            //});
 
-            SandwichesPedidosG.Add(new List<SandwichPedido>
-            {
-                new SandwichPedido{ Id= 2, Cantidad=1, Pedido=PedidosG[1], PedidoId=2, Sandwich =SandwichesG[1], SandwichId=2},
-                new SandwichPedido{ Id= 3, Cantidad=1, Pedido=PedidosG[1], PedidoId=2, Sandwich =SandwichesG[2], SandwichId=3}
-            });
+            //SandwichesPedidosG.Add(new List<SandwichPedido>
+            //{
+            //    new SandwichPedido{ Id= 2, Cantidad=1, Pedido=PedidosG[1], PedidoId=2, Sandwich =SandwichesG[1], SandwichId=2},
+            //    new SandwichPedido{ Id= 3, Cantidad=1, Pedido=PedidosG[1], PedidoId=2, Sandwich =SandwichesG[2], SandwichId=3}
+            //});
 
-            PedidosG[0].sandwichesPedidos = SandwichesPedidosG[0];
-            PedidosG[1].sandwichesPedidos = SandwichesPedidosG[1];
+            //PedidosG[0].sandwichesPedidos = SandwichesPedidosG[0];
+            //PedidosG[1].sandwichesPedidos = SandwichesPedidosG[1];
 
-            SandwichesG[0].SandwichPedido = new List<SandwichPedido> { SandwichesPedidosG[0][0] };
-            SandwichesG[1].SandwichPedido = new List<SandwichPedido> { SandwichesPedidosG[1][0] };
-            SandwichesG[2].SandwichPedido = new List<SandwichPedido> { SandwichesPedidosG[1][1] };
+            //SandwichesG[0].SandwichPedido = new List<SandwichPedido> { SandwichesPedidosG[0][0] };
+            //SandwichesG[1].SandwichPedido = new List<SandwichPedido> { SandwichesPedidosG[1][0] };
+            //SandwichesG[2].SandwichPedido = new List<SandwichPedido> { SandwichesPedidosG[1][1] };
 
 
             OfertaSandwichesG.Add(new List<OfertaSandwich> { new OfertaSandwich { OfertaId = 1, SandwichId = 1, Sandwich = SandwichesG[0],Porcentaje = 10 } });
@@ -241,6 +240,44 @@ namespace Sandwich2Go.UT.SandwichControllers_test
             SandwichesG[0].IngredienteSandwich = IngredienteSandwichesG[0];
             SandwichesG[1].IngredienteSandwich = IngredienteSandwichesG[1];
             SandwichesG[2].IngredienteSandwich = IngredienteSandwichesG[2];
+
+            PedidosG.Add(new Pedido
+            {
+                Id = 1,
+                Cantidad = 1,
+                Direccion = "Calle 1",
+                MetodoDePago = MetodosDePagoG[0],
+                Preciototal = 4.95,
+                sandwichesPedidos = new List<SandwichPedido>
+                {
+                    new SandwichPedido
+                    {
+                        Cantidad=1,
+                        SandwichId=1,
+                        PedidoId=1,
+                        Sandwich= SandwichesG[0]
+                    }
+                }
+            });
+            PedidosG.Add(new Pedido { Id = 2, Cantidad = 1, Direccion = "Calle 2", MetodoDePago = MetodosDePagoG[1], Preciototal = 7,
+                sandwichesPedidos = new List<SandwichPedido>
+                {
+                    new SandwichPedido
+                    {
+                        Cantidad=1,
+                        SandwichId=2,
+                        PedidoId=2,
+                        Sandwich= SandwichesG[1]
+                    },
+                    new SandwichPedido
+                    {
+                        Cantidad=1,
+                        SandwichId=3,
+                        PedidoId=2,
+                        Sandwich= SandwichesG[2]
+                    }
+                }
+            });
         }
         public static void BorrarDatos()
         {
