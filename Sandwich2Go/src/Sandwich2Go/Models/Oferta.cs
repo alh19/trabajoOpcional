@@ -44,8 +44,7 @@ namespace Sandwich2Go.Models
                 (this.FechaInicio.Subtract(oferta.FechaInicio) < new TimeSpan(0, 1, 0)) &&
                 (this.FechaFin.Subtract(oferta.FechaFin) < new TimeSpan(0, 1, 0)) &&
                 Descripcion == oferta.Descripcion &&
-                Gerente.Equals(oferta.Gerente) &&
-                OfertaSandwich.SequenceEqual(oferta.OfertaSandwich);
+                Gerente.Equals(oferta.Gerente);
         }
     }
 }

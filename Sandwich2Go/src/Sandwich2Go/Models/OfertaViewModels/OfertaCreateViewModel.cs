@@ -5,6 +5,7 @@ using System.Xml.Linq;
 using System;
 using Xunit.Sdk;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Design;
 
 namespace Sandwich2Go.Models.OfertaViewModels
 {
@@ -19,6 +20,18 @@ namespace Sandwich2Go.Models.OfertaViewModels
             Email = gerente.Email;
             OfertaSandwiches = ofertaSandwiches;
         }
+        public OfertaCreateViewModel(Oferta oferta)
+        {
+            Nombre = oferta.Gerente.Nombre;
+            Apellido = oferta.Gerente.Apellido;
+            Email = oferta.Gerente.Email;
+            GerenteId = oferta.Gerente.Id;
+            NombreOferta = oferta.Nombre;
+            FechaInicio = oferta.FechaInicio;
+            FechaFin = oferta.FechaFin;
+            Descripcion = oferta.Descripcion;
+            OfertaSandwiches = oferta.OfertaSandwich.Select(pi => new OfertaSandwichViewModel(pi)).ToList();
+        }
 
         [Display(Name = "Nombre:")]
         public virtual string Nombre { get; set; }
@@ -27,7 +40,7 @@ namespace Sandwich2Go.Models.OfertaViewModels
         [EmailAddress]
         [Display(Name = "Email:")]
         public virtual string Email { get; set; }
-        public virtual int GerenteId { get; set; }
+        public virtual string GerenteId { get; set; }
         [Required, StringLength(20, ErrorMessage = "El nombre no puede contener más de 20 caracteres")]
         [Display(Name = "Nombre de la oferta: ")]
         public string NombreOferta { get; set; }
@@ -47,12 +60,12 @@ namespace Sandwich2Go.Models.OfertaViewModels
         {
             return obj is OfertaCreateViewModel model &&
               Nombre == model.Nombre &&
-              Apellido == model.Apellido &&
+              FechaInicio == model.FechaInicio &&
               GerenteId == model.GerenteId &&
               Email == model.Email &&
               NombreOferta == model.NombreOferta &&
-              FechaInicio == model.FechaInicio &&
-              FechaFin == model.FechaFin &&
+              (this.FechaInicio.Subtract(model.FechaInicio) < new TimeSpan(0, 1, 0)) &&
+              (this.FechaFin.Subtract(model.FechaFin) < new TimeSpan(0, 1, 0)) &&
               Descripcion == model.Descripcion &&
               OfertaSandwiches.SequenceEqual(model.OfertaSandwiches);
         }

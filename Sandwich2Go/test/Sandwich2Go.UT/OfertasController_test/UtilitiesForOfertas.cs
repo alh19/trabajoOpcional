@@ -28,7 +28,7 @@ namespace Sandwich2Go.UT.OfertasController_test
         {
             Oferta oferta1 = new Oferta(1,
                         "oferta1",
-                        System.DateTime.Now, new DateTime(2022, 12, 12, 8, 30, 52),
+                        DateTime.Now, DateTime.Now,
                         "descripcion1",
                         new List<OfertaSandwich>()
                         {
@@ -38,16 +38,16 @@ namespace Sandwich2Go.UT.OfertasController_test
             oferta1.OfertaSandwich[0].Oferta = oferta1;
             Oferta oferta2 = new Oferta(2,
                         "oferta2",
-                        System.DateTime.Now, new DateTime(2022, 12, 30, 9, 40, 32),
+                        DateTime.Now, DateTime.Now,
                         "descripcion2",
                         new List<OfertaSandwich>()
                         {
-                           new OfertaSandwich(){Porcentaje = 50,Sandwich = sandwiches[1], SandwichId = sandwiches[1].Id,OfertaId=2}
+                           new OfertaSandwich(){Porcentaje = 50,Sandwich = sandwiches[1], SandwichId = sandwiches[1].Id,OfertaId=1}
                         },
                         gerente);
             oferta2.OfertaSandwich[0].Oferta = oferta2;
 
-            List<Oferta> allOfertas = new List<Oferta> { oferta1, oferta2, };
+            List<Oferta> allOfertas = new List<Oferta> { oferta1, oferta2 };
 
             return allOfertas.GetRange(index, numOfPurchases);
         }

@@ -9,7 +9,7 @@ namespace Sandwich2Go.Models.OfertaViewModels
     {
         public OfertaSandwichViewModel() {
         }
-        public OfertaSandwichViewModel(Sandwich sandwich)
+        public OfertaSandwichViewModel(Sandwich sandwich) : this()
         {
             SandwichID = sandwich.Id;
             Nombre = sandwich.SandwichName;
@@ -20,6 +20,11 @@ namespace Sandwich2Go.Models.OfertaViewModels
                 Ingredientes.Add(ingSand.Ingrediente.Nombre + " ");
                 IngM = IngM + ingSand.Ingrediente.Nombre + " ";
             }
+        }
+
+        public OfertaSandwichViewModel(OfertaSandwich ofertaSandwich) : this(ofertaSandwich.Sandwich)
+        {
+            Porcentaje = ofertaSandwich.Porcentaje;
         }
         public virtual string IngM { get; set; }
         public virtual int SandwichID { get; set; }
@@ -37,6 +42,7 @@ namespace Sandwich2Go.Models.OfertaViewModels
                 SandwichID == model.SandwichID &&
                 Nombre == model.Nombre &&
                 Precio == model.Precio &&
+                Porcentaje == model.Porcentaje &&
                 Ingredientes.SequenceEqual(model.Ingredientes);
         }
     }

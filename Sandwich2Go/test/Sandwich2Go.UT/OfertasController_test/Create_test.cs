@@ -98,5 +98,104 @@ namespace Sandwich2Go.UT.OfertasController_test
             Assert.Equal("Debes elegir al menos un sándwich para crear una oferta.", error.ErrorMessage);
 
         }
+        
+        public static IEnumerable<object[]> TestCasesForOffersCreatePost_WithErrors()
+        {
+            Sandwich sandwichToOffer = UtilitiesForSandwichesForOffer.GetSandwiches(0, 1).First();
+            Gerente gerente = Utilities.GetUsers(0, 1).First() as Gerente;
+
+            //Input values
+            OfertaSandwichViewModel ofertaSandwichViewModel = new OfertaSandwichViewModel(sandwichToOffer);
+            ofertaSandwichViewModel.Porcentaje = 200;
+            IList<OfertaSandwichViewModel> ofertaSandwichViewModel1 = new OfertaSandwichViewModel[1] { ofertaSandwichViewModel };
+            OfertaCreateViewModel oferta1 = new(gerente, ofertaSandwichViewModel1);
+
+
+            //Expected values
+            OfertaSandwichViewModel expectedOfertaSandwichViewModel = new OfertaSandwichViewModel(sandwichToOffer);
+            expectedOfertaSandwichViewModel.Porcentaje = 200;
+            IList<OfertaSandwichViewModel> expectedOfertaSandwichViewModel1 = new OfertaSandwichViewModel[1] { expectedOfertaSandwichViewModel };
+            OfertaCreateViewModel expectedOfertaVM1 = new(gerente, expectedOfertaSandwichViewModel1);
+
+            string expetedErrorMessage1 = "Introduce un porcentaje válido para el sándwich Cubano";
+
+            var allTests = new List<object[]>
+            {                  
+                new object[] { oferta1, expectedOfertaVM1, expetedErrorMessage1 }
+            };
+            return allTests;
+        }
+
+        [Theory]
+        [MemberData(nameof(TestCasesForOffersCreatePost_WithErrors))]
+        [Trait("LevelTesting", "Unit Testing")]
+        public void Create_Post_WithErrors(OfertaCreateViewModel oferta, OfertaCreateViewModel expectedOfertaVM, string errorMessage)
+        {
+            // Arrange
+            var controller = new OfertasController(context);
+            //simulate user's connection
+            controller.ControllerContext.HttpContext = httpContext;
+
+            // Act
+            var result = controller.CreatePost(oferta);
+
+            //Assert
+            var viewResult = Assert.IsType<ViewResult>(result.Result);
+            OfertaCreateViewModel currentOferta = viewResult.Model as OfertaCreateViewModel;
+            Assert.Equal(expectedOfertaVM, currentOferta);
+
+            var error = viewResult.ViewData.ModelState.Values.First().Errors.First();
+            Assert.Equal(errorMessage, error.ErrorMessage);
+
+        }
+
+        public static IEnumerable<object[]> TestCasesForOffersCreatePost_WithoutErrors()
+        {
+            Gerente gerente = Utilities.GetUsers(0, 1).First() as Gerente;
+            IList<Sandwich> sandwiches = UtilitiesForSandwichesForOffer.GetSandwiches(0, 3);
+            IList<Oferta> ofertaList = UtilitiesForOfertas.GetOfertas(0, 2, sandwiches, gerente);
+
+            Oferta expectedOferta1 = ofertaList[0];
+            OfertaCreateViewModel ofertaCVM1 = new OfertaCreateViewModel(expectedOferta1);
+
+            Oferta expectedOferta2 = ofertaList[1];
+            expectedOferta2.Id = 1;
+            OfertaCreateViewModel ofertaCVM2 = new OfertaCreateViewModel(expectedOferta2);
+
+            var allTests = new List<object[]>
+            {                  
+                new object[] { ofertaCVM1, expectedOferta1},
+                new object[] { ofertaCVM2, expectedOferta2}
+            };
+            return allTests;
+        }
+
+        [Theory]
+        [MemberData(nameof(TestCasesForOffersCreatePost_WithoutErrors))]
+        [Trait("LevelTesting", "Unit Testing")]
+        public void Create_Post_WithoutErrors(OfertaCreateViewModel oferta, Oferta expectedOferta)
+        {
+            // Arrange
+            var controller = new OfertasController(context);
+
+            //simulate user's connection
+            controller.ControllerContext.HttpContext = httpContext;
+
+            // Act
+            var result = controller.CreatePost(oferta);
+
+            //Assert
+            //we should check it is redirected to details
+            var viewResult = Assert.IsType<RedirectToActionResult>(result.Result);
+            Assert.Equal("Details", viewResult.ActionName);
+            //it is the id of the purchase stored in the DB and passed to details
+            Assert.Equal(expectedOferta.Id, viewResult.RouteValues.First().Value);
+
+            //we should check the purchase has been created in the database
+            var actualOferta = context.Oferta.Include(p => p.OfertaSandwich).
+                                FirstOrDefault(p => p.Id == expectedOferta.Id);
+            Assert.Equal(expectedOferta, actualOferta);
+
+        }
     }
 }

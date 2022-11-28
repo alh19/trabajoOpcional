@@ -101,8 +101,15 @@ namespace Sandwich2Go.Controllers
                 foreach (OfertaSandwichViewModel sandwichO in ofertaViewModel.OfertaSandwiches)
                 {
                     sandwich = await _context.Sandwich.FirstOrDefaultAsync<Sandwich>(s => s.Id == sandwichO.SandwichID);
-                    ofertaSandwich = new OfertaSandwich(sandwich, sandwichO.Porcentaje, oferta);
-                    oferta.OfertaSandwich.Add(ofertaSandwich);
+                    if(sandwichO.Porcentaje < 1 || sandwichO.Porcentaje > 100)
+                    {
+                        ModelState.AddModelError("", $"Introduce un porcentaje válido para el sándwich {sandwichO.Nombre}");
+                    }
+                    else
+                    {
+                        ofertaSandwich = new OfertaSandwich(sandwich, sandwichO.Porcentaje, oferta);
+                        oferta.OfertaSandwich.Add(ofertaSandwich);
+                    }
                 }
             }
             if (ModelState.ErrorCount > 0)
