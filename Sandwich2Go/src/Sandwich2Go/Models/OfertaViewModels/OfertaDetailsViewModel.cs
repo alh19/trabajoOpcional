@@ -18,7 +18,6 @@ namespace Sandwich2Go.Models.OfertaViewModels
             OfertaSandwiches = oferta.OfertaSandwich
                 .Select(pi => new OfertaSandwichDetailsViewModel(pi)).ToList();
         }
-        [Required]
         public int Id { get; set; }
         [Display(Name = "Nombre de la oferta: ")]
         public string NombreOferta { get; set; }

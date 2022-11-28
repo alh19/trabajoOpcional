@@ -30,10 +30,9 @@ namespace Sandwich2Go.Controllers
             var applicationDbContext = _context.Oferta
                 .Include(p => p.Gerente)
                 .Include(p => p.OfertaSandwich)
-                .OrderByDescending(p => p.Id)
-                .Where(p => p.Gerente.Email == User.Identity.Name);
-               // .Select(p => new OfertaIndexViewModel(p.PurchaseId, p.TotalPrice, p.PurchaseDate,
-                //    p.DeliveryAddress, p.PurchaseItems.Sum(pi => pi.Quantity)));
+                .OrderBy(p => p.Id)
+                .Where(p => p.Gerente.Email == User.Identity.Name)
+                .Select(p => new OfertaIndexViewModel(p));
             return View(await applicationDbContext.ToListAsync());
         }
         [Authorize(Roles = "Gerente")]
