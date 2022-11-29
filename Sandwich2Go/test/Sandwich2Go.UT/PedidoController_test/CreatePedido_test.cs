@@ -265,7 +265,7 @@ namespace Sandwich2Go.UT.PedidoController_test
             pedidos[1].Descripcion = "Pedido con los sándwiches Mixto Inglés ";
             pedidos[1].Cliente = cliente;
             pedidos[1].Nombre = DateTime.Now.Day.ToString() + "/" + DateTime.Now.Month.ToString() + "/" + DateTime.Now.Year.ToString();
-            pedidos[1].Id = 1;
+            pedidos[1].Id =1;
             (pedidos[1].MetodoDePago as Efectivo).NecesitasCambio = false;
 
 
