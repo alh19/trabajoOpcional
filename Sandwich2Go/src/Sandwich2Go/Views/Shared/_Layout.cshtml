@@ -21,18 +21,36 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Sandwiches" asp-action="SelectSandwichForPurchase">Comprar Sándwich</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Ingredientes" asp-action="SelectIngredientesForPurchase">Crear Sándwich</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Proveedores" asp-action="SelectProveedoresForPurchase">Crear Pedido Proveedor</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Sandwiches" asp-action="SelectSandwichesForOffer">Crear Oferta</a>
-                        </li>
+                        @if (User.IsInRole("Cliente"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Sandwiches" asp-action="SelectSandwichForPurchase">Comprar Sándwich</a>
+                            </li>
+                        }
+                        @if (User.IsInRole("Cliente"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Ingredientes" asp-action="SelectIngredientesForPurchase">Crear Sándwich</a>
+                            </li>
+                        }
+                        @if (User.IsInRole("Cliente"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Pedidos" asp-action="Index">Mis pedidos</a>
+                            </li>
+                        }
+                        @if (User.IsInRole("Gerente"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Proveedores" asp-action="SelectProveedoresForPurchase">Crear Pedido Proveedor</a>
+                            </li>
+                        }
+                        @if (User.IsInRole("Gerente"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Sandwiches" asp-action="SelectSandwichesForOffer">Crear Oferta</a>
+                            </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

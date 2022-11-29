@@ -33,7 +33,7 @@
             <div class="form-group row">
                 <label asp-for="DireccionEntrega" class="col-md-2 control-label font-weight-bold"></label>
                 <span class="col-md-8">
-                    <input asp-for="DireccionEntrega" class="form-control" height="20" />
+                    <input asp-for="DireccionEntrega" class="form-control" height="20"  />
                     <span asp-validation-for="DireccionEntrega" class="text-danger"></span>
                 </span>
             </div>
@@ -89,13 +89,13 @@
                             </td>
                             <td>
                                 <div class="form-group">
-                                    @Html.DisplayFor(modelItem => Model.sandwichesPedidos[i].Ingredientes)
+                                    @Html.DisplayFor(modelItem => Model.sandwichesPedidos[i].IngM)
 
                                 </div>
                             </td>
                             <td>
                                 <div class="form-group">
-                                    @Html.DisplayFor(modelItem => Model.sandwichesPedidos[i].Alergenos)
+                                    @Html.DisplayFor(modelItem => Model.sandwichesPedidos[i].Alm)
 
                                 </div>
                             </td>
@@ -103,7 +103,12 @@
                                 <div class="form-group">
                                     <input asp-for="sandwichesPedidos[i].Id" type="hidden" class="form-control" />
                                     <input asp-for="sandwichesPedidos[i].PrecioCompra" type="hidden" class="form-control" />
+                                    <input asp-for="sandwichesPedidos[i].PrecioConDescuento" type="hidden" class="form-control" />
                                     <input asp-for="sandwichesPedidos[i].NombreSandwich" type="hidden" class="form-control" />
+                                    <input asp-for="sandwichesPedidos[i].Ingredientes" type="hidden" class="form-control" />
+                                    <input asp-for="sandwichesPedidos[i].Alergenos" type="hidden" class="form-control" />
+                                    <input asp-for="sandwichesPedidos[i].Alm" type="hidden" class="form-control" />
+                                    <input asp-for="sandwichesPedidos[i].IngM" type="hidden" class="form-control" />
                                     <input asp-for="sandwichesPedidos[i].cantidad" id="Sandwich_Quantity_@Model.sandwichesPedidos[i].Id" class="form-control" />
                                     <span asp-validation-for="sandwichesPedidos[i].cantidad" class="text-danger" />
 
@@ -160,9 +165,14 @@
                             <span asp-validation-for="CCV" class="text-danger"></span>
                         </div>
                         <div class="col-md-2">
-                            <label asp-for="FechaCaducidad" class="control-label"></label>
-                            <input asp-for="FechaCaducidad" class="form-control" />
-                            <span asp-validation-for="FechaCaducidad" class="text-danger"></span>
+                            <label asp-for="MesCad" class="control-label"></label>
+                            <input asp-for="MesCad" class="form-control" />
+                            <span asp-validation-for="MesCad" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-2">
+                            <label asp-for="AnoCad" class="control-label"></label>
+                            <input asp-for="AnoCad" class="form-control" />
+                            <span asp-validation-for="AnoCad" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
