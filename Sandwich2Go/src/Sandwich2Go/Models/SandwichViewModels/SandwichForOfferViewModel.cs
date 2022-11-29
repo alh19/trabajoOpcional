@@ -1,26 +1,24 @@
-<<<<<<< HEAD
 ﻿using System.ComponentModel.DataAnnotations;
-=======
-﻿using Sandwich2Go.Models.IngredienteViewModels;
-using System.ComponentModel.DataAnnotations;
->>>>>>> master
 using System.Linq;
 
 namespace Sandwich2Go.Models.SandwichViewModels
 {
     public class SandwichForOfferViewModel
     {
-        public SandwichForOfferViewModel()
-        {
-
-        }
 
         public SandwichForOfferViewModel(Sandwich sandwich)
         {
             Id = sandwich.Id;
             SandwichName = sandwich.SandwichName;
             Precio = sandwich.Precio;
-            Desc = sandwich.Desc;
+            Descripcion = sandwich.Desc;
+            ingredientes = new string[sandwich.IngredienteSandwich.Count];
+            int i = 0;
+            foreach (IngredienteSandwich ing in sandwich.IngredienteSandwich)
+            {
+                ingredientes[i] = ing.Ingrediente.Nombre + " ";
+                i++;
+            }
         }
 
         [Key]
@@ -32,8 +30,11 @@ namespace Sandwich2Go.Models.SandwichViewModels
 
         [Required, DataType(DataType.Currency)]
         public double Precio { get; set; }
-        [Required, StringLength(100, ErrorMessage = "La descripción no puede ser mayor a 100 caracteres.")]
-        public string Desc { get; set; }
+
+        [Required]
+        public string[] ingredientes { get; set; }
+
+        public string Descripcion { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -41,7 +42,8 @@ namespace Sandwich2Go.Models.SandwichViewModels
                 Id == model.Id &&
                 SandwichName == model.SandwichName &&
                 Precio == model.Precio &&
-                Desc == model.Desc;
+                Descripcion == model.Descripcion &&
+                ingredientes.SequenceEqual(model.ingredientes);
         }
     }
 }
