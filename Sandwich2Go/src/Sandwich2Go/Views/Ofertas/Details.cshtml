@@ -1,42 +1,79 @@
-﻿@model Sandwich2Go.Models.Oferta
+﻿@model Sandwich2Go.Models.OfertaViewModels.OfertaDetailsViewModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles de la Oferta";
 }
 
-<h1>Details</h1>
+<h1>Detalles de la oferta:</h1>
 
 <div>
     <h4>Oferta</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nombre)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NombreOferta)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nombre)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NombreOferta)
         </dd>
-        <dt class = "col-sm-2">
+
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FechaInicio)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.FechaInicio)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FechaFin)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.FechaFin)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Descripcion)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Descripcion)
         </dd>
     </dl>
+    <table class="table">
+        <thead>
+            <tr>
+                <th width="30%">
+                    Nombre
+                </th>
+                <th width="20%">
+                    Precio
+                </th>
+                <th width="50%">
+                    Ingredientes
+                </th>
+                <th>
+                    Porcentaje
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.OfertaSandwiches.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(m => Model.OfertaSandwiches[i].Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => Model.OfertaSandwiches[i].Precio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => Model.OfertaSandwiches[i].Ingredientes)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => Model.OfertaSandwiches[i].Porcentaje)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Volver a tus ofertas</a>
 </div>
