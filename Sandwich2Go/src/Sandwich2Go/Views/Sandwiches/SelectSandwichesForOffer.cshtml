@@ -16,7 +16,7 @@
             <span asp-validation-for="SandwichName" class="text-danger"></span>
 
             <label asp-for="sandwichPrecio"></label>
-            <input asp-for="sandwichPrecio" size="5"  required/>
+            <input asp-for="sandwichPrecio" size="5" required />
             <span asp-validation-for="sandwichPrecio" class="text-danger"></span>
 
             <input asp-action="SelectSandwichesForOffer" type="submit" value="Filtrar" formmethod="get" />
@@ -28,14 +28,14 @@
     <table class="table">
         <thead>
             <tr>
-                <th width="50%">
+                <th width="30%">
                     Nombre
                 </th>
-                <th>
+                <th width="20%">
                     Precio
                 </th>
-                <th>
-                    Descripción
+                <th width="50%">
+                    Ingredientes
                 </th>
                 <th align="center" width="10%">
                     Seleccionar Sándwich
@@ -52,14 +52,17 @@
                 @foreach (var item in Model.Sandwiches)
                 {
                     <tr id="Sandwich_Name_@item.SandwichName">
-                        <td width="50%">
+                        <td width="30%">
                             @Html.DisplayFor(modelItem => item.SandwichName)
                         </td>
-                        <td>
+                        <td width="20%">
                             @Html.DisplayFor(modelItem => item.Precio)
                         </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Desc)
+                        <td width="50%">
+                            @foreach (string ing in item.ingredientes)
+                            {
+                                @Html.DisplayFor(modelItem => ing)
+                            }
                         </td>
                         <td align="center" width="10%">
                             <input type="checkbox" name="IdsToAdd" id="Sandwich_@item.Id" value="@item.Id" class="form-control">
