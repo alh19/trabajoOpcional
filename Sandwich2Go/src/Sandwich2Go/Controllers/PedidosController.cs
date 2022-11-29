@@ -22,14 +22,12 @@ namespace Sandwich2Go.Controllers
         {
             _context = context;
         }
-        [Authorize(Roles = "Cliente")]
         // GET: Pedidos
         public async Task<IActionResult> Index()
         {
             Cliente cliente = await _context.Users.OfType<Cliente>().FirstOrDefaultAsync<Cliente>(c => c.UserName.Equals(User.Identity.Name));
-            return View(await _context.Pedido.Where(p => p.Cliente.Id.Equals(cliente.Id)).Select(p => new PedidoIndexViewModel(p)).ToListAsync());
+            return View(await _context.Pedido.Where(p => p.Cliente.Id.Equals(cliente.Id)).ToListAsync());
         }
-        [Authorize(Roles = "Cliente")]
         // GET: Pedidos/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -40,24 +38,22 @@ namespace Sandwich2Go.Controllers
             }
             Cliente cliente = await _context.Users.OfType<Cliente>().FirstOrDefaultAsync<Cliente>(c => c.UserName.Equals(User.Identity.Name));
             var pedido = await _context.Pedido
-                .Include(p => p.MetodoDePago)
-                .Include(p => p.sandwichesPedidos).ThenInclude(sp => sp.Sandwich).ThenInclude(s => s.IngredienteSandwich).ThenInclude(isa => isa.Ingrediente)
-                .Include(p=> p.sandwichesPedidos).ThenInclude(sp => sp.Sandwich).ThenInclude(s => s.OfertaSandwich).ThenInclude(os =>os.Oferta)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (pedido == null || !pedido.Cliente.Id.Equals(cliente.Id))
             {
                 return NotFound();
             }
 
-            return View(new PedidoDetailsViewModel (pedido));
+            return View(pedido);
         }
-        [Authorize(Roles = "Cliente")]
+
         // POST: Pedidos/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         public async Task<IActionResult> Create(SelectedSandwichesForPurchaseViewModel selectedSandwiches)
         {
             PedidoSandwichCreateViewModel pedido = new PedidoSandwichCreateViewModel();
+            pedido.sandwichesPedidos = new List<SandwichPedidoViewModel>();
 
             if (selectedSandwiches.IdsToAdd == null)
             {
@@ -75,13 +71,15 @@ namespace Sandwich2Go.Controllers
             }
 
             Cliente cliente = await _context.Users.OfType<Cliente>().FirstOrDefaultAsync<Cliente>(c => c.UserName.Equals(User.Identity.Name));
+
             pedido.Name = cliente.Nombre;
             pedido.Apellido = cliente.Apellido;
             pedido.IdCliente = cliente.Id;
+            pedido.precioTotal();
             return View(pedido);
         }
-        [Authorize(Roles = "Cliente")]
         [HttpPost, ActionName("Create")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreatePost(PedidoSandwichCreateViewModel pedidoViewModel)
         {
@@ -93,93 +91,14 @@ namespace Sandwich2Go.Controllers
             PedidoSandwichCreateViewModel pedidoViewModel1 = pedidoViewModel;
             pedido.sandwichesPedidos = new List<SandwichPedido>();
             cliente = await _context.Users.OfType<Cliente>().FirstOrDefaultAsync<Cliente>(c => c.UserName.Equals(User.Identity.Name));
-            double precioCompra = 0;
-            string sandws = "";
-
-            if (ModelState.IsValid)
+            
+            if(ModelState.IsValid)
             {
                 foreach (SandwichPedidoViewModel sandwichP in pedidoViewModel.sandwichesPedidos)
                 {
-                    bool puedePedir = true;
-                    sandwich = await _context.Sandwich
-                    .Include(s => s.IngredienteSandwich).ThenInclude(insa => insa.Ingrediente)
-                    .FirstOrDefaultAsync<Sandwich>(s => s.Id == sandwichP.Id);
-                    foreach (IngredienteSandwich insa in sandwich.IngredienteSandwich)
-                    {
-                        if(insa.Ingrediente.Stock < insa.Cantidad*sandwichP.cantidad)
-                        {
-                            puedePedir = false;
-                        }
-                        else
-                        {
-                            insa.Ingrediente.Stock = insa.Ingrediente.Stock - (insa.Cantidad * sandwichP.cantidad);
-                        }
-                    }
-                    if (puedePedir && sandwichP.cantidad>0)
-                    {
-                        sandwichPedido = new SandwichPedido()
-                        {
-                            Sandwich = sandwich,
-                            SandwichId = sandwich.Id,
-                            Pedido = pedido,
-                            PedidoId = pedido.Id,
-                            Cantidad = sandwichP.cantidad
-                        };
-                        if (sandwichP.PrecioConDescuento == -1)
-                        {
-                            precioCompra += sandwichP.PrecioCompra*sandwichP.cantidad;
-                        }
-                        else
-                        {
-                            precioCompra += sandwichP.PrecioConDescuento * sandwichP.cantidad;
-                        }
-                        sandws += sandwichP.NombreSandwich + " ";
-                        pedido.sandwichesPedidos.Add(sandwichPedido);
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("", $"El restaurante no puede preparar en estos momentos el sándwich {sandwich.SandwichName}, por favor, selecciona una cantidad distinta o no lo incluyas en el pedido.");
-                    }
+                    sandwich = await _context.Sandwich.FirstOrDefaultAsync<Sandwich>(s => s.Id == sandwichP.Id);
                 }
             }
-
-            if (ModelState.ErrorCount > 0)
-            {
-                pedidoViewModel1.Name = cliente.Nombre;
-                pedidoViewModel1.Apellido = cliente.Apellido;
-                return View(pedidoViewModel1);
-            }
-            pedido.Cliente = cliente;
-            pedido.Fecha = DateTime.Now;
-
-            if(pedidoViewModel.MetodoPago == "Tarjeta")
-            {
-                pedido.MetodoDePago = new Tarjeta()
-                {
-                    Numero = long.Parse(pedidoViewModel.NumeroTarjetaCredito),
-                    CCV = int.Parse(pedidoViewModel.CCV),
-                    MesCaducidad = int.Parse(pedidoViewModel.MesCad),
-                    AnoCaducidad = int.Parse(pedidoViewModel.AnoCad),
-                    Titular = cliente.Nombre + " " + cliente.Apellido
-                };
-            }
-            else
-            {
-                pedido.MetodoDePago = new Efectivo()
-                {
-                    NecesitasCambio = pedidoViewModel.necesitaCambio
-                };
-            }
-
-            pedido.Cantidad = 1;
-            pedido.Direccion = pedidoViewModel.DireccionEntrega;
-            pedido.Preciototal = precioCompra;
-            pedido.Descripcion = "Pedido con los sándwiches "+sandws;
-            pedido.Nombre = DateTime.Now.Day.ToString()+"/"+ DateTime.Now.Month.ToString()+"/"+ DateTime.Now.Year.ToString();
-
-            _context.Add(pedido);
-
-            _context.SaveChanges();
 
             return RedirectToAction("Details", new {id = pedido.Id});
         }
