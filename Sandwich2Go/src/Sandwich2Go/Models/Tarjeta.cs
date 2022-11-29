@@ -9,7 +9,7 @@ namespace Sandwich2Go.Models
     public class Tarjeta : MetodoDePago
     {
         [Required]
-        public int Numero
+        public long Numero
         {
             get;
             set;
