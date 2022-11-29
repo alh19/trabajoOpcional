@@ -66,19 +66,24 @@ namespace Sandwich2Go.Controllers
             return SelectSandwichForPurchase(double.Parse(selectedSandwich.sandwichPrecio), selectedSandwich.sandwichAlergenoSelected);
 
         }
-        [Authorize(Roles = "Gerente")]
         [HttpGet]
         public async Task<IActionResult> SelectSandwichesForOffer(string SandwichName, double sandwichPrecio)
         {
             SelectSandwichesForOfferViewModel selectSandwiches = new SelectSandwichesForOfferViewModel();
-            selectSandwiches.Sandwiches = await _context.Sandwich
-                .Include(s => s.IngredienteSandwich).ThenInclude(isa => isa.Ingrediente)
+            selectSandwiches.Sandwiches = _context.Sandwich
                 .Where(s => (s.SandwichName.Contains(SandwichName) || SandwichName == null) && (s.Precio <= sandwichPrecio || sandwichPrecio == 0.0))
-                .Select(s => new SandwichForOfferViewModel(s)).ToListAsync();
+                .Select(s => new SandwichForOfferViewModel()
+                {
+                    Id = s.Id,
+                    SandwichName = s.SandwichName,
+                    Precio = s.Precio,
+                    Desc = s.Desc,
+                });
+
+            selectSandwiches.Sandwiches = selectSandwiches.Sandwiches.ToList();
 
             return View(selectSandwiches);
         }
-        [Authorize(Roles = "Gerente")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SelectSandwichesForOffer(SelectedSandwichesForOfferViewModel selectedSandwich)
