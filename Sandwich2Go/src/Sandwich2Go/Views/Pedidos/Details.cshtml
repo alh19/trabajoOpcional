@@ -1,54 +1,97 @@
-﻿@model Sandwich2Go.Models.Pedido
+﻿@model Sandwich2Go.Models.PedidoViewModels.PedidoDetailsViewModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles del Pedido";
 }
 
-<h1>Details</h1>
+<h1>Detalles del pedido:</h1>
 
 <div>
-    <h4>Pedido</h4>
+    <h4>
+        Fecha del pedido:
+    @Html.DisplayFor(model => model.nombrePedido)</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nombre)
+            @Html.DisplayNameFor(model => model.clienteNombre)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nombre)
+            @Html.DisplayFor(model => model.clienteNombre)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Fecha)
+            @Html.DisplayNameFor(model => model.clienteApellidos)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Fecha)
+            @Html.DisplayFor(model => model.clienteApellidos)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Preciototal)
+            @Html.DisplayNameFor(model => model.metodoPago)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Preciototal)
+            @Html.DisplayFor(model => model.metodoPago)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Direccion)
+            @Html.DisplayNameFor(model => model.direccionEntrega)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Direccion)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Descripcion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Descripcion)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cantidad)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cantidad)
+            @Html.DisplayFor(model => model.direccionEntrega)
         </dd>
     </dl>
+        <table class ="table">
+            <thead>
+                <tr>
+                    <th>
+                        Nombre
+                    </th>
+                    <th>
+                        Ingredientes
+                    </th>
+                    <th>
+                        Precio
+                    </th>
+                    <th>
+                        Cantidad
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(int i = 0; i < Model.sandwichesPedidos.Count; i++)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(m => Model.sandwichesPedidos[i].nombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => Model.sandwichesPedidos[i].Ingredientes)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => Model.sandwichesPedidos[i].precio)
+                        </td>
+                         <td>
+                            @Html.DisplayFor(m => Model.sandwichesPedidos[i].cantidad)
+                         </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div>
+            <h6>Ofertas aplicadas:</h6>
+            @for(int i = 0; i<Model.ofertasAplicadas.Count; i++)
+            {
+                @Html.DisplayFor(m => Model.ofertasAplicadas[i]) 
+            }
+            
+        </div>
+        <br />
+    <div >
+        <h6>
+        @Html.DisplayNameFor(model => model.precioTotal)
+        @Html.DisplayFor(model => model.precioTotal)
+        </h6>
+
+    </div>
+    <br/>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Volver a tus pedidos</a>
 </div>
