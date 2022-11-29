@@ -174,12 +174,12 @@ namespace Sandwich2Go.Controllers
             pedido.Cantidad = 1;
             pedido.Direccion = pedidoViewModel.DireccionEntrega;
             pedido.Preciototal = precioCompra;
-            pedido.Descripcion = "Pedido del dia "+ DateTime.Now.ToString()+" con los sándwiches "+sandws;
-            pedido.Nombre = DateTime.Now.ToString();
+            pedido.Descripcion = "Pedido con los sándwiches "+sandws;
+            pedido.Nombre = DateTime.Now.Day.ToString()+"/"+ DateTime.Now.Month.ToString()+"/"+ DateTime.Now.Year.ToString();
 
             _context.Add(pedido);
 
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
 
             return RedirectToAction("Details", new {id = pedido.Id});
         }

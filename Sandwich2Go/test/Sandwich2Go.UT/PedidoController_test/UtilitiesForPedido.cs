@@ -44,7 +44,7 @@ namespace Sandwich2Go.UT.SandwichControllers_test
             return SandwichesG.ToList().GetRange(index, numOfSandwiches);
         }
 
-        public static void InitializeDbSandwichesForTests(ApplicationDbContext db)
+        public static void InitializeDbPedidosForTests(ApplicationDbContext db)
         {
             CrearDatos();
             db.Alergeno.AddRange(GetAlergenos(0,2));
@@ -81,7 +81,7 @@ namespace Sandwich2Go.UT.SandwichControllers_test
             db.SaveChanges();
         }
 
-        public static void ReInitializeDbSandwichesForTests(ApplicationDbContext db)
+        public static void ReInitializeDbPedidosForTests(ApplicationDbContext db)
         {
             db.Sandwich.RemoveRange(db.Sandwich);
             db.IngredienteSandwich.RemoveRange(db.IngredienteSandwich);
@@ -93,6 +93,7 @@ namespace Sandwich2Go.UT.SandwichControllers_test
             db.OfertaSandwich.RemoveRange(db.OfertaSandwich);
             db.SandwichPedido.RemoveRange(db.SandwichPedido);
             db.Users.RemoveRange(db.Users);
+            db.Pedido.RemoveRange(db.Pedido);
 
             db.SaveChanges();
         }
@@ -259,7 +260,12 @@ namespace Sandwich2Go.UT.SandwichControllers_test
                     }
                 }
             });
-            PedidosG.Add(new Pedido { Id = 2, Cantidad = 1, Direccion = "Calle 2", MetodoDePago = MetodosDePagoG[1], Preciototal = 7,
+            PedidosG.Add(new Pedido { 
+                Id = 2, 
+                Cantidad = 1, 
+                Direccion = "Calle 2", 
+                MetodoDePago = MetodosDePagoG[1], 
+                Preciototal = 7,
                 sandwichesPedidos = new List<SandwichPedido>
                 {
                     new SandwichPedido

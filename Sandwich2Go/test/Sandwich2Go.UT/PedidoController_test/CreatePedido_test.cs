@@ -31,7 +31,8 @@ namespace Sandwich2Go.UT.PedidoController_test
             context = new ApplicationDbContext(_contextOptions);
             context.Database.EnsureCreated();
 
-            UtilitiesForPedido.InitializeDbSandwichesForTests(context);
+            UtilitiesForPedido.InitializeDbPedidosForTests(context);
+
             //Conexión de usuario
             System.Security.Principal.GenericIdentity user = new System.Security.Principal.GenericIdentity("gregorio@uclm.com");
             System.Security.Claims.ClaimsPrincipal identity = new System.Security.Claims.ClaimsPrincipal(user);
@@ -236,6 +237,13 @@ namespace Sandwich2Go.UT.PedidoController_test
             cantidades1[1] -= 1;
             cantidades1[3] -= 1;
 
+            pedidos[0].Fecha = DateTime.Now;
+            pedidos[0].Descripcion = "Pedido con los sándwiches Cubano ";
+            pedidos[0].Cliente = cliente;
+            pedidos[0].Nombre = DateTime.Now.Day.ToString() + "/" + DateTime.Now.Month.ToString() + "/" + DateTime.Now.Year.ToString();
+
+            (pedidos[0].MetodoDePago as Tarjeta).Titular = cliente.Nombre + " " + cliente.Apellido;
+
             //Compra en efectivo
             Pedido pedidoEsperado2 = pedidos[1];
             PedidoSandwichCreateViewModel pedidoCVM2 = new PedidoSandwichCreateViewModel
@@ -253,15 +261,18 @@ namespace Sandwich2Go.UT.PedidoController_test
             cantidades2[1] -= 2;
             cantidades2[2] -= 1;
 
-            pedidos[0].Fecha = DateTime.Now;
             pedidos[1].Fecha = DateTime.Now;
+            pedidos[1].Descripcion = "Pedido con los sándwiches Mixto Inglés ";
+            pedidos[1].Cliente = cliente;
+            pedidos[1].Nombre = DateTime.Now.Day.ToString() + "/" + DateTime.Now.Month.ToString() + "/" + DateTime.Now.Year.ToString();
+            pedidos[1].Id = 1;
+            (pedidos[1].MetodoDePago as Efectivo).NecesitasCambio = false;
 
-            (pedidos[0].MetodoDePago as Tarjeta).Titular = cliente.Nombre + " " + cliente.Apellido;
 
             var allTest = new List<object[]>
             {
-                new object[] {pedidoCVM1, pedidoEsperado1, cantidades1},
-                new object[] {pedidoCVM2, pedidoEsperado2, cantidades2}
+                new object[] {pedidoCVM1, pedidoEsperado1, cantidades1 },
+                new object[] {pedidoCVM2, pedidoEsperado2, cantidades2 }
             };
             return allTest;
         }
@@ -284,6 +295,8 @@ namespace Sandwich2Go.UT.PedidoController_test
                 //Assert
                 var viewResult = Assert.IsType<RedirectToActionResult>(result.Result);
 
+                Assert.Equal("Details", viewResult.ActionName);
+
                 Assert.Equal(pedidoEsperado.Id, viewResult.RouteValues.First().Value);
 
                 var actualPedido = context.Pedido.Include(p => p.sandwichesPedidos).ThenInclude(sc => sc.Sandwich).ThenInclude(s => s.IngredienteSandwich).ThenInclude(isa => isa.Ingrediente).ThenInclude(i => i.AlergSandws).ThenInclude(als => als.Alergeno)
@@ -291,11 +304,11 @@ namespace Sandwich2Go.UT.PedidoController_test
                     .Include(p => p.sandwichesPedidos).ThenInclude(sp => sp.Sandwich).ThenInclude(s => s.OfertaSandwich).ThenInclude(os => os.Oferta)
                     .FirstOrDefault(p => p.Id == pedidoEsperado.Id);
                 Assert.Equal(pedidoEsperado, actualPedido);
-                //List<int> ids = pedidoEsperado.sandwichesPedidos.Select(s => s.SandwichId).ToList();
-                //List <int> cantidadesReales = context.Ingrediente.Include(i => i.IngredienteSandwich)
-                //    .Where(i => (i.IngredienteSandwich.Where(isa => ids.Contains.(isa.SandwichId)))).Select(i => i.Stock).ToList();
 
-                //Assert.Equal(cantidadesEsperadas, cantidadesReales);
+                List<int> cantidadesReales = context.Ingrediente.OrderBy(i => i.Id).Select(i => i.Stock).ToList();
+
+
+                Assert.Equal(cantidadesEsperadas, cantidadesReales);
             }
 
         }
