@@ -82,15 +82,98 @@ namespace Sandwich2Go.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateSandwichPersonalizado([Bind("Id,Nombre,Fecha,Preciototal,Direccion,Descripcion,Cantidad")] Pedido pedido)
+        public async Task<IActionResult> CreateSandwichPersonalizado(PedidoCreateSandwichPersonalizadoViewModel pedidoViewModel)
         {
+            Ingrediente ingrediente;
+            SandwCreado sandwichCreado;
+            Cliente cliente;
+            Pedido pedido = new();
+            pedido.Preciototal = 0;
+            PedidoCreateSandwichPersonalizadoViewModel pedidoViewModel1 = pedidoViewModel;
+           
+            cliente = await _context.Users.OfType<Cliente>().FirstOrDefaultAsync<Cliente>(c => c.UserName.Equals(User.Identity.Name));
+            double precioCompra = 0;
+            string ings = "";
+
             if (ModelState.IsValid)
             {
-                _context.Add(pedido);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                foreach (IngredientePedidoViewModel ingredienteP in pedidoViewModel.ingPedidos)
+                {
+                    bool puedePedir = true;
+                    ingrediente = await _context.Ingrediente
+                    .Include(s => s.AlergSandws).ThenInclude(insa => insa.Alergeno)
+                    .FirstOrDefaultAsync<Ingrediente>(s => s.Id == ingredienteP.Id);
+                    foreach (Ingrediente insa in pedidoViewModel.ingPedidos)
+                    {
+                        if (insa.Ingrediente.Stock < insa.Cantidad * ingredienteP.cantidad)
+                        {
+                            puedePedir = false;
+                        }
+                        else
+                        {
+                            insa.Ingrediente.Stock = insa.Ingrediente.Stock - (insa.Cantidad * ingredienteP.cantidad);
+                        }
+                    }
+                    if (puedePedir && ingredienteP.cantidad > 0)
+                    {
+                        ingredientePedido = new SandwichCreado()
+                        {
+                            Ingrediente = ingrediente,
+                            IngredienteId = ingrediente.Id,
+                            Pedido = pedido,
+                            PedidoId = pedido.Id,
+                            Cantidad = ingredienteP.cantidad
+                        };
+                       
+                        sandws += sandwichP.NombreSandwich + " ";
+                        pedido.sandwichesPedidos.Add(sandwichPedido);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", $"El restaurante no puede preparar en estos momentos el sándwich {ingrediente.Nombre}, por favor, selecciona una cantidad distinta o no lo incluyas en el pedido.");
+                    }
+                }
             }
-            return View(pedido);
+
+            if (ModelState.ErrorCount > 0)
+            {
+                pedidoViewModel1.Name = cliente.Nombre;
+                pedidoViewModel1.Apellido = cliente.Apellido;
+                return View(pedidoViewModel1);
+            }
+            pedido.Cliente = cliente;
+            pedido.Fecha = DateTime.Now;
+
+            if (pedidoViewModel.MetodoPago == "Tarjeta")
+            {
+                pedido.MetodoDePago = new Tarjeta()
+                {
+                    Numero = (int)long.Parse(pedidoViewModel.NumeroTarjetaCredito),
+                    CCV = int.Parse(pedidoViewModel.CCV),
+                    MesCaducidad = int.Parse(pedidoViewModel.MesCad),
+                    AnoCaducidad = int.Parse(pedidoViewModel.AnoCad),
+                    Titular = cliente.Nombre + " " + cliente.Apellido
+                };
+            }
+            else
+            {
+                pedido.MetodoDePago = new Efectivo()
+                {
+                    NecesitasCambio = pedidoViewModel.necesitaCambio
+                };
+            }
+
+            pedido.Cantidad = 1;
+            pedido.Direccion = pedidoViewModel.DireccionEntrega;
+            pedido.Preciototal = precioCompra;
+            pedido.Descripcion = "Pedido con los ingredientes " + ings;
+            pedido.Nombre = DateTime.Now.Day.ToString() + "/" + DateTime.Now.Month.ToString() + "/" + DateTime.Now.Year.ToString();
+
+            _context.Add(pedido);
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Details", new { id = pedido.Id });
         }
 
         [Authorize(Roles = "Gerente")]
