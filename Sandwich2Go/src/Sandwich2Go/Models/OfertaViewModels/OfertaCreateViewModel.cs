@@ -1,11 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Xml.Linq;
 using System;
-using Xunit.Sdk;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using Design;
 
 namespace Sandwich2Go.Models.OfertaViewModels
 {

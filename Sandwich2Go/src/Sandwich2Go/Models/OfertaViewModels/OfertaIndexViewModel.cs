@@ -1,7 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
 using System;
-using Xunit.Sdk;
 
 namespace Sandwich2Go.Models.OfertaViewModels
 {

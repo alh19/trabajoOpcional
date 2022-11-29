@@ -1,8 +1,5 @@
-﻿using Design;
-using Sandwich2Go.Models.IngredienteViewModels;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Xml.Linq;
 
 namespace Sandwich2Go.Models.SandwichViewModels
 {

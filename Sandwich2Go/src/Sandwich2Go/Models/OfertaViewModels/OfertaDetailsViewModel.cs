@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System;
-using Design;
 using System.Linq;
 
 namespace Sandwich2Go.Models.OfertaViewModels
