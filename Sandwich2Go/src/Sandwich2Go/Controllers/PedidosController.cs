@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -10,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Sandwich2Go.Data;
 using Sandwich2Go.Models;
 using Sandwich2Go.Models.IngredienteViewModels;
+using Sandwich2Go.Models.PedidoSandwichPersonalizadoViewModels;
 using Sandwich2Go.Models.SandwichViewModels;
 
 namespace Sandwich2Go.Controllers
@@ -48,12 +50,33 @@ namespace Sandwich2Go.Controllers
             return View(pedido);
         }
         // GET: Pedidos/Create
-        public IActionResult CreateSandwichPersonalizado(SelectedIngredientesForPurchaseViewModel
+        public async Task<IActionResult> CreateSandwichPersonalizadoAsync(SelectedIngredientesForPurchaseViewModel
         selectedIngredientes)
         {
-            return View();
-        }
 
+            PedidoCreateSandwichPersonalizadoViewModel pedido = new PedidoCreateSandwichPersonalizadoViewModel();
+            pedido.ingPedidos = new List<IngredientePedidoViewModel>();
+
+            if (selectedIngredientes.IdsToAdd == null)
+            {
+                ModelState.AddModelError("IngredientNoSelected", "Debes elegir al menos un ingrediente para crear un pedido.");
+            }
+            else
+            {
+                IList<string> idsIng = selectedIngredientes.IdsToAdd.ToList();
+                pedido.ingPedidos = await _context.Ingrediente
+                    .Include(ing => ing.AlergSandws).ThenInclude(als => als.Alergeno)
+                    .Where(s => idsIng.Contains(s.Id.ToString()))
+                    .Select(s => new IngredientePedidoViewModel(s))
+                    .ToListAsync();
+            }
+
+            Cliente cliente = await _context.Users.OfType<Cliente>().FirstOrDefaultAsync<Cliente>(c => c.UserName.Equals(User.Identity.Name));
+            pedido.Name = cliente.Nombre;
+            pedido.Apellido = cliente.Apellido;
+            pedido.IdCliente = cliente.Id;
+            return View(pedido);
+        }
         // POST: Pedidos/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
