@@ -27,7 +27,7 @@ namespace Sandwich2Go.Controllers
         {
             return View(await _context.Sandwich.ToListAsync());
         }
-
+        [Authorize(Roles = "Cliente")]
         [HttpGet]
         public IActionResult SelectSandwichForPurchase(double sandwichPrecio, string sandwichAlergenoSelected)
         {
@@ -50,6 +50,7 @@ namespace Sandwich2Go.Controllers
 
             return View(selectSandwiches);
         }
+        [Authorize(Roles = "Cliente")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult SelectSandwichForPurchase(SelectedSandwichesForPurchaseViewModel selectedSandwich)
