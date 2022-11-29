@@ -17,7 +17,7 @@ namespace Sandwich2Go.Models.PedidoViewModels
         {
             Id = p.Id;
             fechaCompra = p.Fecha.ToString();
-            precio = p.Preciototal;
+            precio = p.Preciototal; 
             direccion = p.Direccion;
         }
 
