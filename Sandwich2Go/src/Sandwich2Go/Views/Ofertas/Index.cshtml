@@ -1,13 +1,14 @@
-﻿@model IEnumerable<Sandwich2Go.Models.OfertaViewModels.OfertaIndexViewModel>
+﻿@model IEnumerable<Sandwich2Go.Models.Oferta>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Index Suppliers";
 }
 
-<h1>Index</h1>
+<h1>Index Suppliers</h1>
 
 <p>
-    <a asp-action="SelectSandwichesForOffer" asp-controller="Sandwiches" id="SelectSandwichesForOffer">Crear oferta</a>
+        <a asp-action="Create">Create New</a> |
+        <a asp-controller="Proveedores" asp-action="SelectProveedoresForPurchase">Filtrar Proveedores</a>
 </p>
 
 
@@ -15,10 +16,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NombreOferta)
+                @Html.DisplayNameFor(model => model.Nombre)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.FechaInicio)
@@ -26,31 +24,34 @@
             <th>
                 @Html.DisplayNameFor(model => model.FechaFin)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NombreOferta)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaInicio)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaFin)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaInicio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaFin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
+                <a asp-controller="Ingredientes" asp-action="SelectIngrProvForPurchase" asp-route-IdProveedor="@item.Id">Pedir Ingredientes</a>
+            </td>
+        </tr>
+}
     </tbody>
 </table>
