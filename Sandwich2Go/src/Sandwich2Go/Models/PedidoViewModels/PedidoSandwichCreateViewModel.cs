@@ -7,19 +7,20 @@ namespace Sandwich2Go.Models.PedidoViewModels
 {
     public class PedidoSandwichCreateViewModel : IValidatableObject
     {
-        
+        public PedidoSandwichCreateViewModel() { }
+
         public virtual string Name{ get; set; }
         public virtual string Apellido { get; set; }
         public virtual string IdCliente { get; set; }
         [DataType(DataType.Currency)]
         public virtual double PrecioTotal { get; set; }
+        public DateTime fechaCompra { get; set; }
         public IList<SandwichPedidoViewModel> sandwichesPedidos { get; set; }
 
         [DataType(DataType.MultilineText)]
         [Display(Name = "Dirección de entrega:")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Por favor, introduce una dirección de entrega.")]
-        
-        [StringLength(30,ErrorMessage = "No introduzcas una dirección mayor de 30 caracteres.")]
+
         public string DireccionEntrega
         {
             get;
@@ -37,9 +38,13 @@ namespace Sandwich2Go.Models.PedidoViewModels
         }
         public virtual bool necesitaCambio { get; set; }
 
+        [EmailAddress]
+        public string Email { get; set; }
 
         [StringLength(3, MinimumLength = 2)]
         public virtual string Prefijo { get; set; }
+        [DataType(DataType.Currency)]
+        public virtual double PrecioFinal { get; set; } 
 
         [StringLength(9, MinimumLength = 9)]
 
@@ -49,19 +54,12 @@ namespace Sandwich2Go.Models.PedidoViewModels
         [Display(Name = "Tarjeta de Crédito")]
         public virtual string NumeroTarjetaCredito { get; set; }
 
-        [RegularExpression(@"^[0-9]{3}$", ErrorMessage = "El formato son 3 dígitos.")]
+        [RegularExpression(@"^[0-9]{3}$")]
         public virtual string CCV { get; set; }
-        [Range(1, 12, ErrorMessage = "Introduce un mes del 1-12")]
-        [Display(Name = "Mes Caducidad")]
-        public virtual string MesCad { get; set; }
-        [Range(2000, 2100, ErrorMessage = "Introduce un año válido")]
-        [Display(Name = "Año caducidad")]
-        public virtual string AnoCad { get; set; }
 
-        public PedidoSandwichCreateViewModel()
-        {
-            sandwichesPedidos = new List<SandwichPedidoViewModel>();
-        }
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MMM/yyyy}")]
+        public virtual DateTime? FechaCaducidad { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
@@ -73,23 +71,22 @@ namespace Sandwich2Go.Models.PedidoViewModels
                 if (CCV == null)
                     yield return new ValidationResult("Por favor, rellena el CCV de la tarjeta de crédito",
                         new[] { nameof(CCV) });
-                if (MesCad == null)
-                    yield return new ValidationResult("Por favor, rellena el mes de caducidad de la tarjeta de crédito",
-                        new[] { nameof(MesCad) });
-                if (AnoCad == null)
-                    yield return new ValidationResult("Por favor, rellena el año de caducidad de la tarjeta de crédito",
-                        new[] { nameof(AnoCad) });
+                if (FechaCaducidad == null)
+                    yield return new ValidationResult("Por favor, rellena la fecha de caducidad de la tarjeta de crédito",
+                        new[] { nameof(FechaCaducidad) });
             }
+        }
 
+        public virtual void precioTotal()
+        {
+            this.PrecioTotal = 0;
+            this.PrecioFinal = 0;
+            this.necesitaCambio = false;
             foreach(SandwichPedidoViewModel s in sandwichesPedidos)
             {
-                if(s.cantidad <= 0)
-                {
-                    yield return new ValidationResult("Debes comprar al menos un sandwich de cada tipo",
-                        new[] { nameof(s.cantidad) });
-                }
+                this.PrecioTotal += (s.PrecioCompra)*s.cantidad;
+                this.PrecioFinal += (s.PrecioCompra - (s.PrecioCompra*(s.porcentajeOferta/100)))*s.cantidad;
             }
-
         }
 
         public override bool Equals(object obj)
@@ -99,112 +96,18 @@ namespace Sandwich2Go.Models.PedidoViewModels
                 Apellido == pedido.Apellido &&
                 IdCliente == pedido.IdCliente &&
                 PrecioTotal == pedido.PrecioTotal &&
+                fechaCompra.Equals(pedido.fechaCompra) &&
                 DireccionEntrega == pedido.DireccionEntrega &&
                 MetodoPago == pedido.MetodoPago &&
+                Email == pedido.Email &&
                 Prefijo == pedido.Prefijo &&
                 Telefono == pedido.Telefono &&
                 NumeroTarjetaCredito == pedido.NumeroTarjetaCredito &&
                 CCV == pedido.CCV &&
-                sandwichesPedidos.SequenceEqual(pedido.sandwichesPedidos) &&
-                MesCad == pedido.MesCad &&
-                AnoCad == pedido.AnoCad;
+                FechaCaducidad.Equals(pedido.FechaCaducidad) &&
+                sandwichesPedidos.SequenceEqual(pedido.sandwichesPedidos);
         }
 
     }
-    public class SandwichPedidoViewModel
-    {
-        public SandwichPedidoViewModel() { }
 
-        public SandwichPedidoViewModel(Sandwich sandwichPedido)
-        {
-            this.Id = sandwichPedido.Id;
-            this.NombreSandwich = sandwichPedido.SandwichName;
-            this.PrecioCompra = sandwichPedido.Precio;
-            this.Ingredientes = new List<string>();
-            this.Alergenos = new List<string>();
-            this.porcentajeOferta = 0;
-            this.cantidad = 1;
-            this.Alm = "";
-            this.PrecioConDescuento = -1;
-            foreach (IngredienteSandwich ingSand in sandwichPedido.IngredienteSandwich)
-            {
-                this.Ingredientes.Add(ingSand.Ingrediente.Nombre + " ");
-                this.IngM = this.IngM + ingSand.Ingrediente.Nombre + " ";
-                foreach (AlergSandw alSand in ingSand.Ingrediente.AlergSandws)
-                {
-                    if (!this.Alergenos.Contains(alSand.Alergeno.Name + " "))
-                    {
-                        this.Alergenos.Add(alSand.Alergeno.Name + " ");
-                        this.Alm = Alm + alSand.Alergeno.Name + " ";
-                    }
-                }
-            }
-            if (sandwichPedido.OfertaSandwich != null)
-            {
-                foreach (OfertaSandwich os in sandwichPedido.OfertaSandwich)
-                {
-                    if (os.Porcentaje > this.porcentajeOferta && os.Oferta.FechaFin > DateTime.Now)
-                    {
-                        this.oferta = os.Oferta.Nombre;
-                        this.porcentajeOferta = os.Porcentaje;
-                    }
-                    this.descuento = this.PrecioCompra * (this.porcentajeOferta / 100);
-                    this.oferta = this.NombreSandwich + " con oferta " + this.oferta + " y descuento del " + this.porcentajeOferta + "% ..... -";
-                    this.PrecioConDescuento = this.PrecioCompra - this.descuento;
-                }
-            }
-
-        }
-        [DataType(DataType.Currency)]
-        public virtual double descuento { get; set; }
-        public virtual int Id { get; set; }
-
-        public virtual string oferta { get; set; }
-        public virtual double porcentajeOferta { get; set; }
-        public virtual string NombreSandwich
-        {
-            get; set;
-        }
-        [DataType(DataType.Currency)]
-        public virtual double PrecioCompra
-        {
-            get; set;
-        }
-        [DataType(DataType.Currency)]
-        public virtual double PrecioConDescuento
-        {
-            get; set;
-        }
-        [Range(1, 10, ErrorMessage = "Minimo un sándwich, máximo 10 de un mismo tipo por pedido")]
-        public virtual int cantidad { get; set; }
-        public virtual IList<string> Ingredientes
-        {
-            get; set;
-        }
-
-        public virtual IList<string> Alergenos
-        {
-            get; set;
-        }
-
-        public virtual string Alm { get; set; }
-        public virtual string IngM { get; set; }
-
-        public override bool Equals(object obj)
-        {
-            return obj is SandwichPedidoViewModel model &&
-                this.Id == model.Id &&
-                this.NombreSandwich == model.NombreSandwich &&
-                this.PrecioCompra == model.PrecioCompra &&
-                this.Ingredientes.SequenceEqual(model.Ingredientes) &&
-                this.Alergenos.SequenceEqual(model.Alergenos) &&
-                this.porcentajeOferta == model.porcentajeOferta &&
-                this.oferta == model.oferta &&
-                this.PrecioConDescuento == model.PrecioConDescuento &&
-                this.descuento == model.descuento &&
-                this.Alm == model.Alm &&
-                this.IngM == model.IngM;
-        }
-
-    }
 }

@@ -28,14 +28,14 @@
     <table class="table">
         <thead>
             <tr>
-                <th width="30%">
+                <th width="50%">
                     Nombre
                 </th>
-                <th width="20%">
+                <th>
                     Precio
                 </th>
-                <th width="50%">
-                    Ingredientes
+                <th>
+                    Descripción
                 </th>
                 <th align="center" width="10%">
                     Seleccionar Sándwich
@@ -52,17 +52,14 @@
                 @foreach (var item in Model.Sandwiches)
                 {
                     <tr id="Sandwich_Name_@item.SandwichName">
-                        <td width="30%">
+                        <td width="50%">
                             @Html.DisplayFor(modelItem => item.SandwichName)
                         </td>
-                        <td width="20%">
+                        <td>
                             @Html.DisplayFor(modelItem => item.Precio)
                         </td>
-                        <td width="50%">
-                            @foreach (string ing in item.ingredientes)
-                            {
-                                @Html.DisplayFor(modelItem => ing)
-                            }
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Desc)
                         </td>
                         <td align="center" width="10%">
                             <input type="checkbox" name="IdsToAdd" id="Sandwich_@item.Id" value="@item.Id" class="form-control">

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 
 namespace Sandwich2Go.Models
 {
@@ -14,6 +13,5 @@ namespace Sandwich2Go.Models
         public virtual double Salario { get; set; }
         public virtual IList<PedidoProv> PedidoProv { get; set; }
         public virtual IList<Oferta> Oferta { get; set; }
-
     }
 }
