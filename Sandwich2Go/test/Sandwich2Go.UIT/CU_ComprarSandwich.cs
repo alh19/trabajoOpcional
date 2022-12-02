@@ -16,6 +16,7 @@ namespace Sandwich2Go.UIT
     {
         IWebDriver _driver;
         string _URI = "https://localhost:5001/";
+        bool _pipeline = false;
 
         public CU_ComprarSandwich()
         {
@@ -24,6 +25,8 @@ namespace Sandwich2Go.UIT
                 PageLoadStrategy = PageLoadStrategy.Normal,
                 AcceptInsecureCertificates = true
             };
+
+            if(_pipeline) optionsc.AddArgument("--headless");
 
             _driver = new ChromeDriver(optionsc);
         }
