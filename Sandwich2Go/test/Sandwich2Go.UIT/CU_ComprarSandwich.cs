@@ -9,6 +9,7 @@ using System.Threading;
 using Xunit;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
 
 namespace Sandwich2Go.UIT
 {
@@ -32,7 +33,7 @@ namespace Sandwich2Go.UIT
         }
 
         [Fact]
-        public void Initial_step_opening_the_web_page2()
+        public void Initial_step_opening_the_web_page()
         {
             //Arrange
             string expectedTitle = "Home Page - Sandwich2Go";
@@ -61,6 +62,7 @@ namespace Sandwich2Go.UIT
             _driver.FindElement(By.Id("login-submit"))
             .Click();
 
+
         }
 
         private void first_step_accessing_comprarSandwich()
@@ -68,32 +70,73 @@ namespace Sandwich2Go.UIT
             _driver.FindElement(By.Id("ComprarSandwich")).Click();
         }
 
-        private void third_filter_movies_byTitle(string titleFilter)
+        private void filter_sandwich_byPrecio(string titleFilter)
         {
+            _driver.FindElement(By.Id("filterByPrecio")).Clear();
             _driver.FindElement(By.Id("filterByPrecio")).SendKeys(titleFilter);
             _driver.FindElement(By.Id("filterButton")).Click();
         }
 
+        private void filter_sandwich_byAlergeno(string alergenoFilter)
+        {
+            var alergeno = _driver.FindElement(By.Id("sandwichAlergenoSelected"));
+            SelectElement selectElement = new SelectElement(alergeno);
+            selectElement.SelectByText(alergenoFilter);
+            _driver.FindElement(By.Id("filterButton")).Click();
+        }
 
         [Fact]
-        public void UCSelectSandwich_Filtrar_PorPrecio()
+        public void UCSelectSandwich_Filtrar_Por_Precio()
         {
             //Arrange
-            string[] expectedText = { "Mixto", "Ejemplo con Descuento de: 10%" , "2,70 €", "Queso Pan Jamon" , "Leche Glúten" };
+            string[] expectedText = { "Mixto", "Ejemplo con Descuento de: 10%" , "3,00 €", "Queso Pan Jamon" , "Leche Glúten" };
 
             //Act
             precondition_perform_login();
             first_step_accessing_comprarSandwich();
-            third_filter_movies_byTitle("3");
+            filter_sandwich_byPrecio("3");
 
             //Assert
-            var movieRow = _driver.FindElements(By.Id("Sandwich_Name_" + expectedText[0]));
+            var sandwichRow = _driver.FindElements(By.Id("Sandwich_Name_" + expectedText[0]));
 
-            Assert.NotNull(movieRow);
+            Assert.NotNull(sandwichRow);
 
             foreach (string expected in expectedText)
             {
-                Assert.NotNull(movieRow.First(l => l.Text.Contains(expected)));
+                Assert.NotNull(sandwichRow.First(l => l.Text.Contains(expected)));
+            }
+        }
+
+        [Fact]
+        public void UCSelectSandwich_Filtrar_Con_Error()
+        {
+            //Arrange
+            string expectedText = "No hay sándwiches disponibles";
+
+            //Act
+            precondition_perform_login();
+            first_step_accessing_comprarSandwich();
+            filter_sandwich_byPrecio("-1");
+
+            //Assert
+            Assert.Contains(expectedText, _driver.PageSource);
+        }
+
+        [Fact]
+        public void UCSelectSandwich_Filtrar_Por_Alergeno()
+        {
+            //Arrange
+            string[] expectedText = { "Mixto sin Glúten", "", "4,00 €", "Queso Jamon Pan sin Glúten", "Leche"};
+            //Act
+            precondition_perform_login();
+            first_step_accessing_comprarSandwich();
+            filter_sandwich_byAlergeno("Glúten");
+            //Assert
+            var sandwichRow = _driver.FindElements(By.Id("Sandwich_Name_" + expectedText[0]));
+            Assert.NotNull(sandwichRow);
+            foreach (string expected in expectedText)
+            {
+                Assert.NotNull(sandwichRow.First(l => l.Text.Contains(expected)));
             }
         }
 
