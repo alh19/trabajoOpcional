@@ -11,15 +11,17 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 
-namespace Sandwich2Go.UIT
+namespace Sandwich2Go.UIT.Controllers.Sandwich
 {
-    public class CU_ComprarSandwich : IDisposable
+    public class CUComprarSandwich_UIT : IDisposable
     {
         IWebDriver _driver;
         string _URI = "https://localhost:5001/";
         bool _pipeline = false;
+        string username = "gregorio@uclm.com";
+        string password = "APassword1234%";
 
-        public CU_ComprarSandwich()
+        public CUComprarSandwich_UIT()
         {
             var optionsc = new ChromeOptions
             {
@@ -27,7 +29,7 @@ namespace Sandwich2Go.UIT
                 AcceptInsecureCertificates = true
             };
 
-            if(_pipeline) optionsc.AddArgument("--headless");
+            if (_pipeline) optionsc.AddArgument("--headless");
 
             _driver = new ChromeDriver(optionsc);
         }
@@ -48,16 +50,16 @@ namespace Sandwich2Go.UIT
             Assert.Contains(expectedText, _driver.PageSource);
         }
 
-        private void precondition_perform_login()
+        private void precondition_perform_login(string username, string password)
         {
             _driver.Navigate().GoToUrl(_URI +
             "Identity/Account/Login");
 
             _driver.FindElement(By.Id("Input_Email"))
-            .SendKeys("gregorio@uclm.com");
+            .SendKeys(username);
 
             _driver.FindElement(By.Id("Input_Password"))
-            .SendKeys("APassword1234%");
+            .SendKeys(password);
 
             _driver.FindElement(By.Id("login-submit"))
             .Click();
@@ -89,10 +91,10 @@ namespace Sandwich2Go.UIT
         public void UCSelectSandwich_Filtrar_Por_Precio()
         {
             //Arrange
-            string[] expectedText = { "Mixto", "Ejemplo con Descuento de: 10%" , "3,00 €", "Queso Pan Jamon" , "Leche Glúten" };
+            string[] expectedText = { "Mixto", "Ejemplo con Descuento de: 10%", "3,00 €", "Queso Pan Jamon", "Leche Glúten" };
 
             //Act
-            precondition_perform_login();
+            precondition_perform_login(username, password);
             first_step_accessing_comprarSandwich();
             filter_sandwich_byPrecio("3");
 
@@ -114,7 +116,7 @@ namespace Sandwich2Go.UIT
             string expectedText = "No hay sándwiches disponibles";
 
             //Act
-            precondition_perform_login();
+            precondition_perform_login(username, password);
             first_step_accessing_comprarSandwich();
             filter_sandwich_byPrecio("-1");
 
@@ -126,9 +128,9 @@ namespace Sandwich2Go.UIT
         public void UCSelectSandwich_Filtrar_Por_Alergeno()
         {
             //Arrange
-            string[] expectedText = { "Mixto sin Glúten", "", "4,00 €", "Queso Jamon Pan sin Glúten", "Leche"};
+            string[] expectedText = { "Mixto sin Glúten", "", "4,00 €", "Queso Jamon Pan sin Glúten", "Leche" };
             //Act
-            precondition_perform_login();
+            precondition_perform_login(username, password);
             first_step_accessing_comprarSandwich();
             filter_sandwich_byAlergeno("Glúten");
             //Assert
