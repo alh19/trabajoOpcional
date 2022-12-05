@@ -89,7 +89,7 @@ namespace Sandwich2Go.UIT.Controllers.Ofertas
         [Theory]
         [InlineData("Detalles de la oferta:","Oferta Mixto","Mixto","30/04/2023","3,00 €", "10/10/2023", "Oferta en Sándwich","10","Queso Pan Jamon")]
         [Trait("LevelTesting", "Funcional Testing")]
-        public void UC1_0_1_FlujoBasico_CrearOferta(string pagina,string nombreOferta, string nombreSandwich,string fechaInicio, string precio,string fechaFinalizacion, string descripcion, string porcentaje, string ingredientes)
+        public void UC1_0_FlujoBasico_CrearOferta(string pagina,string nombreOferta, string nombreSandwich,string fechaInicio, string precio,string fechaFinalizacion, string descripcion, string porcentaje, string ingredientes)
         {
             //Arrange
             string[] expectedPagina = { pagina,nombreOferta,fechaInicio,fechaFinalizacion,descripcion};
@@ -133,7 +133,7 @@ namespace Sandwich2Go.UIT.Controllers.Ofertas
         [InlineData("Selecciona tus sándwiches","Cubano","4,00 €", "Queso Pan Huevo Jamon")]
         [InlineData("Selecciona tus sándwiches", "Submarino","5,00 €", "Queso Pepinillo Pan Huevo Jamon")]
         [Trait("LevelTesting", "Funcional Testing")]
-        public void UC1_1_2_FiltroNombre_CrearOferta(string pagina,string nombreSandwich, string precio, string ingredientes)
+        public void UC1_1_1_FiltroNombre_CrearOferta(string pagina,string nombreSandwich, string precio, string ingredientes)
         {
             string[] expectedSandwich = { nombreSandwich,precio,ingredientes};
 
@@ -156,7 +156,7 @@ namespace Sandwich2Go.UIT.Controllers.Ofertas
         [Theory]
         [InlineData("Selecciona tus sándwiches", "Mixto", "3,00 €", "3","Queso Pan Jamon")]
         [Trait("LevelTesting", "Funcional Testing")]
-        public void UC1_2_2_FiltroPrecio_CrearOferta(string pagina, string nombreSandwich, string precioE, string precio, string ingredientes)
+        public void UC1_2_1_FiltroPrecio_CrearOferta(string pagina, string nombreSandwich, string precioE, string precio, string ingredientes)
         {
             string[] expectedSandwich = { nombreSandwich, precioE, ingredientes };
 
@@ -176,6 +176,30 @@ namespace Sandwich2Go.UIT.Controllers.Ofertas
             }
 
         }
+
+        [Theory]
+        [InlineData("Selecciona tus sándwiches", "No hay sándwiches disponibles","No Existe")]
+        [Trait("LevelTesting", "Funcional Testing")]
+        public void UC1_3_2_SandwichesNoEncontrados_CrearOferta(string pagina, string resultadoEsperado, string nombreSandwich)
+        {
+            string[] expected = { pagina, resultadoEsperado };
+
+            Precondition_perform_login(this.usernameG, this.passwordG);
+            First_step_accessing_crearOferta();
+            EscribirDatos("filtrarPorNombre", nombreSandwich);
+
+            _driver.FindElement(By.Id("filtrarSandwichesPorOferta")).Click();
+
+
+            
+
+            foreach (string linea in expected)
+            {
+                Assert.Contains(linea, _driver.PageSource);
+            }
+
+        }
+
         public void Dispose()
         {
             _driver.Close();
