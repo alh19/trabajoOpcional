@@ -87,7 +87,6 @@ namespace Sandwich2Go.UT.OfertasController_test
             var result = controller.Create(selectedSandwichesForOffer);
 
             //Assert
-
             ViewResult viewResult = Assert.IsType<ViewResult>(result.Result);
             OfertaCreateViewModel currentOferta = viewResult.Model as OfertaCreateViewModel;
             var error = viewResult.ViewData.ModelState.Values.First().Errors.First();

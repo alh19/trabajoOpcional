@@ -7,7 +7,9 @@ namespace Sandwich2Go.Models.OfertaViewModels
 {
     public class OfertaCreateViewModel : IValidatableObject
     {
-        public OfertaCreateViewModel() { }
+        public OfertaCreateViewModel() 
+        {
+        }
 
         public OfertaCreateViewModel(Gerente gerente, IList<OfertaSandwichViewModel> ofertaSandwiches)
         {
@@ -71,6 +73,11 @@ namespace Sandwich2Go.Models.OfertaViewModels
             {
                 yield return new ValidationResult("La fecha de finalización tiene que ser mayor o igual que la fecha de inicio",
                      new[] { nameof(FechaFin) });
+            }
+            if (DateTime.Compare(FechaInicio, DateTime.Today) < 0)
+            {
+                yield return new ValidationResult("La fecha de inicio tiene que ser mayor o igual que la fecha de hoy",
+                     new[] { nameof(FechaInicio) });
             }
         }
     }
