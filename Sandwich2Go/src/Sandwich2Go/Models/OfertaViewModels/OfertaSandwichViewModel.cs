@@ -31,7 +31,6 @@ namespace Sandwich2Go.Models.OfertaViewModels
         [DataType(DataType.Currency)]
         public virtual double Precio { get; set; }
         [Required]
-        [Range(1,100)]
         public virtual double Porcentaje { get; set; }
         public virtual List<string> Ingredientes { get; set; }
 
