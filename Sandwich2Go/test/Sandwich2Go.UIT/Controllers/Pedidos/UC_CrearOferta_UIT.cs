@@ -87,12 +87,13 @@ namespace Sandwich2Go.UIT.Controllers.Ofertas
         }
 
         [Theory]
-        [InlineData("Oferta Mixto","Mixto","Dec 5, 2022","3,00 €","Jan 5, 2023","Oferta en Sándwich","10","Queso Pan Jamon")]
+        [InlineData("Oferta Mixto","Mixto","30/04/2023","3,00 €", "10/10/2023", "Oferta en Sándwich","10","Queso Pan Jamon")]
         [Trait("LevelTesting", "Funcional Testing")]
         public void UC1_0_1_FlujoBasico_CrearOferta(string nombreOferta, string nombreSandwich,string fechaInicio, string precio,string fechaFinalizacion, string descripcion, string porcentaje, string ingredientes)
         {
             //Arrange
-            string [] expected  = { nombreSandwich, precio, ingredientes, porcentaje};
+            string[] expectedPagina = { nombreOferta,fechaInicio,fechaFinalizacion,descripcion};
+            string [] expectedSandwich  = { nombreSandwich, precio, ingredientes, porcentaje};
             //Act
             Precondition_perform_login(this.usernameG,this.passwordG);
 
@@ -104,9 +105,9 @@ namespace Sandwich2Go.UIT.Controllers.Ofertas
 
             EscribirDatos("NombreOferta",nombreOferta);
 
-            _driver.FindElement(By.Id("FechaInicio")).SendKeys(fechaInicio);
+            EscribirDatos("FechaInicio",fechaInicio);
 
-            _driver.FindElement(By.Id("FechaFin")).SendKeys(fechaFinalizacion);
+            EscribirDatos("FechaFin", fechaFinalizacion);
 
             EscribirDatos("Descripcion", descripcion);
 
@@ -114,7 +115,17 @@ namespace Sandwich2Go.UIT.Controllers.Ofertas
 
             _driver.FindElement(By.Id("CreateButton")).Click();
 
-            Assert.Equal(true, true);
+            foreach(string expected in expectedPagina){
+
+                Assert.Contains(expected, _driver.PageSource);
+            }
+
+            var filaSandwich = _driver.FindElements(By.Id("Sandwich_"+nombreSandwich));
+
+            foreach(string expected in expectedSandwich)
+            {
+                Assert.NotNull(filaSandwich.First(l => l.Text.Contains(expected)));
+            }
 
         }
         public void Dispose()

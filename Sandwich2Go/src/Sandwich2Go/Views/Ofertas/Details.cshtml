@@ -56,7 +56,7 @@
         <tbody>
             @for (int i = 0; i < Model.OfertaSandwiches.Count; i++)
             {
-                <tr>
+                <tr id="Sandwich_@Model.OfertaSandwiches[i].Nombre">
                     <td>
                         @Html.DisplayFor(m => Model.OfertaSandwiches[i].Nombre)
                     </td>
