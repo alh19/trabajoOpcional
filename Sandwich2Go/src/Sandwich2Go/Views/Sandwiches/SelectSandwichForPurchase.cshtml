@@ -12,7 +12,7 @@
     <p>
         <div>
             <label asp-for="sandwichPrecio"></label>
-            <input asp-for="sandwichPrecio" size="5" />
+            <input id="filterByPrecio" asp-for="sandwichPrecio" size="5" />
             <span asp-validation-for="sandwichPrecio" class="text-danger"></span>
             <br />
             <label asp-for="sandwichAlergenoSelected"></label>
@@ -21,7 +21,7 @@
             </select>
             <br />
             <br />
-            <input id="filterbyAlergeno" asp-action="SelectSandwichForPurchase" type="submit" value="Filtrar" formmethod="get" />
+            <input id="filterButton" asp-action="SelectSandwichForPurchase" type="submit" value="Filtrar" formmethod="get" />
         </div>
     </p>
 
@@ -84,7 +84,7 @@
                                 @Html.DisplayFor(modelItem => ale)
                             }
                         </td>
-                        <td align="center" width="10%">
+                        <td align="center" width="5%">
                             <input type="checkbox" name="IdsToAdd" id="Sandwich_@item.SandwichID" value="@item.SandwichID" class="form-control">
                         </td>
                     </tr>
