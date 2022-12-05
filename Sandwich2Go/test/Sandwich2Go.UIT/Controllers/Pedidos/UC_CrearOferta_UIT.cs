@@ -15,11 +15,14 @@ namespace Sandwich2Go.UIT.Controllers.Ofertas
 {
     public class UC_CrearOferta_UIT : IDisposable
     {
-        IWebDriver _driver;
-        string _URI = "https://localhost:5001/";
-        bool _pipeline = false;
-        string username = "elena@uclm.com";
-        string password = "Password1234%";
+        readonly IWebDriver _driver;
+        readonly string _URI = "https://localhost:5001/";
+        readonly bool _pipeline = false;
+        readonly string usernameG = "elena@uclm.com";
+        readonly string passwordG = "Password1234%";
+        readonly string usernameC = "gregorio@uclm.com";
+        readonly string passwordC = "APassword1234%";
+
         public UC_CrearOferta_UIT()
         {
             var optionsc = new ChromeOptions
@@ -32,7 +35,7 @@ namespace Sandwich2Go.UIT.Controllers.Ofertas
 
             _driver = new ChromeDriver(optionsc);
         }
-        private void precondition_perform_login(string username, string password)
+        private void Precondition_perform_login(string username, string password)
         {
             _driver.Navigate().GoToUrl(_URI +
             "Identity/Account/Login");
@@ -49,24 +52,23 @@ namespace Sandwich2Go.UIT.Controllers.Ofertas
 
         }
 
-        private void first_step_accessing_comprarSandwich()
+        private void First_step_accessing_crearOferta()
         {
             _driver.FindElement(By.Id("CrearOferta")).Click();
         }
 
-        private void UC_CrearOferta_FA1_filtrarPorNombre(string sandwichFilter)
+        private void Third_step_select_sandwich(string nombre)
         {
-            _driver.FindElement(By.Id("SandwichName")).Clear();
-            _driver.FindElement(By.Id("SandwichName")).SendKeys(sandwichFilter);
-            _driver.FindElement(By.Id("filterButton")).Click();
+            _driver.FindElement(By.Id("Sandwich_" + nombre)).Click();
         }
 
-        private void UC_Crear_Oferta_FA1_filtrarPorPrecio(string precioFilter)
+        private void EscribirDatos(string id, string sandwichFilter)
         {
-            _driver.FindElement(By.Id("sandwichPrecio")).Clear();
-            _driver.FindElement(By.Id("sandwichPrecio")).SendKeys(precioFilter);
-            _driver.FindElement(By.Id("filterButton")).Click();
+            _driver.FindElement(By.Id(id)).Clear();
+            _driver.FindElement(By.Id(id)).SendKeys(sandwichFilter);
         }
+
+        
 
         [Fact]
         public void Initial_step_opening_the_web_page()
@@ -85,10 +87,34 @@ namespace Sandwich2Go.UIT.Controllers.Ofertas
         }
 
         [Theory]
-        [InlineData(true)]
+        [InlineData("Oferta Mixto","Mixto","Dec 5, 2022","3,00 €","Jan 5, 2023","Oferta en Sándwich","10","Queso Pan Jamon")]
         [Trait("LevelTesting", "Funcional Testing")]
-        public void UC1_0_1_FlujoBasico_CrearOferta(string nombreOferta, string fechaInicio, string fechaFinalizacion, string Descripcio)
+        public void UC1_0_1_FlujoBasico_CrearOferta(string nombreOferta, string nombreSandwich,string fechaInicio, string precio,string fechaFinalizacion, string descripcion, string porcentaje, string ingredientes)
         {
+            //Arrange
+            string [] expected  = { nombreSandwich, precio, ingredientes, porcentaje};
+            //Act
+            Precondition_perform_login(this.usernameG,this.passwordG);
+
+            First_step_accessing_crearOferta();
+
+            Third_step_select_sandwich(nombreSandwich);
+
+            _driver.FindElement(By.Id("SiguienteButton")).Click();
+
+            EscribirDatos("NombreOferta",nombreOferta);
+
+            _driver.FindElement(By.Id("FechaInicio")).SendKeys(fechaInicio);
+
+            _driver.FindElement(By.Id("FechaFin")).SendKeys(fechaFinalizacion);
+
+            EscribirDatos("Descripcion", descripcion);
+
+            EscribirDatos("Porcentaje_" + nombreSandwich, porcentaje);
+
+            _driver.FindElement(By.Id("CreateButton")).Click();
+
+            Assert.Equal(true, true);
 
         }
         public void Dispose()

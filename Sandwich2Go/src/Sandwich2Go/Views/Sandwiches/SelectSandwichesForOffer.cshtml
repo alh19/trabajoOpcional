@@ -65,7 +65,7 @@
                             }
                         </td>
                         <td align="center" width="10%">
-                            <input type="checkbox" name="IdsToAdd" id="Sandwich_@item.Id" value="@item.Id" class="form-control">
+                            <input type="checkbox" name="IdsToAdd" id="Sandwich_@item.SandwichName" value="@item.Id" class="form-control">
                         </td>
                     </tr>
                 }
@@ -74,7 +74,7 @@
     </table>
     <form asp-action="SelectSandwichesForOffer" method="post">
 
-        <button type="submit" class="btn btn-primary">Siguiente</button>
+        <button type="submit" class="btn btn-primary" id="SiguienteButton">Siguiente</button>
         <a asp-action="Index" class="btn btn-default">Cancelar</a>
 
     </form>
