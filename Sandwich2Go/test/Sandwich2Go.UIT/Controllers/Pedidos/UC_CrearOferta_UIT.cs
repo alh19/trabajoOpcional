@@ -84,6 +84,13 @@ namespace Sandwich2Go.UIT.Controllers.Ofertas
             Assert.Contains(expectedText, _driver.PageSource);
         }
 
+        [Theory]
+        [InlineData(true)]
+        [Trait("LevelTesting", "Funcional Testing")]
+        public void UC1_0_1_FlujoBasico_CrearOferta(string nombreOferta, string fechaInicio, string fechaFinalizacion, string Descripcio)
+        {
+
+        }
         public void Dispose()
         {
             _driver.Close();
