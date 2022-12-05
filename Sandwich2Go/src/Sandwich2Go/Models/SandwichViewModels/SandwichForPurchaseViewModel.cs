@@ -33,7 +33,7 @@ namespace Sandwich2Go.Models.SandwichViewModels
                 }
             }
             this.oferta = this.oferta + " con Descuento de: " + this.porcentajeOferta+"%";
-            this.Precio = sandwich.Precio - (sandwich.Precio * (this.porcentajeOferta/100));
+            this.Precio = sandwich.Precio;
             this.ingredientes = new string[sandwich.IngredienteSandwich.Count];
             this.Desc = sandwich.Desc;
             this.alergenos = new string[0];
