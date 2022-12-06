@@ -75,6 +75,7 @@ namespace Sandwich2Go.UIT.Controllers.Ofertas
         
 
         [Fact]
+        [Trait("LevelTesting", "Functional Testing")]
         public void Initial_step_opening_the_web_page()
         {
             //Arrange
@@ -91,7 +92,7 @@ namespace Sandwich2Go.UIT.Controllers.Ofertas
         }
 
         [Fact]
-        [Trait("LevelTesting", "Funcional Testing")]
+        [Trait("LevelTesting", "Functional Testing")]
         public void UC1_0_FlujoBasico_CrearOferta()
         {
             //Arrange
@@ -126,7 +127,7 @@ namespace Sandwich2Go.UIT.Controllers.Ofertas
         [Theory]
         [InlineData("Selecciona tus sándwiches","Cubano","4,00 €", "Queso Pan Huevo Jamon")]
         [InlineData("Selecciona tus sándwiches", "Submarino","5,00 €", "Queso Pepinillo Pan Huevo Jamon")]
-        [Trait("LevelTesting", "Funcional Testing")]
+        [Trait("LevelTesting", "Functional Testing")]
         public void UC1_1_1_FiltroNombre_CrearOferta(string pagina,string nombreSandwich, string precio, string ingredientes)
         {
             //Arrange
@@ -148,7 +149,7 @@ namespace Sandwich2Go.UIT.Controllers.Ofertas
         }
 
         [Fact]
-        [Trait("LevelTesting", "Funcional Testing")]
+        [Trait("LevelTesting", "Functional Testing")]
         public void UC1_2_2_FiltroPrecio_CrearOferta()
         {
             //Arrange
@@ -171,7 +172,7 @@ namespace Sandwich2Go.UIT.Controllers.Ofertas
         }
 
         [Fact]
-        [Trait("LevelTesting", "Funcional Testing")]
+        [Trait("LevelTesting", "Functional Testing")]
         public void UC1_3_2_SandwichesNoEncontrados_CrearOferta()
         {
             //Arrange
@@ -192,7 +193,7 @@ namespace Sandwich2Go.UIT.Controllers.Ofertas
         }
 
         [Fact]
-        [Trait("LevelTesting", "Funcional Testing")]
+        [Trait("LevelTesting", "Functional Testing")]
         public void UC1_4_4_SandwichesNoSeleccionados_CrearOferta()
         {
             //Arrange
@@ -216,7 +217,7 @@ namespace Sandwich2Go.UIT.Controllers.Ofertas
         [InlineData("Oferta Mixto", "", "10/10/2023", "Oferta en Sándwich Mixto", "10", "Create", "Oferta", "The Fecha de inicio:  field is required.")]
         [InlineData("Oferta Mixto", "30/04/2023", "", "Oferta en Sándwich Mixto", "10", "Create", "Oferta", "The Fecha de finalización:  field is required.")]
         [InlineData("Oferta Mixto", "30/04/2023", "10/10/2023", "Oferta en Sándwich Mixto", "", "Create", "Oferta", "The Porcentaje field is required.")]
-        [Trait("LevelTesting", "Funcional Testing")]
+        [Trait("LevelTesting", "Functional Testing")]
         public void UC1_5678_5_DatosNoIntroducidos_CrearOferta(string nombre, string fechaInicio, string fechaFin, string descripcion, string porcentaje,string pag1, string pag2, string error)
         {
             //Arrange
@@ -243,7 +244,7 @@ namespace Sandwich2Go.UIT.Controllers.Ofertas
         }
 
         [Fact]
-        [Trait("LevelTesting", "Funcional Testing")]
+        [Trait("LevelTesting", "Functional Testing")]
         public void UC1_9_1_SesionNoIniciada_CrearOferta()
         {
             //Arrange
@@ -262,7 +263,7 @@ namespace Sandwich2Go.UIT.Controllers.Ofertas
         }
 
         [Fact]
-        [Trait("LevelTesting", "Funcional Testing")]
+        [Trait("LevelTesting", "Functional Testing")]
         public void UC1_10_1_RolInvalido_CrearOferta()
         {
             //Arrange
