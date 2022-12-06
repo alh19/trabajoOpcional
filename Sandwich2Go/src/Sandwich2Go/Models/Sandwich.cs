@@ -9,6 +9,21 @@ namespace Sandwich2Go.Models
 {
     public class Sandwich
     {
+        public Sandwich()
+        {
+        }
+
+        public Sandwich(string sandwichName, double precio, string desc, IList<SandwichPedido> sandwichPedido, IList<IngredienteSandwich> ingredienteSandwich, IList<OfertaSandwich> ofertaSandwich)
+        {
+
+            SandwichName = sandwichName;
+            Precio = precio;
+            Desc = desc;
+            SandwichPedido = sandwichPedido;
+            IngredienteSandwich = ingredienteSandwich;
+            OfertaSandwich = ofertaSandwich;
+        }
+
         [Key]
         public virtual int Id { get; set; }
         [Required, StringLength(20, ErrorMessage = "El nombre no puede ser mayor a 20 caracteres.")]

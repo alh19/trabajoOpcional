@@ -8,7 +8,7 @@
 <h2>Create</h2>
 
 
-<form asp-action="Create" method="post">
+<form asp-action="CreateSandwichPersonalizado" method="post">
 
     <div class="form-horizontal">
         <h4>Purchase</h4>
@@ -98,6 +98,7 @@
 
                                 </div>
                             </td>
+                            
                            
                           
                             <td>
@@ -117,7 +118,7 @@
                 }
             </tbody>
         </table>
-</form>
+
         @* this code needs the script defined in site.js *@
         <div class="panel-group" id="accordion">
             <div class="panel panel-default ">
@@ -196,13 +197,13 @@
     
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <form asp-action="CreatePost" method="post">
+        
 
-                <input type="submit" id="CreateButton" value="Create" class="btn btn-primary" />
-            </form>
+                <input type="submit" id="CreateButton" value="CreateSandwichPersonalizado" class="btn btn-primary" />
+           
         </div>
     </div>
-
+</form>
 
 <div>
     <a asp-action="Index">Volver a mis pedidos</a>

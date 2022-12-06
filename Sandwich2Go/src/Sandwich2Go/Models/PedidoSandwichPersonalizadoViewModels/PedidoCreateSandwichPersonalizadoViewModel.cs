@@ -13,7 +13,9 @@ namespace Sandwich2Go.Models.PedidoSandwichPersonalizadoViewModels
     public class PedidoCreateSandwichPersonalizadoViewModel : IValidatableObject
     {
 
-        public PedidoCreateSandwichPersonalizadoViewModel() { }
+        public PedidoCreateSandwichPersonalizadoViewModel() {
+            
+        }
 
         public virtual string Name { get; set; }
         public virtual string Apellido { get; set; }
@@ -101,18 +103,7 @@ namespace Sandwich2Go.Models.PedidoSandwichPersonalizadoViewModels
             }
 
         }
-        public virtual void precioTotal()
-        {
-            this.PrecioTotal = 0;
-            
-            this.necesitaCambio = false;
-            foreach (IngredientePedidoViewModel s in ingPedidos)
-            {
-                this.PrecioTotal += (s.PrecioUnitario) * s.cantidad;
-                
-            }
-        }
-
+       
         public override bool Equals(object obj)
         {
             return obj is PedidoCreateSandwichPersonalizadoViewModel pedido &&
