@@ -24,7 +24,7 @@
                         @if (User.IsInRole("Cliente"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Sandwiches" asp-action="SelectSandwichForPurchase">Comprar Sándwich</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Sandwiches" asp-action="SelectSandwichForPurchase" id="ComprarSandwich">Comprar Sándwich</a>
                             </li>
                         }
                         @if (User.IsInRole("Cliente"))
