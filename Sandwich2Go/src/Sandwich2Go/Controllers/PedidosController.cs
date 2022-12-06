@@ -178,7 +178,7 @@ namespace Sandwich2Go.Controllers
                 {
                     pedido.MetodoDePago = new Tarjeta()
                     {
-                        Numero = (int)long.Parse(pedidoViewModel.NumeroTarjetaCredito),
+                        Numero = long.Parse(pedidoViewModel.NumeroTarjetaCredito),
                         CCV = int.Parse(pedidoViewModel.CCV),
                         MesCaducidad = int.Parse(pedidoViewModel.MesCad),
                         AnoCaducidad = int.Parse(pedidoViewModel.AnoCad),
