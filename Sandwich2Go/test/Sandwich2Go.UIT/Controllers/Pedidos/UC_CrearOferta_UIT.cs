@@ -10,6 +10,10 @@ using Xunit;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
+using System.Diagnostics;
+using OpenQA.Selenium.DevTools;
+using System.Runtime.Intrinsics.X86;
+using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities.Resources;
 
 namespace Sandwich2Go.UIT.Controllers.Ofertas
 {
@@ -17,7 +21,7 @@ namespace Sandwich2Go.UIT.Controllers.Ofertas
     {
         readonly IWebDriver _driver;
         readonly string _URI = "https://localhost:5001/";
-        readonly bool _pipeline = false;
+        readonly bool _pipeline = true;
         readonly string usernameG = "elena@uclm.com";
         readonly string passwordG = "Password1234%";
         readonly string usernameC = "gregorio@uclm.com";
@@ -86,42 +90,32 @@ namespace Sandwich2Go.UIT.Controllers.Ofertas
             Assert.Contains(expectedText, _driver.PageSource);
         }
 
-        [Theory]
-        [InlineData("Detalles de la oferta:","Oferta Mixto","Mixto","30/04/2023","3,00 €", "10/10/2023", "Oferta en Sándwich","10","Queso Pan Jamon")]
+        [Fact]
         [Trait("LevelTesting", "Funcional Testing")]
-        public void UC1_0_FlujoBasico_CrearOferta(string pagina,string nombreOferta, string nombreSandwich,string fechaInicio, string precio,string fechaFinalizacion, string descripcion, string porcentaje, string ingredientes)
+        public void UC1_0_FlujoBasico_CrearOferta()
         {
             //Arrange
-            string[] expectedPagina = { pagina,nombreOferta,fechaInicio,fechaFinalizacion,descripcion};
-            string [] expectedSandwich  = { nombreSandwich, precio, ingredientes, porcentaje};
+            string[] expectedPagina = { "Detalles de la oferta:", "Oferta Mixto", "30/04/2023", "10/10/2023", "Oferta en Sándwich Mixto"};
+            string [] expectedSandwich  = { "Mixto", "3,00 €", "Queso Pan Jamon", "10" };
+
             //Act
             Precondition_perform_login(this.usernameG,this.passwordG);
-
             First_step_accessing_crearOferta();
-
-            Third_step_select_sandwich(nombreSandwich);
-
+            Third_step_select_sandwich(expectedSandwich[0]);
             _driver.FindElement(By.Id("SiguienteButton")).Click();
-
-            EscribirDatos("NombreOferta",nombreOferta);
-
-            EscribirDatos("FechaInicio",fechaInicio);
-
-            EscribirDatos("FechaFin", fechaFinalizacion);
-
-            EscribirDatos("Descripcion", descripcion);
-
-            EscribirDatos("Porcentaje_" + nombreSandwich, porcentaje);
-
+            EscribirDatos("NombreOferta", expectedPagina[1]);
+            EscribirDatos("FechaInicio", expectedPagina[2]);
+            EscribirDatos("FechaFin", expectedPagina[3]);
+            EscribirDatos("Descripcion", expectedPagina[4]);
+            EscribirDatos("Porcentaje_" + expectedSandwich[0], expectedSandwich[3]);
             _driver.FindElement(By.Id("CreateButton")).Click();
 
+            //Assert
             foreach(string expected in expectedPagina){
 
                 Assert.Contains(expected, _driver.PageSource);
             }
-
-            var filaSandwich = _driver.FindElements(By.Id("Sandwich_"+nombreSandwich));
-
+            var filaSandwich = _driver.FindElements(By.Id("Sandwich_"+expectedSandwich[0]));
             foreach(string expected in expectedSandwich)
             {
                 Assert.NotNull(filaSandwich.First(l => l.Text.Contains(expected)));
@@ -135,41 +129,40 @@ namespace Sandwich2Go.UIT.Controllers.Ofertas
         [Trait("LevelTesting", "Funcional Testing")]
         public void UC1_1_1_FiltroNombre_CrearOferta(string pagina,string nombreSandwich, string precio, string ingredientes)
         {
+            //Arrange
             string[] expectedSandwich = { nombreSandwich,precio,ingredientes};
 
+            //Act
             Precondition_perform_login(this.usernameG,this.passwordG);
             First_step_accessing_crearOferta();
             EscribirDatos("filtrarPorNombre", nombreSandwich);
-
             _driver.FindElement(By.Id("filtrarSandwichesPorOferta")).Click();
-
             var filaSandwich = _driver.FindElements(By.Id("Sandwich_Name_" + nombreSandwich));
 
+            //Assert
             Assert.Contains(pagina, _driver.PageSource);
-
             foreach (string expected in expectedSandwich)
             {
                 Assert.NotNull(filaSandwich.First(l => l.Text.Contains(expected)));
             }
         }
 
-        [Theory]
-        [InlineData("Selecciona tus sándwiches", "Mixto", "3,00 €", "3","Queso Pan Jamon")]
+        [Fact]
         [Trait("LevelTesting", "Funcional Testing")]
-        public void UC1_2_1_FiltroPrecio_CrearOferta(string pagina, string nombreSandwich, string precioE, string precio, string ingredientes)
+        public void UC1_2_2_FiltroPrecio_CrearOferta()
         {
-            string[] expectedSandwich = { nombreSandwich, precioE, ingredientes };
+            //Arrange
+            string[] expectedSandwich = { "Mixto", "3,00 €", "Queso Pan Jamon" };
 
+            //Act
             Precondition_perform_login(this.usernameG, this.passwordG);
             First_step_accessing_crearOferta();
-            EscribirDatos("filtrarPorPrecio", precio);
-
+            EscribirDatos("filtrarPorPrecio", "3");
             _driver.FindElement(By.Id("filtrarSandwichesPorOferta")).Click();
+            var filaSandwich = _driver.FindElements(By.Id("Sandwich_Name_" + expectedSandwich[0]));
 
-            var filaSandwich = _driver.FindElements(By.Id("Sandwich_Name_" + nombreSandwich));
-
-            Assert.Contains(pagina, _driver.PageSource);
-
+            //Assert
+            Assert.Contains("Selecciona tus sándwiches", _driver.PageSource);
             foreach (string expected in expectedSandwich)
             {
                 Assert.NotNull(filaSandwich.First(l => l.Text.Contains(expected)));
@@ -177,28 +170,117 @@ namespace Sandwich2Go.UIT.Controllers.Ofertas
 
         }
 
-        [Theory]
-        [InlineData("Selecciona tus sándwiches", "No hay sándwiches disponibles","No Existe")]
+        [Fact]
         [Trait("LevelTesting", "Funcional Testing")]
-        public void UC1_3_2_SandwichesNoEncontrados_CrearOferta(string pagina, string resultadoEsperado, string nombreSandwich)
+        public void UC1_3_2_SandwichesNoEncontrados_CrearOferta()
         {
-            string[] expected = { pagina, resultadoEsperado };
+            //Arrange
+            string[] expected = { "Selecciona tus sándwiches", "No hay sándwiches disponibles" };
 
+            //Act
             Precondition_perform_login(this.usernameG, this.passwordG);
             First_step_accessing_crearOferta();
-            EscribirDatos("filtrarPorNombre", nombreSandwich);
-
+            EscribirDatos("filtrarPorNombre", "No Existe");
             _driver.FindElement(By.Id("filtrarSandwichesPorOferta")).Click();
 
-
-            
-
+            //Assert
             foreach (string linea in expected)
             {
                 Assert.Contains(linea, _driver.PageSource);
             }
 
         }
+
+        [Fact]
+        [Trait("LevelTesting", "Funcional Testing")]
+        public void UC1_4_4_SandwichesNoSeleccionados_CrearOferta()
+        {
+            //Arrange
+            string[] expected = {"Selecciona tus sándwiches", "Debes seleccionar al menos un Sándwich"};
+
+            //Act
+            Precondition_perform_login(this.usernameG, this.passwordG);
+            First_step_accessing_crearOferta();
+            _driver.FindElement(By.Id("SiguienteButton")).Click();
+
+            //Assert
+            foreach (string linea in expected)
+            {
+                Assert.Contains(linea, _driver.PageSource);
+            }
+
+        }
+
+        [Theory]
+        [InlineData("", "30/04/2023","10/10/2023", "Oferta en Sándwich Mixto", "10","Create" , "Oferta" , "The Nombre de la oferta:  field is required.")]
+        [InlineData("Oferta Mixto", "", "10/10/2023", "Oferta en Sándwich Mixto", "10", "Create", "Oferta", "The Fecha de inicio:  field is required.")]
+        [InlineData("Oferta Mixto", "30/04/2023", "", "Oferta en Sándwich Mixto", "10", "Create", "Oferta", "The Fecha de finalización:  field is required.")]
+        [InlineData("Oferta Mixto", "30/04/2023", "10/10/2023", "Oferta en Sándwich Mixto", "", "Create", "Oferta", "The Porcentaje field is required.")]
+        [Trait("LevelTesting", "Funcional Testing")]
+        public void UC1_5678_5_DatosNoIntroducidos_CrearOferta(string nombre, string fechaInicio, string fechaFin, string descripcion, string porcentaje,string pag1, string pag2, string error)
+        {
+            //Arrange
+            string[] datos = { nombre, fechaInicio, fechaFin, descripcion, porcentaje };
+            string[] expectedPagina = { pag1, pag2, error}; 
+            //Act
+            Precondition_perform_login(this.usernameG, this.passwordG);
+            First_step_accessing_crearOferta();
+            Third_step_select_sandwich("Mixto");
+            _driver.FindElement(By.Id("SiguienteButton")).Click();
+            EscribirDatos("NombreOferta", datos[0]);
+            EscribirDatos("FechaInicio", datos[1]);
+            EscribirDatos("FechaFin", datos[2]);
+            EscribirDatos("Descripcion", datos[3]);
+            EscribirDatos("Porcentaje_Mixto", datos[4]);
+            _driver.FindElement(By.Id("CreateButton")).Click();
+            bool falses = _driver.PageSource.Contains(error);
+            //Assert
+            foreach (string expected in expectedPagina)
+            {
+
+                Assert.Contains(expected, _driver.PageSource);
+            }
+        }
+
+        [Fact]
+        [Trait("LevelTesting", "Funcional Testing")]
+        public void UC1_9_1_SesionNoIniciada_CrearOferta()
+        {
+            //Arrange
+            string[] expectedPagina = { "Log in" , "Use a local account to log in."};
+
+            //Act
+            _driver.Navigate().GoToUrl(_URI +
+            "Sandwiches/SelectSandwichesForOffer");
+
+            //Assert
+            foreach (string expected in expectedPagina)
+            {
+
+                Assert.Contains(expected, _driver.PageSource);
+            }
+        }
+
+        [Fact]
+        [Trait("LevelTesting", "Funcional Testing")]
+        public void UC1_10_1_RolInvalido_CrearOferta()
+        {
+            //Arrange
+            string[] expectedPagina = { "Access denied" , "You do not have access to this resource." };
+
+            //Act
+            Precondition_perform_login(this.usernameC, this.passwordC);
+            _driver.Navigate().GoToUrl(_URI +
+            "Sandwiches/SelectSandwichesForOffer");
+
+            //Assert
+            foreach (string expected in expectedPagina)
+            {
+
+                Assert.Contains(expected, _driver.PageSource);
+            }
+        }
+
 
         public void Dispose()
         {
