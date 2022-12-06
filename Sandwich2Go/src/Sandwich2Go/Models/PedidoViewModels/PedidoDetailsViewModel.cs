@@ -53,13 +53,15 @@ namespace Sandwich2Go.Models.PedidoViewModels
             foreach(SandwichPedido s in p.sandwichesPedidos)
             {
                 sandwichesPedidos.Add(new SandwichPedidoDetailsViewModel(s));
-                foreach(OfertaSandwich os in s.Sandwich.OfertaSandwich)
+                double porc = 0;
+                foreach (OfertaSandwich os in s.Sandwich.OfertaSandwich)
                 {
-                    double porc = 0;
+                    
                     if (os.Oferta.FechaFin > p.Fecha && os.Porcentaje>porc)
                     {
                         
                         double precioAux = s.Sandwich.Precio - (s.Sandwich.Precio * os.Porcentaje/100);
+                        porc = os.Porcentaje;
                         ofertasAplicadas.Add(s.Sandwich.SandwichName + " con oferta " + os.Oferta.Nombre + " y descuento del " + os.Porcentaje + "% ..... -"+ precioAux.ToString("C"));
                         sandwichesPedidos.Last().precio=precioAux;
                     }
