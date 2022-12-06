@@ -14,13 +14,16 @@ function updatingPrices() {
 
     //  let element = document.getElementById("TotalAccount");
     let elements = document.getElementsByName("Cantidades");
-
+    let precio = document.getElementById("Precio_4");
     let total = 0;
     for (let i = 0; i < elements.length; i++) {
         total = total + parseInt(elements[i].value);
     }
+    console.log(precio.value);
+    console.log()
+    total = Number.parseFloat(elements[0].value) * Number.parseFloat(precio.value);
     console.log(total);
-    document.getElementById("CantidadTotal").innerHTML = 3;
+    document.getElementById("CantidadTotal").innerHTML = formatter.format(total);
 
 }
 
