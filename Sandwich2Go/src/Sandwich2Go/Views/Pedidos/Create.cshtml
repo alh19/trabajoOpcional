@@ -109,7 +109,7 @@
                                     <input asp-for="sandwichesPedidos[i].Alergenos" type="hidden" class="form-control" />
                                     <input asp-for="sandwichesPedidos[i].Alm" type="hidden" class="form-control" />
                                     <input asp-for="sandwichesPedidos[i].IngM" type="hidden" class="form-control" />
-                                    <input asp-for="sandwichesPedidos[i].cantidad" id="Sandwich_Quantity_@Model.sandwichesPedidos[i].Id" class="form-control" />
+                                    <input onchange="updatingPrices()" name="Cantidades" asp-for="sandwichesPedidos[i].cantidad" id="Movie_Quantity_@Model.sandwichesPedidos[i].NombreSandwich" class="form-control" />
                                     <span asp-validation-for="sandwichesPedidos[i].cantidad" class="text-danger" />
 
                                 </div>
@@ -120,7 +120,10 @@
                 }
             </tbody>
         </table>
-
+        <tr>
+            <th colspan="2">Total quantity</th>
+            <th id="CantidadTotal">0</th>
+        </tr>
         @* this code needs the script defined in site.js *@
         <div class="panel-group" id="accordion">
             <div class="panel panel-default ">
