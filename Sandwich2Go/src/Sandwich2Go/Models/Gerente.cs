@@ -8,7 +8,7 @@ namespace Sandwich2Go.Models
         [Required]
         [DataType(DataType.Date), Display(Name = "Fecha de contratación")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
-        public virtual string FechaContratacion { get; set; }
+        public virtual string FechaContratacion { get; set; } 
         [Required, DataType(DataType.Currency)]
         public virtual double Salario { get; set; }
         public virtual IList<PedidoProv> PedidoProv { get; set; }
