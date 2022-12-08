@@ -7,7 +7,8 @@ namespace Design
 {
     public class PedidoProv
     {
-
+        [Key]
+        public virtual int Id { get; set; }
         public virtual double PrecioTotal
         {
             get;

@@ -60,7 +60,7 @@ namespace Sandwich2Go.Controllers
         {
             if (selectedIngrediente.IdsToAdd != null)
             {
-                return RedirectToAction("Create", "Pedidos", selectedIngrediente);
+                return RedirectToAction("Create", "PedidoProvs", selectedIngrediente);
             }
             
             //a message error will be shown to the customer in case no movies are selected
