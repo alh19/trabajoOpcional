@@ -19,10 +19,7 @@ function updatingPrices() {
     for (let i = 0; i < elements.length; i++) {
         total = total + parseInt(elements[i].value);
     }
-    console.log(precio.value);
-    console.log()
     total = Number.parseFloat(elements[0].value) * Number.parseFloat(precio.value);
-    console.log(total);
     document.getElementById("CantidadTotal").innerHTML = formatter.format(total);
 
 }
