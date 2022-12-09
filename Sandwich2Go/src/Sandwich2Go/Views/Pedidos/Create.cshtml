@@ -109,7 +109,7 @@
                                     <input asp-for="sandwichesPedidos[i].Alergenos" type="hidden" class="form-control" />
                                     <input asp-for="sandwichesPedidos[i].Alm" type="hidden" class="form-control" />
                                     <input asp-for="sandwichesPedidos[i].IngM" type="hidden" class="form-control" />
-                                    <input asp-for="sandwichesPedidos[i].cantidad" id="Sandwich_Quantity_@Model.sandwichesPedidos[i].Id" class="form-control" />
+                                    <input asp-for="sandwichesPedidos[i].cantidad" id="Cantidad_@Model.sandwichesPedidos[i].NombreSandwich" class="form-control" />
                                     <span asp-validation-for="sandwichesPedidos[i].cantidad" class="text-danger" />
 
                                 </div>
