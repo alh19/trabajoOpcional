@@ -57,7 +57,7 @@ namespace Sandwich2Go.Models.PedidoViewModels
                 foreach (OfertaSandwich os in s.Sandwich.OfertaSandwich)
                 {
                     
-                    if (os.Oferta.FechaFin > p.Fecha && os.Porcentaje>porc)
+                    if (os.Oferta.FechaFin > p.Fecha && os.Porcentaje>porc && os.Oferta.FechaInicio < p.Fecha)
                     {
                         
                         double precioAux = s.Sandwich.Precio - (s.Sandwich.Precio * os.Porcentaje/100);
