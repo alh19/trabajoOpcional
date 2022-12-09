@@ -151,6 +151,8 @@ namespace Sandwich2Go.Models.PedidoViewModels
                     this.descuento = this.PrecioCompra * (this.porcentajeOferta / 100);
                     this.oferta = this.NombreSandwich + " con oferta " + this.oferta + " y descuento del " + this.porcentajeOferta + "% ..... -";
                     this.PrecioConDescuento = this.PrecioCompra - this.descuento;
+
+                    this.lineaDescuento = this.NombreSandwich + " con oferta " + os.Oferta.Nombre + " y descuento del " + this.porcentajeOferta + "% ..... -"+this.descuento.ToString("C")+" / Sandwich. Precio final: "+this.PrecioConDescuento.ToString("C");
                 }
             }
 
@@ -190,6 +192,7 @@ namespace Sandwich2Go.Models.PedidoViewModels
         public virtual string Alm { get; set; }
         public virtual string IngM { get; set; }
 
+        public virtual string lineaDescuento { get; set; }
         public override bool Equals(object obj)
         {
             return obj is SandwichPedidoViewModel model &&
@@ -203,7 +206,8 @@ namespace Sandwich2Go.Models.PedidoViewModels
                 this.PrecioConDescuento == model.PrecioConDescuento &&
                 this.descuento == model.descuento &&
                 this.Alm == model.Alm &&
-                this.IngM == model.IngM;
+                this.IngM == model.IngM &&
+                this.lineaDescuento == model.lineaDescuento;
         }
 
     }
