@@ -12,8 +12,15 @@ using Sandwich2Go.Data;
 using Sandwich2Go.Models;
 using Sandwich2Go.Models.IngredienteViewModels;
 using Sandwich2Go.Models.PedidoProvViewModels;
+using Sandwich2Go.Models.PedidoViewModels;
+using Efectivo = Sandwich2Go.Models.Efectivo;
+using Gerente = Sandwich2Go.Models.Gerente;
+using Ingrediente = Sandwich2Go.Models.Ingrediente;
+using IngrPedProv = Sandwich2Go.Models.IngrPedProv;
+using IngrProv = Sandwich2Go.Models.IngrProv;
 using PedidoProv = Sandwich2Go.Models.PedidoProv;
 using Proveedor = Sandwich2Go.Models.Proveedor;
+using Tarjeta = Sandwich2Go.Models.Tarjeta;
 
 namespace Sandwich2Go.Controllers
 {
@@ -40,14 +47,28 @@ namespace Sandwich2Go.Controllers
                 return NotFound();
             }
 
+            var x = id;
+
+           
+
             var pedidoProv = await _context.PedidoProv
+                .Include(p => p.IngrPedProv).ThenInclude(p => p.IngrProv)
+                .ThenInclude(p => p.Proveedor).ThenInclude(p => p.IngrProv).ThenInclude(p => p.Ingrediente)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (pedidoProv == null)
+
+            var ingrPedidoProv = pedidoProv.IngrPedProv.First().IngrProv;
+
+            if (ingrPedidoProv == null || pedidoProv == null)
             {
                 return NotFound();
             }
 
-            return View(pedidoProv);
+            PedidoProvDetailsViewModel pedidoFinalView = new PedidoProvDetailsViewModel(ingrPedidoProv);
+
+            pedidoFinalView.PrecioTotal = pedidoProv.PrecioTotal;
+            pedidoFinalView.Ingredientes = pedidoProv.IngrPedProv.Select(p => p.IngrProv).Select(p => p.Ingrediente).ToList();
+
+            return View(pedidoFinalView);
         }
 
         [Authorize(Roles = "Gerente")]
@@ -67,12 +88,14 @@ namespace Sandwich2Go.Controllers
                 else
                 {
                     pedidoprov.ingredientesPedProv = await _context.Ingrediente
+                        .Include(p => p.IngrProv)
                         .Select(p => new PedidoProvCreateViewModel.IngrPedProvViewModel()
                         {
                             Id = p.Id,
                             NombreIngrediente = p.Nombre,
                             PrecioUnitario = p.PrecioUnitario,
-                            Stock = p.Stock
+                            Stock = p.Stock,
+                            IdsIngrProv = p.IngrProv.Select(s => s.Id ).ToList(),
 
                         })
                         .Where(p => selingrprov.IdsToAdd.Contains(p.Id.ToString())).ToListAsync();
@@ -83,10 +106,12 @@ namespace Sandwich2Go.Controllers
                         .Where(n => selingrprov.IdProveedor == n.Id )
                         .Select(m => m).FirstAsync();
                 }
-            pedidoprov.Id = selingrprov.IdProveedor;
-            pedidoprov.Cif = proveedor.Cif;
-            pedidoprov.NombreProveedor = proveedor.Nombre;
-            pedidoprov.Direccion = proveedor.Direccion;
+
+                pedidoprov.IdProveedor = selingrprov.IdProveedor;
+                pedidoprov.Cif = proveedor.Cif;
+                pedidoprov.NombreProveedor = proveedor.Nombre;
+                pedidoprov.Direccion = proveedor.Direccion;
+                pedidoprov.FechaPedido = System.DateTime.Now;
 
             return View(pedidoprov);
             
@@ -110,15 +135,98 @@ namespace Sandwich2Go.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,PrecioTotal,DireccionEnvio,FechaPedido")] PedidoProv pedidoProv)
+        public async Task<IActionResult> Create(PedidoProvCreateViewModel pedidoprovvm) 
         {
-            if (ModelState.IsValid)
+            Gerente gerente = await _context.Users.OfType<Gerente>().FirstOrDefaultAsync<Gerente>(
+                g => g.UserName.Equals(User.Identity.Name));
+            Ingrediente ingrediente;
+            PedidoProv pedidoFinal = new();
+            List<IngrProv> detallesPedido = new();
+            IngrPedProv ingrPedProvAux;
+
+            if (!ModelState.IsValid)
             {
-                _context.Add(pedidoProv);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //No son tipos convertibles
+                foreach (var ingrpedprov in pedidoprovvm.ingredientesPedProv)
+                {
+                    ingrediente = await _context.Ingrediente.FirstOrDefaultAsync
+                        (p => p.Id == ingrpedprov.Id);
+
+                    detallesPedido = await _context.IngrProv
+                        .Where(p => p.Id == ingrpedprov.Id)
+                        .Select(p => p).ToListAsync();
+
+                    if (ingrpedprov.Cantidad < 0)
+                    {
+                        ModelState.AddModelError("", $"Debes seleccionar una cantidad de stock " +
+                            $"mayor que 0 de {ingrediente.Nombre}");
+                    }
+
+                    //Si el stock es correcto
+                    if (ingrpedprov.Cantidad > ingrediente.Stock)
+                    {
+                        ModelState.AddModelError("", $"Has seleccionado una cantidad de stock " +
+                            $"mayor a la que el proveedor tiene de {ingrediente.Nombre}");
+                    }
+                    else
+                    {
+
+                        if (ingrpedprov.Cantidad > 0)
+                        {
+                            ingrediente.Stock += pedidoprovvm.Cantidad;
+                            ingrPedProvAux = new IngrPedProv()
+                            {
+                                //Id = ingrpedprov.Id + 1,
+                                Cantidad = ingrpedprov.Cantidad,
+                                PedidoProv = pedidoFinal,
+                                PedidoProvId = pedidoFinal.Id,
+                                IngrProv = detallesPedido.Where(p => p.Id == pedidoprovvm.IdProveedor).Select(p => p).First(),
+                                IngrProvId = pedidoprovvm.IdProveedor,
+                            };
+
+                            pedidoFinal.PrecioTotal += ingrpedprov.Cantidad * ingrediente.PrecioUnitario;
+                            pedidoFinal.IngrPedProv.Add(ingrPedProvAux);
+                        }
+
+                    }
+                }
             }
-            return View(pedidoProv);
+            //Si hay error volvemos a la vista
+            if (ModelState.ErrorCount < 0)
+            {
+                return View(pedidoprovvm);
+            }
+
+            if (pedidoprovvm.MetodoPago == "Tarjeta")
+            {
+                pedidoFinal.MetodoDePago = new Tarjeta()
+                {
+                    Numero = long.Parse(pedidoprovvm.NumeroTarjetaCredito),
+                    CCV = int.Parse(pedidoprovvm.CCV),
+                    MesCaducidad = int.Parse(pedidoprovvm.MesCad),
+                    AnoCaducidad = int.Parse(pedidoprovvm.AnoCad)
+                };
+            }
+            else
+            {
+                pedidoFinal.MetodoDePago = new Efectivo()
+                {
+                    NecesitasCambio = pedidoprovvm.necesitaCambio
+                };
+            }
+
+
+            /*pedidoprovvm.IdIngrProv await _context.Users.OfType<Gerente>().FirstOrDefaultAsync<Gerente>(
+            g => g.UserName.Equals(User.Identity.Name));*/
+            pedidoFinal.DireccionEnvio = "Calle Restaurante Sandwich";
+            pedidoFinal.Gerente = gerente;  
+            pedidoFinal.FechaPedido = pedidoprovvm.FechaPedido;
+               
+                        
+
+                _context.Add(pedidoFinal);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Details", new { id = pedidoFinal.Id });
         }
 
         // GET: PedidoProvs/Edit/5

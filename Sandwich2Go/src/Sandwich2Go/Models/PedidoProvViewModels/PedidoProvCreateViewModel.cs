@@ -1,5 +1,6 @@
 ﻿using Design;
 using Sandwich2Go.Models.PedidoViewModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -18,7 +19,11 @@ namespace Sandwich2Go.Models.PedidoProvViewModels
         public virtual string Cif { get; set; }
         public virtual string NombreProveedor { get; set; }
         public virtual string Direccion { get; set; }
+        public virtual int Cantidad{ get; set; }
+        public virtual int IdProveedor { get; set; }
+        public virtual bool necesitaCambio { get; set; }
         public IList<IngrPedProvViewModel> ingredientesPedProv { get; set; }
+       
 
         [DataType(DataType.MultilineText)]
         [Display(Name = "Dirección de entrega:")]
@@ -61,6 +66,9 @@ namespace Sandwich2Go.Models.PedidoProvViewModels
         [Display(Name = "Año caducidad")]
         public virtual string AnoCad { get; set; }
 
+        public virtual string DireccionEnvio { get; set; }
+        public virtual DateTime FechaPedido { get; set; }
+        public virtual double PrecioTotal { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
@@ -87,6 +95,10 @@ namespace Sandwich2Go.Models.PedidoProvViewModels
                     yield return new ValidationResult("Debes comprar al menos un ingrediente");
                 }
             }
+
+            if (ingredientesPedProv.Sum(pi => pi.Stock) <= 0)
+                yield return new ValidationResult("Por favor, selecciona un stock mayor que 0",
+                     new[] { nameof(ingredientesPedProv) });
         }
 
 
@@ -95,6 +107,8 @@ namespace Sandwich2Go.Models.PedidoProvViewModels
             return obj is PedidoProvCreateViewModel pedidoProv &&
                 Cif == pedidoProv.Cif &&
                 NombreProveedor == pedidoProv.NombreProveedor &&
+                IdProveedor == pedidoProv.IdProveedor &&
+                Cantidad == pedidoProv.Cantidad &&
                 Direccion == pedidoProv.Direccion &&
                 DireccionEntrega == pedidoProv.DireccionEntrega &&
                 MetodoPago == pedidoProv.MetodoPago &&
@@ -107,6 +121,7 @@ namespace Sandwich2Go.Models.PedidoProvViewModels
                 AnoCad == pedidoProv.AnoCad;
         }
 
+        
         public class IngrPedProvViewModel
         {
             public IngrPedProvViewModel() { }
@@ -143,6 +158,7 @@ namespace Sandwich2Go.Models.PedidoProvViewModels
                 set;
             }
             public virtual int Stock { get; set; }
+            public virtual int Cantidad { get; set; }
             public virtual IList<string> Alergenos { get; set; }
             public virtual IList<string> Ingredientes
             {
@@ -151,6 +167,7 @@ namespace Sandwich2Go.Models.PedidoProvViewModels
 
             public virtual string Alm { get; set; }
             public virtual string IngM { get; set; }
+            public virtual IList<int> IdsIngrProv { get; set; }
 
             public override bool Equals(object obj)
             {
@@ -158,12 +175,15 @@ namespace Sandwich2Go.Models.PedidoProvViewModels
                     this.Id == model.Id &&
                     this.NombreIngrediente == model.NombreIngrediente &&
                     this.Stock == model.Stock &&
+                    this.Cantidad == model.Cantidad &&
                     this.PrecioUnitario == model.PrecioUnitario &&
                     this.Ingredientes.SequenceEqual(model.Ingredientes) &&
                     this.Alergenos.SequenceEqual(model.Alergenos) &&
+                    this.IdsIngrProv.SequenceEqual(model.IdsIngrProv) &&
                     this.Alm == model.Alm &&
                     this.IngM == model.IngM;
             }
+        
         }
     }
 }

@@ -7,6 +7,12 @@ namespace Sandwich2Go.Models
 {
     public class PedidoProv
     {
+        
+        public PedidoProv()
+        {
+            IngrPedProv = new List<IngrPedProv>();
+        }
+
         [Key]
         public virtual int Id { get; set; }
         public virtual double PrecioTotal

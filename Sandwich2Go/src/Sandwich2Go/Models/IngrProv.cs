@@ -23,7 +23,7 @@ namespace Sandwich2Go.Models
         public virtual Proveedor Proveedor { get; set; }
         public virtual int ProveedorId { get; set; }
 
-        public virtual IngrPedProv IngrPedProv { get; set; }
-        //public virtual IList<IngrPedProv> IngrPedProvs { get; set; }
+        //public virtual IngrPedProv IngrPedProv { get; set; }
+        public virtual IList<IngrPedProv> IngrPedProvs { get; set; }
     }
 }

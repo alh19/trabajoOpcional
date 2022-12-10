@@ -40,6 +40,7 @@ namespace Sandwich2Go.Models.PedidoProvViewModels
             set;
         }
         public virtual int Stock { get; set; }
+        public virtual int Cantidad { get; set; }
         public virtual IList<string> Alergenos { get; set; }
         public virtual IList<string> Ingredientes
         {
@@ -55,6 +56,7 @@ namespace Sandwich2Go.Models.PedidoProvViewModels
                 this.Id == model.Id &&
                 this.NombreIngrediente == model.NombreIngrediente &&
                 this.Stock == model.Stock &&
+                this.Cantidad == model.Cantidad &&
                 this.PrecioUnitario == model.PrecioUnitario &&
                 this.Ingredientes.SequenceEqual(model.Ingredientes) &&
                 this.Alergenos.SequenceEqual(model.Alergenos) &&

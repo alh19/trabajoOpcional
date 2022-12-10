@@ -15,17 +15,17 @@
 <section style="display:flex;gap:100px;margin-bottom:20px">   
     <div>
         <h3>CIF/DNI</h3>
-        <h4> @Html.DisplayFor(model => model.Cif) </h4>
+        <h5> @Html.DisplayFor(model => model.Cif) </h5>
     </div>
 
     <div>
         <h3>Nombre</h3>
-        <h4> @Html.DisplayFor(model => model.NombreProveedor) </h4>
+        <h5> @Html.DisplayFor(model => model.NombreProveedor) </h5>
     </div>
 
     <div>
         <h3>Dirección</h3>
-         <h4> @Html.DisplayFor(model => model.Direccion) </h4>
+         <h5> @Html.DisplayFor(model => model.Direccion) </h5>
     </div>
  </section>
 
@@ -42,7 +42,7 @@
                     Nombre
                 </th>
                 <th>
-                    Stock
+                    Stock del proveedor
                 </th>
                 <th>
                     Cantidad a elegir de cada ingrediente
@@ -51,7 +51,7 @@
         </thead>
 
         <tbody>
-            @if (Model.ingredientesPedProv.Count() == 0)
+            @if (Model.ingredientesPedProv.Count() <= 0)
             {
                 <tr><td colspan="3">No hay ingredientes en el pedido</td></tr>
             }
@@ -71,7 +71,10 @@
                             <div class="form-group">
                                 <input asp-for="ingredientesPedProv[i].NombreIngrediente" type="hidden" class="form-control" />
                                 <input asp-for="ingredientesPedProv[i].Stock" type="hidden" class="form-control" />
-                                <input asp-for="ingredientesPedProv[i].Stock" id="Stock_Cantidad_@Model.ingredientesPedProv[i].Stock" class="form-control" />
+                                <input asp-for="ingredientesPedProv[i].IdsIngrProv" type="hidden" class="form-control" />
+                                <input asp-for="ingredientesPedProv[i].Id" type="hidden" class="form-control" />
+                                <input asp-for="ingredientesPedProv[i].Cantidad" id="Stock_Cantidad_@Model.ingredientesPedProv[i].Cantidad" class="form-control" />
+                                <input asp-for="ingredientesPedProv[i].PrecioUnitario" type="hidden" class="form-control" />
                                 <span asp-validation-for="ingredientesPedProv[i].Alm" class="text-danger" />
                             </div>
                         </td>
@@ -95,7 +98,11 @@
             <input asp-for=Id type="hidden" class="form-control" />
             <input asp-for=Cif type="hidden" class="form-control" />
             <input asp-for=NombreProveedor type="hidden" class="form-control" />
+            <input asp-for=IdProveedor type="hidden" class="form-control" />
             <input asp-for=Direccion type="hidden" class="form-control" />
+            <input asp-for=Cantidad type="hidden" class="form-control" />
+            <input asp-for=FechaPedido type="hidden" class="form-control" />
+
         </div>
     </div>
 
@@ -116,22 +123,22 @@
                 <div class="panel-body row">
                     <div class="col-md-4">
                         <label asp-for="NumeroTarjetaCredito" class="control-label"></label>
-                        <input asp-for="NumeroTarjetaCredito" class="form-control" size="20" />
+                        <input asp-for="NumeroTarjetaCredito" class="form-control" size="20" required />
                         <span asp-validation-for="NumeroTarjetaCredito" class="text-danger"></span>
                     </div>
                     <div class="col-md-1">
                             <label asp-for="CCV" class="control-label"></label>
-                            <input asp-for="CCV" class="form-control" size="3" />
+                        <input asp-for="CCV" class="form-control" size="3" required />
                             <span asp-validation-for="CCV" class="text-danger"></span>
                         </div>
                         <div class="col-md-2">
                             <label asp-for="MesCad" class="control-label"></label>
-                            <input asp-for="MesCad" class="form-control" />
+                            <input asp-for="MesCad" class="form-control" required/>
                             <span asp-validation-for="MesCad" class="text-danger"></span>
                         </div>
                         <div class="col-md-2">
                             <label asp-for="AnoCad" class="control-label"></label>
-                            <input asp-for="AnoCad" class="form-control" />
+                        <input asp-for="AnoCad" class="form-control" required/>
                             <span asp-validation-for="AnoCad" class="text-danger"></span>
                         </div>
                 </div>
@@ -142,24 +149,14 @@
                 <h4 class=panel-title>
                     <label for='r12' style='width: 350px;'>
                         @*<input type='radio' id='r12' name='PaymentMethod' value='PayPal' required /> PayPal*@
-                        <input type='radio' id='r12' asp-for='MetodoPago' value='PayPal' required /> PayPal
+                        <input type='radio' id='r12' asp-for='MetodoPago' value='Efectivo' required /> Efectivo
                         <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"></a>
                     </label>
                 </h4>
             </div>
             <div id="collapseTwo" class="panel-collapse collapse">
-                <div class="panel-body row">
-                    <div class="col-md-1">
-                        <label asp-for="Prefijo" class="control-label"></label>
-                        <input asp-for="Prefijo" class="form-control" />
-                        <span asp-validation-for="Prefijo" class="text-danger"></span>
-                    </div>
-                    <div class="col-md-2">
-                        <label asp-for="Telefono" class="control-label"></label>
-                        <input asp-for="Telefono" class="form-control" />
-                        <span asp-validation-for="Telefono" class="text-danger"></span>
-                    </div>
-                </div>
+                <h2>El repartidor te cobrará el pedido en la entrega.</h2>
+                <h6>¿Necesitas cambio para tu entrega?: @Html.CheckBoxFor(m => m.necesitaCambio)</h6>
             </div>
         </div>
     </div>
