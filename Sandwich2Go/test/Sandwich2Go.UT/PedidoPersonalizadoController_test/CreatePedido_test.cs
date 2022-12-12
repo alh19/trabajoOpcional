@@ -183,135 +183,136 @@ namespace Sandwich2Go.UT.PedidoPersonalizadoController_test
             return allTest;
         }
 
-        [Theory]
-        [MemberData(nameof(TestCasesForCompraCreatePost_WithErrors))]
-        [Trait("LevelTesting", "Unit Testing")]
-        public void Create_Post_WithErrors(PedidoCreateSandwichPersonalizadoViewModel pedidoInput, PedidoCreateSandwichPersonalizadoViewModel pedidoEsperado, string ErrorEsperado)
-        {
-            using (context)
-            {
-                //Arrange
-                var controller = new PedidosController(context);
-                controller.ControllerContext.HttpContext = pedidosHttpContext;
+        //[Theory]
+        //[MemberData(nameof(TestCasesForCompraCreatePost_WithErrors))]
+        //[Trait("LevelTesting", "Unit Testing")]
+        //public void Create_Post_WithErrors(PedidoCreateSandwichPersonalizadoViewModel pedidoInput, PedidoCreateSandwichPersonalizadoViewModel pedidoEsperado, string ErrorEsperado)
+        //{
+        //    using (context)
+        //    {
+        //        //Arrange
+        //        var controller = new PedidosController(context);
+        //        controller.ControllerContext.HttpContext = pedidosHttpContext;
 
-                //Act
-                var result = controller.CreateSandwichPersonalizado(pedidoInput);
+        //        //Act
+        //        var result = controller.CreateSandwichPersonalizado(pedidoInput);
 
-                //Assert
-                var viewResult = Assert.IsType<ViewResult>(result.Result);
-                PedidoCreateSandwichPersonalizadoViewModel pedidoActual = viewResult.Model as PedidoCreateSandwichPersonalizadoViewModel;
+        //        //Assert
+        //        var viewResult = Assert.IsType<ViewResult>(result.Result);
+        //        PedidoCreateSandwichPersonalizadoViewModel pedidoActual = viewResult.Model as PedidoCreateSandwichPersonalizadoViewModel;
 
-                var error = viewResult.ViewData.ModelState.Values.First().Errors.First();
-                Assert.Equal(pedidoEsperado, pedidoActual);
-                Assert.Equal(ErrorEsperado, error.ErrorMessage);
-            }
-        }
+        //        var error = viewResult.ViewData.ModelState.Values.First().Errors.First();
+        //        Assert.Equal(pedidoEsperado, pedidoActual);
+        //        Assert.Equal(ErrorEsperado, error.ErrorMessage);
+        //    }
+        //}
 
-        public static IEnumerable<object[]> TestCasesForCompraCreatePost_WithoutErrors()
-        {
+        //public static IEnumerable<object[]> TestCasesForCompraCreatePost_WithoutErrors()
+        //{
 
-            Cliente cliente = Utilities.GetUsers(1, 1).First() as Cliente;
-            IList<MetodoDePago> metodosDePago = UtilitiesForPedido.GetMetodosDePago(0, 2);
-            IList<SandwCreado> sandwiches = UtilitiesForPedido.GetSandwiches(0, 3);
-            IList<Pedido> pedidos = UtilitiesForPedido.GetPedidos(0, 2);
+        //    Cliente cliente = Utilities.GetUsers(1, 1).First() as Cliente;
+        //    IList<MetodoDePago> metodosDePago = UtilitiesForPedido.GetMetodosDePago(0, 2);
+        //    IList<SandwCreado> sandwiches = UtilitiesForPedido.GetSandwiches(0, 3);
+        //    IList<Pedido> pedidos = UtilitiesForPedido.GetPedidos(0, 2);
 
-            IList<int> cantidades1 = UtilitiesForPedido.GetIngredientes(0, 4).Select(i => i.Stock).ToList();
-            IList<int> cantidades2 = UtilitiesForPedido.GetIngredientes(0, 4).Select(i => i.Stock).ToList();
-            //Compra con tarjeta
-            Pedido pedidoEsperado1 = pedidos[0];
-            PedidoCreateSandwichPersonalizadoViewModel pedidoCVM1 = new PedidoCreateSandwichPersonalizadoViewModel
-            {
-                IdCliente = cliente.Id,
-                Name = cliente.Nombre,
-                Apellido = cliente.Apellido,
-                DireccionEntrega = pedidoEsperado1.Direccion,
-                PrecioTotal = pedidoEsperado1.Preciototal,
-                MetodoPago = "Tarjeta",
-                MesCad = (pedidoEsperado1.MetodoDePago as Tarjeta).MesCaducidad.ToString(),
-                AnoCad = (pedidoEsperado1.MetodoDePago as Tarjeta).AnoCaducidad.ToString(),
-                CCV = (pedidoEsperado1.MetodoDePago as Tarjeta).CCV.ToString(),
-                NumeroTarjetaCredito = (pedidoEsperado1.MetodoDePago as Tarjeta).Numero.ToString(),
-                //ingPedidos = pedidoEsperado1.ingPedidos.Select(s => new IngredientePedidoViewModel(s.Ingrediente)).ToList()
-            };
-
-            cantidades1[0] -= 1;
-            cantidades1[1] -= 1;
-            cantidades1[3] -= 1;
-
-            pedidos[0].Fecha = DateTime.Now;
-            pedidos[0].Descripcion = "Pedido con los sándwiches Cubano ";
-            pedidos[0].Cliente = cliente;
-            pedidos[0].Nombre = DateTime.Now.Day.ToString() + "/" + DateTime.Now.Month.ToString() + "/" + DateTime.Now.Year.ToString();
-
-            (pedidos[0].MetodoDePago as Tarjeta).Titular = cliente.Nombre + " " + cliente.Apellido;
-
-            //Compra en efectivo
-            Pedido pedidoEsperado2 = pedidos[1];
-            PedidoCreateSandwichPersonalizadoViewModel pedidoCVM2 = new PedidoCreateSandwichPersonalizadoViewModel
-            {
-                IdCliente = cliente.Id,
-                Name = cliente.Nombre,
-                Apellido = cliente.Apellido,
-                DireccionEntrega = pedidoEsperado2.Direccion,
-                PrecioTotal = pedidoEsperado2.Preciototal,
-                MetodoPago = "Efectivo",
-                necesitaCambio = false,
-                //ingPedidos = pedidoEsperado2.sandwichesPedidosSelect(s => new IngredientePedidoViewModel(s.Sandwich)).ToList()
-            };
-            cantidades2[0] -= 2;
-            cantidades2[1] -= 2;
-            cantidades2[2] -= 1;
-
-            pedidos[1].Fecha = DateTime.Now;
-            pedidos[1].Descripcion = "Pedido con los sándwiches Mixto Inglés ";
-            pedidos[1].Cliente = cliente;
-            pedidos[1].Nombre = DateTime.Now.Day.ToString() + "/" + DateTime.Now.Month.ToString() + "/" + DateTime.Now.Year.ToString();
-            pedidos[1].Id = 1;
-            (pedidos[1].MetodoDePago as Efectivo).NecesitasCambio = false;
+        //    IList<int> cantidades1 = UtilitiesForPedido.GetIngredientes(0, 4).Select(i => i.Stock).ToList();
+        //    IList<int> cantidades2 = UtilitiesForPedido.GetIngredientes(0, 4).Select(i => i.Stock).ToList();
+        //    //Compra con tarjeta
+        //    Pedido pedidoEsperado1 = pedidos[0];
+        //    PedidoCreateSandwichPersonalizadoViewModel pedidoCVM1 = new PedidoCreateSandwichPersonalizadoViewModel
+        //    {
+        //        IdCliente = cliente.Id,
+        //        Name = cliente.Nombre,
+        //        Apellido = cliente.Apellido,
+        //        DireccionEntrega = pedidoEsperado1.Direccion,
+        //        PrecioTotal = pedidoEsperado1.Preciototal,
+        //        MetodoPago = "Tarjeta",
+        //        MesCad = (pedidoEsperado1.MetodoDePago as Tarjeta).MesCaducidad.ToString(),
+        //        AnoCad = (pedidoEsperado1.MetodoDePago as Tarjeta).AnoCaducidad.ToString(),
+        //        CCV = (pedidoEsperado1.MetodoDePago as Tarjeta).CCV.ToString(),
+        //        NumeroTarjetaCredito = (pedidoEsperado1.MetodoDePago as Tarjeta).Numero.ToString(),
+        //        //ingPedidos = pedidoEsperado1.ingPedidos.Select(s => new IngredientePedidoViewModel(s.Ingrediente)).ToList()
+        //    };
 
 
-            var allTest = new List<object[]>
-            {
-                new object[] {pedidoCVM1, pedidoEsperado1, cantidades1 },
-                new object[] {pedidoCVM2, pedidoEsperado2, cantidades2 }
-            };
-            return allTest;
-        }
+        //    cantidades1[0] -= 1;
+        //    cantidades1[1] -= 1;
+        //    cantidades1[3] -= 1;
 
-        [Theory]
-        [MemberData(nameof(TestCasesForCompraCreatePost_WithoutErrors))]
-        [Trait("LevelTesting", "Unit Testing")]
-        public void Create_Post_WithoutErrors(PedidoCreateSandwichPersonalizadoViewModel pedidoCVM, Pedido pedidoEsperado, List<int> cantidadesEsperadas)
-        {
-            using (context)
-            {
+        //    pedidos[0].Fecha = DateTime.Now;
+        //    pedidos[0].Descripcion = "Pedido con los sándwiches Cubano ";
+        //    pedidos[0].Cliente = cliente;
+        //    pedidos[0].Nombre = DateTime.Now.Day.ToString() + "/" + DateTime.Now.Month.ToString() + "/" + DateTime.Now.Year.ToString();
 
-                //Arrange
-                var controller = new PedidosController(context);
-                controller.ControllerContext.HttpContext = pedidosHttpContext;
+        //    (pedidos[0].MetodoDePago as Tarjeta).Titular = cliente.Nombre + " " + cliente.Apellido;
 
-                //Act
-                var result = controller.CreateSandwichPersonalizado(pedidoCVM);
+        //    //Compra en efectivo
+        //    Pedido pedidoEsperado2 = pedidos[1];
+        //    PedidoCreateSandwichPersonalizadoViewModel pedidoCVM2 = new PedidoCreateSandwichPersonalizadoViewModel
+        //    {
+        //        IdCliente = cliente.Id,
+        //        Name = cliente.Nombre,
+        //        Apellido = cliente.Apellido,
+        //        DireccionEntrega = pedidoEsperado2.Direccion,
+        //        PrecioTotal = pedidoEsperado2.Preciototal,
+        //        MetodoPago = "Efectivo",
+        //        necesitaCambio = false,
+        //        //ingPedidos = pedidoEsperado2.sandwichesPedidosSelect(s => new IngredientePedidoViewModel(s.Sandwich)).ToList()
+        //    };
+        //    cantidades2[0] -= 2;
+        //    cantidades2[1] -= 2;
+        //    cantidades2[2] -= 1;
 
-                //Assert
-                var viewResult = Assert.IsType<RedirectToActionResult>(result.Result);
-
-                Assert.Equal("DetailsCreado", viewResult.ActionName);
-
-                Assert.Equal(pedidoEsperado.Id, viewResult.RouteValues.First().Value);
-
-                var actualPedido = context.Pedido.Include(p => p.sandwichesPedidos).ThenInclude(sc => sc.Sandwich).ThenInclude(s => s.IngredienteSandwich).ThenInclude(isa => isa.Ingrediente).ThenInclude(i => i.AlergSandws).ThenInclude(als => als.Alergeno)
-                    .Include(p => p.MetodoDePago)
-                    .Include(p => p.sandwichesPedidos)
-                    .FirstOrDefault(p => p.Id == pedidoEsperado.Id);
-                Assert.Equal(pedidoEsperado, actualPedido);
-
-                List<int> cantidadesReales = context.Ingrediente.OrderBy(i => i.Id).Select(i => i.Stock).ToList();
+        //    pedidos[1].Fecha = DateTime.Now;
+        //    pedidos[1].Descripcion = "Pedido con los sándwiches Mixto Inglés ";
+        //    pedidos[1].Cliente = cliente;
+        //    pedidos[1].Nombre = DateTime.Now.Day.ToString() + "/" + DateTime.Now.Month.ToString() + "/" + DateTime.Now.Year.ToString();
+        //    pedidos[1].Id = 1;
+        //    (pedidos[1].MetodoDePago as Efectivo).NecesitasCambio = false;
 
 
-                Assert.Equal(cantidadesEsperadas, cantidadesReales);
-            }
+        //    var allTest = new List<object[]>
+        //    {
+        //        new object[] {pedidoCVM1, pedidoEsperado1, cantidades1 },
+        //        new object[] {pedidoCVM2, pedidoEsperado2, cantidades2 }
+        //    };
+        //    return allTest;
+        //}
+
+        //[Theory]
+        //[MemberData(nameof(TestCasesForCompraCreatePost_WithoutErrors))]
+        //[Trait("LevelTesting", "Unit Testing")]
+        //public void Create_Post_WithoutErrors(PedidoCreateSandwichPersonalizadoViewModel pedidoCVM, Pedido pedidoEsperado, List<int> cantidadesEsperadas)
+        //{
+        //    using (context)
+        //    {
+
+        //        //Arrange
+        //        var controller = new PedidosController(context);
+        //        controller.ControllerContext.HttpContext = pedidosHttpContext;
+
+        //        //Act
+        //        var result = controller.CreateSandwichPersonalizado(pedidoCVM);
+
+        //        //Assert
+        //        var viewResult = Assert.IsType<RedirectToActionResult>(result.Result);
+
+        //        Assert.Equal("DetailsCreado", viewResult.ActionName);
+
+        //        Assert.Equal(pedidoEsperado.Id, viewResult.RouteValues.First().Value);
+
+        //        var actualPedido = context.Pedido.Include(p => p.sandwichesPedidos).ThenInclude(sc => sc.Sandwich).ThenInclude(s => s.IngredienteSandwich).ThenInclude(isa => isa.Ingrediente).ThenInclude(i => i.AlergSandws).ThenInclude(als => als.Alergeno)
+        //            .Include(p => p.MetodoDePago)
+        //            .Include(p => p.sandwichesPedidos)
+        //            .FirstOrDefault(p => p.Id == pedidoEsperado.Id);
+        //        Assert.Equal(pedidoEsperado, actualPedido);
+
+        //        List<int> cantidadesReales = context.Ingrediente.OrderBy(i => i.Id).Select(i => i.Stock).ToList();
+
+
+        //        Assert.Equal(cantidadesEsperadas, cantidadesReales);
+        //    }
 
         }
     }
-}
+//}
