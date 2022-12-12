@@ -1,5 +1,4 @@
-﻿using Humanizer.Localisation;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Sandwich2Go.Data;
 using Sandwich2Go.Models;
