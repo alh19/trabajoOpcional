@@ -102,7 +102,7 @@
                             <td> 
                                 <div class="form-group">
                                     <input asp-for="sandwichesPedidos[i].Id" type="hidden" class="form-control" />
-                                    <input asp-for="sandwichesPedidos[i].PrecioCompra" type="hidden" class="form-control" id="Precio_@Model.sandwichesPedidos[i].Id"/>
+                                    <input asp-for="sandwichesPedidos[i].PrecioCompra" name="Precios" type="hidden" class="form-control" id="Precio_@Model.sandwichesPedidos[i].Id"/>
                                     <input asp-for="sandwichesPedidos[i].PrecioConDescuento" type="hidden" class="form-control" />
                                     <input asp-for="sandwichesPedidos[i].NombreSandwich" type="hidden" class="form-control" />
                                     <input asp-for="sandwichesPedidos[i].Ingredientes" type="hidden" class="form-control" />
