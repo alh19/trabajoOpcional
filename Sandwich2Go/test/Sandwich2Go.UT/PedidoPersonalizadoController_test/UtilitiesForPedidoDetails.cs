@@ -55,7 +55,7 @@ namespace Sandwich2Go.UT.PedidoPersonalizadoController_test
             db.Sandwich.AddRange(GetSandwiches(0, 3));
             db.Oferta.AddRange(GetOfertas(0, 1));
             db.Users.AddRange(Utilities.GetUsers(0, 2));
-            db.MetododePago.AddRange(GetMetodosDePago(0, 2));
+            db.MetodoDePago.AddRange(GetMetodosDePago(0, 2));
             db.Pedido.AddRange(GetPedidos(0, 2));
 
             IList<IList<IngredienteSandwich>> ingredienteSandwiches = GetIngredienteSandwich(0, 3);
@@ -100,7 +100,7 @@ namespace Sandwich2Go.UT.PedidoPersonalizadoController_test
             db.Alergeno.RemoveRange(db.Alergeno);
             db.AlergSandws.RemoveRange(db.AlergSandws);
             db.Oferta.RemoveRange(db.Oferta);
-            db.MetododePago.RemoveRange(db.MetododePago);
+            db.MetodoDePago.RemoveRange(db.MetodoDePago);
             db.OfertaSandwich.RemoveRange(db.OfertaSandwich);
             db.SandwichPedido.RemoveRange(db.SandwichPedido);
             db.Users.RemoveRange(db.Users);
