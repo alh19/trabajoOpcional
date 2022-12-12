@@ -1,20 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Sandwich2Go.Controllers;
 using Sandwich2Go.Data;
 using Sandwich2Go.Models;
-using Sandwich2Go.Models.SandwichViewModels;
 using Sandwich2Go.Models.PedidoSandwichPersonalizadoViewModels;
-using Sandwich2Go.UT.ProveedoresController_test;
-using Sandwich2Go.UT.SandwichControllers_test;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using Xunit;
-using static Humanizer.In;
+
 using Sandwich2Go.Models.IngredienteViewModels;
 
 namespace Sandwich2Go.UT.PedidoPersonalizadoController_test
