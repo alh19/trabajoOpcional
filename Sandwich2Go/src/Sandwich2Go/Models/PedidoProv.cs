@@ -7,7 +7,17 @@ namespace Sandwich2Go.Models
 {
     public class PedidoProv
     {
-        
+        public PedidoProv(int id, double precioTotal, string direccionEnvio, DateTime fechaPedido, Gerente gerente, IList<IngrPedProv> ingrPedProv, MetodoDePago metodoDePago)
+        {
+            Id = id;
+            PrecioTotal = precioTotal;
+            DireccionEnvio = direccionEnvio;
+            FechaPedido = fechaPedido;
+            Gerente = gerente;
+            IngrPedProv = ingrPedProv;
+            MetodoDePago = metodoDePago;
+        }
+
         public PedidoProv()
         {
             IngrPedProv = new List<IngrPedProv>();

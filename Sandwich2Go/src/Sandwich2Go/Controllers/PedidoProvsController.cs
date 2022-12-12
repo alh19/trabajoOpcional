@@ -95,7 +95,7 @@ namespace Sandwich2Go.Controllers
                             NombreIngrediente = p.Nombre,
                             PrecioUnitario = p.PrecioUnitario,
                             Stock = p.Stock,
-                            IdsIngrProv = p.IngrProv.Select(s => s.Id ).ToList(),
+                            //IdsIngrProv = p.IngrProv.Select(s => s.Id ).ToList(),
 
                         })
                         .Where(p => selingrprov.IdsToAdd.Contains(p.Id.ToString())).ToListAsync();
@@ -140,11 +140,14 @@ namespace Sandwich2Go.Controllers
             Gerente gerente = await _context.Users.OfType<Gerente>().FirstOrDefaultAsync<Gerente>(
                 g => g.UserName.Equals(User.Identity.Name));
             Ingrediente ingrediente;
+            Proveedor proveedor;
             PedidoProv pedidoFinal = new();
-            List<IngrProv> detallesPedido = new();
+            IngrProv detallesPedido = new();
+            pedidoFinal.IngrPedProv = new List<IngrPedProv>();
+            //pedidoFinal.
             IngrPedProv ingrPedProvAux;
 
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 //No son tipos convertibles
                 foreach (var ingrpedprov in pedidoprovvm.ingredientesPedProv)
@@ -152,9 +155,12 @@ namespace Sandwich2Go.Controllers
                     ingrediente = await _context.Ingrediente.FirstOrDefaultAsync
                         (p => p.Id == ingrpedprov.Id);
 
-                    detallesPedido = await _context.IngrProv
-                        .Where(p => p.Id == ingrpedprov.Id)
-                        .Select(p => p).ToListAsync();
+                    detallesPedido = await _context.IngrProv.FirstOrDefaultAsync<IngrProv>
+                        (m=>m.Id == ingrpedprov.Id);
+
+                    //detallesPedido = await _context.IngrProv
+                    //    .Where(p => p.Id == ingrpedprov.Id)
+                    //    .Select(p => p).ToListAsync();
 
                     if (ingrpedprov.Cantidad < 0)
                     {
@@ -173,15 +179,19 @@ namespace Sandwich2Go.Controllers
 
                         if (ingrpedprov.Cantidad > 0)
                         {
-                            ingrediente.Stock += pedidoprovvm.Cantidad;
-                            ingrPedProvAux = new IngrPedProv()
+                            ingrediente.Stock += ingrpedprov.Cantidad;
+                            //IngrProv ingrprovax = detallesPedido.Where(p => p.Id == pedidoprovvm.IdProveedor).Select(p => p).First(),
+                            ingrPedProvAux = new IngrPedProv
+                            //(ingrpedprov.Id, ingrpedprov.Cantidad, pedidoFinal, pedidoFinal.Id,
+                            //    ingrprovax, pedidoprovvm.IdProveedor);
                             {
-                                //Id = ingrpedprov.Id + 1,
+                                ///Id = ingrpedprov.Id,
                                 Cantidad = ingrpedprov.Cantidad,
                                 PedidoProv = pedidoFinal,
-                                PedidoProvId = pedidoFinal.Id,
-                                IngrProv = detallesPedido.Where(p => p.Id == pedidoprovvm.IdProveedor).Select(p => p).First(),
-                                IngrProvId = pedidoprovvm.IdProveedor,
+                                //PedidoProvId = pedidoFinal.Id,
+                                //IngrProv = detallesPedido.Where(p => p.Id == pedidoprovvm.IdProveedor).Select(p => p).First(),
+                                IngrProv = detallesPedido,
+                                //IngrProvId = pedidoprovvm.IdProveedor,
                             };
 
                             pedidoFinal.PrecioTotal += ingrpedprov.Cantidad * ingrediente.PrecioUnitario;
@@ -192,7 +202,7 @@ namespace Sandwich2Go.Controllers
                 }
             }
             //Si hay error volvemos a la vista
-            if (ModelState.ErrorCount < 0)
+            if (ModelState.ErrorCount > 0)
             {
                 return View(pedidoprovvm);
             }

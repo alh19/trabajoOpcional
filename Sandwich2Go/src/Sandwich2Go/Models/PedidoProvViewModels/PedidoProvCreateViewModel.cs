@@ -3,6 +3,8 @@ using Sandwich2Go.Models.PedidoViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using IngrPedProv = Sandwich2Go.Models.IngrPedProv;
+using IngrPedProvViewModel = Sandwich2Go.Models.IngrPedProv;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -10,9 +12,48 @@ namespace Sandwich2Go.Models.PedidoProvViewModels
 {
     public class PedidoProvCreateViewModel : IValidatableObject
     {
+
+
+        public PedidoProvCreateViewModel(int Id, string Cif, string NombreProveedor, string Direccion, int Cantidad, int IdProveedor,
+            IList<IngrPedProvViewModel> ingredientesPedProv, string DireccionEntrega, string MetodoPago, string DireccionEnvio, DateTime FechaPedido, double PrecioTotal)
+        {
+            this.Id = Id;
+            this.Cif = Cif;
+            this.NombreProveedor = NombreProveedor;
+            this.Direccion = Direccion;
+            this.Cantidad = Cantidad;
+            this.IdProveedor = IdProveedor;
+            this.ingredientesPedProv = ingredientesPedProv;
+            this.DireccionEntrega = DireccionEntrega;
+            this.MetodoPago = MetodoPago;
+            this.DireccionEnvio = DireccionEnvio;
+            this.FechaPedido = FechaPedido;
+            this.PrecioTotal = PrecioTotal;
+        }
+
         public PedidoProvCreateViewModel()
         {
             ingredientesPedProv = new List<IngrPedProvViewModel>();
+        }
+
+        public PedidoProvCreateViewModel(PedidoProv pedidoprov)
+        {
+            this.Id = pedidoprov.Id;
+            this.PrecioTotal = pedidoprov.PrecioTotal;
+            this.DireccionEnvio = pedidoprov.DireccionEnvio;
+            this.FechaPedido = pedidoprov.FechaPedido;
+            //Gerente
+            //this.ingredientesPedProv = pedidoprov.IngrPedProv;
+            this.MetodoPago = pedidoprov.MetodoDePago.ToString();
+        }
+
+        public PedidoProvCreateViewModel(int id1, string cif, string nombre, string direccion1, int cantidad, int id2, object v1, string direccion2, string v2, string direccionEnvio, DateTime fechaPedido, double precioTotal)
+        {
+            Cif = cif;
+            Cantidad = cantidad;
+            DireccionEnvio = direccionEnvio;
+            FechaPedido = fechaPedido;
+            PrecioTotal = precioTotal;
         }
 
         public virtual int Id { get; set; }
@@ -167,7 +208,7 @@ namespace Sandwich2Go.Models.PedidoProvViewModels
 
             public virtual string Alm { get; set; }
             public virtual string IngM { get; set; }
-            public virtual IList<int> IdsIngrProv { get; set; }
+            //public virtual IList<int> IdsIngrProv { get; set; }
 
             public override bool Equals(object obj)
             {
@@ -179,7 +220,7 @@ namespace Sandwich2Go.Models.PedidoProvViewModels
                     this.PrecioUnitario == model.PrecioUnitario &&
                     this.Ingredientes.SequenceEqual(model.Ingredientes) &&
                     this.Alergenos.SequenceEqual(model.Alergenos) &&
-                    this.IdsIngrProv.SequenceEqual(model.IdsIngrProv) &&
+                    //this.IdsIngrProv.SequenceEqual(model.IdsIngrProv) &&
                     this.Alm == model.Alm &&
                     this.IngM == model.IngM;
             }

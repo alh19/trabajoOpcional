@@ -5,6 +5,22 @@ namespace Sandwich2Go.Models
 {
     public class IngrPedProv
     {
+        public IngrPedProv(int Id, int Cantidad, PedidoProv pedidoProv, int PedidoProvId,
+            IngrProv ingrProv, int IngrProvId)
+        {
+            this.Id = Id;
+            this.Cantidad = Cantidad;
+            this.PedidoProv = PedidoProv;
+            this.PedidoProvId = PedidoProvId;
+            this.IngrProv = IngrProv;
+            this.IngrProvId = IngrProvId;
+        }
+
+        public IngrPedProv()
+        {
+
+        }
+
         [Key]
         public virtual int Id { get; set; }
         [Required, Display(Name = "cantidad")]

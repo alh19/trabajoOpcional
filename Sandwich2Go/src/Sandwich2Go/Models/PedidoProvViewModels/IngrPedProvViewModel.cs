@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using IngrPedProv = Sandwich2Go.Models.IngrPedProv;
 using System.Linq;
 
 namespace Sandwich2Go.Models.PedidoProvViewModels
