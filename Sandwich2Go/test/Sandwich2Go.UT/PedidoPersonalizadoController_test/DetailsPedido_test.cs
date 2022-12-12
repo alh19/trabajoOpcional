@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Sandwich2Go.Models;
 using Sandwich2Go.Models.PedidoSandwichPersonalizadoViewModels;
-using Sandwich2Go.UT.SandwichControllers_test;
 using Xunit;
 using Sandwich2Go.Controllers;
 using Microsoft.AspNetCore.Mvc;
