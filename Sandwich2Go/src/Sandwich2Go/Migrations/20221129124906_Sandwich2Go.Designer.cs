@@ -10,7 +10,7 @@ using Sandwich2Go.Data;
 namespace Sandwich2Go.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221113225417_Sandwich2Go")]
+    [Migration("20221129124906_Sandwich2Go")]
     partial class Sandwich2Go
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -283,8 +283,7 @@ namespace Sandwich2Go.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IngrProvId")
-                        .IsUnique();
+                    b.HasIndex("IngrProvId");
 
                     b.HasIndex("PedidoId");
 
@@ -460,8 +459,8 @@ namespace Sandwich2Go.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Preciototal")
-                        .HasColumnType("int");
+                    b.Property<double>("Preciototal")
+                        .HasColumnType("float");
 
                     b.Property<int?>("SandwCreadoId")
                         .HasColumnType("int");
@@ -680,8 +679,8 @@ namespace Sandwich2Go.Migrations
                     b.Property<int>("MesCaducidad")
                         .HasColumnType("int");
 
-                    b.Property<int>("Numero")
-                        .HasColumnType("int");
+                    b.Property<long>("Numero")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Titular")
                         .IsRequired()
@@ -773,8 +772,8 @@ namespace Sandwich2Go.Migrations
             modelBuilder.Entity("Sandwich2Go.Models.IngrPedProv", b =>
                 {
                     b.HasOne("Sandwich2Go.Models.IngrProv", "IngrProv")
-                        .WithOne("IngrPedProv")
-                        .HasForeignKey("Sandwich2Go.Models.IngrPedProv", "IngrProvId")
+                        .WithMany("IngrPedProvs")
+                        .HasForeignKey("IngrProvId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -925,8 +924,7 @@ namespace Sandwich2Go.Migrations
 
             modelBuilder.Entity("Sandwich2Go.Models.IngrProv", b =>
                 {
-                    b.Navigation("IngrPedProv")
-                        .IsRequired();
+                    b.Navigation("IngrPedProvs");
                 });
 
             modelBuilder.Entity("Sandwich2Go.Models.Ingrediente", b =>

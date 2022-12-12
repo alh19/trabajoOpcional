@@ -22,10 +22,11 @@ namespace Sandwich2Go.Models
 
         [Required, Display(Name = "preciototal")]
         [Range(1, int.MaxValue, ErrorMessage = "Minimum quantity for renting is 1")]
-        public virtual int Preciototal { get; set; }
+        public virtual double Preciototal { get; set; }
 
         
         [Required, StringLength(30, ErrorMessage = "First name cannot be longer than 30 characters.")]
+        
         public virtual string Direccion { get; set; }
 
 
@@ -59,6 +60,18 @@ namespace Sandwich2Go.Models
         {
             get;
             set;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Pedido model &&
+                this.Id == model.Id &&
+                this.Cantidad == model.Cantidad &&
+                this.Nombre == model.Nombre &&
+                (this.Fecha.Subtract(model.Fecha) < new TimeSpan(0,1,0)) &&
+                this.Preciototal == model.Preciototal &&
+                this.Direccion == model.Direccion &&
+                this.Cantidad == model.Cantidad;
         }
     }
 }

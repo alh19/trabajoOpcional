@@ -22,7 +22,7 @@ namespace Sandwich2Go.Data
         public DbSet<AlergSandw> AlergSandws { get; set; }
         public DbSet<IngrProv> IngrProv { get; set; }
         public DbSet<OfertaSandwich> OfertaSandwich { get; set; }
-        public DbSet<MetodoDePago> MetododePago { get; set; }
+        public DbSet<MetodoDePago> MetodoDePago { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options){ }
         protected override void OnModelCreating(ModelBuilder builder)
         {

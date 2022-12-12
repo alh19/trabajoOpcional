@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Sandwich2Go.Data;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,7 +20,7 @@ namespace Sandwich2Go
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            Configuration = configuration; 
         }
 
         public IConfiguration Configuration { get; }
@@ -54,6 +55,13 @@ namespace Sandwich2Go
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            var cultureInfo = new CultureInfo("es-ES");
+            cultureInfo.NumberFormat.CurrencySymbol = "€";
+            cultureInfo.NumberFormat.NumberDecimalSeparator = ".";
+
+            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
             app.UseRouting();
 

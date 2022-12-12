@@ -23,11 +23,13 @@ namespace Sandwich2Go.Controllers
         }
         [AllowAnonymous]
         // GET: Sandwiches
+        [Authorize(Roles = "Gerente")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Sandwich.ToListAsync());
         }
 
+        [Authorize(Roles = "Cliente")]
         [HttpGet]
         public IActionResult SelectSandwichForPurchase(double sandwichPrecio, string sandwichAlergenoSelected)
         {
@@ -35,7 +37,7 @@ namespace Sandwich2Go.Controllers
             selectSandwiches.Alergenos = new SelectList(_context.Alergeno.Select(a => a.Name).ToList());
             selectSandwiches.sandwichAlergenoSelected = sandwichAlergenoSelected;
             selectSandwiches.sandwichPrecio = sandwichPrecio;
-            selectSandwiches.Sandwiches = _context.Sandwich
+            selectSandwiches.Sandwiches =  _context.Sandwich
                 .Include(s => s.OfertaSandwich).ThenInclude(os => os.Oferta)
                 .Include(s => s.IngredienteSandwich).ThenInclude(isa => isa.Ingrediente).ThenInclude(i => i.AlergSandws).ThenInclude(asa => asa.Alergeno)
                 .Where(s => (s.IngredienteSandwich
@@ -50,7 +52,8 @@ namespace Sandwich2Go.Controllers
 
             return View(selectSandwiches);
         }
-        [HttpPost]
+
+        [Authorize(Roles = "Cliente")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult SelectSandwichForPurchase(SelectedSandwichesForPurchaseViewModel selectedSandwich)
@@ -66,24 +69,19 @@ namespace Sandwich2Go.Controllers
             return SelectSandwichForPurchase(double.Parse(selectedSandwich.sandwichPrecio), selectedSandwich.sandwichAlergenoSelected);
 
         }
+        [Authorize(Roles = "Gerente")]
         [HttpGet]
         public async Task<IActionResult> SelectSandwichesForOffer(string SandwichName, double sandwichPrecio)
         {
             SelectSandwichesForOfferViewModel selectSandwiches = new SelectSandwichesForOfferViewModel();
-            selectSandwiches.Sandwiches = _context.Sandwich
+            selectSandwiches.Sandwiches = await _context.Sandwich
+                .Include(s => s.IngredienteSandwich).ThenInclude(isa => isa.Ingrediente)
                 .Where(s => (s.SandwichName.Contains(SandwichName) || SandwichName == null) && (s.Precio <= sandwichPrecio || sandwichPrecio == 0.0))
-                .Select(s => new SandwichForOfferViewModel()
-                {
-                    Id = s.Id,
-                    SandwichName = s.SandwichName,
-                    Precio = s.Precio,
-                    Desc = s.Desc,
-                });
-
-            selectSandwiches.Sandwiches = selectSandwiches.Sandwiches.ToList();
+                .Select(s => new SandwichForOfferViewModel(s)).ToListAsync();
 
             return View(selectSandwiches);
         }
+        [Authorize(Roles = "Gerente")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SelectSandwichesForOffer(SelectedSandwichesForOfferViewModel selectedSandwich)
