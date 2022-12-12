@@ -15,7 +15,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using static Humanizer.In;
-using Xunit.Sdk;
 using Sandwich2Go.Models.IngredienteViewModels;
 
 namespace Sandwich2Go.UT.PedidoPersonalizadoController_test
