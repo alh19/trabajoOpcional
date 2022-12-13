@@ -109,7 +109,7 @@
                                     <input asp-for="sandwichesPedidos[i].Alergenos" type="hidden" class="form-control" />
                                     <input asp-for="sandwichesPedidos[i].Alm" type="hidden" class="form-control" />
                                     <input asp-for="sandwichesPedidos[i].IngM" type="hidden" class="form-control" />
-                                    <input asp-for="sandwichesPedidos[i].cantidad" id="Sandwich_Quantity_@Model.sandwichesPedidos[i].Id" class="form-control" />
+                                    <input asp-for="sandwichesPedidos[i].cantidad" id="Cantidad_@Model.sandwichesPedidos[i].NombreSandwich" class="form-control" />
                                     <span asp-validation-for="sandwichesPedidos[i].cantidad" class="text-danger" />
 
                                 </div>
@@ -122,7 +122,7 @@
         </table>
 
         @* this code needs the script defined in site.js *@
-        <div class="panel-group" id="accordion">
+        <div class="panel-group" id="accordion"> 
             <div class="panel panel-default ">
                 <div class="panel-heading">
                     <div>
@@ -131,12 +131,13 @@
 
                         @for(int i = 0; i<Model.sandwichesPedidos.Count(); i++ )
                         {
+                            <input asp-for="sandwichesPedidos[i].descuento" type="hidden" class="form-control" />
                             if(Model.sandwichesPedidos[i].descuento > 0){
                                 <div>
-                                @Html.DisplayFor(modelItem => Model.sandwichesPedidos[i].oferta)
-                                @Html.DisplayFor(modelItem => Model.sandwichesPedidos[i].descuento)
-                                    / Sandwich. Precio final : @Html.DisplayFor(modelItem => Model.sandwichesPedidos[i].PrecioConDescuento)
+                                <input asp-for="sandwichesPedidos[i].lineaDescuento" type="hidden" class="form-control" />
+                                @Html.DisplayFor(modelItem => Model.sandwichesPedidos[i].lineaDescuento)
                                 </div>
+                                
                             }
                             
                         }
