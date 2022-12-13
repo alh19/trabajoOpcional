@@ -102,14 +102,14 @@
                             <td>
                                 <div class="form-group">
                                     <input asp-for="sandwichesPedidos[i].Id" type="hidden" class="form-control" />
-                                    <input asp-for="sandwichesPedidos[i].PrecioCompra" type="hidden" class="form-control" />
+                                    <input asp-for="sandwichesPedidos[i].PrecioCompra" name="Precios" type="hidden" class="form-control" />
                                     <input asp-for="sandwichesPedidos[i].PrecioConDescuento" type="hidden" class="form-control" />
                                     <input asp-for="sandwichesPedidos[i].NombreSandwich" type="hidden" class="form-control" />
                                     <input asp-for="sandwichesPedidos[i].Ingredientes" type="hidden" class="form-control" />
                                     <input asp-for="sandwichesPedidos[i].Alergenos" type="hidden" class="form-control" />
                                     <input asp-for="sandwichesPedidos[i].Alm" type="hidden" class="form-control" />
                                     <input asp-for="sandwichesPedidos[i].IngM" type="hidden" class="form-control" />
-                                    <input asp-for="sandwichesPedidos[i].cantidad" id="Sandwich_Quantity_@Model.sandwichesPedidos[i].Id" class="form-control" />
+                                    <input onchange="updatingPrices()" name="Cantidades" asp-for="sandwichesPedidos[i].cantidad" id="Sandwich_Quantity_@Model.sandwichesPedidos[i].Id" class="form-control" />
                                     <span asp-validation-for="sandwichesPedidos[i].cantidad" class="text-danger" />
 
                                 </div>
@@ -120,7 +120,11 @@
                 }
             </tbody>
         </table>
-
+        <div>
+            <b>Subtotal:</b>
+            <div id="CantidadTotal">0</div>
+        </div>
+        <br />
         @* this code needs the script defined in site.js *@
         <div class="panel-group" id="accordion"> 
             <div class="panel panel-default ">
@@ -135,6 +139,8 @@
                             if(Model.sandwichesPedidos[i].descuento > 0){
                                 <div>
                                 <input asp-for="sandwichesPedidos[i].lineaDescuento" type="hidden" class="form-control" />
+                                <input asp-for="sandwichesPedidos[i].descuento" onchange="updatingPricesOfertas()" name="PrecioDescuento" type="hidden" class="form-control" />
+                                <input asp-for="sandwichesPedidos[i].Id" type="hidden" class="form-control" name="IdSandwDescuento"/>
                                 @Html.DisplayFor(modelItem => Model.sandwichesPedidos[i].lineaDescuento)
                                 </div>
                                 
@@ -142,7 +148,10 @@
                             
                         }
                         <br />
-                        @*<h6>Total : @Html.DisplayFor(modelItem => Model.PrecioFinal)</h6>*@
+                        <div>
+                            <b>Precio final:</b>
+                            <div id="CantidadTotalconOferta">0</div>
+                        </div>
                     </div>
                     <br />
                     <h4 class="panel-title">
@@ -216,5 +225,11 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-}
 
+    <script>
+        $(function () {
+            updatingPrices()
+        });
+    </script>
+
+}
