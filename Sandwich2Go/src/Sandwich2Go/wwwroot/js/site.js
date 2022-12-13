@@ -12,15 +12,26 @@ $('#r12').on('click', function () {
 
 function updatingPrices() {
 
-    //  let element = document.getElementById("TotalAccount");
     let elements = document.getElementsByName("Cantidades");
     let precio = document.getElementsByName("Precios");
+    let descuentos = document.getElementsByName("PrecioDescuento");
     let total = 0;
     for (let i = 0; i < elements.length; i++) {
-        total = total + parseInt(elements[i].value) * parseInt(precio[i].value);
-        
+        if (parseInt(elements[i].value) > -1) {
+            total = total + parseInt(elements[i].value) * parseFloat(precio[i].value);
+        }
+
     }
     document.getElementById("CantidadTotal").innerHTML = formatter.format(total);
+
+    let idsDescuento = document.getElementsByName("IdSandwDescuento");
+    for (let i = 0; i < descuentos.length; i++) {
+        let b = "Sandwich_Quantity_" + String(idsDescuento[i].value);
+        let cantidad = document.getElementById(b).value
+        total = total - parseFloat(parseFloat(descuentos[i].value) * parseInt(cantidad));
+    }
+
+    document.getElementById("CantidadTotalconOferta").innerHTML = formatter.format(total);
 
 }
 
