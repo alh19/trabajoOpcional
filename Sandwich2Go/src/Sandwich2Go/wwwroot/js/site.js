@@ -29,7 +29,6 @@ function updatingPrices() {
         let b = "Sandwich_Quantity_" + String(idsDescuento[i].value);
         let cantidad = document.getElementById(b).value
         total = total - parseFloat(parseFloat(descuentos[i].value) * parseInt(cantidad));
-        console.log(total)
     }
 
     document.getElementById("CantidadTotalconOferta").innerHTML = formatter.format(total);
