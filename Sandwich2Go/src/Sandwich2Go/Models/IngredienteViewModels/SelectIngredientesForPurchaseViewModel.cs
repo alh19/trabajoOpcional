@@ -27,6 +27,7 @@ namespace Sandwich2Go.Models.IngredienteViewModels
                 Ingredientes.SequenceEqual(model.Ingredientes) &&
                 ingredienteAlergenoSelected == model.ingredienteAlergenoSelected &&
                 ingredienteNombre == model.ingredienteNombre;
+                Alergenos = model.Alergenos;
         }
     }
 }
