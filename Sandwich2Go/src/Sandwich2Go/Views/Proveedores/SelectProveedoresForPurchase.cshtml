@@ -56,12 +56,6 @@
                         <td width="50%">
                             @Html.DisplayFor(modelItem => item.Direccion)
                         </td>
-                        <!--
-                        <td align="center" width="10%">
-                             <input type="checkbox" name="IdsToAdd" id="Proveedores_@item.Id" value="@item.Id" class="form-control">
-                         </td>
-                        -->
-                        
                         <td>
                             <a asp-controller="Ingredientes" asp-action="SelectIngrProvForPurchase" asp-route-IdProveedor="@item.Id">Comprar Ingredientes</a>
                         </td>

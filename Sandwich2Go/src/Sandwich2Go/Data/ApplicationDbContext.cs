@@ -40,9 +40,6 @@ namespace Sandwich2Go.Data
             builder.Entity<AlergSandw>()
                 .HasKey(a => new { a.IngredienteId, a.AlergenoId });
 
-            /*builder.Entity<IngrProv>()
-                .HasKey(a => new { a.IngredienteId, a.ProveedorId });*/
-
             builder.Entity<IngredienteSandwich>()
                 .HasKey(i => new { i.IngredienteId, i.SandwichId });
 

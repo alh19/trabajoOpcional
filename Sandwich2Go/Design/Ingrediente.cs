@@ -5,6 +5,25 @@ namespace Design
 {
     public class Ingrediente
     {
+        //public Ingrediente(int id, string nombre, int precioUnitario, int stock, IList<AlergSandw> alergSandws, IList<IngredienteSandwich> ingredienteSandwich, IList<IngrProv> ingrProv)
+        //{
+        //    Id = id;
+        //    Nombre = nombre;
+        //    PrecioUnitario = precioUnitario;
+        //    Stock = stock;
+        //    AlergSandws = alergSandws;
+        //    IngredienteSandwich = ingredienteSandwich;
+        //    IngrProv = ingrProv;
+        //}
+
+        //public Ingrediente(int id, string nombre, int precioUnitario, int stock, IList<AlergSandw> alergSandws)
+        //{
+        //    Id = id;
+        //    Nombre = nombre;
+        //    PrecioUnitario = precioUnitario;
+        //    Stock = stock;
+        //    AlergSandws = alergSandws;
+        //}
 
         [Key]
         public virtual int Id { get; set; }
