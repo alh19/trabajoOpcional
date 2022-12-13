@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace Sandwich2Go
 {
-    public class Startup
+    public class Startup 
     {
         public Startup(IConfiguration configuration)
         {
