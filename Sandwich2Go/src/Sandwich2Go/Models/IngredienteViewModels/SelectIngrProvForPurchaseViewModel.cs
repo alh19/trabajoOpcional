@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Xml.Linq;
 
 
@@ -20,6 +21,7 @@ namespace Sandwich2Go.Models.IngredienteViewModels
         public override bool Equals(object obj)
         {
             return obj is SelectIngrProvForPurchaseViewModel model &&
+                Ingredientes.SequenceEqual(model.Ingredientes) &&
                 ingredienteNombre == model.ingredienteNombre &&
                 ingredienteStock == model.ingredienteStock &&
                 IdProveedor == model.IdProveedor;

@@ -28,26 +28,11 @@ namespace Sandwich2Go.Controllers
         public IActionResult SelectProveedoresForPurchase(string? proveedorNombreSelected)
         {
 
-            //SelectProveedoresForPurchaseViewModel selectProveedores = new SelectProveedoresForPurchaseViewModel();
-            //selectProveedores.Proveedores = _context.Proveedor
-            //    .Where(prov => prov.Nombre.Equals(proveedorNombreSelected) || proveedorNombreSelected == null);
-
             SelectProveedoresForPurchaseViewModel selectProveedores = new SelectProveedoresForPurchaseViewModel();
-
-            //selectProveedores.Proveedores = new SelectList(_context.Proveedor.Select(g => g.Nombre).ToList());
 
             selectProveedores.Proveedores = _context.Proveedor
             .Select((m) => m)
             .Where(prov => prov.Nombre.Equals(proveedorNombreSelected) || proveedorNombreSelected == null);
-            /*.Select(m => new ProveedorForPurchaseViewModel()
-            {
-                Id = m.Id,
-                Nombre = m.Nombre,
-                Cif = m.Cif,
-                Direccion = m.Direccion,
-            });*/
-
-            //selectProveedores.Proveedores = selectProveedores.Proveedores.ToList();
 
             return View(selectProveedores);
         }
@@ -62,7 +47,6 @@ namespace Sandwich2Go.Controllers
             if (selectedProveedores.IdsToAdd != null)
             {
                 //La siguiente pantalla es la selección de ingredientes por parte de los proveedores
-                //Ingrediente ingr = new Ingrediente();
                 return RedirectToAction("SelectIngrProvForPurchase", "Ingredientes", selectedProveedores);
             }
 
