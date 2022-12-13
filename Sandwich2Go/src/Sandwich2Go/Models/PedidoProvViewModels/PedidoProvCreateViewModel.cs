@@ -1,5 +1,4 @@
-﻿using Design;
-using Sandwich2Go.Models.PedidoViewModels;
+﻿using Sandwich2Go.Models.PedidoViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

@@ -1,5 +1,4 @@
-﻿using Design;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Sandwich2Go.Models.IngredienteViewModels;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
