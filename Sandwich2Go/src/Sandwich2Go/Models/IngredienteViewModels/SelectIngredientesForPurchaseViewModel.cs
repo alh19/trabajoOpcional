@@ -25,6 +25,7 @@ namespace Sandwich2Go.Models.IngredienteViewModels
             return obj is SelectIngredientesForPurchaseViewModel model &&
                 ingredienteAlergenoSelected == model.ingredienteAlergenoSelected &&
                 ingredienteNombre == model.ingredienteNombre;
+                Alergenos = model.Alergenos;
         }
     }
 }

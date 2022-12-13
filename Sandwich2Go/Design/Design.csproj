@@ -14,4 +14,7 @@
   <ItemGroup>
     <Folder Include="Guías Casos de Uso\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
 </Project>
