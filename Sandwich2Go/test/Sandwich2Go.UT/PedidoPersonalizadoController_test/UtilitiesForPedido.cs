@@ -172,23 +172,23 @@ namespace Sandwich2Go.UT.PedidoPersonalizadoController_test
             SandwichesG.Add(new SandwCreado { Id = 2, SandwichName = "Mixto", Precio = 3.00, Desc = "Jamón y queso", OfertaSandwich = new List<OfertaSandwich>() });
             SandwichesG.Add(new SandwCreado { Id = 3, SandwichName = "Inglés", Precio = 4.00, Desc = "Jamón, queso y huevo revuelto", OfertaSandwich = new List<OfertaSandwich>() });
 
-            SandwichesPedidosG.Add(new List<SandwichPedido>
-            {
-                new SandwichPedido{ Id= 1, Cantidad=1, Pedido=PedidosG[0], PedidoId=1, Sandwich =SandwichesG[0], SandwichId=1}
-            });
+            //SandwichesPedidosG.Add(new List<SandwichPedido>
+            //{
+            //    new SandwichPedido{ Id= 1, Cantidad=1, Pedido=PedidosG[0], PedidoId=1, Sandwich =SandwichesG[0], SandwichId=1}
+            //});
 
-            SandwichesPedidosG.Add(new List<SandwichPedido>
-            {
-                new SandwichPedido{ Id= 2, Cantidad=1, Pedido=PedidosG[1], PedidoId=2, Sandwich =SandwichesG[1], SandwichId=2},
-                new SandwichPedido{ Id= 3, Cantidad=1, Pedido=PedidosG[1], PedidoId=2, Sandwich =SandwichesG[2], SandwichId=3}
-            });
+            //SandwichesPedidosG.Add(new List<SandwichPedido>
+            //{
+            //    new SandwichPedido{ Id= 2, Cantidad=1, Pedido=PedidosG[1], PedidoId=2, Sandwich =SandwichesG[1], SandwichId=2},
+            //    new SandwichPedido{ Id= 3, Cantidad=1, Pedido=PedidosG[1], PedidoId=2, Sandwich =SandwichesG[2], SandwichId=3}
+            //});
 
-            PedidosG[0].sandwichesPedidos = SandwichesPedidosG[0];
-            PedidosG[1].sandwichesPedidos = SandwichesPedidosG[1];
+            //PedidosG[0].sandwichesPedidos = SandwichesPedidosG[0];
+            //PedidosG[1].sandwichesPedidos = SandwichesPedidosG[1];
 
-            SandwichesG[0].SandwichPedido = new List<SandwichPedido> { SandwichesPedidosG[0][0] };
-            SandwichesG[1].SandwichPedido = new List<SandwichPedido> { SandwichesPedidosG[1][0] };
-            SandwichesG[2].SandwichPedido = new List<SandwichPedido> { SandwichesPedidosG[1][1] };
+            //SandwichesG[0].SandwichPedido = new List<SandwichPedido> { SandwichesPedidosG[0][0] };
+            //SandwichesG[1].SandwichPedido = new List<SandwichPedido> { SandwichesPedidosG[1][0] };
+            //SandwichesG[2].SandwichPedido = new List<SandwichPedido> { SandwichesPedidosG[1][1] };
 
 
             OfertaSandwichesG.Add(new List<OfertaSandwich> { new OfertaSandwich { OfertaId = 1, SandwichId = 1, Sandwich = SandwichesG[0], Porcentaje = 10 } });
