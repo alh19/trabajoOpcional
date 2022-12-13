@@ -9,6 +9,11 @@ namespace Sandwich2Go.Models.PedidoProvViewModels
     {
         public IngrPedProvViewModel() { }
 
+        public IngrPedProvViewModel(IngrPedProv p) { 
+            this.Id = p.Id;
+            this.Cantidad = p.Cantidad;
+        }
+
         public IngrPedProvViewModel(Ingrediente ingrPedido)
         {
             this.Id = ingrPedido.Id;
@@ -42,6 +47,9 @@ namespace Sandwich2Go.Models.PedidoProvViewModels
         }
         public virtual int Stock { get; set; }
         public virtual int Cantidad { get; set; }
+        public virtual int PedidoId { get; set; }
+        public virtual IList<int> PedidoProveedorId { get; set; }
+        public virtual IList<int> IngrProvId { get; set; }
         public virtual IList<string> Alergenos { get; set; }
         public virtual IList<string> Ingredientes
         {

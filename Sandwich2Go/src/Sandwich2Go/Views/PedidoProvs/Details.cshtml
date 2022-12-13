@@ -30,22 +30,6 @@
     <hr />
     <h4>Ingredientes pedidos</h4>
     <hr />
-        <h5>Nombre del Ingrediente</h5>
-        <dd>
-            @Html.DisplayFor(model => model.NombreIngrediente)
-        </dd>
-        <h5>Stock del Ingrediente</h5>
-        <dd>
-            @Html.DisplayFor(model => model.Stock)
-        </dd>
-        <h5>Cantidad solicitada</h5>
-        <dd>
-            @Html.DisplayFor(model => model.Cantidad)
-        </dd>
-        <h5>Precio Unitario</h5>
-        <dd>
-            @Html.DisplayFor(model => model.PrecioUnitario)€
-        </dd>
 
         <table class="table">
             <thead>
@@ -59,7 +43,7 @@
                     <tr>
                         <td>@pedido.Nombre</td>
                         <td>@pedido.Stock</td>
-                        <td>@pedido.PrecioUnitario</td>€
+                        <td>@pedido.PrecioUnitario €</td>
                     </tr>
                 }
             </tbody>

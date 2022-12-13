@@ -12,8 +12,6 @@ namespace Sandwich2Go.Models.PedidoProvViewModels
 {
     public class PedidoProvCreateViewModel : IValidatableObject
     {
-
-
         public PedidoProvCreateViewModel(int Id, string Cif, string NombreProveedor, string Direccion, int Cantidad, int IdProveedor,
             IList<IngrPedProvViewModel> ingredientesPedProv, string DireccionEntrega, string MetodoPago, string DireccionEnvio, DateTime FechaPedido, double PrecioTotal)
         {
@@ -54,6 +52,10 @@ namespace Sandwich2Go.Models.PedidoProvViewModels
             DireccionEnvio = direccionEnvio;
             FechaPedido = fechaPedido;
             PrecioTotal = precioTotal;
+        }
+
+        public PedidoProvCreateViewModel(IList<PedidoProvCreateViewModel> expectedPurchaseItems)
+        {
         }
 
         public virtual int Id { get; set; }

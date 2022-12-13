@@ -32,7 +32,6 @@ namespace Sandwich2Go.Controllers
         {
             _context = context;
         }
-
         // GET: PedidoProvs
         public async Task<IActionResult> Index()
         {
@@ -49,7 +48,6 @@ namespace Sandwich2Go.Controllers
 
             var x = id;
 
-           
 
             var pedidoProv = await _context.PedidoProv
                 .Include(p => p.IngrPedProv).ThenInclude(p => p.IngrProv)
@@ -162,7 +160,7 @@ namespace Sandwich2Go.Controllers
                     //    .Where(p => p.Id == ingrpedprov.Id)
                     //    .Select(p => p).ToListAsync();
 
-                    if (ingrpedprov.Cantidad < 0)
+                    if (ingrpedprov.Cantidad <= 0)
                     {
                         ModelState.AddModelError("", $"Debes seleccionar una cantidad de stock " +
                             $"mayor que 0 de {ingrediente.Nombre}");
@@ -185,7 +183,8 @@ namespace Sandwich2Go.Controllers
                             //(ingrpedprov.Id, ingrpedprov.Cantidad, pedidoFinal, pedidoFinal.Id,
                             //    ingrprovax, pedidoprovvm.IdProveedor);
                             {
-                                ///Id = ingrpedprov.Id,
+                                //Id = ingrpedprov.Id,
+                                
                                 Cantidad = ingrpedprov.Cantidad,
                                 PedidoProv = pedidoFinal,
                                 //PedidoProvId = pedidoFinal.Id,
@@ -193,9 +192,10 @@ namespace Sandwich2Go.Controllers
                                 IngrProv = detallesPedido,
                                 //IngrProvId = pedidoprovvm.IdProveedor,
                             };
-
+                            ingrPedProvAux.IngrProv.IngredienteId = ingrediente.Id;
                             pedidoFinal.PrecioTotal += ingrpedprov.Cantidad * ingrediente.PrecioUnitario;
                             pedidoFinal.IngrPedProv.Add(ingrPedProvAux);
+                            Console.WriteLine(pedidoFinal.IngrPedProv.ToString());
                         }
 
                     }

@@ -31,7 +31,11 @@ namespace Sandwich2Go.Models.PedidoProvViewModels
         [Display(Name = "Precio total del Pedido:")]
         public double PrecioTotal { get; set; }
 
+        public IList<PedidoProv> PedidoProv { get; set; }
         public IList<Ingrediente> Ingredientes { get; set; }
+        public IList<IngrProv> IngrProv { get; set; }
+        public IList<IngrPedProv> IngrPedProv { get; set; }
+
         public PedidoProvDetailsViewModel(IngrProv p)
         {
             Cif = p.Proveedor.Cif;
@@ -42,6 +46,42 @@ namespace Sandwich2Go.Models.PedidoProvViewModels
             Cantidad = p.IngrPedProvs.FirstOrDefault().Cantidad;
             PrecioUnitario = p.Ingrediente.PrecioUnitario;
 
+        }
+
+        public PedidoProvDetailsViewModel(IngrPedProv p)
+        {
+            Cif = p.IngrProv.Proveedor.Cif;
+            NombreProveedor = p.IngrProv.Proveedor.Nombre;
+            DireccionProveedor = p.IngrProv.Proveedor.Direccion;
+            NombreIngrediente = p.IngrProv.Ingrediente.Nombre;
+            Stock = p.IngrProv.Ingrediente.Stock;
+            Cantidad = p.Cantidad;
+            PrecioUnitario = p.IngrProv.Ingrediente.PrecioUnitario;
+            //IngrPedProv = p;
+            
+        }
+
+        public PedidoProvDetailsViewModel(PedidoProv p)
+        {
+            Cif = p.IngrPedProv.First().IngrProv.Proveedor.Cif;
+            NombreProveedor = p.IngrPedProv.First().IngrProv.Proveedor.Nombre;
+            DireccionProveedor = p.IngrPedProv.First().IngrProv.Proveedor.Direccion;
+            NombreIngrediente = p.IngrPedProv.First().IngrProv.Ingrediente.Nombre;
+            Stock = p.IngrPedProv.First().IngrProv.Ingrediente.Stock;
+            Cantidad = p.IngrPedProv.First().Cantidad;
+            PrecioUnitario = p.IngrPedProv.First().IngrProv.Ingrediente.PrecioUnitario;
+            IngrPedProv = new List<IngrPedProv>();
+            foreach (IngrPedProv s in p.IngrPedProv)
+            {
+                IngrPedProv.Add(new IngrPedProv(
+                    s.Id,
+                    s.Cantidad,
+                    s.PedidoProv,
+                    s.PedidoProvId,
+                    s.IngrProv,
+                    s.IngrProvId
+                ));
+            }
         }
 
         public override bool Equals(object obj)
@@ -55,6 +95,10 @@ namespace Sandwich2Go.Models.PedidoProvViewModels
                 this.Cantidad == model.Cantidad &&
                 this.PrecioUnitario == model.PrecioUnitario &&
                 this.PrecioTotal == model.PrecioTotal;
+                this.PedidoProv.SequenceEqual(model.PedidoProv);
+                this.IngrProv.SequenceEqual(model.IngrProv);
+                this.IngrPedProv.SequenceEqual(model.IngrPedProv);
+                this.Ingredientes.SequenceEqual(model.Ingredientes);
         }
     }
 }
