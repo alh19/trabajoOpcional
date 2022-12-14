@@ -49,8 +49,8 @@
             {
                 @foreach (var item in Model.Ingredientes)
                 {
-                    <tr >
-                        <td width="50%">
+                    <tr id="IngredienteNombre_@item.Nombre">
+                        <td  width="50%">
                             @Html.DisplayFor(modelItem => item.Nombre)
                         </td>
                         <td width="50%">

@@ -1,5 +1,5 @@
 ﻿SET IDENTITY_INSERT [dbo].[Ingrediente] ON
-UPDATE [dbo].[Ingrediente] SET Stock=10 WHERE Id=1
+UPDATE [dbo].[Ingrediente] SET Stock=10 WHERE Id=1 
 SET IDENTITY_INSERT [dbo].[Ingrediente] OFF
 
 

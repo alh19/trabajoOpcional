@@ -214,7 +214,7 @@ namespace Sandwich2Go.UIT.Controllers.PedidoProveedor
 
             //Assert
             Assert.Contains("Select Ingredients from Supplier", _driver.PageSource);
-            var filaIngrediente = _driver.FindElements(By.Id("Ingrediente_" + expectedIngrediente[0]));
+            var filaIngrediente = _driver.FindElements(By.Id("IngredienteNombre_" + expectedIngrediente[0]));
             foreach (string expected in expectedIngrediente)
             {
                 Assert.NotNull(filaIngrediente.First(l => l.Text.Contains(expected)));
@@ -262,7 +262,7 @@ namespace Sandwich2Go.UIT.Controllers.PedidoProveedor
 
             //Assert
             Assert.Contains("Debes seleccionar al menos un ingrediente", _driver.PageSource);
-            var filaIngrediente = _driver.FindElements(By.Id("Ingrediente_" + expectedIngrediente[0]));
+            var filaIngrediente = _driver.FindElements(By.Id("IngredienteNombre_" + expectedIngrediente[0]));
             foreach (string expected in expectedIngrediente)
             {
                 Assert.NotNull(filaIngrediente.First(l => l.Text.Contains(expected)));
@@ -313,6 +313,46 @@ namespace Sandwich2Go.UIT.Controllers.PedidoProveedor
             }
         }
 
+
+
+        [Fact]
+        [Trait("LevelTesting", "Functional Testing")]
+        public void UC3_11_SesionNoIniciada_ComprarIng()
+        {
+            //Arrange
+            string[] expectedPagina = { "Log in", "Use a local account to log in." };
+
+            //Act
+            _driver.Navigate().GoToUrl(_URI +
+            "Ingredientes/SelectIngrProvForPurchase");
+
+            //Assert
+            foreach (string expected in expectedPagina)
+            {
+
+                Assert.Contains(expected, _driver.PageSource);
+            }
+        }
+
+        [Fact]
+        [Trait("LevelTesting", "Functional Testing")]
+        public void UC3_12_RolInvalido_ComprarIng()
+        {
+            //Arrange
+            string[] expectedPagina = { "Access denied", "You do not have access to this resource." };
+
+            //Act
+            Precondition_perform_login(this.usernameC, this.passwordC);
+            _driver.Navigate().GoToUrl(_URI +
+            "Ingredientes/SelectIngrProvForPurchase");
+
+            //Assert
+            foreach (string expected in expectedPagina)
+            {
+
+                Assert.Contains(expected, _driver.PageSource);
+            }
+        }
 
 
 
