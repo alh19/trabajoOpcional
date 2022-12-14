@@ -57,7 +57,7 @@
                             @Html.DisplayFor(modelItem => item.Direccion)
                         </td>
                         <td>
-                            <a asp-controller="Ingredientes" asp-action="SelectIngrProvForPurchase" asp-route-IdProveedor="@item.Id" id="ComprarIngredientes">Comprar Ingredientes</a>
+                            <a asp-controller="Ingredientes" asp-action="SelectIngrProvForPurchase" asp-route-IdProveedor="@item.Id" id="Proveedor_@item.Nombre">Comprar Ingredientes</a>
                         </td>
                     </tr>
                 }

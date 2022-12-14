@@ -18,7 +18,7 @@ namespace Sandwich2Go.UIT.Controllers.PedidoProveedor
     {
         readonly IWebDriver _driver;
         readonly string _URI = "https://localhost:5001/";
-        readonly bool _pipeline = true;
+        readonly bool _pipeline = false;
         readonly string usernameG = "elena@uclm.com";
         readonly string passwordG = "Password1234%";
         readonly string usernameC = "gregorio@uclm.com";
@@ -63,9 +63,9 @@ namespace Sandwich2Go.UIT.Controllers.PedidoProveedor
             _driver.FindElement(By.Id("CrearPedidoProveedor")).Click();
         }
 
-        private void second_step_accessing_link_Create_New()
+        private void second_step_accessing_link_Create_New(string nombre)
         {
-            _driver.FindElement(By.Id("ComprarIngredientes")).Click();
+            _driver.FindElement(By.Id("Proveedor_"+nombre)).Click();
         }
 
 
@@ -77,7 +77,7 @@ namespace Sandwich2Go.UIT.Controllers.PedidoProveedor
         }
         private void Third_step_select_sandwich(string nombre)
         {
-            _driver.FindElement(By.Id("Ingrediente_"+nombre)).Click();
+            _driver.FindElement(By.Id("Ingrediente_" + nombre)).Click();
         }
 
         [Fact]
@@ -100,6 +100,9 @@ namespace Sandwich2Go.UIT.Controllers.PedidoProveedor
 
 
 
+
+
+
         [Fact]
         [Trait("LevelTesting", "Functional Testing")]
         public void UC3_0_FlujoBasicoTarjeta_CrearPedidoProveedor()
@@ -108,14 +111,14 @@ namespace Sandwich2Go.UIT.Controllers.PedidoProveedor
             string[] expectedTarjeta = { "1234567890123456", "123", "11", "2040" };
             string[] expectedDirecc = {  "Calle Arquitecto Vandelvira, 5" };
             string[] expectedIngrediente = { "Queso", "1", "1€" ,};
-            string[] expectedDetails = { "Queso", "2", "1 €" };
-            string[] expectedDetails1 = { "Queso", "2", "1€" };
+            string[] expectedDetails = { "Queso", "11", "1 €" };
+            string[] expectedDetails1 = { "Queso", "11", "1€" };
             string[] expectedProveedor = { "Alberto", "11111a", "Calle1" };
 
             //Act
             Precondition_perform_login(this.usernameG, this.passwordG);
             first_step_accessing_purchases();
-            second_step_accessing_link_Create_New();
+            second_step_accessing_link_Create_New(expectedProveedor[0]);
             Third_step_select_sandwich(expectedIngrediente[0]);
             _driver.FindElement(By.Id("Guardar")).Click();
             EscribirDatos("Stock_Cantidad_" + expectedIngrediente[0], expectedIngrediente[1]);
@@ -154,14 +157,14 @@ namespace Sandwich2Go.UIT.Controllers.PedidoProveedor
             string[] expectedTarjeta = { "1234567890123456", "123", "11", "2040" };
             string[] expectedDirecc = { "Calle Arquitecto Vandelvira, 5" };
             string[] expectedIngrediente = { "Huevo", "1", "1 €", };
-            string[] expectedDetails = { "Huevo", "2", "1 €" };
-            string[] expectedDetails1 = { "Huevo", "2", "1€" };
+            string[] expectedDetails = { "Huevo", "101", "1 €" };
+            string[] expectedDetails1 = { "Huevo", "101", "1€" };
             string[] expectedProveedor = { "Alberto", "11111a", "Calle1" };
 
             //Act
             Precondition_perform_login(this.usernameG, this.passwordG);
             first_step_accessing_purchases();
-            second_step_accessing_link_Create_New();
+            second_step_accessing_link_Create_New(expectedProveedor[0]);
             Third_step_select_sandwich(expectedIngrediente[0]);
             _driver.FindElement(By.Id("Guardar")).Click();
             EscribirDatos("Stock_Cantidad_" + expectedIngrediente[0], expectedIngrediente[1]);
@@ -186,6 +189,129 @@ namespace Sandwich2Go.UIT.Controllers.PedidoProveedor
 
 
 
+
+
+
+
+
+        [Fact]
+        [Trait("LevelTesting", "Functional Testing")]
+        public void UC3_2_FiltroStockyNombre_ComprarSandwich()
+        {
+            //Arrange
+            string[] expectedIngrediente = { "Pepinillo", "0" };
+            string[] expectedProveedor = { "Alberto", "11111a", "Calle1" };
+
+            //Act
+            Precondition_perform_login(this.usernameG, this.passwordG);
+            first_step_accessing_purchases();
+            second_step_accessing_link_Create_New(expectedProveedor[0]);
+            EscribirDatos("filterByIngrediente", expectedIngrediente[0]);
+
+            EscribirDatos("filterByStock", "200");
+            _driver.FindElement(By.Id("filterButton")).Click();
+
+
+            //Assert
+            Assert.Contains("Select Ingredients from Supplier", _driver.PageSource);
+            var filaIngrediente = _driver.FindElements(By.Id("Ingrediente_" + expectedIngrediente[0]));
+            foreach (string expected in expectedIngrediente)
+            {
+                Assert.NotNull(filaIngrediente.First(l => l.Text.Contains(expected)));
+            }
+        }
+
+
+
+
+
+        [Fact]
+        [Trait("LevelTesting", "Functional Testing")]
+        public void UC3_3_FiltroNohayIngredientes()
+        {
+            //Arrange
+            string[] expectedIngrediente = { "Pepinillo", "0" };
+            string[] expectedProveedor = { "Ana", "66666f", "Calle5" };
+
+            //Act
+            Precondition_perform_login(this.usernameG, this.passwordG);
+            first_step_accessing_purchases();
+            second_step_accessing_link_Create_New(expectedProveedor[0]);
+         
+
+            //Assert
+            Assert.Contains("There are no ingredients available", _driver.PageSource);
+           
+        }
+
+
+
+        [Fact]
+        [Trait("LevelTesting", "Functional Testing")]
+        public void UC3_4_FiltroNoSeleccionaIngredientes()
+        {
+            //Arrange
+            string[] expectedIngrediente = { "Pepinillo", "0" };
+            string[] expectedProveedor = { "Alberto", "11111a", "Calle1" };
+
+            //Act
+            Precondition_perform_login(this.usernameG, this.passwordG);
+            first_step_accessing_purchases();
+            second_step_accessing_link_Create_New(expectedProveedor[0]);
+            _driver.FindElement(By.Id("Guardar")).Click();
+
+            //Assert
+            Assert.Contains("Debes seleccionar al menos un ingrediente", _driver.PageSource);
+            var filaIngrediente = _driver.FindElements(By.Id("Ingrediente_" + expectedIngrediente[0]));
+            foreach (string expected in expectedIngrediente)
+            {
+                Assert.NotNull(filaIngrediente.First(l => l.Text.Contains(expected)));
+            }
+        }
+
+
+
+
+        [Theory]
+        [InlineData("", "1234567890123456", "123", "11", "2040", "1", "Crear", "Pedido", "Por favor, introduce una dirección de entrega.")]
+        [InlineData("Calle Arquitecto Vandelvira, 5", "", "123", "11", "2040", "1", "Crear", "Pedido", "This field is required")]
+        [InlineData("Calle Arquitecto Vandelvira, 5", "1234567890123456", "", "11", "2040", "1", "Crear", "Pedido", "This field is required")]
+        [InlineData("Calle Arquitecto Vandelvira, 5", "1234567890123456", "123", "", "2040", "1", "Crear", "Pedido", "This field is required")]
+        [InlineData("Calle Arquitecto Vandelvira, 5", "1234567890123456", "123", "11", "", "1", "Crear", "Pedido", "This field is required")]
+        [InlineData("Calle Arquitecto Vandelvira, 5", "1234567890123456", "123", "11", "2040", "0", "Crear", "Pedido", "Debes seleccionar una cantidad de stock mayor que 0 de Pan")]
+        [Trait("LevelTesting", "Functional Testing")]
+        public void UC3_5678910_DatosNoIntroducidos(string direccion, string tarjeta, string cvv, string mescad, string anocad, string cantidad, string pag1, string pag2, string error)
+        {
+            //Arrange
+            string[] datos = { direccion, tarjeta, cvv, mescad, anocad, cantidad };
+            string[] expectedPagina = { pag1, pag2, error };
+            string[] expectedProveedor = { "Pepe", "55555e", "Calle4" };
+            string[] expectedIngrediente = {"Pan"};
+
+            //Act
+            Precondition_perform_login(this.usernameG, this.passwordG);
+            first_step_accessing_purchases();
+            second_step_accessing_link_Create_New(expectedProveedor[0]);
+            Third_step_select_sandwich(expectedIngrediente[0]);
+            Thread.Sleep(1000);
+            _driver.FindElement(By.Id("Guardar")).Click();
+            EscribirDatos("Stock_Cantidad_" + expectedIngrediente[0],datos[5]);
+            EscribirDatos("DireccionEntrega", datos[0]);
+            _driver.FindElement(By.Id("r11")).Click();
+            Thread.Sleep(1000);
+            EscribirDatos("NumeroTarjetaCredito", datos[1]);
+            EscribirDatos("CCV", datos[2]);
+            EscribirDatos("MesCad", datos[3]);
+            EscribirDatos("AnoCad", datos[4]);
+
+            _driver.FindElement(By.Id("RealizarCompra")).Click();
+
+
+            foreach (string expected in expectedPagina)
+            {
+                Assert.Contains(expected, _driver.PageSource);
+            }
+        }
 
 
 
