@@ -12,7 +12,7 @@
         <div>
             <label asp-for="ingredienteNombre"></label>
             <input asp-for="ingredienteNombre" size="50" />
-            <span asp-validation-for="ingredienteNombre" class="text-danger"></span>
+            <span id="filterByIngrediente" asp-validation-for="ingredienteNombre" class="text-danger"></span>
 
             <label asp-for="ingredienteStock">Stock menor que</label>
             <input asp-for="ingredienteStock" size="25" />
@@ -57,7 +57,7 @@
                             @Html.DisplayFor(modelItem => item.Stock)
                         </td>
                         <td align="center" width="10%">
-                            <input type="checkbox" name="IdsToAdd" id="Ingrediente_@item.Id" value="@item.Id" class="form-control">
+                            <input type="checkbox" name="IdsToAdd" id="Ingrediente_@item.Nombre" value="@item.Id" class="form-control">
                         </td>
                     </tr>
                 }
@@ -66,7 +66,7 @@
     </table>
     <form asp-action="SelectIngrProvForPurchase" method="post">
 
-        <button type="submit" class="btn btn-primary" asp-route-IdProveedor=Model.IdProveedor formmethod="post">Guardar</button>
+        <button type="submit" class="btn btn-primary" asp-route-IdProveedor=Model.IdProveedor id="Guardar" formmethod="post">Guardar</button>
         <a asp-controller="Proveedores" asp-action="Index" class="btn btn-default">Cancelar</a>
     </form>
     </form>

@@ -42,7 +42,7 @@
                         @if (User.IsInRole("Gerente"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Proveedores" asp-action="SelectProveedoresForPurchase">Crear Pedido Proveedor</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Proveedores" asp-action="SelectProveedoresForPurchase" id="CrearPedidoProveedor">Crear Pedido Proveedor</a>
                             </li>
                         }
                         @if (User.IsInRole("Gerente"))

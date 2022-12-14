@@ -40,7 +40,7 @@
             <tbody>
                 @foreach (var pedido in Model.Ingredientes)
                 {
-                    <tr>
+                    <tr id="Ingrediente_@pedido.Nombre">
                         <td>@pedido.Nombre</td>
                         <td>@pedido.Stock</td>
                         <td>@pedido.PrecioUnitario €</td>
@@ -55,7 +55,7 @@
     <hr />
     <div>
         <h6>
-            <dd>
+            <dd id="PrecioTotal">
                 @Html.DisplayNameFor(model => model.PrecioTotal)
                 @Html.DisplayFor(model => model.PrecioTotal)€
             </dd>
