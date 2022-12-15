@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Xml.Linq;
 
 namespace Sandwich2Go.Models.IngredienteViewModels
@@ -23,8 +24,10 @@ namespace Sandwich2Go.Models.IngredienteViewModels
         public override bool Equals(object obj)
         {
             return obj is SelectIngredientesForPurchaseViewModel model &&
+                Ingredientes.SequenceEqual(model.Ingredientes) &&
                 ingredienteAlergenoSelected == model.ingredienteAlergenoSelected &&
                 ingredienteNombre == model.ingredienteNombre;
+                Alergenos = model.Alergenos;
         }
     }
 }

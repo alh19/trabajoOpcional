@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Design\Design.csproj" />
-    <ProjectReference Include="..\..\test\Sandwich2Go.UIT\Sandwich2Go.UIT.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,197 @@
+﻿@model Sandwich2Go.Models.PedidoProvViewModels.PedidoProvCreateViewModel
+
+@{
+    ViewData["Title"] = "Crear Pedido Proveedor";
+}
+
+<h1>Crear Pedido Proveedor</h1>
+
+@*<p>El sistema muestra los datos de Proveedor (cif/dni, nombre, dirección) y
+ los ingredientes seleccionados (nombre y cantidad en stock)
+</p>*@
+
+<form class="form-horizontal" asp-action="Create" method="post">
+<!--Información Proveedor-->
+<section style="display:flex;gap:100px;margin-bottom:20px">   
+    <div>
+        <h3>CIF/DNI</h3>
+        <h5> @Html.DisplayFor(model => model.Cif) </h5>
+    </div>
+
+    <div>
+        <h3>Nombre</h3>
+        <h5> @Html.DisplayFor(model => model.NombreProveedor) </h5>
+    </div>
+
+    <div>
+        <h3>Dirección</h3>
+         <h5> @Html.DisplayFor(model => model.Direccion) </h5>
+    </div>
+ </section>
+
+<div id="ModelErrors" asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <span class="col-md-10">
+        <span asp-validation-for="ingredientesPedProv" class="text-danger"></span>
+    </span>
+
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th width="20%">
+                    Nombre
+                </th>
+                <th>
+                    Stock del proveedor
+                </th>
+                <th>
+                    Cantidad a elegir de cada ingrediente
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @if (Model.ingredientesPedProv.Count() <= 0)
+            {
+                <tr><td colspan="3">No hay ingredientes en el pedido</td></tr>
+            }
+            else
+            {
+                @for (int i = 0; i < Model.ingredientesPedProv.Count; i++)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.ingredientesPedProv[i].NombreIngrediente)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.ingredientesPedProv[i].Stock)
+                        </td>
+
+                        <td>
+                            <div class="form-group">
+                                <input asp-for="ingredientesPedProv[i].NombreIngrediente" type="hidden" class="form-control" />
+                                <input asp-for="ingredientesPedProv[i].Stock" type="hidden" class="form-control" />
+                                <!--input asp-for="ingredientesPedProv[i].IdsIngrProv" type="hidden" class="form-control" />-->
+                                <input asp-for="ingredientesPedProv[i].Id" type="hidden" class="form-control" />
+                                <input asp-for="ingredientesPedProv[i].Cantidad" id="Stock_Cantidad_@Model.ingredientesPedProv[i].NombreIngrediente" class="form-control" />
+                                <input asp-for="ingredientesPedProv[i].PrecioUnitario" type="hidden" class="form-control" />
+                                <span asp-validation-for="ingredientesPedProv[i].Alm" class="text-danger" />
+                            </div>
+                        </td>
+                    </tr>
+                }
+
+            }
+
+        </tbody>
+    </table>
+
+    <div>
+        <h5>Tramitar Pedido</h5>
+
+        <div style="width:350px">
+            <label asp-for="DireccionEntrega" class="control-label"></label>
+            <input asp-for="DireccionEntrega" class="form-control" size="20" />
+            <span asp-validation-for="DireccionEntrega" class="text-danger"></span>
+        </div>
+        <div>
+            <input asp-for=Id type="hidden" class="form-control" />
+            <input asp-for=Cif type="hidden" class="form-control" />
+            <input asp-for=NombreProveedor type="hidden" class="form-control" />
+            <input asp-for=IdProveedor type="hidden" class="form-control" />
+            <input asp-for=Direccion type="hidden" class="form-control" />
+            <input asp-for=Cantidad type="hidden" class="form-control" />
+            <input asp-for=FechaPedido type="hidden" class="form-control" />
+
+        </div>
+    </div>
+
+
+    @* this code needs the script defined in site.js *@
+    <div class="panel-group" id="accordion" style="margin-bottom:10px">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <label for='r11' style='width: 350px;'>
+                        @* <input type='radio' id='r11' name='PaymentMethod' value='CreditCard' required checked /> Credit Card*@
+                        <input type='radio' id='r11' asp-for='MetodoPago' value='CreditCard' required /> Credit Card
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"></a>
+                    </label>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse ">
+                <div class="panel-body row">
+                    <div class="col-md-4">
+                        <label asp-for="NumeroTarjetaCredito" class="control-label"></label>
+                        <input asp-for="NumeroTarjetaCredito" class="form-control" size="20" required />
+                        <span asp-validation-for="NumeroTarjetaCredito" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-1">
+                            <label asp-for="CCV" class="control-label"></label>
+                        <input asp-for="CCV" class="form-control" size="3" required />
+                            <span asp-validation-for="CCV" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-2">
+                            <label asp-for="MesCad" class="control-label"></label>
+                            <input asp-for="MesCad" class="form-control" required/>
+                            <span asp-validation-for="MesCad" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-2">
+                            <label asp-for="AnoCad" class="control-label"></label>
+                            <input asp-for="AnoCad" class="form-control" required/>
+                            <span asp-validation-for="AnoCad" class="text-danger"></span>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class=panel-title>
+                    <label for='r12' style='width: 350px;'>
+                        @*<input type='radio' id='r12' name='PaymentMethod' value='PayPal' required /> PayPal*@
+                        <input type='radio' id='r12' asp-for='MetodoPago' value='Efectivo' required /> Efectivo
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"></a>
+                    </label>
+                </h4>
+            </div>
+            <div id="collapseTwo" class="panel-collapse collapse">
+                <h2>El repartidor te cobrará el pedido en la entrega.</h2>
+                <h6>¿Necesitas cambio para tu entrega?: @Html.CheckBoxFor(m => m.necesitaCambio)</h6>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <br />
+
+
+    <div class="row">
+        @*<form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group">
+        <input type="submit" id="RealizarCompra" value="Realizar Compra" class="btn btn-primary" />
+        </div>
+        </form>*@
+        <div class="col-md-offset-2 col-md-10">
+            <button type="submit" id="RealizarCompra" asp-action="Create" formmethod="post" class="btn btn-primary">Realizar Compra</button>
+        </div>
+
+        <hr />
+
+
+
+        <div>
+            <a asp-action="Index">Volver a mis Pedidos a Proveedores</a>
+        </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+
