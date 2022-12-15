@@ -53,46 +53,7 @@ namespace Sandwich2Go.Data
 
         }
 
-        public static void Initialize_UC_CrearPedidoProveedor(IServiceProvider serviceProvider)
-        {
-            var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
-
-            var role = serviceProvider.GetRequiredService(typeof(RoleManager<IdentityRole>));
-            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            var dbContext = serviceProvider.GetRequiredService<ApplicationDbContext>();
-
-
-            List<string> rolesNames = new List<string> { "Gerente", "Cliente" };
-
-            SeedRoles(roleManager, rolesNames);
-            SeedUsers(userManager, rolesNames);
-
-            DirectoryInfo directoryData = new DirectoryInfo("..\\..\\test\\Sandwich2Go.UIT\\Controllers\\PedidoProveedor\\");
-
-        //\repos\Sandwich2Go\Sandwich2Go\test\Sandwich2Go.UIT\Controllers\PedidoProveedor\dbo.SQLProv.dataF.sql
-        //\repos\Sandwich2Go\Sandwich2Go\src\Sandwich2Go\Data\dbo.SQL.dataF.sql
-            // Se obtienen todos los ficheros localizados en .\AppForMovies\Data que contienen un ".sql" en su nombre
-            foreach (FileInfo item in directoryData.GetFiles().Where(m => m.Name.Contains(".sql")))
-            {
-                try
-                {
-                    // Se lee el contenido del fichero ".sql"
-                    string commandSQL = item.OpenText().ReadToEnd();
-
-
-                    // Se ejecuta el contenido del fichero ".sql"
-                    dbContext.Database.ExecuteSqlRaw(commandSQL);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.ToString());
-                }
-            }
-
-
-
-        }
-
+       
         public static void SeedRoles(RoleManager<IdentityRole> roleManager, List<string> roles)
         {    
 
