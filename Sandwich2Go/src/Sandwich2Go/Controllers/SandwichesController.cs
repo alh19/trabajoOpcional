@@ -48,7 +48,7 @@ namespace Sandwich2Go.Controllers
                 (s.Precio <= sandwichPrecio || sandwichPrecio == 0) &&//No muestro los sándwiches con precio superior al introducido. Si no se introduce precio o es 0 no se aplica filtro.
                 (s.IngredienteSandwich.Where(isa => isa.Cantidad > (isa.Ingrediente.Stock))).Count()==0)//Tampoco los sándwiches que tengan ingredientes que necesiten
                 .OrderBy(s=> s.SandwichName)                                                           //más cantidad que stock disponible. También incluye a ingredientes.stock = 0 por naturaleza. 
-                .Where(s => !(s is SandwCreado))
+                .Where(s => !(s is SandwCreado)) //Para no mostrar los sándwiches personalizados en esta pantalla
                 .Select(s=>new SandwichForPurchaseViewModel(s)).ToList();
 
             return View(selectSandwiches);
