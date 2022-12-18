@@ -3,11 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 using System;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Sandwich2Go.Models.IngredienteViewModels;
 using System.Linq;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Design;
-using Sandwich2Go.Models.SandwichViewModels;
 
 namespace Sandwich2Go.Models.PedidoSandwichPersonalizadoViewModels
 {

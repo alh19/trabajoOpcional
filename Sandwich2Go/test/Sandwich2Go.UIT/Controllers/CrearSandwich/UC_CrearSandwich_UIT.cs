@@ -1,20 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using Xunit;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using System.Diagnostics;
-using OpenQA.Selenium.DevTools;
-using System.Runtime.Intrinsics.X86;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities.Resources;
-using System.Globalization;
 
 namespace Sandwich2Go.UIT.Controllers.CrearSandwich
 {
