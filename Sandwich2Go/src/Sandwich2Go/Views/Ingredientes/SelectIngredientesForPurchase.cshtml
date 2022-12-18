@@ -20,7 +20,7 @@
                 <option value="">All</option>
             </select>
 
-            <input id="filterbyAlergeno" asp-action="SelectIngredientesForPurchase" type="submit" value="Filtrar" formmethod="get" />
+            <input id="filterButton" asp-action="SelectIngredientesForPurchase" type="submit" value="Filtrar" formmethod="get" />
         </div>
     </p>
      <div id="ModelErrors" asp-validation-summary="All" class="text-danger">@TempData["Error"]</div>
@@ -69,7 +69,7 @@
     </table>
     <form asp-action="SelectIngredientesForPurchase" method="post">
 
-        <button type="submit" class="btn btn-primary">Save</button>
+        <button id="Save" type="submit" class="btn btn-primary">Save</button>
         <a asp-action="Index" class="btn btn-default">Cancel</a>
     </form>
 </form>

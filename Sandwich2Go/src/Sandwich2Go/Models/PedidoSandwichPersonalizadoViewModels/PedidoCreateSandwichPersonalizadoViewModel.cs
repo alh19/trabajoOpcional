@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Sandwich2Go.Models.IngredienteViewModels;
 using System.Linq;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Design;
+using Sandwich2Go.Models.SandwichViewModels;
 
 namespace Sandwich2Go.Models.PedidoSandwichPersonalizadoViewModels
 {
@@ -19,6 +21,10 @@ namespace Sandwich2Go.Models.PedidoSandwichPersonalizadoViewModels
         public virtual string Name { get; set; }
         public virtual string Apellido { get; set; }
         public virtual string IdCliente { get; set; }
+        public SelectList Alergenos;
+        public IEnumerable<IngredientePedidoViewModel> Ingredientes { get; set; }
+        public string ingredienteAlergenoSelected { get; set; }
+        public string ingredienteNombre { get; set; }
         [DataType(DataType.Currency)]
         public virtual double PrecioTotal { get; set; }
         public DateTime fechaCompra { get; set; }
@@ -118,10 +124,15 @@ namespace Sandwich2Go.Models.PedidoSandwichPersonalizadoViewModels
                 Telefono == pedido.Telefono &&
                 NumeroTarjetaCredito == pedido.NumeroTarjetaCredito &&
                 CCV == pedido.CCV &&
-                Cantidad== pedido.Cantidad &&
-                AnoCad==pedido.AnoCad &&
-                MesCad==pedido.MesCad &&
-                ingPedidos.SequenceEqual(pedido.ingPedidos);
+                Cantidad == pedido.Cantidad &&
+                AnoCad == pedido.AnoCad &&
+                MesCad == pedido.MesCad &&
+                ingredienteAlergenoSelected == pedido.ingredienteAlergenoSelected &&
+                ingredienteNombre == pedido.ingredienteNombre &&
+                ingPedidos.SequenceEqual(pedido.ingPedidos) &&
+                Ingredientes.SequenceEqual(pedido.Ingredientes) &&
+                Alergenos.Select(a => a.Value).SequenceEqual(pedido.Alergenos.Select(al => al.Value));
+
         }
 
     }
