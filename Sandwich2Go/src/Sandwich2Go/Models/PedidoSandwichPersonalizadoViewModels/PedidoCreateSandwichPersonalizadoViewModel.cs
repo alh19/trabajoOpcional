@@ -1,19 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
 using System;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Sandwich2Go.Models.IngredienteViewModels;
 using System.Linq;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Sandwich2Go.Models.PedidoSandwichPersonalizadoViewModels
 {
     public class PedidoCreateSandwichPersonalizadoViewModel : IValidatableObject
     {
 
-        public PedidoCreateSandwichPersonalizadoViewModel() {
-            
+        public PedidoCreateSandwichPersonalizadoViewModel()
+        {
+
         }
 
         public virtual string Name { get; set; }
@@ -54,7 +51,7 @@ namespace Sandwich2Go.Models.PedidoSandwichPersonalizadoViewModels
         [StringLength(3, MinimumLength = 2)]
         public virtual string Prefijo { get; set; }
         [DataType(DataType.Currency)]
-       
+
 
         [Range(1, 100, ErrorMessage = "Introduce al menos uno")]
         public virtual int Cantidad { get; set; }
@@ -71,8 +68,8 @@ namespace Sandwich2Go.Models.PedidoSandwichPersonalizadoViewModels
 
         [RegularExpression(@"^[0-9]{3}$", ErrorMessage = "El formato son 3 dígitos.")]
         public virtual string CCV { get; set; }
-    
-        
+
+
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
@@ -102,7 +99,7 @@ namespace Sandwich2Go.Models.PedidoSandwichPersonalizadoViewModels
             }
 
         }
-       
+
         public override bool Equals(object obj)
         {
             return obj is PedidoCreateSandwichPersonalizadoViewModel pedido &&
@@ -118,9 +115,9 @@ namespace Sandwich2Go.Models.PedidoSandwichPersonalizadoViewModels
                 Telefono == pedido.Telefono &&
                 NumeroTarjetaCredito == pedido.NumeroTarjetaCredito &&
                 CCV == pedido.CCV &&
-                Cantidad== pedido.Cantidad &&
-                AnoCad==pedido.AnoCad &&
-                MesCad==pedido.MesCad &&
+                Cantidad == pedido.Cantidad &&
+                AnoCad == pedido.AnoCad &&
+                MesCad == pedido.MesCad &&
                 ingPedidos.SequenceEqual(pedido.ingPedidos);
         }
 
