@@ -3,14 +3,17 @@
 @{
     ViewData["Title"] = "Detalles del Pedido";
 }
-
-<h1>Detalles del pedido:</h1>
-
-<div>
+<div id="encabezado">
+    <h1>Detalles del pedido:</h1>
     <h4>
         Fecha del pedido:
         @Html.DisplayFor(model => model.nombrePedido)
     </h4>
+</div>
+
+
+<div>
+    
     <hr />
     <dl class="row">
         <dt class="col-sm-2">

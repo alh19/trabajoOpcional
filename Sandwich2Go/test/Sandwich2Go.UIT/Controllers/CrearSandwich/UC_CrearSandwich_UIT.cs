@@ -14,6 +14,7 @@ using System.Diagnostics;
 using OpenQA.Selenium.DevTools;
 using System.Runtime.Intrinsics.X86;
 using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities.Resources;
+using System.Globalization;
 
 namespace Sandwich2Go.UIT.Controllers.CrearSandwich
 {
@@ -102,7 +103,7 @@ namespace Sandwich2Go.UIT.Controllers.CrearSandwich
             string[] expectedCliente = { "CallePrincipal", "612345678", "2" };
             string[] expectedTarjeta = { "1234567891234567", "123", "12", "2025" };
             string[] expectedFecha = { "Fecha del pedido:" };
-            string[] expectedPagina = { "Detalles del pedido:", "Fecha del pedido: ", "Volver a tus pedidos" };
+            string[] expectedPagina = { "Detalles del pedido:", "Fecha del pedido: " };
 
             //Act
             Precondition_perform_login(this.usernameC, this.passwordC);
@@ -126,25 +127,20 @@ namespace Sandwich2Go.UIT.Controllers.CrearSandwich
             _driver.FindElement(By.Id("CreateButton")).Click();
 
             //Assert
-            //Assert.Contains(expectedFecha[0], _driver.PageSource);
-            //Assert.Contains(DateTime.Today.ToString("d", CultureInfo.GetCultureInfo("es-ES")), _driver.PageSource);
-            //foreach (string expected in expectedCliente)
-            //{
-            //    Assert.Contains(expected, _driver.PageSource);
-            //}
-            Assert.NotNull("Pagado con tarjeta *4567");
-
-            
-            //foreach (string expected in expectedPagina)
-            //{
-            //    Assert.Equal(expected, _driver.PageSource);
-            //}
-
             var filaIngredientes = _driver.FindElements(By.Id("Ingrediente_" + expectedCliente[0]));
+            Assert.NotNull(filaIngredientes);
+
             foreach (string expected in expectedDetails)
             {
                 Assert.NotNull(filaIngredientes.Select(l => l.Text.Contains(expected)));
             }
+
+            var encabezado = _driver.FindElements(By.Id("encabezado"));
+            foreach (string expected in expectedPagina)
+            {
+                Assert.NotNull(encabezado.Select(l => l.Text.Contains(expected)));
+            }
+
             Assert.NotNull("Precio total:\r\n        8,00 €");
         }
 
@@ -177,8 +173,6 @@ namespace Sandwich2Go.UIT.Controllers.CrearSandwich
             _driver.FindElement(By.Id("CreateButton")).Click();
 
             //Assert
-            Assert.NotNull(expectedFecha[0]);
-            //Assert.Contains(DateTime.Today.ToString("d", CultureInfo.GetCultureInfo("es-ES")), _driver.PageSource);
             foreach (string expected in expectedCliente)
             {
                 Assert.NotNull(expectedCliente.First(l => l.Contains(expected)));
@@ -190,6 +184,13 @@ namespace Sandwich2Go.UIT.Controllers.CrearSandwich
             {
                 Assert.NotNull(filaIngredientes.Select(l => l.Text.Contains(expected)));
             }
+
+            var encabezado = _driver.FindElements(By.Id("encabezado"));
+            foreach (string expected in expectedPagina)
+            {
+                Assert.NotNull(encabezado.Select(l => l.Text.Contains(expected)));
+            }
+
             Assert.NotNull("Precio total:\r\n        8,00 €");
         }
 
@@ -242,22 +243,50 @@ namespace Sandwich2Go.UIT.Controllers.CrearSandwich
 
         [Fact]
         [Trait("LevelTesting", "Functional Testing")]
-        public void UC4_4_IngredientesNoDisponibles_CrearSandwich()
+        public void UC4_4_FiltroNombreyAlergeno_CrearSandwich()
         {
             //Arrange
-            string[] noExpected = { "Cacahuetes" };
+            string[] expectedIngr = { "5", "Jamon", "1,00 €", "1" };
+            string alerg = "Leche";
 
             //Act
             Precondition_perform_login(this.usernameC, this.passwordC);
             First_step_accessing_crearSandwich();
+            EscribirDatos("ingredienteNombre", expectedIngr[1]);
+            var alergeno = _driver.FindElement(By.Id("ingredienteAlergenoSelected"));
+            SelectElement selectElement = new SelectElement(alergeno);
+            selectElement.SelectByText("Glúten");
+            _driver.FindElement(By.Id("filterButton")).Click();
 
+            var filaIngr = _driver.FindElements(By.Id("Ingrediente_" + expectedIngr[0]));
             //Assert
-            Assert.DoesNotContain(noExpected[0], _driver.PageSource);
+            Assert.Contains("Purchase Ingredientes", _driver.PageSource);
+            foreach (string expected in expectedIngr)
+            {
+                Assert.NotNull(filaIngr.Select(l => l.Text.Contains(expected)));
+            }
         }
 
         [Fact]
         [Trait("LevelTesting", "Functional Testing")]
-        public void UC4_5_IngredienteNoSeleccionado_CrearSandwich()
+        public void UC4_5_FiltroIngredienteNoDisponible_CrearSandwich()
+        {
+            //Arrange
+            string noExpected = "Cacahuetes" ;
+
+            //Act
+            Precondition_perform_login(this.usernameC, this.passwordC);
+            First_step_accessing_crearSandwich();
+            EscribirDatos("ingredienteNombre", noExpected);
+            _driver.FindElement(By.Id("filterButton")).Click();
+
+            //Assert
+            Assert.Contains("There are no ingredientes available", _driver.PageSource);
+        }
+
+        [Fact]
+        [Trait("LevelTesting", "Functional Testing")]
+        public void UC4_6_IngredienteNoSeleccionado_CrearSandwich()
         {
             //Arrange
             string[] noExpected = { "Cacahuetes" };
@@ -269,6 +298,347 @@ namespace Sandwich2Go.UIT.Controllers.CrearSandwich
 
             //Assert
             Assert.Contains("You must select at least one ingrediente", _driver.PageSource);
+        }
+
+        [Fact]
+        [Trait("LevelTesting", "Functional Testing")]
+        public void UC4_7_CantidadIngrNoSeleccionada_CrearSandwich()
+        {
+            //Arrange
+            string[] expectedIngr1 = { "1", "Queso", "1,00 €", "2" };
+            string[] expectedCliente = { "CallePrincipal", "612345678", "2" };
+            string[] expectedTarjeta = { "1234567891234567", "123", "12", "2025" };
+
+            //Act
+            Precondition_perform_login(this.usernameC, this.passwordC);
+            First_step_accessing_crearSandwich();
+            Second_step_select_ingrediente(expectedIngr1[0]);
+            _driver.FindElement(By.Id("Save")).Click();
+            EscribirDatos("DireccionEntrega", expectedCliente[0]);
+            EscribirDatos("Telefono", expectedCliente[1]);
+            EscribirDatos("Cantidad", expectedCliente[2]);
+            _driver.FindElement(By.Id("r11")).Click();
+            Thread.Sleep(1000);
+            EscribirDatos("NumeroTarjetaCredito", expectedTarjeta[0]);
+            EscribirDatos("CCV", expectedTarjeta[1]);
+            EscribirDatos("MesCad", expectedTarjeta[2]);
+            EscribirDatos("AnoCad", expectedTarjeta[3]);
+            _driver.FindElement(By.Id("CreateButton")).Click();
+
+            //Assert
+            Assert.Contains("Introduce al menos uno", _driver.PageSource);
+        }
+
+        [Fact]
+        [Trait("LevelTesting", "Functional Testing")]
+        public void UC4_7_CantidadSandwichNoSeleccionada_CrearSandwich()
+        {
+            //Arrange
+            string[] expectedIngr = { "1", "Queso", "1,00 €", "2" };
+            string[] expectedCliente = { "CallePrincipal", "612345678", "2" };
+            string[] expectedTarjeta = { "1234567891234567", "123", "12", "2025" };
+
+            //Act
+            Precondition_perform_login(this.usernameC, this.passwordC);
+            First_step_accessing_crearSandwich();
+            Second_step_select_ingrediente(expectedIngr[0]);
+            _driver.FindElement(By.Id("Save")).Click();
+            EscribirDatos("DireccionEntrega", expectedCliente[0]);
+            EscribirDatos("Telefono", expectedCliente[1]);
+            EscribirDatos("Ingrediente_Quantity_" + expectedIngr[0], expectedIngr[3]);
+            _driver.FindElement(By.Id("r11")).Click();
+            Thread.Sleep(1000);
+            EscribirDatos("NumeroTarjetaCredito", expectedTarjeta[0]);
+            EscribirDatos("CCV", expectedTarjeta[1]);
+            EscribirDatos("MesCad", expectedTarjeta[2]);
+            EscribirDatos("AnoCad", expectedTarjeta[3]);
+            _driver.FindElement(By.Id("CreateButton")).Click();
+
+            //Assert
+            Assert.Contains("Introduce al menos uno", _driver.PageSource);
+        }
+
+        [Fact]
+        [Trait("LevelTesting", "Functional Testing")]
+        public void UC4_8_IngredienteSinStock_CrearSandwich()
+        {
+            //Arrange
+            string[] expectedIngr = { "2", "Pepinillo", "2,00 €", "1" };
+            string[] expectedCliente = { "CallePrincipal", "612345678", "2" };
+            string[] expectedTarjeta = { "1234567891234567", "123", "12", "2025" };
+
+            //Act
+            Precondition_perform_login(this.usernameC, this.passwordC);
+            First_step_accessing_crearSandwich();
+            Second_step_select_ingrediente(expectedIngr[0]);
+            _driver.FindElement(By.Id("Save")).Click();
+            EscribirDatos("DireccionEntrega", expectedCliente[0]);
+            EscribirDatos("Telefono", expectedCliente[1]);
+            EscribirDatos("Cantidad", expectedCliente[2]);
+            EscribirDatos("Ingrediente_Quantity_" + expectedIngr[0], expectedIngr[3]);
+            _driver.FindElement(By.Id("r11")).Click();
+            Thread.Sleep(1000);
+            EscribirDatos("NumeroTarjetaCredito", expectedTarjeta[0]);
+            EscribirDatos("CCV", expectedTarjeta[1]);
+            EscribirDatos("MesCad", expectedTarjeta[2]);
+            EscribirDatos("AnoCad", expectedTarjeta[3]);
+            _driver.FindElement(By.Id("CreateButton")).Click();
+
+            //Assert
+            Assert.Contains("No hay cantidad suficiente del ingrediente seleccionado Pepinillo", _driver.PageSource);
+        }
+
+        [Fact]
+        [Trait("LevelTesting", "Functional Testing")]
+        public void UC4_9_SinDireccion_CrearSandwich()
+        {
+            //Arrange
+            string[] expectedIngr1 = { "1", "Queso", "1,00 €", "2" };
+            string[] expectedIngr2 = { "6", "Pan sin Glúten", "2,00 €", "3" };
+            string[] expectedIngr3 = { "5", "Jamon", "1,00 €", "1" };
+            string[] expectedCliente = { "CallePrincipal", "612345678", "2" };
+            string[] expectedTarjeta = { "1234567891234567", "123", "12", "2025" };
+
+            //Act
+            Precondition_perform_login(this.usernameC, this.passwordC);
+            First_step_accessing_crearSandwich();
+            Second_step_select_ingrediente(expectedIngr1[0]);
+            Second_step_select_ingrediente(expectedIngr2[0]);
+            Second_step_select_ingrediente(expectedIngr3[0]);
+            _driver.FindElement(By.Id("Save")).Click();
+            EscribirDatos("Telefono", expectedCliente[1]);
+            EscribirDatos("Cantidad", expectedCliente[2]);
+            EscribirDatos("Ingrediente_Quantity_" + expectedIngr1[0], expectedIngr1[3]);
+            EscribirDatos("Ingrediente_Quantity_" + expectedIngr2[0], expectedIngr2[3]);
+            EscribirDatos("Ingrediente_Quantity_" + expectedIngr3[0], expectedIngr3[3]);
+            _driver.FindElement(By.Id("r11")).Click();
+            Thread.Sleep(1000);
+            EscribirDatos("NumeroTarjetaCredito", expectedTarjeta[0]);
+            EscribirDatos("CCV", expectedTarjeta[1]);
+            EscribirDatos("MesCad", expectedTarjeta[2]);
+            EscribirDatos("AnoCad", expectedTarjeta[3]);
+            _driver.FindElement(By.Id("CreateButton")).Click();
+
+            //Assert
+            Assert.Contains("Please, set your address for delivery", _driver.PageSource);
+        }
+
+        [Fact]
+        [Trait("LevelTesting", "Functional Testing")]
+        public void UC4_10_SinTelefono_CrearSandwich()
+        {
+            //Arrange
+            string[] expectedIngr1 = { "1", "Queso", "1,00 €", "2" };
+            string[] expectedIngr2 = { "6", "Pan sin Glúten", "2,00 €", "3" };
+            string[] expectedIngr3 = { "5", "Jamon", "1,00 €", "1" };
+            string[] expectedCliente = { "CallePrincipal", "612345678", "2" };
+            string[] expectedTarjeta = { "1234567891234567", "123", "12", "2025" };
+
+            //Act
+            Precondition_perform_login(this.usernameC, this.passwordC);
+            First_step_accessing_crearSandwich();
+            Second_step_select_ingrediente(expectedIngr1[0]);
+            Second_step_select_ingrediente(expectedIngr2[0]);
+            Second_step_select_ingrediente(expectedIngr3[0]);
+            _driver.FindElement(By.Id("Save")).Click();
+            EscribirDatos("DireccionEntrega", expectedCliente[0]);
+            EscribirDatos("Cantidad", expectedCliente[2]);
+            EscribirDatos("Ingrediente_Quantity_" + expectedIngr1[0], expectedIngr1[3]);
+            EscribirDatos("Ingrediente_Quantity_" + expectedIngr2[0], expectedIngr2[3]);
+            EscribirDatos("Ingrediente_Quantity_" + expectedIngr3[0], expectedIngr3[3]);
+            _driver.FindElement(By.Id("r11")).Click();
+            Thread.Sleep(1000);
+            EscribirDatos("NumeroTarjetaCredito", expectedTarjeta[0]);
+            EscribirDatos("CCV", expectedTarjeta[1]);
+            EscribirDatos("MesCad", expectedTarjeta[2]);
+            EscribirDatos("AnoCad", expectedTarjeta[3]);
+            _driver.FindElement(By.Id("CreateButton")).Click();
+
+            //Assert
+            Assert.Contains("Introduce al menos uno", _driver.PageSource);
+        }
+
+        [Fact]
+        [Trait("LevelTesting", "Functional Testing")]
+        public void UC4_11_SinTarjeta_CrearSandwich()
+        {
+            //Arrange
+            string[] expectedIngr1 = { "1", "Queso", "1,00 €", "2" };
+            string[] expectedIngr2 = { "6", "Pan sin Glúten", "2,00 €", "3" };
+            string[] expectedIngr3 = { "5", "Jamon", "1,00 €", "1" };
+            string[] expectedCliente = { "CallePrincipal", "612345678", "2" };
+            string[] expectedTarjeta = { "1234567891234567", "123", "12", "2025" };
+
+            //Act
+            Precondition_perform_login(this.usernameC, this.passwordC);
+            First_step_accessing_crearSandwich();
+            Second_step_select_ingrediente(expectedIngr1[0]);
+            Second_step_select_ingrediente(expectedIngr2[0]);
+            Second_step_select_ingrediente(expectedIngr3[0]);
+            _driver.FindElement(By.Id("Save")).Click();
+            EscribirDatos("DireccionEntrega", expectedCliente[0]);
+            EscribirDatos("Telefono", expectedCliente[1]);
+            EscribirDatos("Cantidad", expectedCliente[2]);
+            EscribirDatos("Ingrediente_Quantity_" + expectedIngr1[0], expectedIngr1[3]);
+            EscribirDatos("Ingrediente_Quantity_" + expectedIngr2[0], expectedIngr2[3]);
+            EscribirDatos("Ingrediente_Quantity_" + expectedIngr3[0], expectedIngr3[3]);
+            _driver.FindElement(By.Id("r11")).Click();
+            Thread.Sleep(1000);
+            EscribirDatos("CCV", expectedTarjeta[1]);
+            EscribirDatos("MesCad", expectedTarjeta[2]);
+            EscribirDatos("AnoCad", expectedTarjeta[3]);
+            _driver.FindElement(By.Id("CreateButton")).Click();
+
+            //Assert
+            Assert.Contains("Por favor, rellena el número de la tarjeta de crédito", _driver.PageSource);
+        }
+
+        [Fact]
+        [Trait("LevelTesting", "Functional Testing")]
+        public void UC4_12_SinCVV_CrearSandwich()
+        {
+            //Arrange
+            string[] expectedIngr1 = { "1", "Queso", "1,00 €", "2" };
+            string[] expectedIngr2 = { "6", "Pan sin Glúten", "2,00 €", "3" };
+            string[] expectedIngr3 = { "5", "Jamon", "1,00 €", "1" };
+            string[] expectedCliente = { "CallePrincipal", "612345678", "2" };
+            string[] expectedTarjeta = { "1234567891234567", "123", "12", "2025" };
+
+            //Act
+            Precondition_perform_login(this.usernameC, this.passwordC);
+            First_step_accessing_crearSandwich();
+            Second_step_select_ingrediente(expectedIngr1[0]);
+            Second_step_select_ingrediente(expectedIngr2[0]);
+            Second_step_select_ingrediente(expectedIngr3[0]);
+            _driver.FindElement(By.Id("Save")).Click();
+            EscribirDatos("DireccionEntrega", expectedCliente[0]);
+            EscribirDatos("Telefono", expectedCliente[1]);
+            EscribirDatos("Cantidad", expectedCliente[2]);
+            EscribirDatos("Ingrediente_Quantity_" + expectedIngr1[0], expectedIngr1[3]);
+            EscribirDatos("Ingrediente_Quantity_" + expectedIngr2[0], expectedIngr2[3]);
+            EscribirDatos("Ingrediente_Quantity_" + expectedIngr3[0], expectedIngr3[3]);
+            _driver.FindElement(By.Id("r11")).Click();
+            Thread.Sleep(1000);
+            EscribirDatos("NumeroTarjetaCredito", expectedTarjeta[0]);
+            EscribirDatos("MesCad", expectedTarjeta[2]);
+            EscribirDatos("AnoCad", expectedTarjeta[3]);
+            _driver.FindElement(By.Id("CreateButton")).Click();
+
+            //Assert
+            Assert.Contains("Por favor, rellena el CCV de la tarjeta de crédito", _driver.PageSource);
+        }
+
+        [Fact]
+        [Trait("LevelTesting", "Functional Testing")]
+        public void UC4_13_SinMesCaducidad_CrearSandwich()
+        {
+            //Arrange
+            string[] expectedIngr1 = { "1", "Queso", "1,00 €", "2" };
+            string[] expectedIngr2 = { "6", "Pan sin Glúten", "2,00 €", "3" };
+            string[] expectedIngr3 = { "5", "Jamon", "1,00 €", "1" };
+            string[] expectedDetails = { "CallePrincipal", "Queso Jamon Pan sin Glúten", "7,00 €", "1" };
+            string[] expectedCliente = { "CallePrincipal", "612345678", "2" };
+            string[] expectedTarjeta = { "1234567891234567", "123", "12", "2025" };
+            string[] expectedFecha = { "Fecha del pedido:" };
+            string[] expectedPagina = { "Detalles del pedido:", "Fecha del pedido: ", "Volver a tus pedidos" };
+
+            //Act
+            Precondition_perform_login(this.usernameC, this.passwordC);
+            First_step_accessing_crearSandwich();
+            Second_step_select_ingrediente(expectedIngr1[0]);
+            Second_step_select_ingrediente(expectedIngr2[0]);
+            Second_step_select_ingrediente(expectedIngr3[0]);
+            _driver.FindElement(By.Id("Save")).Click();
+            EscribirDatos("DireccionEntrega", expectedCliente[0]);
+            EscribirDatos("Telefono", expectedCliente[1]);
+            EscribirDatos("Cantidad", expectedCliente[2]);
+            EscribirDatos("Ingrediente_Quantity_" + expectedIngr1[0], expectedIngr1[3]);
+            EscribirDatos("Ingrediente_Quantity_" + expectedIngr2[0], expectedIngr2[3]);
+            EscribirDatos("Ingrediente_Quantity_" + expectedIngr3[0], expectedIngr3[3]);
+            _driver.FindElement(By.Id("r11")).Click();
+            Thread.Sleep(1000);
+            EscribirDatos("NumeroTarjetaCredito", expectedTarjeta[0]);
+            EscribirDatos("CCV", expectedTarjeta[1]);
+            EscribirDatos("AnoCad", expectedTarjeta[3]);
+            _driver.FindElement(By.Id("CreateButton")).Click();
+
+            //Assert
+            Assert.Contains("Por favor, rellena el mes de caducidad de la tarjeta de crédito", _driver.PageSource);
+        }
+
+        [Fact]
+        [Trait("LevelTesting", "Functional Testing")]
+        public void UC4_14_SinAnoCaducidad_CrearSandwich()
+        {
+            //Arrange
+            string[] expectedIngr1 = { "1", "Queso", "1,00 €", "2" };
+            string[] expectedIngr2 = { "6", "Pan sin Glúten", "2,00 €", "3" };
+            string[] expectedIngr3 = { "5", "Jamon", "1,00 €", "1" };
+            string[] expectedDetails = { "CallePrincipal", "Queso Jamon Pan sin Glúten", "7,00 €", "1" };
+            string[] expectedCliente = { "CallePrincipal", "612345678", "2" };
+            string[] expectedTarjeta = { "1234567891234567", "123", "12", "2025" };
+            string[] expectedFecha = { "Fecha del pedido:" };
+            string[] expectedPagina = { "Detalles del pedido:", "Fecha del pedido: ", "Volver a tus pedidos" };
+
+            //Act
+            Precondition_perform_login(this.usernameC, this.passwordC);
+            First_step_accessing_crearSandwich();
+            Second_step_select_ingrediente(expectedIngr1[0]);
+            Second_step_select_ingrediente(expectedIngr2[0]);
+            Second_step_select_ingrediente(expectedIngr3[0]);
+            _driver.FindElement(By.Id("Save")).Click();
+            EscribirDatos("DireccionEntrega", expectedCliente[0]);
+            EscribirDatos("Telefono", expectedCliente[1]);
+            EscribirDatos("Cantidad", expectedCliente[2]);
+            EscribirDatos("Ingrediente_Quantity_" + expectedIngr1[0], expectedIngr1[3]);
+            EscribirDatos("Ingrediente_Quantity_" + expectedIngr2[0], expectedIngr2[3]);
+            EscribirDatos("Ingrediente_Quantity_" + expectedIngr3[0], expectedIngr3[3]);
+            _driver.FindElement(By.Id("r11")).Click();
+            Thread.Sleep(1000);
+            EscribirDatos("NumeroTarjetaCredito", expectedTarjeta[0]);
+            EscribirDatos("CCV", expectedTarjeta[1]);
+            EscribirDatos("MesCad", expectedTarjeta[2]);
+            _driver.FindElement(By.Id("CreateButton")).Click();
+
+            //Assert
+            Assert.Contains("Por favor, rellena el año de caducidad de la tarjeta de crédito", _driver.PageSource);
+        }
+
+        [Fact]
+        [Trait("LevelTesting", "Functional Testing")]
+        public void UC4_15_NoLogueado_CrearSandwich()
+        {
+            //Arrange
+            string[] expectedPagina = { "Log in", "Use a local account to log in." };
+
+            //Act
+            _driver.Navigate().GoToUrl(_URI +
+            "Pedidos/CreateSandwichPersonalizado");
+
+            //Assert
+            foreach (string expected in expectedPagina)
+            {
+                Assert.Contains(expected, _driver.PageSource);
+            }
+        }
+
+        [Fact]
+        [Trait("LevelTesting", "Functional Testing")]
+        public void UC4_16_SinPermiso_CrearSandwich()
+        {
+            //Arrange
+            string[] expectedPagina = { "Access denied", "You do not have access to this resource." };
+
+            //Act
+            Precondition_perform_login(this.usernameG, this.passwordG);
+            _driver.Navigate().GoToUrl(_URI +
+            "Pedidos");
+
+            //Assert
+            foreach (string expected in expectedPagina)
+            {
+                Assert.Contains(expected, _driver.PageSource);
+            }
         }
 
         public void Dispose()
