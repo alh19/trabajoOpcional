@@ -15,7 +15,7 @@ namespace Sandwich2Go.Models
             set;
         }
         [Required]
-        public String Titular
+        public String Titular 
         {
             get;
             set;
