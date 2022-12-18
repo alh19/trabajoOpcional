@@ -1,0 +1,69 @@
+﻿@model Sandwich2Go.Models.PedidoProvViewModels.PedidoProvDetailsViewModel
+
+@{
+    ViewData["Title"] = "Detalles de Pedido a Proveedor";
+}
+
+<h1>Detalles del pedido a proveedor:</h1>
+
+<div>
+    <hr />
+    <h4>Proveedor</h4>
+    <hr/>
+
+    <div>
+        <h5>CIF/DNI</h5>
+        <dd>
+            @Html.DisplayFor(model => model.Cif)
+        </dd>
+        <h5>Nombre del Proveedor</h5>
+        <dd>
+            @Html.DisplayFor(model => model.NombreProveedor)
+        </dd>
+        <h5>Dirección del Proveedor</h5>
+        <dd>
+            @Html.DisplayFor(model => model.DireccionProveedor)
+        </dd>
+ </div>
+
+ <div>
+    <hr />
+    <h4>Ingredientes pedidos</h4>
+    <hr />
+
+        <table class="table">
+            <thead>
+            <th>Nombre ingrediente</th>
+            <th>Stock</th>
+            <th>Precio Unitario</th>
+            </thead>
+            <tbody>
+                @foreach (var pedido in Model.Ingredientes)
+                {
+                    <tr id="Ingrediente_@pedido.Nombre">
+                        <td>@pedido.Nombre</td>
+                        <td>@pedido.Stock</td>
+                        <td>@pedido.PrecioUnitario €</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+</div>
+    <hr />
+    <h3>Factura del pedido:</h3>
+    <hr />
+    <div>
+        <h6>
+            <dd id="PrecioTotal">
+                @Html.DisplayNameFor(model => model.PrecioTotal)
+                @Html.DisplayFor(model => model.PrecioTotal)€
+            </dd>
+        </h6>
+
+    </div>
+
+</div>
+<div>
+    <a asp-action="Index">Volver a pedidos proveedor</a>
+</div>

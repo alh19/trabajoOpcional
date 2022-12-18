@@ -12,5 +12,10 @@ namespace Sandwich2Go.Models
             get;
             set;
         }
+
+        public static implicit operator string(Efectivo v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

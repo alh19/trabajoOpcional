@@ -30,7 +30,7 @@
                         @if (User.IsInRole("Cliente"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Ingredientes" asp-action="SelectIngredientesForPurchase">Crear Sándwich</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Ingredientes" asp-action="SelectIngredientesForPurchase" id="CrearSandwich">Crear Sándwich</a>
                             </li>
                         }
                         @if (User.IsInRole("Cliente"))
@@ -42,7 +42,7 @@
                         @if (User.IsInRole("Gerente"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Proveedores" asp-action="SelectProveedoresForPurchase">Crear Pedido Proveedor</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Proveedores" asp-action="SelectProveedoresForPurchase" id="CrearPedidoProveedor">Crear Pedido Proveedor</a>
                             </li>
                         }
                         @if (User.IsInRole("Gerente"))

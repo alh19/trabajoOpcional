@@ -1,19 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using Xunit;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
-using System.Diagnostics;
-using OpenQA.Selenium.DevTools;
-using System.Runtime.Intrinsics.X86;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities.Resources;
 
 namespace Sandwich2Go.UIT.Controllers.Ofertas
 {
@@ -204,7 +193,11 @@ namespace Sandwich2Go.UIT.Controllers.Ofertas
             First_step_accessing_crearOferta();
             _driver.FindElement(By.Id("SiguienteButton")).Click();
 
+            var Text = _driver.FindElement(By.Id("ModelErrors")).Text;
+
             //Assert
+
+            Assert.Equal(expected[1], Text);
             foreach (string linea in expected)
             {
                 Assert.Contains(linea, _driver.PageSource);
@@ -213,15 +206,16 @@ namespace Sandwich2Go.UIT.Controllers.Ofertas
         }
 
         [Theory]
-        [InlineData("", "30/04/2023","10/10/2023", "Oferta en Sándwich Mixto", "10","Create" , "Oferta" , "The Nombre de la oferta:  field is required.")]
-        [InlineData("Oferta Mixto", "", "10/10/2023", "Oferta en Sándwich Mixto", "10", "Create", "Oferta", "The Fecha de inicio:  field is required.")]
-        [InlineData("Oferta Mixto", "30/04/2023", "", "Oferta en Sándwich Mixto", "10", "Create", "Oferta", "The Fecha de finalización:  field is required.")]
-        [InlineData("Oferta Mixto", "30/04/2023", "10/10/2023", "Oferta en Sándwich Mixto", "", "Create", "Oferta", "The Porcentaje field is required.")]
+        [InlineData("", "30/04/2023","10/10/2023", "Oferta en Sándwich Mixto", "10","Create" , "Oferta" , "The Nombre de la oferta:  field is required.", "NombreOferta-error", "The Nombre de la oferta: field is required.")]
+        [InlineData("Oferta Mixto", "", "10/10/2023", "Oferta en Sándwich Mixto", "10", "Create", "Oferta", "The Fecha de inicio:  field is required.", "FechaInicio-error", "The Fecha de inicio: field is required.")]
+        [InlineData("Oferta Mixto", "30/04/2023", "", "Oferta en Sándwich Mixto", "10", "Create", "Oferta", "The Fecha de finalización:  field is required.", "FechaFin-error", "The Fecha de finalización: field is required.")]
+        [InlineData("Oferta Mixto", "30/04/2023", "10/10/2023", "Oferta en Sándwich Mixto", "0", "Create", "Oferta", "Introduce un porcentaje válido para el sándwich Mixto", "ModelErrors", "Introduce un porcentaje válido para el sándwich Mixto")]
+        [InlineData("Oferta Mixto", "30/04/2023", "10/10/2023", "Oferta en Sándwich Mixto", "", "Create", "Oferta", "The Porcentaje field is required.", "Porcentaje_Mixto-error", "The Porcentaje field is required.")]
         [Trait("LevelTesting", "Functional Testing")]
-        public void UC1_5678_5_DatosNoIntroducidos_CrearOferta(string nombre, string fechaInicio, string fechaFin, string descripcion, string porcentaje,string pag1, string pag2, string error)
+        public void UC1_5678_5_DatosNoIntroducidos_CrearOferta(string nombre, string fechaInicio, string fechaFin, string descripcion, string porcentaje,string pag1, string pag2, string error, string errorId, string errorVista)
         {
             //Arrange
-            string[] datos = { nombre, fechaInicio, fechaFin, descripcion, porcentaje };
+            string[] datos = { nombre, fechaInicio, fechaFin, descripcion, porcentaje ,errorId};
             string[] expectedPagina = { pag1, pag2, error}; 
             //Act
             Precondition_perform_login(this.usernameG, this.passwordG);
@@ -234,8 +228,12 @@ namespace Sandwich2Go.UIT.Controllers.Ofertas
             EscribirDatos("Descripcion", datos[3]);
             EscribirDatos("Porcentaje_Mixto", datos[4]);
             _driver.FindElement(By.Id("CreateButton")).Click();
-            bool falses = _driver.PageSource.Contains(error);
+
+            var Text = _driver.FindElement(By.Id(datos[5])).Text;
             //Assert
+
+            Assert.Equal(errorVista,Text);
+
             foreach (string expected in expectedPagina)
             {
 

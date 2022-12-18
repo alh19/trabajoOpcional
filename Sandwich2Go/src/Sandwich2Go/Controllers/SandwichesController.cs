@@ -78,6 +78,8 @@ namespace Sandwich2Go.Controllers
             selectSandwiches.Sandwiches = await _context.Sandwich
                 .Include(s => s.IngredienteSandwich).ThenInclude(isa => isa.Ingrediente)
                 .Where(s => (s.SandwichName.Contains(SandwichName) || SandwichName == null) && (s.Precio <= sandwichPrecio || sandwichPrecio == 0.0))
+                .OrderBy(s => s.SandwichName)
+                .Where(s => !(s is SandwCreado))
                 .Select(s => new SandwichForOfferViewModel(s)).ToListAsync();
 
             return View(selectSandwiches);

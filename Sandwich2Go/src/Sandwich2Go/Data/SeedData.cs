@@ -7,6 +7,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.IO;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Sandwich2Go.Data
 {
@@ -52,6 +53,7 @@ namespace Sandwich2Go.Data
 
         }
 
+       
         public static void SeedRoles(RoleManager<IdentityRole> roleManager, List<string> roles)
         {    
 

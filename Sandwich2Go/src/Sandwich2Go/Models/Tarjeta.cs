@@ -38,5 +38,10 @@ namespace Sandwich2Go.Models
             get;
             set;
         }
+
+        public static implicit operator string(Tarjeta v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -16,6 +16,7 @@ namespace Sandwich2Go.Models.ProveedorViewModels
         /*public override bool Equals(object obj)
         {
             return obj is SelectProveedoresForPurchaseViewModel model &&
+                Proveedores.SequenceEqual(model.Proveedores) &&
                 proveedorNombreSelected == model.proveedorNombreSelected;
         }*/
     }
