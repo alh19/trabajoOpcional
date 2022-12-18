@@ -15,7 +15,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-2 font-weight-bold">
-                    Nombre: 
+                    Nombre:
                 </div>
                 <div class="col-8">
                     @Html.DisplayFor(model => model.Name)
@@ -33,7 +33,7 @@
             <div class="form-group row">
                 <label asp-for="DireccionEntrega" class="col-md-2 control-label font-weight-bold"></label>
                 <span class="col-md-8">
-                    <input asp-for="DireccionEntrega" class="form-control" height="20"  />
+                    <input asp-for="DireccionEntrega" class="form-control" height="20" />
                     <span asp-validation-for="DireccionEntrega" class="text-danger"></span>
                 </span>
             </div>
@@ -51,13 +51,13 @@
 
             <thead>
                 <tr>
-                    <th align ="center">
+                    <th align="center">
                         Nombre
                     </th>
-                    <th align ="center">
+                    <th align="center">
                         Precio
                     </th>
-                    <th align ="center">
+                    <th align="center">
                         Ingredientes
                     </th>
                     <th align="center">
@@ -122,24 +122,25 @@
         </table>
 
         @* this code needs the script defined in site.js *@
-        <div class="panel-group" id="accordion"> 
+        <div class="panel-group" id="accordion">
             <div class="panel panel-default ">
                 <div class="panel-heading">
                     <div>
                         @*Subtotal: @Html.DisplayFor(modelItem => Model.PrecioTotal)<br /><br />*@
                         <h6> Ofertas aplicadas:</h6>
 
-                        @for(int i = 0; i<Model.sandwichesPedidos.Count(); i++ )
+                        @for (int i = 0; i < Model.sandwichesPedidos.Count(); i++)
                         {
                             <input asp-for="sandwichesPedidos[i].descuento" type="hidden" class="form-control" />
-                            if(Model.sandwichesPedidos[i].descuento > 0){
+                            if (Model.sandwichesPedidos[i].descuento > 0)
+                            {
                                 <div>
-                                <input asp-for="sandwichesPedidos[i].lineaDescuento" type="hidden" class="form-control" />
-                                @Html.DisplayFor(modelItem => Model.sandwichesPedidos[i].lineaDescuento)
+                                    <input asp-for="sandwichesPedidos[i].lineaDescuento" type="hidden" class="form-control" />
+                                    @Html.DisplayFor(modelItem => Model.sandwichesPedidos[i].lineaDescuento)
                                 </div>
-                                
+
                             }
-                            
+
                         }
                         <br />
                         @*<h6>Total : @Html.DisplayFor(modelItem => Model.PrecioFinal)</h6>*@
@@ -195,13 +196,13 @@
                 </div>
             </div>
         </div>
-    <br>
+        <br>
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <form asp-action="CreatePost" method="post">
 
-            <input type="submit" id="CreateButton" value="Create" class="btn btn-primary" />
+                <input type="submit" id="CreateButton" value="Create" class="btn btn-primary" />
             </form>
         </div>
     </div>
