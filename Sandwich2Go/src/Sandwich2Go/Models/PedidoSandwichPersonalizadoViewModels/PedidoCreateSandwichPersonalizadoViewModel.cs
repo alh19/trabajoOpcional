@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Linq;
 
 namespace Sandwich2Go.Models.PedidoSandwichPersonalizadoViewModels
@@ -9,17 +8,14 @@ namespace Sandwich2Go.Models.PedidoSandwichPersonalizadoViewModels
     public class PedidoCreateSandwichPersonalizadoViewModel : IValidatableObject
     {
 
-        public PedidoCreateSandwichPersonalizadoViewModel() {
-            
+        public PedidoCreateSandwichPersonalizadoViewModel()
+        {
+
         }
 
         public virtual string Name { get; set; }
         public virtual string Apellido { get; set; }
         public virtual string IdCliente { get; set; }
-        public SelectList Alergenos;
-        public IEnumerable<IngredientePedidoViewModel> Ingredientes { get; set; }
-        public string ingredienteAlergenoSelected { get; set; }
-        public string ingredienteNombre { get; set; }
         [DataType(DataType.Currency)]
         public virtual double PrecioTotal { get; set; }
         public DateTime fechaCompra { get; set; }
@@ -55,7 +51,7 @@ namespace Sandwich2Go.Models.PedidoSandwichPersonalizadoViewModels
         [StringLength(3, MinimumLength = 2)]
         public virtual string Prefijo { get; set; }
         [DataType(DataType.Currency)]
-       
+
 
         [Range(1, 100, ErrorMessage = "Introduce al menos uno")]
         public virtual int Cantidad { get; set; }
@@ -72,8 +68,8 @@ namespace Sandwich2Go.Models.PedidoSandwichPersonalizadoViewModels
 
         [RegularExpression(@"^[0-9]{3}$", ErrorMessage = "El formato son 3 dígitos.")]
         public virtual string CCV { get; set; }
-    
-        
+
+
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
@@ -103,7 +99,7 @@ namespace Sandwich2Go.Models.PedidoSandwichPersonalizadoViewModels
             }
 
         }
-       
+
         public override bool Equals(object obj)
         {
             return obj is PedidoCreateSandwichPersonalizadoViewModel pedido &&
@@ -122,12 +118,7 @@ namespace Sandwich2Go.Models.PedidoSandwichPersonalizadoViewModels
                 Cantidad == pedido.Cantidad &&
                 AnoCad == pedido.AnoCad &&
                 MesCad == pedido.MesCad &&
-                ingredienteAlergenoSelected == pedido.ingredienteAlergenoSelected &&
-                ingredienteNombre == pedido.ingredienteNombre &&
-                ingPedidos.SequenceEqual(pedido.ingPedidos) &&
-                Ingredientes.SequenceEqual(pedido.Ingredientes) &&
-                Alergenos.Select(a => a.Value).SequenceEqual(pedido.Alergenos.Select(al => al.Value));
-
+                ingPedidos.SequenceEqual(pedido.ingPedidos);
         }
 
     }
