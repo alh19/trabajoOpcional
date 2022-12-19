@@ -28,15 +28,12 @@ namespace Sandwich2Go.Controllers
         {
             _context = context;
         }
-
-        [Authorize(Roles = "Gerente")]
         // GET: PedidoProvs
         public async Task<IActionResult> Index()
         {
             return View(await _context.PedidoProv.ToListAsync());
         }
 
-        [Authorize(Roles = "Gerente")]
         // GET: PedidoProvs/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -45,7 +42,8 @@ namespace Sandwich2Go.Controllers
                 return NotFound();
             }
 
-            //var x = id;
+            var x = id;
+
 
             var pedidoProv = await _context.PedidoProv
                 .Include(p => p.IngrPedProv).ThenInclude(p => p.IngrProv)
@@ -54,12 +52,7 @@ namespace Sandwich2Go.Controllers
 
             var ingrPedidoProv = pedidoProv.IngrPedProv.First().IngrProv;
 
-            //if (ingrPedidoProv == null || pedidoProv == null)
-            //{
-            //    return NotFound();
-            //}
-
-            if (pedidoProv == null)
+            if (ingrPedidoProv == null || pedidoProv == null)
             {
                 return NotFound();
             }
@@ -82,7 +75,7 @@ namespace Sandwich2Go.Controllers
             //pedidoprov.NombreProveedor = "Alberto";
             if (selingrprov.IdProveedor != 0 || selingrprov.IdsToAdd != null)
             {
-                if(selingrprov.IdsToAdd == null)
+                if (selingrprov.IdsToAdd == null)
                 {
                     ModelState.AddModelError("IngrNoSelected", "Tienes que seleccionar al menos un ingrediente para realizar el pedido");
                 }
@@ -101,10 +94,10 @@ namespace Sandwich2Go.Controllers
                         })
                         .Where(p => selingrprov.IdsToAdd.Contains(p.Id.ToString())).ToListAsync();
 
-                   
+
 
                     proveedor = await _context.Proveedor
-                        .Where(n => selingrprov.IdProveedor == n.Id )
+                        .Where(n => selingrprov.IdProveedor == n.Id)
                         .Select(m => m).FirstAsync();
                 }
 
@@ -114,8 +107,8 @@ namespace Sandwich2Go.Controllers
                 pedidoprov.Direccion = proveedor.Direccion;
                 pedidoprov.FechaPedido = System.DateTime.Now;
 
-            return View(pedidoprov);
-            
+                return View(pedidoprov);
+
             }
             else
             {
@@ -136,7 +129,7 @@ namespace Sandwich2Go.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(PedidoProvCreateViewModel pedidoprovvm) 
+        public async Task<IActionResult> Create(PedidoProvCreateViewModel pedidoprovvm)
         {
             Gerente gerente = await _context.Users.OfType<Gerente>().FirstOrDefaultAsync<Gerente>(
                 g => g.UserName.Equals(User.Identity.Name));
@@ -157,7 +150,7 @@ namespace Sandwich2Go.Controllers
                         (p => p.Id == ingrpedprov.Id);
 
                     detallesPedido = await _context.IngrProv.FirstOrDefaultAsync<IngrProv>
-                        (m=>m.Id == ingrpedprov.Id);
+                        (m => m.Id == ingrpedprov.Id);
 
                     //detallesPedido = await _context.IngrProv
                     //    .Where(p => p.Id == ingrpedprov.Id)
@@ -187,7 +180,7 @@ namespace Sandwich2Go.Controllers
                             //    ingrprovax, pedidoprovvm.IdProveedor);
                             {
                                 //Id = ingrpedprov.Id,
-                                
+
                                 Cantidad = ingrpedprov.Cantidad,
                                 PedidoProv = pedidoFinal,
                                 //PedidoProvId = pedidoFinal.Id,
@@ -232,14 +225,14 @@ namespace Sandwich2Go.Controllers
             /*pedidoprovvm.IdIngrProv await _context.Users.OfType<Gerente>().FirstOrDefaultAsync<Gerente>(
             g => g.UserName.Equals(User.Identity.Name));*/
             pedidoFinal.DireccionEnvio = "Calle Restaurante Sandwich";
-            pedidoFinal.Gerente = gerente;  
+            pedidoFinal.Gerente = gerente;
             pedidoFinal.FechaPedido = pedidoprovvm.FechaPedido;
-               
-                        
 
-                _context.Add(pedidoFinal);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Details", new { id = pedidoFinal.Id });
+
+
+            _context.Add(pedidoFinal);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Details", new { id = pedidoFinal.Id });
         }
 
         // GET: PedidoProvs/Edit/5
@@ -258,7 +251,6 @@ namespace Sandwich2Go.Controllers
             return View(pedidoProv);
         }
 
-        [Authorize(Roles = "Gerente")]
         // POST: PedidoProvs/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -294,7 +286,6 @@ namespace Sandwich2Go.Controllers
             return View(pedidoProv);
         }
 
-        [Authorize(Roles = "Gerente")]
         // GET: PedidoProvs/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -315,7 +306,6 @@ namespace Sandwich2Go.Controllers
 
         // POST: PedidoProvs/Delete/5
         [HttpPost, ActionName("Delete")]
-        [Authorize(Roles = "Gerente")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

@@ -32,8 +32,4 @@
 		<ProjectReference Include="..\..\src\Sandwich2Go\Sandwich2Go.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="PedidoProvsController_test\" />
-	</ItemGroup>
-
 </Project>

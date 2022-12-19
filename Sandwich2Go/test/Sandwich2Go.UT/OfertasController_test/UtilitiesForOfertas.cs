@@ -48,6 +48,5 @@ namespace Sandwich2Go.UT.OfertasController_test
 
             return allOfertas.GetRange(index, numOfPurchases);
         }
-        
     }
 }

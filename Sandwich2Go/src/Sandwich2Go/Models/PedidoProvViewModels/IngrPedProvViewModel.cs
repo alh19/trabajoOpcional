@@ -9,7 +9,8 @@ namespace Sandwich2Go.Models.PedidoProvViewModels
     {
         public IngrPedProvViewModel() { }
 
-        public IngrPedProvViewModel(IngrPedProv p) { 
+        public IngrPedProvViewModel(IngrPedProv p)
+        {
             this.Id = p.Id;
             this.Cantidad = p.Cantidad;
         }
@@ -64,12 +65,9 @@ namespace Sandwich2Go.Models.PedidoProvViewModels
             return obj is IngrPedProvViewModel model &&
                 this.Id == model.Id &&
                 this.NombreIngrediente == model.NombreIngrediente &&
-                this.PrecioUnitario == model.PrecioUnitario &&
                 this.Stock == model.Stock &&
                 this.Cantidad == model.Cantidad &&
-                this.PedidoId == model.PedidoId &&
-                this.PedidoProveedorId.SequenceEqual(model.PedidoProveedorId) &&
-                this.IngrProvId.SequenceEqual(model.IngrProvId) &&
+                this.PrecioUnitario == model.PrecioUnitario &&
                 this.Ingredientes.SequenceEqual(model.Ingredientes) &&
                 this.Alergenos.SequenceEqual(model.Alergenos) &&
                 this.Alm == model.Alm &&

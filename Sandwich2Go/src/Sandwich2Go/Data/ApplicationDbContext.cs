@@ -10,21 +10,20 @@ namespace Sandwich2Go.Data
 {
     public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
-        public DbSet <Sandwich> Sandwich { set; get; }
+        public DbSet<Sandwich> Sandwich { set; get; }
         public DbSet<Alergeno> Alergeno { set; get; }
         public DbSet<SandwichPedido> SandwichPedido { set; get; }
         public DbSet<IngredienteSandwich> IngredienteSandwich { get; set; }
         public DbSet<Pedido> Pedido { get; set; }
         public DbSet<Ingrediente> Ingrediente { get; set; }
-        public DbSet<Proveedor> Proveedor { get; set; } 
+        public DbSet<Proveedor> Proveedor { get; set; }
         public DbSet<Oferta> Oferta { get; set; }
         public DbSet<PedidoProv> PedidoProv { get; set; }
         public DbSet<AlergSandw> AlergSandws { get; set; }
         public DbSet<IngrProv> IngrProv { get; set; }
-        public DbSet<IngrPedProv> IngrPedProv { get; set; }
         public DbSet<OfertaSandwich> OfertaSandwich { get; set; }
         public DbSet<MetodoDePago> MetodoDePago { get; set; }
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options){ }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -50,7 +49,7 @@ namespace Sandwich2Go.Data
             builder.Entity<SandwichPedido>()
                 .HasKey(p => new { p.SandwichId, p.PedidoId });
 
-            builder.Entity <Sandwich>()
+            builder.Entity<Sandwich>()
                 .HasDiscriminator<string>("Discriminator")
                 .HasValue<Sandwich>("Sandwich")
                 .HasValue<SandwCreado>("SandwCreado");
