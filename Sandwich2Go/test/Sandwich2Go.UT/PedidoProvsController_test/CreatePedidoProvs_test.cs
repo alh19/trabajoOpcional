@@ -48,34 +48,32 @@ namespace Sandwich2Go.UT.PedidoProvsController_test
             };
         }
 
-        [Fact]
-        [Trait("LevelTesting", "Unit Testing")]
-        public void Create_Get_WithSelectedIngredientes()
-        {
-            // Arrange
+        //[Fact]
+        //[Trait("LevelTesting", "Unit Testing")]
+        //public void Create_Get_WithSelectedIngredientes()
+        //{
+        //    // Arrange
 
-            var controller = new PedidoProvsController(context);
-            //simulate user's connection
-            controller.ControllerContext.HttpContext = httpContext;
-
-
-            SelectedIngrProvForPurchaseViewModel sandwichesVM = new() { IdsToAdd = new string[1] { "1" } };
-
-            IngrProvForPurchaseViewModel ingrpedprovViewModel = new IngrProvForPurchaseViewModel(ingredientes.First());
-            PedidoProvCreateViewModel expectedOfertaVM = new PedidoProvCreateViewModel(gerente, new IngrProvForPurchaseViewModel[1] { ingrpedprovViewModel });
+        //    var controller = new PedidoProvsController(context);
+        //    //simulate user's connection
+        //    controller.ControllerContext.HttpContext = httpContext;
 
 
-            // Act
-            var result = controller.Create(sandwichesVM);
+        //    SelectedIngrProvForPurchaseViewModel sandwichesVM = new() { IdsToAdd = new string[1] { "1" } };
 
-            //Assert
-            ViewResult viewResult = Assert.IsType<ViewResult>(result.Result);
-            PedidoProvCreateViewModel currentOferta = viewResult.Model as PedidoProvCreateViewModel;
-
-            Assert.Equal(expectedOfertaVM, currentOferta);
+        //    IngrProvForPurchaseViewModel ingrpedprovViewModel = new IngrProvForPurchaseViewModel(ingredientes.First());
+        //    PedidoProvCreateViewModel expectedOfertaVM = new PedidoProvCreateViewModel(gerente, new IngrProvForPurchaseViewModel[1] { ingrpedprovViewModel });
 
 
-        }
+        //    // Act
+        //    var result = controller.Create(sandwichesVM);
+
+        //    //Assert
+        //    ViewResult viewResult = Assert.IsType<ViewResult>(result.Result);
+        //    PedidoProvCreateViewModel currentOferta = viewResult.Model as PedidoProvCreateViewModel;
+
+        //    Assert.Equal(expectedOfertaVM, currentOferta);
+        //}
     }
     
 }

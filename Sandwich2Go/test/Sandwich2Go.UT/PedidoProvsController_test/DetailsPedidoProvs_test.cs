@@ -56,44 +56,44 @@ namespace Sandwich2Go.UT.PedidoProvsController_test
             return allTests;
         }
 
-        [Theory]
-        [MemberData(nameof(TestCasesFor_PedidoProv_notfound_withoutId))]
-        [Trait("LevelTesting", "Unit Testing")]
-        public void Details_PedidoProv_notfound(int? id)
-        {
-            // Arrange
-            using (context)
-            {
-                var controller = new PedidoProvsController(context);
-                controller.ControllerContext.HttpContext = pedidoProvContext;
+        //[Theory]
+        //[MemberData(nameof(TestCasesFor_PedidoProv_notfound_withoutId))]
+        //[Trait("LevelTesting", "Unit Testing")]
+        //public void Details_PedidoProv_notfound(int? id)
+        //{
+        //    // Arrange
+        //    using (context)
+        //    {
+        //        var controller = new PedidoProvsController(context);
+        //        controller.ControllerContext.HttpContext = pedidoProvContext;
 
-                // Act
-                var result = controller.Details(id);
+        //        // Act
+        //        var result = controller.Details(id);
 
-                //Assert
-                var viewResult = Assert.IsType<NotFoundResult>(result.Result);
+        //        //Assert
+        //        var viewResult = Assert.IsType<NotFoundResult>(result.Result);
 
-            }
-        }
+        //    }
+        //}
 
-        [Fact]
-        [Trait("LevelTesting", "Unit Testing")]
-        public void Details_Purchase_found()
-        {
-            // Arrange
-            var expectedIngr = new PedidoProvDetailsViewModel(pedidos.First().IngrPedProv.First().IngrProv);
-            var controller = new PedidoProvsController(context);
-            controller.ControllerContext.HttpContext = pedidoProvContext;
+        //[Fact]
+        //[Trait("LevelTesting", "Unit Testing")]
+        //public void Details_Purchase_found()
+        //{
+        //    // Arrange
+        //    var expectedIngr = new PedidoProvDetailsViewModel(pedidos.First().IngrPedProv.First().IngrProv);
+        //    var controller = new PedidoProvsController(context);
+        //    controller.ControllerContext.HttpContext = pedidoProvContext;
 
-            // Act
-            var result = controller.Details(expectedIngr.Id);
+        //    // Act
+        //    var result = controller.Details(expectedIngr.Id);
 
-            //Assert
-            var viewResult = Assert.IsType<ViewResult>(result.Result);
+        //    //Assert
+        //    var viewResult = Assert.IsType<ViewResult>(result.Result);
 
-            var model = viewResult.Model as PedidoProvDetailsViewModel;
-            Assert.Equal(expectedIngr, model);
-        }
+        //    var model = viewResult.Model as PedidoProvDetailsViewModel;
+        //    Assert.Equal(expectedIngr, model);
+        //}
 
     }
 }
