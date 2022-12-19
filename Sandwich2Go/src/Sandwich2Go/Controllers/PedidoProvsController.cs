@@ -28,12 +28,15 @@ namespace Sandwich2Go.Controllers
         {
             _context = context;
         }
+
+        [Authorize(Roles = "Gerente")]
         // GET: PedidoProvs
         public async Task<IActionResult> Index()
         {
             return View(await _context.PedidoProv.ToListAsync());
         }
 
+        [Authorize(Roles = "Gerente")]
         // GET: PedidoProvs/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -42,8 +45,7 @@ namespace Sandwich2Go.Controllers
                 return NotFound();
             }
 
-            var x = id;
-
+            //var x = id;
 
             var pedidoProv = await _context.PedidoProv
                 .Include(p => p.IngrPedProv).ThenInclude(p => p.IngrProv)
@@ -52,7 +54,12 @@ namespace Sandwich2Go.Controllers
 
             var ingrPedidoProv = pedidoProv.IngrPedProv.First().IngrProv;
 
-            if (ingrPedidoProv == null || pedidoProv == null)
+            //if (ingrPedidoProv == null || pedidoProv == null)
+            //{
+            //    return NotFound();
+            //}
+
+            if (pedidoProv == null)
             {
                 return NotFound();
             }
@@ -251,6 +258,7 @@ namespace Sandwich2Go.Controllers
             return View(pedidoProv);
         }
 
+        [Authorize(Roles = "Gerente")]
         // POST: PedidoProvs/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -286,6 +294,7 @@ namespace Sandwich2Go.Controllers
             return View(pedidoProv);
         }
 
+        [Authorize(Roles = "Gerente")]
         // GET: PedidoProvs/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -306,6 +315,7 @@ namespace Sandwich2Go.Controllers
 
         // POST: PedidoProvs/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Gerente")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

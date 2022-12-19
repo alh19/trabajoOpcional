@@ -6,6 +6,8 @@ using IngrPedProv = Sandwich2Go.Models.IngrPedProv;
 using IngrPedProvViewModel = Sandwich2Go.Models.IngrPedProv;
 using System.Linq;
 using System.Xml.Linq;
+using Sandwich2Go.Models.OfertaViewModels;
+using Sandwich2Go.Models.IngredienteViewModels;
 
 namespace Sandwich2Go.Models.PedidoProvViewModels
 {
@@ -31,6 +33,11 @@ namespace Sandwich2Go.Models.PedidoProvViewModels
         public PedidoProvCreateViewModel()
         {
             ingredientesPedProv = new List<IngrPedProvViewModel>();
+        }
+
+        public PedidoProvCreateViewModel(Gerente gerente, IList<IngrProvForPurchaseViewModel> ingredientes)
+        {
+            ingredientesPedProv = (IList<IngrPedProvViewModel>)ingredientes;
         }
 
         public PedidoProvCreateViewModel(PedidoProv pedidoprov)
@@ -65,7 +72,7 @@ namespace Sandwich2Go.Models.PedidoProvViewModels
         public virtual int IdProveedor { get; set; }
         public virtual bool necesitaCambio { get; set; }
         public IList<IngrPedProvViewModel> ingredientesPedProv { get; set; }
-       
+
 
         [DataType(DataType.MultilineText)]
         [Display(Name = "Dirección de entrega:")]

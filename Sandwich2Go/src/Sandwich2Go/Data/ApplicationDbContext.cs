@@ -21,6 +21,7 @@ namespace Sandwich2Go.Data
         public DbSet<PedidoProv> PedidoProv { get; set; }
         public DbSet<AlergSandw> AlergSandws { get; set; }
         public DbSet<IngrProv> IngrProv { get; set; }
+        public DbSet<IngrPedProv> IngrPedProv { get; set; }
         public DbSet<OfertaSandwich> OfertaSandwich { get; set; }
         public DbSet<MetodoDePago> MetodoDePago { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options){ }

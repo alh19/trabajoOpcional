@@ -68,6 +68,7 @@ namespace Sandwich2Go.Models.OfertaViewModels
         public OfertaSandwichDetailsViewModel(OfertaSandwich ofertaSandwich) : this(ofertaSandwich.Sandwich)
         {
             Porcentaje = ofertaSandwich.Porcentaje;
+            
         }
 
         public string Nombre { get; set; }
