@@ -3,6 +3,7 @@ using Sandwich2Go.Data;
 using Sandwich2Go.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using AlergSandw = Sandwich2Go.Models.AlergSandw;
 using Gerente = Sandwich2Go.Models.Gerente;
 using Ingrediente = Sandwich2Go.Models.Ingrediente;
@@ -19,6 +20,14 @@ namespace Sandwich2Go.UT.PedidoProvsController_test
         public static void InitializeDbPedidoProvsForTests(ApplicationDbContext db, IList<PedidoProv> pedidos)
         {
             db.PedidoProv.AddRange(pedidos);
+            db.IngrPedProv.AddRange(pedidos.Select(p => p.IngrPedProv.ToList()) as IngrPedProv);
+            db.SaveChanges();
+        }
+
+        public static void InitializeDbPedidoProvsForTests(ApplicationDbContext db)
+        {
+            var gerente = new Gerente { Id = "1", UserName = "elena@uclm.com", Email = "elena@uclm.com", Nombre = "Elena", Apellido = "Navarro Martinez", EmailConfirmed = true, Direccion = "" };
+            db.PedidoProv.AddRange(GetPedidoProvs(0,2, GetIngredientes(0,3), gerente));
             db.SaveChanges();
         }
 
@@ -42,7 +51,8 @@ namespace Sandwich2Go.UT.PedidoProvsController_test
             return allIngredientes.GetRange(index, numOfIngredientes);
         }
 
-        public static IList<PedidoProv> GetPedidoProvs(int index, int numOfPurchases, Gerente gerente)
+        public static IList<PedidoProv> GetPedidoProvs(int index, int numOfPurchases,
+            IList<Ingrediente> ingredientes, Gerente gerente)
         {
             PedidoProv pedidoprov1 = new PedidoProv(1,
                         7,
@@ -51,7 +61,7 @@ namespace Sandwich2Go.UT.PedidoProvsController_test
                         gerente,
                         new List<IngrPedProv>()
                         {
-                           new IngrPedProv(){Id = 1, Cantidad= 3, PedidoProvId = 1, IngrProvId=1}
+                           new IngrPedProv(){Id = 1, Cantidad= 3, PedidoProvId = 1, IngrProvId=1, IngrProv=ingredientes[0].IngrProv.First()}
                         },
                         new Tarjeta { Id = 1, AnoCaducidad = 2030, CCV = 123, MesCaducidad = 12, Numero = 1234123412344321 });
 
@@ -64,7 +74,7 @@ namespace Sandwich2Go.UT.PedidoProvsController_test
                         gerente,
                         new List<IngrPedProv>()
                         {
-                           new IngrPedProv(){Id = 1, Cantidad= 3, PedidoProvId = 1, IngrProvId=1}
+                           new IngrPedProv(){Id = 1, Cantidad= 3, PedidoProvId = 1, IngrProvId=1, IngrProv=ingredientes[0].IngrProv.First()}
                         },
                         new Tarjeta { Id = 1, AnoCaducidad = 2030, CCV = 123, MesCaducidad = 12, Numero = 1234123412344321 });
 

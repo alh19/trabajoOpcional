@@ -32,7 +32,8 @@ namespace Sandwich2Go.UT.PedidoProvsController_test
 
             // Seed the database with test data.
             Gerente gerente = Utilities.GetUsers(0, 1).First() as Gerente;
-            pedidos = UtilitiesForPedidoProvs.GetPedidoProvs(0, 1, gerente);
+            pedidos = UtilitiesForPedidoProvs.GetPedidoProvs(0, 2, 
+                UtilitiesForPedidoProvs.GetIngredientes(0,3), gerente);
             UtilitiesForPedidoProvs.InitializeDbPedidoProvsForTests(context, pedidos);
 
 
@@ -80,7 +81,7 @@ namespace Sandwich2Go.UT.PedidoProvsController_test
         public void Details_Purchase_found()
         {
             // Arrange
-            var expectedIngr = new PedidoProvDetailsViewModel(pedidos.First());
+            var expectedIngr = new PedidoProvDetailsViewModel(pedidos.First().IngrPedProv.First().IngrProv);
             var controller = new PedidoProvsController(context);
             controller.ControllerContext.HttpContext = pedidoProvContext;
 
